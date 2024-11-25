@@ -1,64 +1,131 @@
-/* Estilo para la marca de agua */
-.watermark-section {
-  position: relative;
-  background-size: cover;
-  height: 350px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.watermark-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Centra el contenido de la sección */
-  text-align: center;
-}
-
-.watermark-logo {
-  width: auto; 
-  max-width: 90%;
-  height: auto; /* Mantiene la relación de aspecto */
-}
-
-.join-button {
-  margin-top: 0px; /* Separa el botón de la imagen */
-}
-
-
-.popular-translations, .latest-translations, .support-section, .discord-section, .why-join-section, .featured-stories-section {
-  margin-top: 50px;
-  padding: 50px 0;
+/* General */
+body {
+  background-color: #000000; /* Fondo negro */
+  color: #A9DFBF; /* Texto principal en pastel */
+  font-family: 'Arial', sans-serif;
 }
 
 h2 {
+  color: #CDC3E3; /* Títulos en lila pastel */
+  font-weight: bold;
+}
+
+/* Botones */
+.btn-outline-light {
+  color: #A9DFBF;
+  border-color: #A9DFBF;
+}
+.btn-outline-light:hover {
+  background-color: #A9DFBF;
+  color: #000;
+}
+
+.watermark-section {
+  position: relative; 
+  height: 350px; 
+  background-color: #000000; 
+  overflow: hidden; 
+}
+
+.watermark-overlay {
+  position: relative;
   text-align: center;
-  font-size: 2rem;
-  margin-bottom: 30px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
 }
 
-.latest-translations .card, .featured-stories-section .card {
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.watermark-logo {
+  width: auto;
+  max-width: 50%; /* Ajusta el tamaño de la imagen, el máximo será el 50% del contenedor */
+  height: auto;
 }
 
-.support-section, .discord-section, .why-join-section {
-  background-color: #f7f7f7;
-  text-align: center;
+.join-button {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #B2BABB; 
+  color: #6C3483; 
+  font-family: 'Cool', sans-serif; 
+  border-radius: 5px; 
+  padding: 10px 30px; 
+  border: none; 
+  font-size: 18px; 
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.support-section p, .discord-section p, .why-join-section p {
-  font-size: 1.1rem;
+.join-button:hover {
+  background-color: #6C3483; 
+  color: #B2BABB; 
+  transform: translate(-50%, -50%) scale(1.05); 
 }
 
-.support-section button, .discord-section button {
-  margin-top: 20px;
-  padding: 10px 30px;
-  font-size: 1.2rem;
+.join-button-text {
+  position: absolute;
+  top: 85%; 
+  left: 50%;
+  transform: translateX(-50%);
+  color: #6C3483; 
+  font-family: 'Cool', sans-serif;
+  font-size: 16px;
+  margin-top: 5px; 
 }
 
-.featured-stories-section .card {
-  margin-bottom: 30px;
+
+/* Galería */
+.translated-works-gallery h2 {
+  margin-bottom: 20px;
+}
+
+/* Cartas */
+.card {
+  border-radius: 10px;
+}
+
+/* Traductora del mes */
+.translator-of-the-month {
+  background-color: #000000;
+  padding: 30px 0;
+}
+.translator-of-the-month h3 {
+  color: #A9DFBF;
+}
+
+/* Historia y Logros */
+.history-and-achievements {
+  background-color: #000000;
+  padding: 30px 0;
+}
+.timeline {
+  position: relative;
+  padding: 10px;
+}
+.timeline-item {
+  display: flex;
+  margin-bottom: 20px;
+  position: relative;
+}
+.timeline-item .timeline-icon {
+  font-size: 30px;
+  background-color: #CDC3E3;
+  color: #000;
+  border-radius: 50%;
+  padding: 10px;
+  position: absolute;
+  left: -30px;
+  top: 10px;
+}
+.timeline-item .timeline-content {
+  margin-left: 40px;
+}
+.timeline-item h5 {
+  font-size: 18px;
+  font-weight: bold;
+}
+.timeline-item p {
+  color: #A9DFBF;
 }

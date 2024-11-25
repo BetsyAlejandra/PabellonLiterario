@@ -1,8 +1,43 @@
+/* Asegura que el contenedor principal del Navbar ocupe todo el ancho disponible */
 .custom-navbar {
-    background-color: #B2BABB;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    transition: box-shadow 0.3s ease-in-out;
-  }
+  background: #B2BABB;
+  width: 100%;
+}
+
+/* Elimina el espacio extra alrededor de los elementos del Navbar */
+.custom-navbar .navbar-nav {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Alineación del logo y el menú hamburguesa */
+.custom-navbar .navbar-toggler {
+  margin-left: 10px;
+}
+
+/* Alinea el logo y el perfil correctamente en pantallas grandes */
+.custom-navbar .logo-img {
+  width: 50px; /* Ajusta según el tamaño del logo */
+}
+
+/* Asegura que el perfil esté siempre alineado correctamente */
+.custom-navbar .ms-auto {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Alineación del nombre y el perfil */
+.profile-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Barra de búsqueda centrada */
+.search-input {
+  width: 200px;
+}
   
   .custom-navbar:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -73,6 +108,45 @@
 .custom-profile-img {
     border: 2px solid #fff; /* Borde blanco */
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 991px) {
+  /* Menú hamburguesa */
+  .navbar-collapse {
+    justify-content: center; /* Alinea las opciones de navegación al centro en móviles */
+  }
+
+  /* Asegura que el perfil no se desplace en móviles */
+  .navbar .ms-auto {
+    margin-left: auto;
+  }
+
+  /* Ocultar el perfil y nombre del usuario en pantallas pequeñas */
+  .profile-nav {
+    display: none; /* Ocultamos el perfil en pantallas pequeñas */
+  }
+}
+
+@media (min-width: 992px) {
+  /* En pantallas grandes, asegura que todo se distribuya bien */
+  .custom-navbar .navbar-collapse {
+    display: flex;
+    justify-content: center; /* Centra el menú en pantallas grandes */
+  }
+
+  .custom-navbar .navbar-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Mostrar perfil y nombre a la derecha */
+  .profile-nav {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+  }
 }
 
 .custom-footer {

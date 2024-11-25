@@ -4,15 +4,11 @@ import { Navbar, Nav, NavDropdown, Container, Form, FormControl, Button } from '
 import logo from '../assets/Logo1.png';
 
 const Header = () => {
-  // Asumimos que la URL de la imagen de perfil proviene de un estado o API
   const [profilePic, setProfilePic] = useState('');
+  const [userName, setUserName] = useState('Usuario');
 
-  // Simular obtener la URL de la imagen desde una API o una fuente externa
   useEffect(() => {
-    // Aquí podrías realizar una solicitud para obtener la URL del perfil, por ejemplo:
-    // setProfilePic('https://mi-servidor.com/path/a-la-imagen.jpg');
-
-    // Para este ejemplo, se coloca una URL ficticia:
+    // Aquí podrías hacer una solicitud para obtener la URL del perfil, por ejemplo:
     setProfilePic('https://www.example.com/path/to/profile-pic.jpg');
   }, []);
 
@@ -24,9 +20,12 @@ const Header = () => {
           <img src={logo} alt="MiLogo" className="logo-img" />
         </Navbar.Brand>
 
-        {/* Navegación principal y barra de búsqueda centrada */}
-        <Navbar.Collapse id="navbarScroll" className="d-flex justify-content-center align-items-center w-100">
-          <Nav className="me-auto justify-content-center">
+        {/* Menú hamburguesa (icono) en la misma línea que el logo */}
+        <Navbar.Toggle aria-controls="navbarScroll" className="custom-toggler" />
+
+        {/* Contenido del menú (se colapsa en pantallas pequeñas) */}
+        <Navbar.Collapse id="navbarScroll">
+          <Nav className="ms-auto justify-content-center w-100">
             <Nav.Link href="#biblioteca" className="custom-link">Biblioteca</Nav.Link>
             <NavDropdown title="Género" id="navbarScrollingDropdown" className="custom-link">
               <NavDropdown.Item href="#abo">ABO</NavDropdown.Item>
@@ -48,17 +47,19 @@ const Header = () => {
             <Button className="search-button">🔍</Button>
           </Form>
         </Navbar.Collapse>
-
-        {/* Perfil a la derecha con foto circular */}
-        <Nav className="ms-auto">
-          <Nav.Link href="#perfil" className="custom-link">
-            {/* Solo muestra la imagen si está disponible */}
-            {profilePic && (
-              <img src={profilePic} alt="Perfil" className="rounded-circle" width="40" height="40" />
-            )}
-          </Nav.Link>
-        </Nav>
       </Container>
+
+      {/* Perfil y nombre del usuario fuera del menú hamburguesa */}
+      <Nav className="ms-auto profile-nav">
+        <Nav.Link href="#perfil" className="custom-link d-flex align-items-center">
+          {/* Imagen de perfil */}
+          {profilePic && (
+            <img src={profilePic} alt="Perfil" className="rounded-circle" width="40" height="40" />
+          )}
+          {/* Nombre del usuario */}
+          <span className="ms-2">{userName}</span>
+        </Nav.Link>
+      </Nav>
     </Navbar>
   );
 };
