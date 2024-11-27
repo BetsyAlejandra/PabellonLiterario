@@ -1,4 +1,5 @@
 const multer = require('multer');
+const express = require('express');
 const path = require('path');
 
 // Configuración del almacenamiento
@@ -27,7 +28,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 1024 * 1024 * 5 }, // Limite de 5MB
+  limits: { fileSize: 1024 * 1024 * 5 }, // Límite de 5MB
 });
 
 module.exports = upload;

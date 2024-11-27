@@ -1,9 +1,43 @@
-import React from 'react';
-import { Container, Row, Col, Button, Card, Carousel, Timeline } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Button, Card, Carousel } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import '../styles/global.css';
 import marcadeagua from '../assets/Marca de Agua2.png';
 
 const Home = () => {
+  const [novels, setNovels] = useState([]); // Estado para almacenar las novelas
+  const [loading, setLoading] = useState(true); // Estado para indicar si los datos están cargando
+  const [latestNovels, setLatestNovels] = useState([]); // Estado para las últimas traducciones
+
+  useEffect(() => {
+    const fetchNovels = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/novels');
+        if (!response.ok) throw new Error('Error al obtener las novelas');
+        const data = await response.json();
+        setNovels(data);
+        setLoading(false);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    const fetchLatestNovels = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/novels/latest');
+        if (!response.ok) throw new Error('Error al obtener las últimas novelas');
+        const data = await response.json();
+        setLatestNovels(data);
+      } catch (error) {
+        console.error(error.message);
+        console.error('Error al obtener las últimas novelas', error);
+      }
+    };
+
+    fetchNovels();
+    fetchLatestNovels(); // Llama a ambas funciones al montar el componente
+  }, []);
+
   return (
     <div className="home-page">
       {/* Sección de Marca de Agua con el botón ¡Únete! */}
@@ -21,49 +55,70 @@ const Home = () => {
       <section className="translated-works-gallery">
         <Container>
           <h2 className="text-center text-light">Galería de Obras Traducidas</h2>
-          <Carousel>
-            {[
-              { title: "Obra 1", image: "https://via.placeholder.com/200x300", link: "/detalle1" },
-              { title: "Obra 2", image: "https://via.placeholder.com/200x300", link: "/detalle2" },
-              { title: "Obra 3", image: "https://via.placeholder.com/200x300", link: "/detalle3" },
-              { title: "Obra 4", image: "https://via.placeholder.com/200x300", link: "/detalle4" },
-              { title: "Obra 5", image: "https://via.placeholder.com/200x300", link: "/detalle5" },
-            ].map((work, index) => (
-              <Carousel.Item key={index}>
-                <Card className="text-center bg-dark text-light border-0">
-                  <Card.Img variant="top" src={work.image} className="rounded" />
-                  <Card.Body>
-                    <Card.Title>{work.title}</Card.Title>
-                    <Button variant="outline-light" href={work.link}>Ver más</Button>
-                  </Card.Body>
-                </Card>
-              </Carousel.Item>
-            ))}
-          </Carousel>
+          {loading ? (
+            <p className="text-center text-light">Cargando novelas...</p>
+          ) : (
+            <Carousel>
+              {novels.map((novel, index) => {
+                return (
+                  <Carousel.Item key={index}>
+                    <Card className="text-center bg-dark text-light border-0">
+                      <Card.Img
+                        variant="top"
+                        src={novel.coverImage}
+                        className="carousel-image"
+                        alt={`Cover image for ${novel.title}`}
+                      />
+                      <Card.Body>
+                        <Card.Title>{novel.title}</Card.Title>
+                        <Button as={Link} variant="outline-light" to={`/detalle/${novel._id}`}>
+                          Ver más
+                        </Button>
+                      </Card.Body>
+                    </Card>
+                  </Carousel.Item>
+                );
+              })}
+            </Carousel>
+          )}
         </Container>
       </section>
 
-      {/* Últimas Traducciones y Apoyo */}
       <section className="latest-translations-and-support mt-5">
         <Container>
           <Row>
             <Col md={6} className="latest-translations">
               <h2 className="text-light">Últimas Traducciones</h2>
               <Row>
-                {[1, 2, 3, 4, 5].map((item, index) => (
-                  <Col key={index} className="mb-4">
-                    <Card className="bg-dark text-light border-light">
-                      <Card.Body>
-                        <Card.Title>Traducción {item}</Card.Title>
-                        <Card.Text>Descripción corta de la traducción.</Card.Text>
-                        <footer className="text-muted">Hace 2 días</footer>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                ))}
+                {latestNovels.length === 0 ? (
+                  <p className="text-light">No hay traducciones recientes.</p>
+                ) : (
+                  latestNovels.map(novel => (
+                    <Col key={novel._id} className="mb-4">
+                      <Card className="bg-dark text-light border-light position-relative">
+                        <Card.Img
+                          variant="top"
+                          src={novel.coverImage}
+                          alt={`Cover image for ${novel.title}`}
+                          className="card-img"
+                        />
+                        <div className="overlay">
+                          <Card.Body>
+                            <Card.Title>{novel.title}</Card.Title>
+                            <Card.Text>{novel.genre}</Card.Text>
+                            <Button as={Link} variant="outline-light" to={`/detalle/${novel._id}`}>
+                              Ver más
+                            </Button>
+                          </Card.Body>
+                        </div>
+                      </Card>
+                    </Col>
+                  ))
+                )}
               </Row>
             </Col>
             <Col md={6} className="support-section text-light">
+              {/* Apoyo y Discord */}
               <h2>¡Apóyanos!</h2>
               <p>Si te gustan nuestras traducciones y quieres ayudarnos a seguir, puedes hacerlo con una pequeña donación en nuestro perfil de Ko-fi.</p>
               <Button href="https://ko-fi.com/betsyalejandra" target="_blank" variant="outline-light">¡Apóyanos en Ko-fi!</Button>
@@ -74,6 +129,7 @@ const Home = () => {
           </Row>
         </Container>
       </section>
+
 
       {/* Traducción Destacada del Mes */}
       <section className="featured-translation py-5">

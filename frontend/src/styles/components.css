@@ -15,7 +15,7 @@
   margin-left: 10px;
 }
 
-/* Alinea el logo y el perfil correctamente en pantallas grandes */
+/* Alinea el logo correctamente */
 .custom-navbar .logo-img {
   width: 50px; /* Ajusta según el tamaño del logo */
 }
@@ -27,6 +27,7 @@
   align-items: center;
 }
 
+/* Estilos para el perfil en el menú */
 /* Alineación del nombre y el perfil */
 .profile-nav {
   display: flex;
@@ -34,120 +35,103 @@
   justify-content: flex-end;
 }
 
-/* Barra de búsqueda centrada */
+/* Alineación de la imagen de perfil */
+.profile-nav img {
+  border-radius: 50%;
+  width: 40px; /* Ajusta el tamaño de la imagen */
+  height: 40px; /* Ajusta el tamaño de la imagen */
+  margin-bottom: 5px; /* Espacio entre la imagen y el nombre */
+}
+
+/* Alineación del nombre debajo de la imagen */
+.profile-nav span {
+  color: rgb(0, 0, 0);
+  font-weight: bold; /* Hacer el nombre más destacado */
+  font-size: 14px; /* Tamaño de la fuente del nombre */
+  text-align: center; /* Asegura que el nombre esté centrado */
+}
+
+/* Estilos para el botón de búsqueda */
+.search-icon {
+  background-color: transparent;
+  border: none;
+  color: #6C3483;
+  font-size: 1.5rem;
+  margin-left: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-icon:hover {
+  color: #CDC3E3;
+}
+
 .search-input {
-  width: 200px;
-}
-  
-  .custom-navbar:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
-  
-
-/* Color de los enlaces cuando están en hover (cuando el usuario pasa el mouse sobre ellos) */
-.custom-link:hover {
-    color: #000000 !important;
-    /* Color morado en hover */
-}
-
-
-.logo-img {
-    width: 50px;
-    height: auto;
-}
-
-/* Links de navegación */
-.custom-link {
-    color: #000000;
-    /* Verde claro */
-    font-size: 1rem;
-}
-
-.custom-link:hover {
-    color: #CDC3E3;
-    /* Lila claro */
-    text-decoration: none;
-}
-
-/* Barra de búsqueda */
-.search-input {
-    background-color: #B2BABB;
-    /* Gris neutro */
-    border: 1px solid #CDC3E3;
-    /* Borde lila */
-    color: #000000;
-    /* Texto negro */
+  background-color: #B2BABB;
+  border: 1px solid #000000;
+  color: #000000;
 }
 
 .search-input:focus {
-    border-color: #A9DFBF;
-    /* Verde claro */
-    outline: none;
+  border-color: #A9DFBF;
+  outline: none;
 }
 
 .search-button {
-    background-color: #A9DFBF;
-    /* Verde claro */
-    color: #000000;
-    /* Texto negro */
-    border: none;
+  background-color: #A9DFBF;
+  color: #000000;
+  border: none;
 }
 
 .search-button:hover {
-    background-color: #CDC3E3;
-    /* Lila claro */
-    color: #000000;
+  background-color: #CDC3E3;
+  color: #000000;
 }
 
-/* Botón hamburguesa */
-.custom-toggler {
-    border: 1px solid #A9DFBF;
-    /* Verde claro */
-}
 
-.custom-profile-img {
-    border: 2px solid #fff; /* Borde blanco */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Sombra ligera */
-}
-
-/* Ajustes para pantallas pequeñas */
-@media (max-width: 991px) {
-  /* Menú hamburguesa */
+/* Menú en el modo hamburguesa */
+@media (max-width: 992px) {
   .navbar-collapse {
-    justify-content: center; /* Alinea las opciones de navegación al centro en móviles */
+    flex-direction: column;
   }
 
-  /* Asegura que el perfil no se desplace en móviles */
-  .navbar .ms-auto {
-    margin-left: auto;
-  }
-
-  /* Ocultar el perfil y nombre del usuario en pantallas pequeñas */
   .profile-nav {
-    display: none; /* Ocultamos el perfil en pantallas pequeñas */
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  .profile-nav img {
+    margin-bottom: 10px; /* Asegura que haya espacio entre la imagen y el nombre */
+  }
+
+  .custom-link {
+    text-align: left;
+  }
+
+  .search-icon {
+    margin: 20px 0;
   }
 }
 
 @media (min-width: 992px) {
-  /* En pantallas grandes, asegura que todo se distribuya bien */
   .custom-navbar .navbar-collapse {
     display: flex;
     justify-content: center; /* Centra el menú en pantallas grandes */
   }
 
-  .custom-navbar .navbar-nav {
+  .profile-nav {
     display: flex;
+    flex-direction: column; /* Asegura que en pantallas grandes también esté en columna */
     justify-content: center;
     align-items: center;
   }
 
-  /* Mostrar perfil y nombre a la derecha */
-  .profile-nav {
-    display: flex;
-    justify-content: flex-end;
-    margin-left: auto;
+  .profile-nav img {
+    margin-bottom: 5px; /* Asegura el espacio entre la imagen y el nombre */
   }
 }
+
 
 .custom-footer {
     background-color: #B2BABB; /* Color de fondo */

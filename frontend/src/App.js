@@ -1,21 +1,32 @@
 import React from 'react';
-import axios from 'axios';  
-import 'bootstrap/dist/css/bootstrap.min.css'; // Estilos de Bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css'; 
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './Components/Header.js';
 import Footer from './Components/Footer.js';
 import Home from './pages/Home.js';
 import NovelForm from './pages/NovelForm.js';
-
-// Configuración global de Axios
-axios.defaults.baseURL = 'http://localhost:5000'; // Cambia al puerto de tu backend
+import MyStories from './pages/MyStories.js';
+import Library from './pages/Library.js';
+import FloatingButton from './Components/FloatingButton.js';
+import StoryDetail from './pages/StoryDetail';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <Home />  {/* Aquí se muestra el componente Home */}
-      <Footer />
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        {/* Definimos las rutas aquí */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/upload" element={<NovelForm />} />
+          <Route path="/my-stories" element={<MyStories />} />
+          <Route path='/libreria' element={<Library />} />
+          <Route path="/detalle/:id" element={<StoryDetail />} />
+        </Routes>
+        <FloatingButton />
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
