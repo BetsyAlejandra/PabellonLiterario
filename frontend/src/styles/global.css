@@ -1,0 +1,447 @@
+/* General */
+body {
+  background-color: #000000; /* Fondo negro */
+  color: #A9DFBF; /* Texto principal en pastel */
+  font-family: 'Arial', sans-serif;
+}
+
+h2 {
+  color: #CDC3E3; /* Títulos en lila pastel */
+  font-weight: bold;
+}
+
+/* Botones */
+.btn-outline-light {
+  color: #A9DFBF;
+  border-color: #A9DFBF;
+}
+.btn-outline-light:hover {
+  background-color: #A9DFBF;
+  color: #000;
+}
+
+.watermark-section {
+  position: relative; 
+  height: 380px; 
+  background-color: #000000; 
+  overflow: hidden; 
+}
+
+.watermark-overlay {
+  position: relative;
+  text-align: center;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+}
+
+.watermark-logo {
+  width: auto;
+  max-width: 40%; /* Ajusta el tamaño de la imagen, el máximo será el 50% del contenedor */
+  height: auto;
+}
+
+.join-button {
+  position: absolute;
+  top: 92%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #B2BABB; 
+  color: #6C3483; 
+  font-family: 'Cool', sans-serif; 
+  border-radius: 5px; 
+  padding: 10px 30px; 
+  border: none; 
+  font-size: 18px; 
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.join-button:hover {
+  background-color: #6C3483; 
+  color: #B2BABB; 
+  transform: translate(-50%, -50%) scale(1.05); 
+}
+
+.join-button-text {
+  position: absolute;
+  top: 100%; 
+  left: 50%;
+  transform: translateX(-50%);
+  color: #6C3483; 
+  font-family: 'Cool', sans-serif;
+  font-size: 16px;
+  margin-top: 5px; 
+}
+
+
+/* Galería */
+.translated-works-gallery h2 {
+  margin-bottom: 20px;
+}
+
+/* Cartas */
+.card {
+  border-radius: 10px;
+}
+
+/* Traductora del mes */
+.translator-of-the-month {
+  background-color: #000000;
+  padding: 30px 0;
+}
+.translator-of-the-month h3 {
+  color: #A9DFBF;
+}
+
+/* Historia y Logros */
+.history-and-achievements {
+  background-color: #000000;
+  padding: 30px 0;
+}
+.timeline {
+  position: relative;
+  padding: 10px;
+}
+.timeline-item {
+  display: flex;
+  margin-bottom: 20px;
+  position: relative;
+}
+.timeline-item .timeline-icon {
+  font-size: 30px;
+  background-color: #CDC3E3;
+  color: #000;
+  border-radius: 50%;
+  padding: 10px;
+  position: absolute;
+  left: -30px;
+  top: 10px;
+}
+.timeline-item .timeline-content {
+  margin-left: 40px;
+}
+.timeline-item h5 {
+  font-size: 18px;
+  font-weight: bold;
+}
+.timeline-item p {
+  color: #A9DFBF;
+}
+
+.novel-form-container {
+  margin-top: 2rem;
+}
+
+.form-section {
+  background-color: #2C2C2C;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.custom-input {
+  background-color: #1C2833;
+  color: #A9DFBF;
+}
+
+.preview-section {
+  background-color: #2C2C2C;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.preview-image-container {
+  margin-top: 1rem;
+}
+
+.preview-image {
+  max-height: 300px;
+  border-radius: 10px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.custom-file-input {
+  color: #A9DFBF;
+}
+
+.container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.novel-form-card {
+  background-color: #2C2C2C;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+}
+
+.novel-preview {
+  background-color: #2C2C2C;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  padding: 20px;
+}
+
+.novel-cover {
+  width: 400px;
+  height: 600px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Establecer un ancho máximo para cada item del carrusel */
+.carousel-item {
+  max-width: 250px; /* Ancho máximo para el carrusel */
+  flex: 0 0 auto; /* Evitar que se estiren las imágenes */
+  margin: 0 10px; /* Espacio entre imágenes */
+}
+
+.carousel-inner {
+  display: flex;
+  justify-content: center; /* Asegura que las imágenes se centren */
+}
+
+.carousel-image {
+  width: 100%; /* Asegura que las imágenes ocupen el ancho completo del contenedor */
+  height: 200px; /* Ajusta la altura según sea necesario */
+  object-fit: cover; /* Mantiene la proporción de la imagen sin deformarla */
+}
+
+.carousel {
+  max-width: 100%; /* Evitar que el carrusel se desborde */
+  overflow: hidden; /* Ocultar cualquier imagen que se desborde */
+  margin: 0 auto; /* Centrar el carrusel */
+}
+
+.latest-translations .card {
+  position: relative; /* Para que el overlay se ubique sobre la imagen */
+}
+
+.latest-translations .card-img {
+  width: 100%;
+  height: 200px; /* Ajusta la altura según lo necesites */
+  object-fit: cover; /* Asegura que la imagen no se deforme */
+}
+
+.latest-translations .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro con opacidad */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.latest-translations .card:hover .overlay {
+  opacity: 0.9; /* La opacidad se aumenta al pasar el mouse */
+}
+
+.latest-translations .card-body {
+  color: white;
+  z-index: 2; /* Asegura que el texto esté por encima de la imagen */
+}
+
+.latest-translations .card-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.latest-translations .card-text {
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.latest-translations .btn-outline-light {
+  border-color: white;
+  color: white;
+  text-transform: uppercase;
+}
+
+.latest-translations .btn-outline-light:hover {
+  background-color: white;
+  color: black;
+}
+
+/* Agrega esto en tu archivo CSS si lo prefieres */
+.floating-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #FF5F1F;
+  border: none;
+  border-radius: 50%;
+  padding: 15px;
+  font-size: 24px;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  cursor: pointer;
+  z-index: 10;
+}
+
+.modal-body {
+  background-color: black;
+  color: white;
+}
+
+/* Estilo para las historias */
+.list-group-item {
+  background-color: #1C2833; /* Fondo oscuro para los elementos de la lista */
+  border: 1px solid #2C2C2C;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  padding: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.list-group-item:hover {
+  background-color: #2C2C2C; /* Efecto de hover */
+}
+
+.story-item {
+  display: flex;
+  flex-direction: column;
+  background-color: #1C2833;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.story-image {
+  width: 120px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.story-title {
+  color: #CDC3E3;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.story-description {
+  color: #A9DFBF;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.btn-outline-primary,
+.btn-outline-danger {
+  border-radius: 5px;
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary {
+  color: #A9DFBF;
+  border-color: #A9DFBF;
+}
+
+.btn-outline-primary:hover {
+  background-color: #A9DFBF;
+  color: #000;
+}
+
+.btn-outline-danger {
+  color: #FF5F1F;
+  border-color: #FF5F1F;
+}
+
+.btn-outline-danger:hover {
+  background-color: #FF5F1F;
+  color: #FFF;
+}
+
+/* Estilo para las imágenes de portada */
+.story-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* Cargando y error */
+.text-center {
+  text-align: center;
+}
+
+/* Detalles generales */
+.container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #1C2833;
+  color: #B2BABB;
+}
+.card-title {
+  font-weight: bold;
+}
+
+.card h5 {
+  color: #ffffff; /* Color específico para el título */
+}
+
+.card p {
+  color: #ffffff; /* Color para descripciones y textos secundarios */
+}
+
+.card-footer button {
+  color: #fff; /* Asegura que los botones tengan texto blanco */
+}
+.card-footer {
+  background-color: #B2BABB;
+}
+
+.story-title {
+  color: #CDC3E3; /* Títulos en lila pastel */
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.story-description {
+  color: #A9DFBF; /* Texto descriptivo */
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+.story-image-container img {
+  border-radius: 10px;
+}
+
+.card {
+  background-color: #1C2833; /* Fondo oscuro */
+  color: #B2BABB; /* Texto pastel */
+}
+
+.list-group-item {
+  background-color: #1C2833;
+  border: 1px solid #2C2C2C;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.list-group-item h5 {
+  color: #CDC3E3;
+}
+
+.list-group-item p {
+  color: #A9DFBF;
+}
