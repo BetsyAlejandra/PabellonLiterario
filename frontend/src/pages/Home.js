@@ -26,16 +26,14 @@ const Home = () => {
     const fetchLatestNovels = async () => {
       try {
         const response = await fetch('https://pabellonliterario.com/api/novels/latest');
-        if (!response.ok) {
-          throw new Error('Error en la solicitud');
-        }
+        if (!response.ok) throw new Error('Error al obtener últimas novelas');
         const data = await response.json();
-        console.log('Últimas novelas:', data);
-        return data;
+        setLatestNovels(data); // Actualiza el estado
       } catch (error) {
-        console.error('Error en la solicitud:', error.message);
+        console.error('Error en fetchLatestNovels:', error.message);
       }
-    };    
+    };
+     
     fetchNovels();
     fetchLatestNovels(); // Llama a ambas funciones al montar el componente
   }, []);
