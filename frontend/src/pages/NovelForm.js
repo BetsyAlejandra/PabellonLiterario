@@ -68,6 +68,7 @@ const NovelForm = () => {
     const selectedGenres = Array.from(e.target.selectedOptions, option => option.value);
     setGenres(selectedGenres);
   };
+  
 
   return (
     <div className="container my-5">
@@ -107,8 +108,8 @@ const NovelForm = () => {
                 <select
                   id="genres"
                   className="form-control custom-input"
-                  value={genres}
-                  onChange={(e) => setGenres(e.target.value)}
+                  onChange={handleGenresChange}
+                  multiple
                   required
                 >
                   <option value="Fantasía">Fantasía</option>
