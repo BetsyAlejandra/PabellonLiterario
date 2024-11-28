@@ -22,10 +22,21 @@ if (!fs.existsSync(uploadsDir)) {
 
 // Middlewares
 app.use(express.json()); // Parsear JSON en las solicitudes
+const allowedOrigins = [
+  'http://localhost:3000', // Para desarrollo
+  'https://pabellonliterario.com', // Para producción
+];
+
 app.use(cors({
-  origin: 'http://localhost:3000', // Configuración para el frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
-  credentials: true, // Permitir cookies si es necesario
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('No autorizado por CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
 }));
 
 // Configurar carpeta estática para las imágenes subidas
