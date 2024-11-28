@@ -14,7 +14,7 @@ const Novela = () => {
   useEffect(() => {
     const fetchNovela = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/novels/${id}`);
+        const res = await axios.get(`https://pabellonliterario.com/api/novels/${id}`);
         setNovela(res.data);
         setLoading(false);
       } catch (err) {
@@ -27,7 +27,7 @@ const Novela = () => {
 
   const handleAddChapter = async () => {
     try {
-      const res = await axios.post(`http://localhost:5000/api/novels/${id}/chapters`, {
+      const res = await axios.post(`https://pabellonliterario.com/api/novels/${id}/chapters`, {
         title: newChapter,
       });
       setNovela(prev => ({ ...prev, chapters: [...prev.chapters, res.data] }));
@@ -38,7 +38,7 @@ const Novela = () => {
   };
 
   const handleEditChapter = (chapterId, newTitle) => {
-    axios.put(`http://localhost:5000/api/novels/${id}/chapters/${chapterId}`, { title: newTitle })
+    axios.put(`https://pabellonliterario.com/api/novels/${id}/chapters/${chapterId}`, { title: newTitle })
       .then(res => {
         const updatedChapters = novela.chapters.map(chapter => 
           chapter.id === chapterId ? res.data : chapter
@@ -49,7 +49,7 @@ const Novela = () => {
   };
 
   const handleDeleteChapter = (chapterId) => {
-    axios.delete(`http://localhost:5000/api/novels/${id}/chapters/${chapterId}`)
+    axios.delete(`https://pabellonliterario.com/api/novels/${id}/chapters/${chapterId}`)
       .then(() => {
         const updatedChapters = novela.chapters.filter(chapter => chapter.id !== chapterId);
         setNovela(prev => ({ ...prev, chapters: updatedChapters }));

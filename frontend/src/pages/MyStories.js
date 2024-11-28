@@ -12,7 +12,7 @@ const MyStories = () => {
     useEffect(() => {
         const fetchStories = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/novels');
+                const res = await axios.get('https://pabellonliterario.com/api/novels');
                 setStories(res.data);
                 setLoading(false);
             } catch (err) {
@@ -29,7 +29,7 @@ const MyStories = () => {
 
     const handleDeleteClick = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/novels/${id}`);
+            await axios.delete(`https://pabellonliterario.com/api/novels/${id}`);
             setStories(stories.filter((story) => story._id !== id)); // Elimina localmente
             alert('Historia eliminada exitosamente.');
         } catch (err) {

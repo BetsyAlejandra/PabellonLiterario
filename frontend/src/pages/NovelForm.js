@@ -33,7 +33,7 @@ const NovelForm = () => {
 
     try {
       setLoading(true);
-      const res = await axios.post('http://localhost:5000/api/novels/create', formData, {
+      const res = await axios.post('https://pabellonliterario.com/api/novels/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

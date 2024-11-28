@@ -14,7 +14,7 @@ const StoryDetail = () => {
         const fetchStory = async () => {
             console.log(`Solicitando novela con ID: ${id}`); // Log para verificar el ID
             try {
-                const res = await axios.get(`http://localhost:5000/api/novels/${id}`);
+                const res = await axios.get(`https://pabellonliterario.com/api/novels/${id}`);
                 setStory(res.data);
                 setLoading(false);
             } catch (err) {

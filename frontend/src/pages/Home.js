@@ -12,8 +12,8 @@ const Home = () => {
   useEffect(() => {
     const fetchNovels = async () => {
       try {
-        console.log('URL que se está llamando:', 'http://localhost:5000/api/novels/latest');
-        const response = await fetch('http://localhost:5000/api/novels');
+        console.log('URL que se está llamando:', 'https://pabellonliterario.com/api/novels/latest');
+        const response = await fetch('https://pabellonliterario.com/api/novels');
         if (!response.ok) throw new Error('Error al obtener las novelas');
         const data = await response.json();
         setNovels(data);
@@ -25,7 +25,7 @@ const Home = () => {
 
     const fetchLatestNovels = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/novels/latest');
+        const response = await fetch('https://pabellonliterario.com/api/novels/latest');
         if (!response.ok) {
           throw new Error('Error en la solicitud');
         }
