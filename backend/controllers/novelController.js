@@ -21,6 +21,11 @@ const createNovel = async (req, res) => {
       classification,
       tags: tags ? tags.split(',').map(tag => tag.trim()) : [], // Convierte la lista de etiquetas en un array
       coverImage,
+      author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', 
+        required: false, // Cambia a false mientras pruebas
+      },
     });
 
     res.status(201).json(newNovel);
