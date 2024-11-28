@@ -39,6 +39,10 @@ app.use(cors({
   credentials: true,
 }));
 
+app.get('/', (req, res) => {
+  res.status(200).send('Backend funcionando correctamente');
+});
+
 // Configurar carpeta estática para las imágenes subidas
 app.use('/uploads', express.static(uploadsDir));
 
@@ -51,6 +55,7 @@ let donors = [];
 // Webhook de Ko-fi para recibir donaciones
 app.post('/api/webhook/kofi', (req, res) => {
   const { event, data } = req.body;
+  console.log('Cuerpo del webhook recibido:', req.body);
 
   if (event === 'payment_received' && data) {
     const { name, amount, message } = data;
