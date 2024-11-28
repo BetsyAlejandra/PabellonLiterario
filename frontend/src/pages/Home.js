@@ -12,6 +12,7 @@ const Home = () => {
   useEffect(() => {
     const fetchNovels = async () => {
       try {
+        console.log('URL que se está llamando:', 'http://localhost:5000/api/novels/latest');
         const response = await fetch('http://localhost:5000/api/novels');
         if (!response.ok) throw new Error('Error al obtener las novelas');
         const data = await response.json();
@@ -25,15 +26,16 @@ const Home = () => {
     const fetchLatestNovels = async () => {
       try {
         const response = await fetch('http://localhost:5000/api/novels/latest');
-        if (!response.ok) throw new Error('Error al obtener las últimas novelas');
+        if (!response.ok) {
+          throw new Error('Error en la solicitud');
+        }
         const data = await response.json();
-        setLatestNovels(data);
+        console.log('Últimas novelas:', data);
+        return data;
       } catch (error) {
-        console.error(error.message);
-        console.error('Error al obtener las últimas novelas', error);
+        console.error('Error en la solicitud:', error.message);
       }
-    };
-
+    };    
     fetchNovels();
     fetchLatestNovels(); // Llama a ambas funciones al montar el componente
   }, []);

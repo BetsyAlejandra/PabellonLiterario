@@ -1,14 +1,22 @@
 const multer = require('multer');
-const express = require('express');
 const path = require('path');
+
+// Crear carpeta 'uploads' si no existe
+const fs = require('fs');
+const uploadsDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
 
 // Configuración del almacenamiento
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Carpeta donde se guardarán las imágenes
+    cb(null, uploadsDir); // Carpeta donde se guardarán las imágenes
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}${path.extname(file.originalname)}`);
+    // Crear un nombre único para el archivo
+    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`;
+    cb(null, `${uniqueSuffix}${path.extname(file.originalname).toLowerCase()}`);
   },
 });
 
@@ -21,14 +29,27 @@ const fileFilter = (req, file, cb) => {
   if (extname && mimetype) {
     cb(null, true);
   } else {
-    cb(new Error('Solo se permiten imágenes (jpeg, jpg, png)'));
+    cb(new Error('Solo se permiten archivos de imagen (jpeg, jpg, png).'));
   }
 };
 
+// Configuración del middleware
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 1024 * 1024 * 5 }, // Límite de 5MB
-});
+  limits: { fileSize: 1024 * 1024 * 5 }, // Límite de tamaño: 5MB
+}).single('coverImage'); // Nombre del campo del archivo esperado
 
-module.exports = upload;
+// Middleware de manejo de errores para multer
+const handleMulterError = (err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    // Errores relacionados con multer (ej., tamaño del archivo)
+    return res.status(400).json({ message: `Error al subir el archivo: ${err.message}` });
+  } else if (err) {
+    // Otros errores (ej., tipo de archivo no permitido)
+    return res.status(400).json({ message: err.message });
+  }
+  next();
+};
+
+module.exports = { upload, handleMulterError };
