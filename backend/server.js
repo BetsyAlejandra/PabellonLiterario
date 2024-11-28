@@ -45,6 +45,17 @@ app.use('/uploads', express.static(uploadsDir));
 // Rutas de novelas
 app.use('/api/novels', novelRoutes);
 
+// Servir archivos estáticos en producción
+if (process.env.NODE_ENV === 'production') {
+  const frontendPath = path.join(__dirname, '../frontend/build');
+  app.use(express.static(frontendPath));
+
+  // Servir la aplicación React para todas las rutas no manejadas
+  app.get('*', (req, res) => {
+      res.sendFile(path.join(frontendPath, 'index.html'));
+  });
+}
+
 // Array para almacenar los donantes
 let donors = [];
 
