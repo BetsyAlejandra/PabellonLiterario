@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Novel = require('../models/Novel');
 
 // Crear una novela
@@ -24,6 +25,7 @@ const createNovel = async (req, res) => {
 
     res.status(201).json(newNovel);
   } catch (error) {
+    console.error('Error al crear la novela:', error.message);
     res.status(500).json({ message: 'Error al crear la novela', error });
   }
 };
@@ -34,38 +36,46 @@ const getNovels = async (req, res) => {
     const novels = await Novel.find().sort({ createdAt: -1 }); // Ordena por fecha de creación (más recientes primero)
     res.status(200).json(novels);
   } catch (error) {
+    console.error('Error al obtener todas las novelas:', error.message);
     res.status(500).json({ message: 'Error al obtener las novelas', error });
   }
 };
 
+// Obtener las últimas 5 novelas
 const getLatestNovels = async (req, res) => {
+  console.log('Petición recibida en /latest');
   try {
-    // Obtener las novelas más recientes, limitando el número
-    const novels = await Novel.find().sort({ createdAt: -1 }).limit(5);
+    const novels = await Novel.find().sort({ createdAt: -1 }).limit(5); // Obtén las 5 más recientes
+    console.log('Últimas novelas encontradas:', novels); // Log para depurar
     res.status(200).json(novels);
   } catch (error) {
-    res.status(500).json({ message: 'Error al obtener las novelas', error });
+    console.error('Error al obtener las últimas novelas:', error.message);
+    res.status(500).json({ message: 'Error al obtener las últimas novelas', error });
   }
 };
 
+// Obtener una novela por ID
 const getNovelById = async (req, res) => {
   const { id } = req.params;
-  // Verificar si el id es un ObjectId válido
+  console.log(`Petición para obtener novela con ID: ${id}`); // Log para depurar
+
+  // Validar el ID
   if (!mongoose.Types.ObjectId.isValid(id)) {
+    console.warn(`ID inválido recibido: ${id}`); // Advertencia para IDs inválidos
     return res.status(400).json({ message: 'ID no válido' });
   }
 
   try {
     const novel = await Novel.findById(id);
     if (!novel) {
+      console.warn(`Novela no encontrada para el ID: ${id}`); // Log si no se encuentra
       return res.status(404).json({ message: 'Novela no encontrada' });
     }
     res.status(200).json(novel);
   } catch (error) {
+    console.error(`Error al obtener la novela con ID ${id}:`, error.message);
     res.status(500).json({ message: 'Error al obtener la novela', error });
   }
 };
-
-
 
 module.exports = { createNovel, getNovels, getLatestNovels, getNovelById };

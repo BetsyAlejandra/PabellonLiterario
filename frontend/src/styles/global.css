@@ -1,12 +1,12 @@
 /* General */
 body {
-  background-color: #000000; /* Fondo negro */
-  color: #A9DFBF; /* Texto principal en pastel */
+  background-color: #000000;
+  color: #A9DFBF;
   font-family: 'Arial', sans-serif;
 }
 
 h2 {
-  color: #CDC3E3; /* Títulos en lila pastel */
+  color: #CDC3E3;
   font-weight: bold;
 }
 
@@ -444,4 +444,49 @@ h2 {
 
 .list-group-item p {
   color: #A9DFBF;
+}
+
+/* Estilos del formulario */
+.novel-form-card {
+  background-color: #2C2C2C;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+}
+
+.custom-input {
+  background-color: #1C2833;
+  color: #A9DFBF;
+  border-radius: 8px;
+}
+
+.custom-file-input {
+  color: #A9DFBF;
+}
+
+/* Botones */
+.btn-outline-light {
+  color: #A9DFBF;
+  border-color: #A9DFBF;
+}
+
+.btn-outline-light:hover {
+  background-color: #A9DFBF;
+  color: #000;
+}
+
+/* Vista previa de la portada */
+.novel-preview {
+  background-color: #2C2C2C;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  padding: 20px;
+}
+
+.novel-cover {
+  width: 400px;
+  height: 600px;
+  object-fit: cover;
+  border-radius: 10px;
 }
