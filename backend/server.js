@@ -74,6 +74,10 @@ app.get('/api/donors', (req, res) => {
   res.status(200).json(donors); // Devuelve los donantes almacenados
 });
 
+app.get('/api/status', (req, res) => {
+  res.status(200).json({ message: 'Servidor funcionando correctamente' });
+});
+
 // Puerto de escucha del servidor
 const PORT = process.env.PORT || 5000;
 
