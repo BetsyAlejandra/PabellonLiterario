@@ -391,6 +391,7 @@ h2 {
   background-color: #1C2833;
   color: #B2BABB;
 }
+
 .card-title {
   font-weight: bold;
 }
@@ -444,4 +445,17 @@ h2 {
 
 .list-group-item p {
   color: #A9DFBF;
+}
+
+/* Botones de la biblioteca*/
+.custom-button {
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid transparent; 
+  color: #ffff; 
+  padding: 10px 20px;
+  transition: border-color 0.3s ease; 
+}
+.custom-button.active {
+  border-bottom: 4px solid #A9DFBF; 
 }

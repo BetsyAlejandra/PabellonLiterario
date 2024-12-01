@@ -9,6 +9,7 @@ import MyStories from './pages/MyStories.js';
 import Library from './pages/Library.js';
 import FloatingButton from './Components/FloatingButton.js';
 import StoryDetail from './pages/StoryDetail';
+import Perfil from './pages/Perfil.js'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/my-stories" element={<MyStories />} />
           <Route path='/libreria' element={<Library />} />
           <Route path="/detalle/:id" element={<StoryDetail />} />
+          <Route path="/perfil/:id" element={<Perfil />} />
         </Routes>
         <FloatingButton />
         <Footer />
