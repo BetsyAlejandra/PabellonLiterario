@@ -16,25 +16,34 @@ const MyStories = () => {
                 setStories(res.data);
                 setLoading(false);
             } catch (err) {
-                setError('Error al cargar las historias.');
+                setError(err.response?.data?.message || 'Error al cargar las historias.');
                 setLoading(false);
             }
         };
         fetchStories();
     }, []);
+   
 
     const handleEditClick = (id) => {
-        navigate(`/update/${id}`); // Redirige a la página de edición
+        navigate(`/update/${id}`); // Redirige a la página de edición de la novela
     };
 
     const handleDeleteClick = async (id) => {
-        try {
-            await axios.delete(`https://pabellonliterario.com/api/novels/${id}`);
-            setStories(stories.filter((story) => story._id !== id)); // Elimina localmente
-            alert('Historia eliminada exitosamente.');
-        } catch (err) {
-            alert('Error al eliminar la historia.');
+        if (window.confirm('¿Estás seguro de que deseas eliminar esta historia?')) {
+            try {
+                await axios.delete(`https://pabellonliterario.com/api/novels/${id}`);
+                setStories((prevStories) => prevStories.filter((story) => story._id !== id)); // Elimina localmente de forma segura
+                alert('Historia eliminada exitosamente.');
+            } catch (err) {
+                alert('Error al eliminar la historia. Intenta nuevamente.');
+                console.error(err); // Mostrar más detalles del error en consola
+            }
         }
+    };
+   
+
+    const handleAddChapter = (id) => {
+        navigate(`/add-chapter/${id}`); // Redirige a la página de agregar capítulo
     };
 
     if (loading) return <p className="text-center">Cargando historias...</p>;
@@ -73,6 +82,30 @@ const MyStories = () => {
                                         {story.tags.length > 0 ? story.tags.join(', ') : 'Sin etiquetas'}
                                     </span>
                                 </div>
+
+                                {/* Mostrar colaboradores */}
+                                <div className="mt-2">
+                                    <strong>Colaboradores:</strong>{' '}
+                                    {story.collaborators.length > 0
+                                        ? story.collaborators.map((collab, idx) => (
+                                              <span key={idx}>{collab.name} ({collab.role})</span>
+                                          ))
+                                        : 'Sin colaboradores'}
+                                </div>
+
+                                {/* Mostrar capítulos */}
+                                {story.chapters && story.chapters.length > 0 && (
+                                    <div className="mt-3">
+                                        <strong>Capítulos:</strong>
+                                        <ul>
+                                            {story.chapters.map((chapter, idx) => (
+                                                <li key={idx}>
+                                                    {chapter.title} - {new Date(chapter.publishedAt).toLocaleDateString()}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
                             </div>
                             <div className="card-footer d-flex justify-content-center gap-3">
                                 <button
@@ -86,6 +119,12 @@ const MyStories = () => {
                                     onClick={() => handleDeleteClick(story._id)}
                                 >
                                     Eliminar
+                                </button>
+                                <button
+                                    className="btn btn-secondary"
+                                    onClick={() => handleAddChapter(story._id)}
+                                >
+                                    Agregar Capítulo
                                 </button>
                             </div>
                         </div>

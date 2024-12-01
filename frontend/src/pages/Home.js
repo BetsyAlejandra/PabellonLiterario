@@ -12,14 +12,16 @@ const Home = () => {
   useEffect(() => {
     const fetchNovels = async () => {
       try {
-        console.log('URL que se está llamando:', 'https://pabellonliterario.com/api/novels/latest');
         const response = await fetch('https://pabellonliterario.com/api/novels');
-        if (!response.ok) throw new Error('Error al obtener las novelas');
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Respuesta no es JSON');
+        }
         const data = await response.json();
         setNovels(data);
         setLoading(false);
       } catch (error) {
-        console.error(error.message);
+        console.error('Error en fetchNovels:', error.message);
       }
     };
 
@@ -33,7 +35,7 @@ const Home = () => {
         console.error('Error en fetchLatestNovels:', error.message);
       }
     };
-     
+
     fetchNovels();
     fetchLatestNovels(); // Llama a ambas funciones al montar el componente
   }, []);

@@ -9,6 +9,8 @@ const StoryDetail = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [saved, setSaved] = useState(false);
+    const [rating, setRating] = useState(0);  // Estado para la puntuación
+    const [review, setReview] = useState(''); // Estado para la reseña
 
     useEffect(() => {
         const fetchStory = async () => {
@@ -25,11 +27,31 @@ const StoryDetail = () => {
         fetchStory();
     }, [id]);
 
+    const handleSaveStory = async () => {
+        try {
+            const res = await axios.post('https://pabellonliterario.com/api/users/library', {
+                novelId: id,
+            });
+            setSaved(true);
+            alert('Historia guardada en tu biblioteca.');
+        } catch (err) {
+            alert('Error al guardar la historia.');
+        }
+    };
 
-    const handleSaveStory = () => {
-        // Aquí puedes implementar la lógica para guardar la historia en la biblioteca del usuario
-        setSaved(true);
-        alert('Historia guardada en tu biblioteca.');
+    const handleReviewSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await axios.post(`https://pabellonliterario.com/api/novels/${id}/reviews`, {
+                rating,
+                comment: review,
+            });
+            alert('Reseña enviada exitosamente.');
+            setReview('');
+            setRating(0);
+        } catch (err) {
+            alert('Error al enviar la reseña.');
+        }
     };
 
     if (loading) return <p>Cargando...</p>;
@@ -60,6 +82,7 @@ const StoryDetail = () => {
                         <strong>Clasificación:</strong>{' '}
                         <span className="badge bg-secondary">{story.classification}</span>
                     </div>
+
                     <button
                         className={`btn mt-4 ${saved ? 'btn-success' : 'btn-outline-light'}`}
                         onClick={handleSaveStory}
@@ -67,6 +90,42 @@ const StoryDetail = () => {
                     >
                         {saved ? 'Guardado' : 'Guardar en Biblioteca'}
                     </button>
+
+                    {/* Puntuación */}
+                    <div className="mt-5">
+                        <h4>Puntuación:</h4>
+                        <div>
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <span
+                                    key={star}
+                                    className={`star ${rating >= star ? 'filled' : ''}`}
+                                    onClick={() => setRating(star)}
+                                >
+                                    ★
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Reseña */}
+                    <form onSubmit={handleReviewSubmit} className="mt-4">
+                        <div className="mb-3">
+                            <label htmlFor="review" className="form-label">
+                                Deja una reseña:
+                            </label>
+                            <textarea
+                                id="review"
+                                className="form-control"
+                                rows="4"
+                                value={review}
+                                onChange={(e) => setReview(e.target.value)}
+                                placeholder="Escribe tu reseña aquí..."
+                            ></textarea>
+                        </div>
+                        <button type="submit" className="btn btn-primary" disabled={!review}>
+                            Enviar reseña
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

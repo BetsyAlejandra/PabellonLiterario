@@ -83,4 +83,41 @@ const getNovelById = async (req, res) => {
   }
 };
 
-module.exports = { createNovel, getNovels, getLatestNovels, getNovelById };
+const addChapter = async (req, res) => {
+  try {
+    const { id } = req.params;  // ID de la novela a la que se le agregará el capítulo
+    const { title, content } = req.body;  // Título y contenido del capítulo
+
+    // Validar los datos
+    if (!title || !content) {
+      return res.status(400).json({ message: 'El título y contenido del capítulo son obligatorios' });
+    }
+
+    // Crear el nuevo capítulo
+    const newChapter = {
+      title,
+      content,
+      publishedAt: new Date(),  // Fecha de publicación del capítulo (actual)
+    };
+
+    // Buscar la novela por su ID y agregar el capítulo
+    const novel = await Novel.findById(id);
+    if (!novel) {
+      return res.status(404).json({ message: 'Novela no encontrada' });
+    }
+
+    // Agregar el capítulo al array de capítulos
+    novel.chapters.push(newChapter);
+
+    // Guardar los cambios en la novela
+    await novel.save();
+
+    res.status(201).json({ message: 'Capítulo agregado con éxito', chapter: newChapter });
+  } catch (error) {
+    console.error('Error al agregar el capítulo:', error.message);
+    res.status(500).json({ message: 'Error al agregar el capítulo', error });
+  }
+};
+
+
+module.exports = { createNovel, getNovels, getLatestNovels, getNovelById, addChapter };

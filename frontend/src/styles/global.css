@@ -131,20 +131,24 @@ h2 {
 }
 
 .novel-form-container {
-  margin-top: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.form-section {
-  background-color: #2C2C2C;
+.novel-form-card {
+  background-color: white;
   padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.custom-input {
-  background-color: #1C2833;
-  color: #A9DFBF;
+.novel-preview {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 
 .preview-section {
   background-color: #2C2C2C;
@@ -169,11 +173,6 @@ h2 {
   color: #A9DFBF;
 }
 
-.container {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
 .novel-form-card {
   background-color: #2C2C2C;
   border-radius: 10px;
@@ -190,10 +189,94 @@ h2 {
 }
 
 .novel-cover {
-  width: 400px;
-  height: 600px;
-  object-fit: cover;
-  border-radius: 10px;
+  width: 100%;           /* Asegura que la imagen ocupe todo el ancho disponible */
+  height: 300px;         /* Establece una altura fija */
+  object-fit: cover;     /* Ajusta la imagen para cubrir todo el espacio sin distorsionarla */
+  border-radius: 5px;    /* Bordes redondeados */
+  margin-top: 15px;
+  max-width: 100%;       /* Se asegura de que la imagen no sobrepase el ancho */
+  max-height: 100%;      /* Se asegura de que la imagen no sobrepase la altura */
+}
+
+/* Si la imagen es más pequeña que el contenedor, no se distorsionará */
+.novel-preview p {
+  color: #777;
+  text-align: center;
+  font-size: 1rem;
+  padding-top: 20px;
+}
+
+/* Inputs */
+input.form-control,
+textarea.form-control {
+  background-color: #fafafa;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  transition: border 0.3s ease;
+}
+
+input.form-control:focus,
+textarea.form-control:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+input.form-control::placeholder,
+textarea.form-control::placeholder {
+  color: #bbb;
+}
+
+
+select.form-control:focus {
+  border-color: #80bdff; /* Cambio de color del borde cuando está enfocado */
+  outline: none; /* Elimina el borde extra que aparece al hacer foco */
+}
+
+option {
+  padding: 10px; /* Añadir espacio en las opciones */
+}
+
+button.btn:hover {
+  background-color: #7c7c7c;
+}
+
+button.btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.novel-preview p {
+  color: #777;
+  text-align: center;
+}
+
+input[type="file"].form-control-file {
+  border: none;
+  background-color: #fafafa;
+}
+
+input[type="file"].form-control-file:focus {
+  border-color: #007bff;
+}
+
+/* Alert Message */
+.alert {
+  font-size: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Custom Input Styles for Tags */
+input.form-control.tag-input {
+  margin-bottom: 1rem;
+}
+
+.select-container {
+  margin-bottom: 1.5rem;
 }
 
 /* Establecer un ancho máximo para cada item del carrusel */
@@ -446,24 +529,6 @@ h2 {
   color: #A9DFBF;
 }
 
-/* Estilos del formulario */
-.novel-form-card {
-  background-color: #2C2C2C;
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
-  padding: 20px;
-}
-
-.custom-input {
-  background-color: #1C2833;
-  color: #A9DFBF;
-  border-radius: 8px;
-}
-
-.custom-file-input {
-  color: #A9DFBF;
-}
-
 /* Botones */
 .btn-outline-light {
   color: #A9DFBF;
@@ -489,4 +554,122 @@ h2 {
   height: 600px;
   object-fit: cover;
   border-radius: 10px;
+}
+
+/* Estilo para los botones de Añadir Colaborador, Adaptación, Premio y Elegir Archivo */
+.novel-form-card .add-button,
+.novel-form-card .file-button,
+.novel-form-card .remove-button {
+  background-color: #28a745;  /* Verde brillante */
+  color: #fff;
+  border: 1px solid #28a745;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, border 0.3s, transform 0.2s;
+  margin-top: 10px;
+}
+
+.novel-form-card .add-button:hover,
+.novel-form-card .file-button:hover,
+.novel-form-card .remove-button:hover {
+  background-color: #218838;  /* Verde oscuro */
+  border-color: #218838;
+}
+
+.novel-form-card .add-button:active,
+.novel-form-card .file-button:active,
+.novel-form-card .remove-button:active {
+  transform: scale(0.98);  /* Efecto de pulsación */
+}
+
+.novel-form-card .add-button:disabled,
+.novel-form-card .file-button:disabled,
+.novel-form-card .remove-button:disabled {
+  background-color: #e0e0e0;
+  border-color: #e0e0e0;
+  color: #b3b3b3;
+  cursor: not-allowed;
+}
+
+/* Estilo para el botón de Elegir Archivo (file input) */
+.novel-form-card .file-input-label {
+  background-color: #ffc107;  /* Amarillo brillante */
+  color: #fff;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.novel-form-card .file-input-label:hover {
+  background-color: #e0a800;  /* Amarillo oscuro */
+}
+
+.novel-form-card .file-input-label:active {
+  transform: scale(0.98);
+}
+
+/* Estilos globales para la página de detalle */
+.story-image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.story-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.story-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 20px;
+}
+
+.story-description {
+  font-size: 1.1rem;
+  color: #666;
+  margin-top: 10px;
+}
+
+.star {
+  font-size: 1.5rem;
+  color: #ccc;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.star.filled {
+  color: #f39c12;
+}
+
+button {
+  transition: background-color 0.3s ease;
+}
+
+button:disabled {
+  opacity: 0.6;
+}
+
+button:hover:not(:disabled) {
+  background-color: #ff7f50;
+}
+
+form textarea {
+  resize: none;
+  font-size: 1rem;
+}
+
+form .btn {
+  margin-top: 15px;
 }
