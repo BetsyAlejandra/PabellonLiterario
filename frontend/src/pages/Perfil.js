@@ -17,7 +17,6 @@ const mockData = {
       { id: 1, title: "MDSZ", coverImage: "https://via.placeholder.com/300" },
       { id: 2, title: "SVSSS", coverImage: "https://via.placeholder.com/300" },
     ],
-    followers: 150,
   },
 
 };
@@ -128,12 +127,6 @@ const Perfil = () => {
                   <div className="stat-card">
                     <h6 className="text-light">Biblioteca</h6>
                     <p className="text-light">{user.booksRead.length}</p> 
-                  </div>
-                </Col>
-                <Col xs={12} md={4}>
-                  <div className="stat-card">
-                    <h6 className="text-light">Seguidores</h6>
-                    <p className="text-light">{user.followers}</p>
                   </div>
                 </Col>
               </Row>
