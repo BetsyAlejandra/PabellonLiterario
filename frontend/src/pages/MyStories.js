@@ -1,40 +1,61 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Modal, Button } from 'react-bootstrap';
 import '../styles/global.css';
 
 const MyStories = () => {
     const [stories, setStories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [modalShow, setModalShow] = useState(false);
+    const [selectedStory, setSelectedStory] = useState(null); // Historia seleccionada para mostrar capítulos
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchStories = async () => {
+        const fetchUserStories = async () => {
             try {
-                const res = await axios.get('https://pabellonliterario.com/api/novels');
+                const res = await axios.get('http://localhost:5000/api/novels/my-stories', {
+                    withCredentials: true, // Envía cookies o tokens de sesión
+                });
                 setStories(res.data);
                 setLoading(false);
             } catch (err) {
-                setError('Error al cargar las historias.');
+                setError(err.response?.data?.message || 'Error al cargar las historias.');
                 setLoading(false);
             }
         };
-        fetchStories();
+        fetchUserStories();
     }, []);
 
     const handleEditClick = (id) => {
-        navigate(`/update/${id}`); // Redirige a la página de edición
+        navigate(`/update/${id}`);
     };
 
     const handleDeleteClick = async (id) => {
-        try {
-            await axios.delete(`https://pabellonliterario.com/api/novels/${id}`);
-            setStories(stories.filter((story) => story._id !== id)); // Elimina localmente
-            alert('Historia eliminada exitosamente.');
-        } catch (err) {
-            alert('Error al eliminar la historia.');
+        if (window.confirm('¿Estás seguro de que deseas eliminar esta historia?')) {
+            try {
+                await axios.delete(`http://localhost:5000/api/novels/${id}`);
+                setStories((prevStories) => prevStories.filter((story) => story._id !== id));
+                alert('Historia eliminada exitosamente.');
+            } catch (err) {
+                alert('Error al eliminar la historia. Intenta nuevamente.');
+                console.error(err);
+            }
         }
+    };
+
+    const handleAddChapter = (id) => {
+        navigate(`/add-chapter/${id}`);
+    };
+
+    const handleViewChapters = (story) => {
+        setSelectedStory(story); // Establece la historia seleccionada
+        setModalShow(true); // Muestra el modal
+    };
+
+    const handleEditChapter = (storyId, chapterId) => {
+        navigate(`/edit-chapter/${storyId}/${chapterId}`); // Redirige a la página de edición del capítulo
     };
 
     if (loading) return <p className="text-center">Cargando historias...</p>;
@@ -87,11 +108,80 @@ const MyStories = () => {
                                 >
                                     Eliminar
                                 </button>
+                                <button
+                                    className="btn btn-info"
+                                    onClick={() => handleViewChapters(story)}
+                                >
+                                    Ver Capítulos
+                                </button>
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
+
+            {/* Modal para mostrar capítulos */}
+            {selectedStory && (
+                <Modal show={modalShow} onHide={() => setModalShow(false)} centered>
+                    <Modal.Header closeButton>
+                        <Modal.Title style={{ color: '#4caf50' }}>
+                            Capítulos de {selectedStory.title}
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body
+                        style={{
+                            backgroundColor: '#2c2c2c',
+                            color: '#f0f0f0',
+                            borderRadius: '8px',
+                        }}
+                    >
+                        {selectedStory.chapters && selectedStory.chapters.length > 0 ? (
+                            <ul className="list-group">
+                                {selectedStory.chapters.map((chapter, idx) => (
+                                    <li
+                                        key={idx}
+                                        className="list-group-item d-flex justify-content-between align-items-center"
+                                        style={{
+                                            backgroundColor: '#1a1a1a',
+                                            color: '#f0f0f0',
+                                            borderRadius: '4px',
+                                            marginBottom: '8px',
+                                        }}
+                                    >
+                                        {chapter.title}
+                                        <button
+                                            className="btn btn-outline-primary btn-sm"
+                                            onClick={() =>
+                                                handleEditChapter(selectedStory._id, chapter._id)
+                                            }
+                                        >
+                                            Editar
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>No hay capítulos disponibles.</p>
+                        )}
+                    </Modal.Body>
+                    <Modal.Footer
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                        }}
+                    >
+                        <Button
+                            variant="success"
+                            onClick={() => handleAddChapter(selectedStory._id)}
+                        >
+                            Agregar Capítulo
+                        </Button>
+                        <Button variant="secondary" onClick={() => setModalShow(false)}>
+                            Cerrar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            )}
         </div>
     );
 };

@@ -1,0 +1,160 @@
+.profile-container-new {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #000000;
+  padding: 20px;
+}
+
+.profile-card-new {
+  width: 100%;
+  max-width: 600px;
+  background: #CDC3E3;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(148, 148, 148, 1);
+  padding: 20px;
+  text-align: center;
+}
+
+.profile-header-new {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-photo-new {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #6C3483;
+  margin-bottom: 15px;
+}
+
+.profile-info-new h1 {
+  font-size: 1.8rem;
+  color: #000000;
+  margin-bottom: 5px;
+}
+
+.profile-info-new h2 {
+  font-size: 1.2rem;
+  color: #6C3483;
+  font-weight: normal;
+  margin-bottom: 15px;
+}
+
+.profile-info-new p {
+  font-size: 1rem;
+  color: #000000;
+}
+
+.social-links-new {
+  margin-top: 20px;
+}
+
+.social-links-new a {
+  font-size: 1.5rem;
+  color: #6C3483;
+  margin: 0 10px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.social-links-new a:hover {
+  color: #000000;
+}
+
+.buttons-new {
+  margin-top: 30px;
+}
+
+.buttons-new button {
+  background: #A9DFBF;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin: 0 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.buttons-new button:hover {
+  background: #0056b3;
+  transform: scale(1.05);
+}
+
+.profile-edit-new {
+  margin-top: 20px;
+  color: #6C3483;
+}
+
+.profile-edit-new input,
+.profile-edit-new textarea {
+  width: calc(100% - 20px);
+  margin: 10px auto;
+  padding: 10px;
+  border: 1px solid #6C3483;
+  border-radius: 8px;
+}
+
+.social-links-edit {
+  margin-top: 20px;
+}
+
+.social-link-edit {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.social-link-edit input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.social-link-edit button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+.social-link-edit button:hover {
+  background-color: #e63939;
+}
+
+.social-links-new a {
+  font-size: 1.5rem;
+  color: #007bff;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.social-links-new a:hover {
+  color: #0056b3;
+}
+
+.admin-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.admin-btn:hover {
+  background-color: #0056b3;
+}

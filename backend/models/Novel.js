@@ -2,20 +2,21 @@ const mongoose = require('mongoose');
 
 const novelSchema = new mongoose.Schema(
   {
+    // Información básica de la novela
     title: {
       type: String,
-      required: [true, 'El título es obligatorio'],
+      required: true,
       trim: true,
-      maxlength: [150, 'El título no debe exceder los 150 caracteres'],
+      maxlength: 150,
     },
     description: {
       type: String,
-      required: [true, 'La sinopsis es obligatoria'],
-      maxlength: [2000, 'La sinopsis no debe exceder los 2000 caracteres'],
+      required: true,
+      maxlength: 2000,
     },
     genres: {
       type: [String],
-      required: [true, 'Debe seleccionar al menos un género'],
+      required: true,
       enum: [
         'Fantasía',
         'Romance',
@@ -23,91 +24,118 @@ const novelSchema = new mongoose.Schema(
         'Drama',
         'Aventura',
         'Terror',
+        'Misterio',
         'Suspenso',
         'Comedia',
         'Histórico',
-        'Misterio',
         'Poesía',
         'Distopía',
-        'Biografía',
-        'Autobiografía',
-        'Ensayo',
-        'Crónica',
-        'Épico',
-        'Ficción especulativa',
-        'Mitología',
-      ],
+      ],  // Lista de géneros principales
     },
+    subGenres: [{ type: String }],  // Subgéneros adicionales
     classification: {
       type: String,
       enum: ['+18', 'General'],
-      required: [true, 'La clasificación es obligatoria'],
+      required: true,
     },
     tags: {
       type: [String],
       validate: {
         validator: function (tags) {
-          // Validar que las etiquetas sean únicas
           return Array.isArray(tags) && new Set(tags).size === tags.length;
         },
         message: 'Las etiquetas deben ser únicas',
       },
     },
-    coverImage: {
+
+    // Fechas y estado de la novela
+    publishedAt: { type: Date },  // Fecha de publicación
+    completedAt: Date,  // Fecha de finalización si aplica
+    progress: {
       type: String,
-      required: [true, 'La portada es obligatoria'],
-    },
-    author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User', // Referencia al modelo de usuario (asume que existe)
-      required: [true, 'El autor es obligatorio'],
-    },
-    status: {
-      type: String,
-      enum: ['En progreso', 'Completo', 'Pausado'],
+      enum: ['En progreso', 'Finalizada', 'En revisión'],
       default: 'En progreso',
     },
+
+    author: {
+      type: String,
+      required: [true, 'El autor es obligatorio'],
+    },       
+    collaborators: [{
+      name: String,
+      role: { type: String, enum: ['Editor', 'Cotraductor'] },
+    }],
+
+    // Imagen de la portada
+    coverImage: {
+      type: String,
+      required: true,
+    },
+
+    // Información sobre el idioma
     language: {
       type: String,
       default: 'Español',
     },
-    chapterCount: {
-      type: Number,
-      default: 0, // Se puede actualizar conforme se agregan capítulos
-      min: [0, 'El número de capítulos no puede ser negativo'],
-    },
-    averageRating: {
-      type: Number,
-      default: 0,
-      min: [0, 'La calificación promedio no puede ser negativa'],
-      max: [5, 'La calificación promedio no puede exceder 5'],
-    },
-    ratingsCount: {
-      type: Number,
-      default: 0, // Número de calificaciones recibidas
-    },
-    commentsCount: {
-      type: Number,
-      default: 0,
-    },
-    readCount: {
-      type: Number,
-      default: 0,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-  },
-  { timestamps: true }
-);
 
-// Preprocesar etiquetas para eliminar espacios adicionales
-novelSchema.pre('save', function (next) {
-  if (this.tags && this.tags.length > 0) {
-    this.tags = this.tags.map((tag) => tag.trim().toLowerCase());
-  }
-  next();
-});
+    languageOrigin: {
+      type: String,
+      default: 'Español',
+    },
+
+    // Contadores y métricas de la novela
+    views: { type: Number, default: 0 },  // Contador de vistas
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],  // Usuarios que siguen la novela
+    isPremium: { type: Boolean, default: false },  // Si es contenido premium
+
+    password: {type: String, default: false}, //Que tenga contraseña
+
+    rawOrigin: [{
+      origin: { type: String, required: true },
+      link: String,
+    }],
+
+    // Adaptaciones de la novela
+    adaptations: [{
+      type: { type: String, enum: ['Película', 'Serie', 'Cómic', 'Videojuego'] },
+      title: String,
+      releaseDate: Date,
+      link: String,
+    }],
+
+    // Capítulos de la novela
+    chapters: [{
+      title: String,
+      content: String,
+      publishedAt: Date,
+    }],
+
+    // Reseñas de los usuarios
+    reviews: [{
+      user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      comment: String,
+      createdAt: { type: Date, default: Date.now },
+    }],
+
+    // Premios que ha recibido la novela
+    awards: [{
+      title: String,
+      year: Number,
+      organization: String,
+    }],
+
+    // Comentarios adicionales de los usuarios
+    comments: [{
+      user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      text: String,
+      createdAt: { type: Date, default: Date.now },
+    }],
+
+    // Recomendaciones relacionadas
+    recommendedNovels: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Novel' }],
+
+  },
+  { timestamps: true }  // Para registrar las fechas de creación y actualización
+);
 
 module.exports = mongoose.model('Novel', novelSchema);

@@ -168,3 +168,103 @@
     padding: 10px;
   }
   
+  /* Estilos generales para el contenedor del login */
+.container {
+  margin-top: 50px; /* Espaciado superior */
+}
+
+/* Estilo para la tarjeta de login */
+.login-card {
+  max-width: 400px; /* Ancho máximo de la tarjeta */
+  width: 100%; /* Asegura que la tarjeta ocupe todo el ancho disponible hasta el límite */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  border-radius: 8px; /* Bordes redondeados */
+}
+
+.card-body {
+  padding: 30px; /* Relleno interno de la tarjeta */
+}
+
+.card-title {
+  font-size: 24px;
+  color: hsl(0, 0%, 100%);
+  margin-bottom: 20px; /* Espaciado entre título y el formulario */
+}
+
+/* Estilo para los botones */
+.btn-primary1 {
+  background-color: #6C3483; /* Color de fondo del botón */
+  border-color: #6C3483; /* Color de borde del botón */
+}
+
+.btn-primary1:hover {
+  background-color: #A9DFBF; /* Color de fondo al pasar el mouse */
+  border-color: #A9DFBF; /* Color de borde al pasar el mouse */
+}
+
+
+.form-group {
+  margin-bottom: 1.5rem; /* Espaciado entre los campos de formulario */
+}
+
+/* Estilo para las alertas de error */
+.alert-danger {
+  margin-top: 10px; /* Espaciado encima de la alerta */
+  font-size: 14px;
+}
+
+/* Estilo para el input del correo y la contraseña */
+.form-control {
+  border-radius: 4px; /* Bordes redondeados */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #A9DFBF; /* Cambiar color al estar enfocado */
+  box-shadow: 0 0 8px rgba(169, 223, 191, 0.5); /* Efecto de enfoque */
+}
+
+/* Adaptabilidad a dispositivos móviles */
+@media (max-width: 768px) {
+  .login-card {
+    margin: 20px; /* Espaciado a los lados en pantallas pequeñas */
+  }
+}
+
+/* Estilos para Sidebar */
+.sidebar {
+  position: fixed;
+  top: 10%;
+  right: 0;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  width: 250px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar .progress {
+  margin-bottom: 20px;
+}
+
+.sidebar .font-size,
+.sidebar .brightness {
+  margin-bottom: 15px;
+}
+
+.sidebar input[type="range"] {
+  width: 100%;
+}
+
+.sidebar span {
+  margin-left: 10px;
+}
+
+.upload-btn {
+  color: #6C3483;
+  border-color: #6C3483;
+  background-color: #CDC3E3;
+  margin-right: 10px;
+}
