@@ -25,6 +25,7 @@ const Login = () => {
       }
       );
       navigate('/profile');
+      window.location.reload();
     } catch (error) {
       setError('Credenciales inválidas.');
     } finally {

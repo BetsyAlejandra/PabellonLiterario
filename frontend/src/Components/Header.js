@@ -17,7 +17,7 @@ const Header = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users/profile', {
+        const response = await axios.get('https://pabellonliterario.com/api/users/profile', {
           withCredentials: true,
         });
 
@@ -56,7 +56,7 @@ const Header = () => {
     }
   
     try {
-      const response = await axios.get(`http://localhost:5000/api/novels/search`, {
+      const response = await axios.get(`https://pabellonliterario.com/api/novels/search`, {
         params: { query: searchQuery }, // Forma segura de pasar parámetros
         withCredentials: true, // Si estás usando cookies para la sesión
       });
@@ -83,7 +83,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/users/logout', {
+      const response = await fetch('https://pabellonliterario.com/api/users/logout', {
         method: 'POST',
         credentials: 'include', // Asegura que las cookies sean enviadas
       });
