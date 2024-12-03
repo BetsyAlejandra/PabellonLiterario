@@ -23,47 +23,47 @@ const Footer = () => {
         <Row className="text-center">
           <Col>
             <button
-              className="footer-link btn-link"
+              className="footer-link"
               onClick={() => navigate('/')}
             >
               Home
             </button>
           </Col>
           <Col>
-          <button
-              className="footer-link btn-link"
+            <button
+              className="footer-link"
               onClick={() => handleModal('preguntas', true)}
             >
               Preguntas
             </button>
           </Col>
           <Col>
-          <button
-              className="footer-link btn-link"
+            <button
+              className="footer-link"
               onClick={() => handleModal('unete', true)}
             >
               Únete a nosotros
             </button>
           </Col>
           <Col>
-          <button
-              className="footer-link btn-link"
+            <button
+              className="footer-link"
               onClick={() => handleModal('contactanos', true)}
             >
               Contáctanos
             </button>
           </Col>
           <Col>
-          <button
-              className="footer-link btn-link"
+            <button
+              className="footer-link"
               onClick={() => handleModal('politica', true)}
             >
               Política de Privacidad
             </button>
           </Col>
           <Col>
-          <button
-              className="footer-link btn-link"
+            <button
+              className="footer-link"
               onClick={() => handleModal('terminos', true)}
             >
               Términos de Servicios

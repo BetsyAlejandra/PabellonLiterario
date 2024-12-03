@@ -268,3 +268,31 @@
   background-color: #CDC3E3;
   margin-right: 10px;
 }
+
+.footer-link {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff; /* Texto blanco */
+  background-color: #343a40; /* Fondo oscuro */
+  border: 1px solid #ffc107; /* Borde dorado */
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none; /* Sin subrayado */
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.footer-link:hover {
+  background-color: #ffc107; /* Fondo dorado */
+  color: #343a40; /* Texto oscuro */
+  border-color: #ffc107; /* Mantiene el borde dorado */
+  transform: scale(1.05); /* Efecto de agrandamiento */
+}
+
+.footer-rights {
+  font-size: 14px;
+  color: #999999;
+  margin-top: 15px;
+}
