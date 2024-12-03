@@ -17,7 +17,20 @@ const novelSchema = new mongoose.Schema(
     genres: {
       type: [String],
       required: true,
-      enum: ['Fantasía', 'Romance', 'Ciencia ficción', 'Drama', 'Aventura', 'Terror'],  // Lista de géneros principales
+      enum: [
+        'Fantasía',
+        'Romance',
+        'Ciencia ficción',
+        'Drama',
+        'Aventura',
+        'Terror',
+        'Misterio',
+        'Suspenso',
+        'Comedia',
+        'Histórico',
+        'Poesía',
+        'Distopía',
+      ],  // Lista de géneros principales
     },
     subGenres: [{ type: String }],  // Subgéneros adicionales
     classification: {
@@ -44,12 +57,10 @@ const novelSchema = new mongoose.Schema(
       default: 'En progreso',
     },
 
-    // Información sobre autor y colaboradores
     author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
+      type: String,
+      required: [true, 'El autor es obligatorio'],
+    },       
     collaborators: [{
       name: String,
       role: { type: String, enum: ['Editor', 'Cotraductor'] },
@@ -80,7 +91,7 @@ const novelSchema = new mongoose.Schema(
     password: {type: String, default: false}, //Que tenga contraseña
 
     rawOrigin: [{
-      origin: { type: String, required },
+      origin: { type: String, required: true },
       link: String,
     }],
 
@@ -102,7 +113,6 @@ const novelSchema = new mongoose.Schema(
     // Reseñas de los usuarios
     reviews: [{
       user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-      rating: { type: Number, min: 0, max: 5 },
       comment: String,
       createdAt: { type: Date, default: Date.now },
     }],

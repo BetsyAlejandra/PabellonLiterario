@@ -1,14 +1,45 @@
 const mongoose = require('mongoose');
 const Novel = require('../models/Novel');
+const User = require('../models/User');
 
 // Crear una novela
 const createNovel = async (req, res) => {
   try {
+
+    if (!req.session.user || !req.session.user.username) {
+      return res.status(401).json({ message: 'No autorizado. Debe iniciar sesión para crear una novela.' });
+    }
+
+    const authorUsername = req.session.user.username;
+
     const { title, description, genres, classification, tags } = req.body;
+
+    const validGenres = [
+      'Fantasía',
+      'Romance',
+      'Ciencia ficción',
+      'Drama',
+      'Aventura',
+      'Terror',
+      'Misterio',
+      'Suspenso',
+      'Comedia',
+      'Histórico',
+      'Poesía',
+      'Distopía',
+    ];
+    if (!genres.every((genre) => validGenres.includes(genre))) {
+      return res.status(400).json({ message: 'Género(s) inválido(s).' });
+    }
 
     // Verificar si el archivo de imagen se subió
     if (!req.file) {
       return res.status(400).json({ message: 'La portada es obligatoria' });
+    }
+    // Verificar si el usuario existe
+    const user = await User.findOne({ username: authorUsername });
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado.' });
     }
 
     // Guardar la URL de la imagen
@@ -19,13 +50,9 @@ const createNovel = async (req, res) => {
       description,
       genres,
       classification,
-      tags: tags ? tags.split(',').map(tag => tag.trim()) : [], // Convierte la lista de etiquetas en un array
+      tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
       coverImage,
-      author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', 
-        required: false, // Cambia a false mientras pruebas
-      },
+      author: authorUsername, // Almacena el username en lugar del ObjectId
     });
 
     res.status(201).json(newNovel);
@@ -48,10 +75,8 @@ const getNovels = async (req, res) => {
 
 // Obtener las últimas 5 novelas
 const getLatestNovels = async (req, res) => {
-  console.log('Petición recibida en /latest');
   try {
     const novels = await Novel.find().sort({ createdAt: -1 }).limit(5); // Obtén las 5 más recientes
-    console.log('Últimas novelas encontradas:', novels); // Log para depurar
     res.status(200).json(novels);
   } catch (error) {
     console.error('Error al obtener las últimas novelas:', error.message);
@@ -62,7 +87,6 @@ const getLatestNovels = async (req, res) => {
 // Obtener una novela por ID
 const getNovelById = async (req, res) => {
   const { id } = req.params;
-  console.log(`Petición para obtener novela con ID: ${id}`); // Log para depurar
 
   // Validar el ID
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -119,5 +143,86 @@ const addChapter = async (req, res) => {
   }
 };
 
+const addReview = async (req, res) => {
+  const { id } = req.params; // ID de la novela
+  const { comment } = req.body; // Datos de la reseña
+  const userId = req.session?.user?.id; // ID del usuario autenticado
 
-module.exports = { createNovel, getNovels, getLatestNovels, getNovelById, addChapter };
+  if (!userId) {
+    return res.status(401).json({ message: 'No autorizado. Por favor, inicia sesión.' });
+  }
+
+
+  if (!comment || comment.trim() === '') {
+    return res.status(400).json({ message: 'El comentario no puede estar vacío.' });
+  }
+
+  try {
+    const novel = await Novel.findById(id);
+    if (!novel) {
+      return res.status(404).json({ message: 'Novela no encontrada.' });
+    }
+
+    // Agregar la reseña
+    const newReview = {
+      user: userId,
+      comment,
+    };
+
+    novel.reviews.push(newReview);
+    await novel.save();
+
+    res.status(201).json({ message: 'Reseña agregada con éxito.', review: newReview });
+  } catch (error) {
+    console.error('Error al agregar la reseña:', error.message);
+    res.status(500).json({ message: 'Error al agregar la reseña.', error });
+  }
+};
+
+const searchNovels = async (req, res) => {
+  const { query } = req.query;
+  console.log('Término de búsqueda recibido:', query); // Log para depuración
+
+  if (!query || query.trim() === '') {
+    console.log('Término de búsqueda vacío.');
+    return res.status(400).json({ message: 'El término de búsqueda no puede estar vacío.' });
+  }
+
+  try {
+    const novels = await Novel.find({
+      title: { $regex: query, $options: 'i' },
+    });
+    console.log('Resultados encontrados:', novels);
+    res.status(200).json(novels);
+  } catch (error) {
+    console.error('Error al buscar novelas:', error.message);
+    res.status(500).json({ message: 'Error al buscar novelas.', error });
+  }
+};
+
+const getChapterById = async (req, res) => {
+  const { storyId, chapterId } = req.params;
+
+  try {
+    const novel = await Novel.findById(storyId);
+    if (!novel) {
+      return res.status(404).json({ message: 'Novela no encontrada.' });
+    }
+
+    const chapter = novel.chapters.id(chapterId); // Buscar capítulo por su ID en el array
+    if (!chapter) {
+      return res.status(404).json({ message: 'Capítulo no encontrado.' });
+    }
+
+    res.status(200).json(chapter); // Enviar el capítulo como respuesta
+  } catch (error) {
+    console.error('Error al obtener el capítulo:', error.message);
+    res.status(500).json({ message: 'Error al obtener el capítulo.', error: error.message });
+  }
+};
+
+
+module.exports = {
+  createNovel, getNovels, getLatestNovels,
+  getNovelById, addChapter, addReview, searchNovels, getChapterById
+};

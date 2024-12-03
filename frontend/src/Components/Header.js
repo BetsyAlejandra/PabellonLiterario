@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/components.css';
+import axios from 'axios';
 import { Navbar, Nav, NavDropdown, Container, Form, FormControl, Button, Modal, Spinner } from 'react-bootstrap';
 import logo from '../assets/Logo1.png';
 import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
-  const [profilePic, setProfilePic] = useState('');
   const [userName, setUserName] = useState('Usuario');
-  const [userRole, setUserRole] = useState('');
+  const [profilePic, setProfilePic] = useState('');
+  const [userRole, setUserRole] = useState([]);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null); // Estado de carga
   const navigate = useNavigate();
@@ -16,34 +17,27 @@ const Header = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/user/perfil', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include', // Incluye las cookies
+        const response = await axios.get('http://localhost:5000/api/users/profile', {
+          withCredentials: true,
         });
 
-        if (response.ok) {
-          const user = await response.json();
-          setProfilePic(user.profilePhoto || 'https://defaultimage.com/profile.jpg');
-          setUserName(user.username);
-          setUserRole(user.role);
+        if (response.data) {
+          const user = response.data;
+          setProfilePic(user.profilePhoto || 'https://via.placeholder.com/150');
+          setUserName(user.username || 'Usuario');
+          setUserRole(user.roles || []); // manejar roles como un array
           setIsLoggedIn(true);
         } else {
-          console.error('Error al obtener los datos del usuario:', response.status, response.statusText);
           setIsLoggedIn(false);
         }
       } catch (error) {
-        console.error('Error al obtener datos del usuario:', error);
+        console.error('Error al obtener los datos del usuario:', error.response?.data || error.message);
         setIsLoggedIn(false);
       }
     };
 
-    if (isLoggedIn === null) {
-      fetchUserData();
-    }
-  }, [isLoggedIn]);
+    fetchUserData();
+  }, []);
 
   const handleProfileClick = () => {
     if (isLoggedIn) {
@@ -53,31 +47,50 @@ const Header = () => {
     }
   };
 
-  const handleSearchClick = () => {
-    const searchQuery = document.querySelector('.search-input').value;
-    navigate(`/search?query=${searchQuery}`);
+  const handleSearchClick = async () => {
+    const searchQuery = document.querySelector('.search-input').value.trim();
+  
+    if (searchQuery === '') {
+      alert('Por favor, ingresa un término de búsqueda.');
+      return;
+    }
+  
+    try {
+      const response = await axios.get(`http://localhost:5000/api/novels/search`, {
+        params: { query: searchQuery }, // Forma segura de pasar parámetros
+        withCredentials: true, // Si estás usando cookies para la sesión
+      });
+      const results = response.data;
+  
+      if (results.length === 0) {
+        alert('No se encontraron resultados para tu búsqueda.');
+      } else {
+        navigate('/search-results', { state: { results } });
+      }
+    } catch (error) {
+      console.error('Error al buscar novelas:', error.response?.data || error.message);
+      alert('Error al realizar la búsqueda.');
+    }
+  
     setShowSearchModal(false);
-  };
+  };  
+  
 
-  const handleLibraryClick = () => {
-    navigate('/libreria');
-  };
 
   const handleUploadClick = () => {
-    navigate('/my-stories');
+    navigate('/upload');
   };
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/logout', {
+      const response = await fetch('http://localhost:5000/api/users/logout', {
         method: 'POST',
         credentials: 'include', // Asegura que las cookies sean enviadas
       });
       if (response.ok) {
         setIsLoggedIn(false); // Cambia el estado a falso cuando el usuario cierre sesión
-        setProfilePic('https://as2.ftcdn.net/jpg/02/15/84/43/220_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg');
         setUserName('Inicia Sesión');
-        setUserRole('');
+        setUserRole([]);
         navigate('/');
       } else {
         console.error('Error al cerrar sesión');
@@ -99,7 +112,7 @@ const Header = () => {
             <Nav.Link as="div" className="custom-link d-flex flex-column align-items-center" onClick={handleProfileClick}>
               <img
                 src={profilePic}
-                alt="Perfil"
+                alt="Foto de perfil"
                 className="rounded-circle"
                 width="40"
                 height="40"
@@ -109,13 +122,7 @@ const Header = () => {
             </Nav.Link>
           </Nav>
           <Nav className="ms-auto w-100">
-            <Nav.Link as="div" className="custom-link" onClick={handleLibraryClick}>Biblioteca</Nav.Link>
-            <NavDropdown title="Género" id="navbarScrollingDropdown" className="custom-link">
-              <NavDropdown.Item onClick={() => navigate('/genero/abo')}>ABO</NavDropdown.Item>
-            </NavDropdown>
-            <Nav.Link as="div" className="custom-link" onClick={() => navigate('/genero/transmigracion')}>Transmigración</Nav.Link>
-            <Nav.Link as="div" className="custom-link" onClick={() => navigate('/genero/xianxia')}>Xianxia</Nav.Link>
-            <Nav.Link as="div" className="custom-link" onClick={() => navigate('/completamos')}>Terminadas</Nav.Link>
+            <Nav.Link as="div" className="custom-link" onClick={() => navigate('/')}>Home</Nav.Link>
           </Nav>
           <Button className="search-icon" onClick={() => setShowSearchModal(true)}>
             <FaSearch />
@@ -123,9 +130,13 @@ const Header = () => {
           {isLoggedIn === null ? (
             <Spinner animation="border" />
           ) : (
+            
             <>
-              {isLoggedIn && userRole === 'Traductor' && (
-                <Button className="upload-btn" onClick={handleUploadClick}>+ Subir</Button>
+              {isLoggedIn && userRole.includes('Traductor') && (
+                
+                <Button className="upload-btn" onClick={handleUploadClick}>
+                  Subir Novela
+                </Button>
               )}
               {isLoggedIn && (
                 <Button className="logout-btn" variant="outline-danger" onClick={handleLogout}>

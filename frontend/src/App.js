@@ -14,16 +14,17 @@ import Home from './pages/Home';
 import Library from './pages/Library';
 import Login from './pages/Login';
 import MyStories from './pages/MyStories';
-import Novela from './pages/Novela';
 import NovelForm from './pages/NovelForm';
-import PaginaLectura from './pages/PaginaLectura';
 import PasswordResetRequest from './pages/PasswordResetRequest';
 import Perfil from './pages/Perfil';
 import PerfilUsuario from './pages/PerfilUsuario';
-import ProtectedRoute from './pages/ProtectedRoute';
 import Register from './pages/Register';
 import ResetPassword from './pages/ResetPassword';
 import StoryDetail from './pages/StoryDetail';
+import UpdateNovel from './pages/UpdateNovel';
+import EditChapter from './pages/EditChapter';
+import SearchResults from './pages/SearchResults';
+import ReadChapter from './pages/ReadChapter';
 
 function App() {
   return (
@@ -39,15 +40,18 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/library" element={<Library />} />
           <Route path="/story-detail/:id" element={<StoryDetail />} />
-          <Route path="/read/:id" element={<PaginaLectura />} />
+          <Route path="/read-chapter/:storyId/:chapterId" element={<ReadChapter />} />
           <Route path="/user-profile/:id" element={<PerfilUsuario />} />
           <Route path="/add-chapter/:id" element={<AddChapter />} />
 
           {/* Rutas protegidas */}
-          <Route path="/my-stories" element={<ProtectedRoute><MyStories /></ProtectedRoute>} />
+          <Route path='/search-results' element={<SearchResults />} />
+          <Route path="/my-stories" element={<MyStories />} />
+          <Route path="/update/:id" element={<UpdateNovel />} />
+          <Route path="/edit-chapter/:storyId/:chapterId" element={<EditChapter />} />
           <Route path="/upload" element={<NovelForm />} />
-          <Route path="/profile" element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
-          <Route path="/admin-panel" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
+          <Route path="/profile" element={<Perfil />} />
+          <Route path="/admin-panel" element={<AdminPanel />} />
         </Routes>
 
         <FloatingButton />

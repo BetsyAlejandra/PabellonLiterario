@@ -12,27 +12,38 @@ const Home = () => {
   useEffect(() => {
     const fetchNovels = async () => {
       try {
-        const response = await fetch('https://pabellonliterario.com/api/novels');
+        const response = await fetch('http://localhost:5000/api/novels');
         const contentType = response.headers.get('content-type');
+
         if (!contentType || !contentType.includes('application/json')) {
           throw new Error('Respuesta no es JSON');
         }
+
         const data = await response.json();
-        setNovels(data);
+
+        if (Array.isArray(data)) {
+          setNovels(data); // Asegúrate de que sea un arreglo
+        } else {
+          throw new Error('Respuesta inesperada: no es un arreglo');
+        }
+
         setLoading(false);
       } catch (error) {
         console.error('Error en fetchNovels:', error.message);
+        setNovels([]); // Asegúrate de que novels siempre sea un arreglo
+        setLoading(false);
       }
     };
 
     const fetchLatestNovels = async () => {
       try {
-        const response = await fetch('https://pabellonliterario.com/api/novels/latest');
+        const response = await fetch('http://localhost:5000/api/novels/latest');
         if (!response.ok) throw new Error('Error al obtener últimas novelas');
         const data = await response.json();
         setLatestNovels(data); // Actualiza el estado
       } catch (error) {
         console.error('Error en fetchLatestNovels:', error.message);
+        setLatestNovels([]);
       }
     };
 
@@ -61,8 +72,8 @@ const Home = () => {
             <p className="text-center text-light">Cargando novelas...</p>
           ) : (
             <Carousel>
-              {novels.map((novel, index) => {
-                return (
+              {novels.length > 0 ? (
+                novels.map((novel, index) => (
                   <Carousel.Item key={index}>
                     <Card className="text-center bg-dark text-light border-0">
                       <Card.Img
@@ -73,15 +84,18 @@ const Home = () => {
                       />
                       <Card.Body>
                         <Card.Title>{novel.title}</Card.Title>
-                        <Button as={Link} variant="outline-light" to={`/detalle/${novel._id}`}>
+                        <Button as={Link} variant="outline-light" to={`/story-detail/${novel._id}`}>
                           Ver más
                         </Button>
                       </Card.Body>
                     </Card>
                   </Carousel.Item>
-                );
-              })}
+                ))
+              ) : (
+                <p className="text-center text-light">No hay novelas disponibles</p>
+              )}
             </Carousel>
+
           )}
         </Container>
       </section>
@@ -108,7 +122,7 @@ const Home = () => {
                           <Card.Body>
                             <Card.Title>{novel.title}</Card.Title>
                             <Card.Text>{novel.genre}</Card.Text>
-                            <Button as={Link} variant="outline-light" to={`/detalle/${novel._id}`}>
+                            <Button as={Link} variant="outline-light" to={`/story-detail/${novel._id}`}>
                               Ver más
                             </Button>
                           </Card.Body>

@@ -614,62 +614,44 @@ input.form-control.tag-input {
   transform: scale(0.98);
 }
 
-/* Estilos globales para la página de detalle */
-.story-image-container {
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.modal-success .modal-header {
+  background-color: #28a745;
+  color: #fff;
 }
 
-.story-image {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 10px;
+.modal-error .modal-header {
+  background-color: #dc3545;
+  color: #fff;
 }
 
-.story-title {
-  font-size: 2rem;
-  font-weight: bold;
+.modal-success .btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.modal-error .btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+
+.btn-tool {
+  margin: 0 5px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
   color: #333;
-  margin-top: 20px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s;
 }
 
-.story-description {
-  font-size: 1.1rem;
-  color: #666;
-  margin-top: 10px;
+.btn-tool:hover {
+  background-color: #e0e0e0;
 }
 
-.star {
-  font-size: 1.5rem;
-  color: #ccc;
-  cursor: pointer;
-  margin-right: 5px;
-}
-
-.star.filled {
-  color: #f39c12;
-}
-
-button {
-  transition: background-color 0.3s ease;
-}
-
-button:disabled {
-  opacity: 0.6;
-}
-
-button:hover:not(:disabled) {
-  background-color: #ff7f50;
-}
-
-form textarea {
-  resize: none;
-  font-size: 1rem;
-}
-
-form .btn {
-  margin-top: 15px;
+.floating-btn button {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px 15px;
+  font-size: 14px;
 }

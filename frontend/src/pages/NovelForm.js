@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Modal, Button } from 'react-bootstrap';
 import '../styles/global.css';
 
 const NovelForm = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [genres, setGenres] = useState('');
+  const [genres, setGenres] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState('');
   const [subGenres, setSubGenres] = useState('');
   const [classification, setClassification] = useState('');
   const [tags, setTags] = useState('');
@@ -18,14 +20,33 @@ const NovelForm = () => {
   const [awards, setAwards] = useState([{ title: '', year: '', organization: '' }]);
   const [progress, setProgress] = useState('En progreso');
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalType, setModalType] = useState('success'); // Estado inicial
+
+  useEffect(() => {
+    const fetchGenres = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/novels/genres');
+        setGenres(response.data); // Guarda los géneros obtenidos
+      } catch (error) {
+        console.error('Error al obtener los géneros:', error.message);
+      }
+    };
+
+    fetchGenres();
+  }, []);
 
   // Maneja el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log('Género seleccionado:', selectedGenre);
+
     if (!coverImage || !title || !description || genres.length === 0 || !classification) {
-      setMessage('Por favor, completa todos los campos requeridos.');
+      setModalMessage('Por favor, completa todos los campos obligatorios.');
+      setModalType('error');
+      setShowModal(true);
       return;
     }
 
@@ -44,12 +65,17 @@ const NovelForm = () => {
 
     try {
       setLoading(true);
-      const res = await axios.post('https://pabellonliterario.com/api/novels/create', formData, {
+      const res = await axios.post('http://localhost:5000/api/novels/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true, // Incluye cookies de sesión
       });
-      setMessage('¡Novela creada exitosamente!');
+
+      setModalMessage('¡Novela creada exitosamente!');
+      setModalType('success');
+      setShowModal(true);
+
       setTitle('');
       setDescription('');
       setGenres('');
@@ -67,8 +93,10 @@ const NovelForm = () => {
         navigate('/my-stories');
       }, 2000);
     } catch (error) {
+      setModalMessage(`Error al crear la novela: ${error.response?.data.message || error.message}`);
+      setModalType('error');
+      setShowModal(true);
       setLoading(false);
-      setMessage(error.response ? `Error en el backend: ${error.response.data.message}` : `Error: ${error.message}`);
     }
   };
 
@@ -79,6 +107,12 @@ const NovelForm = () => {
       setCoverImage(file);
       setPreviewImage(URL.createObjectURL(file));
     }
+  };
+
+  // Cerrar el modal
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setModalMessage('');
   };
 
   // Agregar o eliminar colaboradores
@@ -137,11 +171,33 @@ const NovelForm = () => {
 
   return (
     <div className="container my-5">
+      <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        centered
+        className={modalType === 'success' ? 'modal-success' : 'modal-error'}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>
+            {modalType === 'success' ? '¡Éxito!' : 'Error'}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          <p>{modalMessage}</p>
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-center">
+          <Button
+            variant={modalType === 'success' ? 'success' : 'danger'}
+            onClick={handleCloseModal}
+          >
+            Cerrar
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <div className="row">
         <div className="col-md-8">
           <div className="novel-form-card">
             <h2 className="text-center">Crear Nueva Novela</h2>
-            {message && <div className="alert alert-info mt-3">{message}</div>}
             <form onSubmit={handleSubmit}>
               <div className="form-group mt-3">
                 <label htmlFor="title">Título:</label>
@@ -172,23 +228,16 @@ const NovelForm = () => {
                 <label htmlFor="genres">Género:</label>
                 <select
                   id="genres"
-                  className="form-control custom-input"
-                  value={genres}
-                  onChange={(e) => setGenres(e.target.value)}
+                  value={selectedGenre}
+                  onChange={(e) => setSelectedGenre(e.target.value)}
                   required
                 >
-                  <option value="Fantasía">Fantasía</option>
-                  <option value="Romance">Romance</option>
-                  <option value="Ciencia ficción">Ciencia ficción</option>
-                  <option value="Drama">Drama</option>
-                  <option value="Aventura">Aventura</option>
-                  <option value="Terror">Terror</option>
-                  <option value="Suspenso">Suspenso</option>
-                  <option value="Comedia">Comedia</option>
-                  <option value="Histórico">Histórico</option>
-                  <option value="Misterio">Misterio</option>
-                  <option value="Poesía">Poesía</option>
-                  <option value="Distopía">Distopía</option>
+                  <option value="">Selecciona un género</option>
+                  {genres.map((genre, index) => (
+                    <option key={index} value={genre}>
+                      {genre}
+                    </option>
+                  ))}
                 </select>
               </div>
 

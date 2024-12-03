@@ -9,6 +9,7 @@ const fs = require('fs');
 
 // Rutas
 const novelRoutes = require('./routes/novels');
+const userRoutes = require('./routes/users');
 
 dotenv.config();
 connectDB();
@@ -35,9 +36,10 @@ app.use(session({
 // Crear carpeta 'uploads' si no existe
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
-app.use('/uploads', express.static(uploadsDir));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Rutas
+app.use('/api/users', userRoutes);
 app.use('/api/novels', novelRoutes);
 
 // Depuración de rutas

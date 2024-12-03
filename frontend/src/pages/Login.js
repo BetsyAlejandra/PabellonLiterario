@@ -16,9 +16,13 @@ const Login = () => {
 
     try {
       await axios.post(
-        'http://localhost:5000/api/auth/login',
-        { email, password },
-        { withCredentials: true }
+        'http://localhost:5000/api/users/login',
+        { email, password }, {
+        withCredentials: true, // Asegura que las cookies se envíen
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
       );
       navigate('/profile');
     } catch (error) {

@@ -261,3 +261,10 @@
 .sidebar span {
   margin-left: 10px;
 }
+
+.upload-btn {
+  color: #6C3483;
+  border-color: #6C3483;
+  background-color: #CDC3E3;
+  margin-right: 10px;
+}
