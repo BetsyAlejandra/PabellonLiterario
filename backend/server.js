@@ -16,7 +16,10 @@ connectDB();
 
 const app = express();
 
-app.use(cors({ origin: 'https://pabellonliterario.com', credentials: true }));
+app.use(cors({
+  origin: 'https://pabellonliterario.com',
+  credentials: true, // Esto permite enviar cookies
+}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -40,7 +43,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Rutas
 app.use('/api/users', userRoutes);
 app.use('/api/novels', novelRoutes);
-
 
 // Servir en producción
 if (process.env.NODE_ENV === 'production') {

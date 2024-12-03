@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const colors = require('colors');
 
 // Carga las variables de entorno desde .env
 dotenv.config();
