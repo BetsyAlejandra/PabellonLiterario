@@ -37,21 +37,15 @@ app.use(session({
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+=======
+app.get('/', (req, res) => {
+  res.status(200).send('Backend funcionando correctamente');
+});
+
 
 // Rutas
 app.use('/api/users', userRoutes);
 app.use('/api/novels', novelRoutes);
-
-// Depuración de rutas
-app._router.stack.forEach((middleware) => {
-  if (middleware.route) {
-    console.log(`Ruta configurada: ${middleware.route.path}`);
-  } else if (middleware.name === 'router') {
-    middleware.handle.stack.forEach((handler) => {
-      if (handler.route) console.log(`Ruta configurada: ${handler.route.path}`);
-    });
-  }
-});
 
 
 // Servir en producción
@@ -61,7 +55,36 @@ if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => res.sendFile(path.join(frontendPath, 'index.html')));
 }
 
-// Endpoint de prueba
+// Array para almacenar los donantes
+let donors = [];
+
+// Webhook de Ko-fi para recibir donaciones
+app.post('/api/webhook/kofi', (req, res) => {
+  const { event, data } = req.body;
+  console.log('Cuerpo del webhook recibido:', req.body);
+
+  if (event === 'payment_received' && data) {
+    const { name, amount, message } = data;
+
+    if (name && amount) {
+      const donor = { name, amount, message: message || '' };
+      donors.push(donor); // Almacena la información del donante
+      console.log('Nueva donación recibida:', donor);
+    } else {
+      console.warn('Datos incompletos en el webhook de Ko-fi');
+    }
+  } else {
+    console.warn('Evento desconocido o datos inválidos recibidos en el webhook');
+  }
+
+  res.status(200).send('Webhook recibido');
+});
+
+// Ruta para obtener la lista de donantes
+app.get('/api/donors', (req, res) => {
+  res.status(200).json(donors); // Devuelve los donantes almacenados
+});
+
 app.get('/api/status', (req, res) => {
   res.status(200).json({ message: 'Servidor funcionando correctamente' });
 });
