@@ -66,7 +66,7 @@ const EditChapter = () => {
         const fetchChapterDetails = async () => {
             try {
                 const res = await axios.get(
-                    `http://localhost:5000/api/novels/${storyId}/chapters/${chapterId}`
+                    `https://pabellonliterario.com/api/novels/${storyId}/chapters/${chapterId}`
                 );
                 const chapter = res.data;
                 setTitle(chapter.title);
@@ -95,7 +95,7 @@ const EditChapter = () => {
 
         try {
             await axios.put(
-                `http://localhost:5000/api/novels/${storyId}/chapters/${chapterId}`,
+                `https://pabellonliterario.com/api/novels/${storyId}/chapters/${chapterId}`,
                 updatedChapter
             );
             setLoading(false);

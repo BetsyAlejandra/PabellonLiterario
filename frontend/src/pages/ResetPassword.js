@@ -16,7 +16,7 @@ const ResetPassword = () => {
     setSuccess('');
 
     try {
-      await axios.post('http://localhost:5000/api/auth/reset-password', { token, newPassword });
+      await axios.post('https://pabellonliterario.com/api/auth/reset-password', { token, newPassword });
       setSuccess('Contraseña restablecida correctamente');
     } catch (error) {
       setError('Error al restablecer la contraseña');

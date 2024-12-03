@@ -23,7 +23,7 @@ const ReadChapter = () => {
     useEffect(() => {
         const fetchChapter = async () => {
             try {
-                const res = await fetch(`http://localhost:5000/api/novels/${storyId}/chapters/${chapterId}`);
+                const res = await fetch(`https://pabellonliterario.com/api/novels/${storyId}/chapters/${chapterId}`);
                 const data = await res.json();
                 setChapter(data);
                 setLoading(false);

@@ -20,7 +20,7 @@ const StoryDetail = () => {
     useEffect(() => {
         const fetchStory = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/novels/${id}`);
+                const res = await axios.get(`https://pabellonliterario.com/api/novels/${id}`);
                 setStory(res.data);
                 setLoading(false);
             } catch (err) {
@@ -33,7 +33,7 @@ const StoryDetail = () => {
 
     const handleSaveStory = async () => {
         try {
-            const res = await axios.post(`http://localhost:5000/api/novels/${id}/follow`, {}, {
+            const res = await axios.post(`https://pabellonliterario.com/api/novels/${id}/follow`, {}, {
             withCredentials: true, // Asegura que las cookies se envíen
         });
             setSaved(true);
@@ -46,7 +46,7 @@ const StoryDetail = () => {
     const handleReviewSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(`http://localhost:5000/api/novels/${id}/reviews`, 
+            await axios.post(`https://pabellonliterario.com/api/novels/${id}/reviews`, 
             { 
                 comment: review 
             }, 
@@ -63,7 +63,7 @@ const StoryDetail = () => {
     const handleReplySubmit = async (e, reviewId) => {
         e.preventDefault();
         try {
-            await axios.post(`http://localhost:5000/api/novels/${id}/reviews/${reviewId}/reply`, {
+            await axios.post(`https://pabellonliterario.com/api/novels/${id}/reviews/${reviewId}/reply`, {
                 text: reply,
             });
             alert('Respuesta enviada.');

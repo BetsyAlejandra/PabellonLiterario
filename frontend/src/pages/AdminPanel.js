@@ -11,7 +11,7 @@ const AdminPanel = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users/all', { withCredentials: true });
+        const response = await axios.get('https://pabellonliterario.com/api/users/all', { withCredentials: true });
         setUsers(response.data);
         setLoading(false);
       } catch (error) {
@@ -37,7 +37,7 @@ const AdminPanel = () => {
 
     try {
       await axios.put(
-        `http://localhost:5000/api/users/assign-roles/${selectedUser}`,
+        `https://pabellonliterario.com/api/users/assign-roles/${selectedUser}`,
         { roles: selectedRoles },
         { withCredentials: true }
       );

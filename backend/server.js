@@ -29,7 +29,6 @@ app.use(session({
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production', // HTTPS en producción
     sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Política de cookies
-    maxAge: 3600 * 1000, // Sesión de 1 hora
   },
 }));
 

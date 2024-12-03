@@ -22,7 +22,7 @@ const Perfil = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users/profile', { withCredentials: true });
+        const response = await axios.get('https://pabellonliterario.com/api/users/profile', { withCredentials: true });
         setUser(response.data);
         setLoading(false);
       } catch (error) {
@@ -79,7 +79,7 @@ const Perfil = () => {
     formData.append('socialLinks', JSON.stringify(user.socialLinks));
 
     try {
-      const response = await axios.put('http://localhost:5000/api/users/profile', formData, {
+      const response = await axios.put('https://pabellonliterario.com/api/users/profile', formData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',
