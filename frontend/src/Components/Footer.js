@@ -22,52 +22,52 @@ const Footer = () => {
       <Container>
         <Row className="text-center">
           <Col>
-            <button
+            <a
               className="footer-link"
               onClick={() => navigate('/')}
             >
               Home
-            </button>
+            </a>
           </Col>
           <Col>
-            <button
+            <a
               className="footer-link"
               onClick={() => handleModal('preguntas', true)}
             >
               Preguntas
-            </button>
+            </a>
           </Col>
           <Col>
-            <button
+            <a
               className="footer-link"
               onClick={() => handleModal('unete', true)}
             >
               Únete a nosotros
-            </button>
+            </a>
           </Col>
           <Col>
-            <button
+            <a
               className="footer-link"
               onClick={() => handleModal('contactanos', true)}
             >
               Contáctanos
-            </button>
+            </a>
           </Col>
           <Col>
-            <button
+            <a
               className="footer-link"
               onClick={() => handleModal('politica', true)}
             >
               Política de Privacidad
-            </button>
+            </a>
           </Col>
           <Col>
-            <button
+            <a
               className="footer-link"
               onClick={() => handleModal('terminos', true)}
             >
               Términos de Servicios
-            </button>
+            </a>
           </Col>
         </Row>
         <Row className="text-center mt-3">

@@ -146,7 +146,7 @@ const Perfil = () => {
                   <button onClick={() => removeSocialLink(index)}>Eliminar</button>
                 </div>
               ))}
-              <button onClick={addSocialLink}>Agregar Red Social</button>
+              <a onClick={addSocialLink}>Agregar Red Social</a>
             </div>
           </div>
         )}

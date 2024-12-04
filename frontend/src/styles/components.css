@@ -110,7 +110,6 @@
 .custom-link {
   color: #343a40 !important; /* Texto oscuro */
   font-weight: bold;
-  text-transform: uppercase;
   margin-right: 15px;
   cursor: pointer;
   transition: color 0.3s ease;
