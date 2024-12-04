@@ -8,6 +8,7 @@ const Home = () => {
   const [novels, setNovels] = useState([]); // Estado para almacenar las novelas
   const [loading, setLoading] = useState(true); // Estado para indicar si los datos están cargando
   const [latestNovels, setLatestNovels] = useState([]); // Estado para las últimas traducciones
+  const [error, setError] = useState(null); // Estado para manejar errores
 
   useEffect(() => {
     const fetchNovels = async () => {
@@ -17,7 +18,6 @@ const Home = () => {
 
         if (!contentType || !contentType.includes('application/json')) {
           throw new Error('Respuesta no es JSON');
-          {error && <p className="text-center text-danger">{error}</p>}
         }
 
         const data = await response.json();
@@ -26,13 +26,12 @@ const Home = () => {
           setNovels(data); // Asegúrate de que sea un arreglo
         } else {
           throw new Error('Respuesta inesperada: no es un arreglo');
-          {error && <p className="text-center text-danger">{error}</p>}
         }
 
         setLoading(false);
       } catch (error) {
         console.error('Error en fetchNovels:', error.message);
-        {error && <p className="text-center text-danger">{error}</p>}
+        setError(error.message);
         setNovels([]); // Asegúrate de que novels siempre sea un arreglo
         setLoading(false);
       }
@@ -46,6 +45,7 @@ const Home = () => {
         setLatestNovels(data); // Actualiza el estado
       } catch (error) {
         console.error('Error en fetchLatestNovels:', error.message);
+        setError(error.message);
         setLatestNovels([]);
       }
     };
@@ -66,6 +66,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Mostrar mensaje de error si existe */}
+      {error && <p className="text-center text-danger">{error}</p>}
 
       {/* Galería de Portadas de Obras Traducidas */}
       <section className="translated-works-gallery">
@@ -98,7 +101,6 @@ const Home = () => {
                 <p className="text-center text-light">No hay novelas disponibles</p>
               )}
             </Carousel>
-
           )}
         </Container>
       </section>
@@ -145,47 +147,11 @@ const Home = () => {
               <p>Si eres amante de las letras, las historias cautivadoras y las traducciones literarias, Pabellón Literario es el lugar perfecto para ti. ¡Únete y haz de nuestro servidor tu rincón literario favorito!
                 <br></br>En Pabellón Literario, las palabras tienen el poder de unirnos. ¡Te esperamos para que formes parte de esta comunidad única! 💕
               </p>
-              <Button href="https://discord.gg/Np8prZDgwX" target="_blank" variant="outline-light">¡Únete al Discord!</Button>
+              <Button href="https://discord.gg/Np8prZDgwX" target="_blank" rel="noopener noreferrer" variant="outline-light">¡Únete al Discord!</Button>
             </Col>
           </Row>
         </Container>
       </section>
-
-
-      {/* Traducción Destacada del Mes */}
-      {/*<section className="featured-translation py-5">
-        <Container>
-          <h2 className="text-center text-light">Traducción Destacada del Mes</h2>
-          <Row className="align-items-center">
-            <Col md={6}>
-              <img src="https://via.placeholder.com/500x300" alt="Traducción Destacada" className="img-fluid rounded" />
-            </Col>
-            <Col md={6} className="text-light">
-              <h3>Libro: Título Destacado</h3>
-              <p>Descripción detallada de esta traducción destacada del mes.</p>
-              <Button variant="outline-light" href="/leer">Leer ahora</Button>
-              <Button variant="outline-secondary ms-2" href="/detalle">Más detalles</Button>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-
-
-      <section className="translator-of-the-month py-5">
-        <Container>
-          <h2 className="text-center text-light">Traductora del Mes</h2>
-          <Row className="align-items-center">
-            <Col md={4} className="text-center">
-              <img src="https://via.placeholder.com/150" alt="Traductora del Mes" className="rounded-circle img-fluid" />
-            </Col>
-            <Col md={8} className="text-light">
-              <h3>Nombre de la Traductora</h3>
-              <p>Este mes, destacamos a nuestra traductora del mes. Ella ha realizado contribuciones excepcionales a nuestra comunidad de traducción.</p>
-              <Button variant="outline-light">Ver perfil</Button>
-            </Col>
-          </Row>
-        </Container>
-      </section>*/}
 
       {/* Historia y Logros */}
       <section className="history-and-achievements py-5">
@@ -198,7 +164,7 @@ const Home = () => {
           <Row>
             <Col md={12}>
               <div className="timeline">
-                {/* Timeline Item */}
+                {/* Timeline Items */}
                 <div className="timeline-item">
                   <div className="timeline-icon">📅</div>
                   <div className="timeline-content">
@@ -210,7 +176,6 @@ const Home = () => {
                     </p>
                   </div>
                 </div>
-                {/* Timeline Item */}
                 <div className="timeline-item">
                   <div className="timeline-icon">💻</div>
                   <div className="timeline-content">
@@ -221,7 +186,6 @@ const Home = () => {
                     </p>
                   </div>
                 </div>
-                {/* Timeline Item */}
                 <div className="timeline-item">
                   <div className="timeline-icon">🤝</div>
                   <div className="timeline-content">
@@ -232,7 +196,6 @@ const Home = () => {
                     </p>
                   </div>
                 </div>
-                {/* Timeline Item */}
                 <div className="timeline-item">
                   <div className="timeline-icon">🎉</div>
                   <div className="timeline-content">

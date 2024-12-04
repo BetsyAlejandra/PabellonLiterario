@@ -26,16 +26,24 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
 // Configura 'trust proxy'
 app.set('trust proxy', 1); // Si estás usando un solo proxy, como Nginx
 
+// Middleware de seguridad
 app.use(helmet());
+
+// Aplicar Rate Limiting a todas las solicitudes
 app.use(limiter);
+
+// Configuración de CORS
 app.use(cors({
   origin: process.env.CORS_ORIGIN,
   credentials: true,
 }));
-app.use(express.json());
+
+// Middleware para parsear JSON y cookies
+app.use(express.json({ limit: '10kb' })); // Limita el tamaño de las solicitudes
 app.use(cookieParser());
 
 // Configuración de sesiones
@@ -50,17 +58,12 @@ app.use(session({
   },
 }));
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Algo salió mal!' });
-});
-
 // Crear carpeta 'uploads' si no existe
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Rutas
+// Rutas API
 app.use('/api/users', userRoutes);
 app.use('/api/novels', novelRoutes);
 
@@ -74,6 +77,12 @@ if (process.env.NODE_ENV === 'production') {
 // Endpoint de prueba
 app.get('/api/status', (req, res) => {
   res.status(200).json({ message: 'Servidor funcionando correctamente' });
+});
+
+// Middleware para manejo de errores (debe estar después de las rutas)
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Algo salió mal!' });
 });
 
 // Iniciar servidor

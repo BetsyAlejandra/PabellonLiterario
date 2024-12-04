@@ -84,7 +84,7 @@ const AddChapter = () => {
         };
 
         try {
-            await axios.post(`https://pabellonliterario.com/api/novels/add-chapter/${id}`, newChapter);
+            await axios.post(`/api/novels/add-chapter/${id}`, newChapter);
             setLoading(false);
             navigate(`/story-detail/${id}`);
         } catch (err) {
