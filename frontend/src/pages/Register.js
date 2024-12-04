@@ -22,6 +22,7 @@ const Register = () => {
         { withCredentials: true }
       );
       navigate('/profile');
+      window.location.reload();
     } catch (error) {
       setError('Error al registrar el usuario.');
     } finally {

@@ -4,6 +4,21 @@
     overflow-y: scroll;
     padding-bottom: 100px; /* Espacio para los controles y navegación */
   }
+
+  .read-chapter {
+    user-select: none; /* Estándar */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+/* Opcional: Deshabilitar la selección de texto en elementos específicos */
+.chapter-content {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
   
   .progress-bar-container {
     position: fixed;

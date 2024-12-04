@@ -60,7 +60,7 @@ const Home = () => {
       <section className="watermark-section">
         <div className="watermark-overlay text-center">
           <img src={marcadeagua} alt="Marca de agua" className="watermark-logo" />
-          <Button variant="primary" className="join-button">¡ÚNETE!</Button>
+          <Button  href="https://discord.gg/Np8prZDgwX"variant="primary" className="join-button">¡ÚNETE!</Button>
           <div className="join-button-text">
             <p>Únete a nuestra comunidad para más sorpresas.</p>
           </div>
@@ -157,7 +157,7 @@ const Home = () => {
       <section className="history-and-achievements py-5">
         <Container>
           <h2 className="text-center text-white mb-5">Historia y Logros del Proyecto</h2>
-          <p className="text-center text-muted mb-5">
+          <p className="text-center text-white mb-5">
             Esta línea del tiempo resalta los hitos clave que marcaron el desarrollo de nuestro proyecto,
             desde su conceptualización hasta su primera versión lanzada al público.
           </p>
@@ -170,7 +170,7 @@ const Home = () => {
                   <div className="timeline-content">
                     <h5>21 de Noviembre del 2024</h5>
                     <p>
-                      **Creación del servidor:** Este día marcó el nacimiento de nuestra comunidad.
+                      Creación del servidor: Este día marcó el nacimiento de nuestra comunidad.
                       Creamos un espacio en Discord para unir a personas apasionadas por la literatura,
                       con el objetivo de compartir ideas y colaborar en la creación del proyecto.
                     </p>
@@ -181,7 +181,7 @@ const Home = () => {
                   <div className="timeline-content">
                     <h5>25 de Noviembre del 2024</h5>
                     <p>
-                      **Inicio de la programación:** Después de días de planificación, comenzamos a trabajar en
+                      Inicio de la programación: Después de días de planificación, comenzamos a trabajar en
                       la estructura técnica del proyecto, incluyendo el diseño del frontend y backend con el stack MERN.
                     </p>
                   </div>
@@ -191,7 +191,7 @@ const Home = () => {
                   <div className="timeline-content">
                     <h5>24 de Noviembre del 2024</h5>
                     <p>
-                      **Primera reunión entre las 7 iniciadoras:** Las mentes detrás del proyecto se reunieron por primera vez
+                      Primera reunión entre las 7 iniciadoras: Las mentes detrás del proyecto se reunieron por primera vez
                       para alinear objetivos, discutir el alcance y definir roles clave. Esta colaboración sentó las bases para el éxito del proyecto.
                     </p>
                   </div>
@@ -201,7 +201,7 @@ const Home = () => {
                   <div className="timeline-content">
                     <h5>3 de Diciembre del 2024</h5>
                     <p>
-                      **Lanzamiento de la primera versión:** Después de semanas intensas de trabajo, presentamos al público la primera
+                      Lanzamiento de la primera versión: Después de semanas intensas de trabajo, presentamos al público la primera
                       versión de nuestra plataforma, que incluye funcionalidades básicas como subir traducciones,
                       guardar progreso de lectura y dejar comentarios.
                     </p>

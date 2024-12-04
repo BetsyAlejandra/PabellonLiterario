@@ -51,12 +51,32 @@ const ReadChapter = () => {
             alert('Pegar está deshabilitado en esta sección.');
         };
 
+        const handleContextMenu = (e) => {
+            e.preventDefault();
+            alert('El menú contextual está deshabilitado.');
+        };
+
+        const handleKeyDown = (e) => {
+            // Detecta atajos de teclado comunes para copiar, cortar y pegar
+            if (
+                (e.ctrlKey || e.metaKey) && 
+                (e.key === 'c' || e.key === 'C' || 
+                 e.key === 'v' || e.key === 'V' || 
+                 e.key === 'x' || e.key === 'X')
+            ) {
+                e.preventDefault();
+                alert('Esta acción está deshabilitada en esta sección.');
+            }
+        };
+
         const readChapterElement = document.querySelector('.read-chapter');
 
         if (readChapterElement) {
             readChapterElement.addEventListener('copy', handleCopy);
             readChapterElement.addEventListener('cut', handleCut);
             readChapterElement.addEventListener('paste', handlePaste);
+            readChapterElement.addEventListener('contextmenu', handleContextMenu);
+            window.addEventListener('keydown', handleKeyDown);
         }
 
         return () => {
@@ -64,6 +84,8 @@ const ReadChapter = () => {
                 readChapterElement.removeEventListener('copy', handleCopy);
                 readChapterElement.removeEventListener('cut', handleCut);
                 readChapterElement.removeEventListener('paste', handlePaste);
+                readChapterElement.removeEventListener('contextmenu', handleContextMenu);
+                window.removeEventListener('keydown', handleKeyDown);
             }
         };
     }, []);
@@ -108,22 +130,6 @@ const ReadChapter = () => {
                 userSelect: 'none', // Deshabilita la selección de texto
             }}
             onScroll={handleScroll}
-            onCopy={(e) => {
-                e.preventDefault();
-                alert('Copiar está deshabilitado en esta sección.');
-            }}
-            onCut={(e) => {
-                e.preventDefault();
-                alert('Cortar está deshabilitado en esta sección.');
-            }}
-            onPaste={(e) => {
-                e.preventDefault();
-                alert('Pegar está deshabilitado en esta sección.');
-            }}
-            onContextMenu={(e) => {
-                e.preventDefault();
-                alert('El menú contextual está deshabilitado.');
-            }}
         >
             {/* Barra de progreso fija */}
             <div className="progress-bar-container">

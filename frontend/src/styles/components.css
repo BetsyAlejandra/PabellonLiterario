@@ -4,6 +4,12 @@
   width: 100%;
 }
 
+/* Estilo para el logotipo */
+.logo-img {
+  height: 50px;
+  width: auto;
+}
+
 /* Elimina el espacio extra alrededor de los elementos del Navbar */
 .custom-navbar .navbar-nav {
   margin-left: 0;
@@ -30,10 +36,10 @@
 
 /* Estilos para el perfil en el menú */
 /* Alineación del nombre y el perfil */
-.profile-nav {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+.profile-nav span {
+  margin-top: 5px;
+  font-size: 0.9rem;
+  color: #343a40;
 }
 
 /* Alineación de la imagen de perfil */
@@ -58,42 +64,116 @@
   /* Asegura que el nombre esté centrado */
 }
 
-/* Estilos para el botón de búsqueda */
+/* Estilo para el botón de búsqueda */
 .search-icon {
   background-color: transparent;
   border: none;
-  color: #6C3483;
-  font-size: 1.5rem;
-  margin-left: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  color: #343a40;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
 .search-icon:hover {
-  color: #CDC3E3;
+  color: #ffc107;
 }
 
-.search-input {
-  background-color: #B2BABB;
-  border: 1px solid #000000;
-  color: #000000;
+/* Estilo para el modal de búsqueda */
+.search-modal {
+  padding: 20px;
+  background-color: #343a40;
+  color: #ffffff;
 }
 
-.search-input:focus {
-  border-color: #A9DFBF;
-  outline: none;
-}
-
-.search-button {
-  background-color: #A9DFBF;
-  color: #000000;
+.search-modal .form-control {
+  background-color: #495057;
   border: none;
+  color: #ffffff;
 }
 
-.search-button:hover {
-  background-color: #CDC3E3;
-  color: #000000;
+.search-modal .form-control::placeholder {
+  color: #ced4da;
+}
+
+.search-modal .btn-outline-secondary {
+  color: #ffc107;
+  border-color: #ffc107;
+  margin-left: 10px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.search-modal .btn-outline-secondary:hover {
+  background-color: #ffc107;
+  color: #343a40;
+}
+
+/* Estilo para los enlaces de navegación */
+.custom-link {
+  color: #343a40 !important; /* Texto oscuro */
+  font-weight: 500;
+  margin-right: 15px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.custom-link:hover {
+  color: #ffc107 !important; /* Cambia a dorado al pasar el mouse */
+}
+
+/* Estilo para los botones */
+.upload-btn {
+  background-color: #ffc107;
+  border: none;
+  color: #343a40;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.upload-btn:hover {
+  background-color: #e0a800;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.logout-btn {
+  background-color: transparent;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  font-weight: 600;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #dc3545;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.register-btn {
+  background-color: transparent;
+  border: 1px solid #0d6efd;
+  color: #0d6efd;
+  font-weight: 600;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.register-btn:hover {
+  background-color: #0d6efd;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.login-btn {
+  background-color: #0d6efd;
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.login-btn:hover {
+  background-color: #0b5ed7;
+  transform: translateY(-2px);
 }
 
 
@@ -119,6 +199,18 @@
 
   .search-icon {
     margin: 20px 0;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .profile-nav {
+    margin-top: 10px;
+  }
+
+  .custom-link {
+    margin-right: 0;
+    margin-bottom: 10px;
   }
 }
 
@@ -187,30 +279,38 @@
   display: inline-block;
   font-size: 16px;
   font-weight: 500;
-  color: #ffffff;
-  /* Texto blanco */
-  background-color: #343a40;
-  /* Fondo oscuro */
-  border: 1px solid #ffc107;
-  /* Borde dorado */
-  border-radius: 5px;
-  padding: 10px 20px;
+  color: #ffffff; /* Texto blanco */
+  /* Eliminamos el fondo y el borde para evitar el aspecto de botón */
+  /* background-color: #343a40; */
+  /* border: 1px solid #ffc107; */
+  /* border-radius: 5px; */
+  padding: 10px 0; /* Ajustamos el padding para que sea más vertical */
   text-align: center;
-  text-decoration: none;
-  /* Sin subrayado */
-  transition: all 0.3s ease-in-out;
+  text-decoration: none; /* Sin subrayado */
+  transition: color 0.3s ease-in-out, border-bottom 0.3s ease-in-out;
   cursor: pointer;
+  position: relative; /* Necesario para el efecto de subrayado */
+}
+
+.footer-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  display: block;
+  background: #ffc107; /* Línea dorada */
+  transition: width 0.3s;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
 }
 
 .footer-link:hover {
-  background-color: #ffc107;
-  /* Fondo dorado */
-  color: #343a40;
-  /* Texto oscuro */
-  border-color: #ffc107;
-  /* Mantiene el borde dorado */
-  transform: scale(1.05);
-  /* Efecto de agrandamiento */
+  color: #ffc107; /* Cambia el color del texto a dorado */
+}
+
+.footer-link:hover::after {
+  width: 100%; /* Expande la línea debajo del enlace */
 }
 
 .footer-rights {
@@ -218,6 +318,7 @@
   color: #999999;
   margin-top: 15px;
 }
+
 
 /* Estilos generales para el contenedor del login */
 .container {

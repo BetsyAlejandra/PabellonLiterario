@@ -160,7 +160,7 @@ const Footer = () => {
           </Modal.Header>
           <Modal.Body>
             <p>
-              <strong>Última actualización:</strong> [Fecha]
+              <strong>Última actualización:</strong>
             </p>
             <h5>Introducción</h5>
             <p>
