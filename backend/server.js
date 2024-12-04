@@ -4,6 +4,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const session = require('express-session');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const connectDB = require('./config/db');
 const fs = require('fs');
 
@@ -11,14 +13,22 @@ const fs = require('fs');
 const novelRoutes = require('./routes/novels');
 const userRoutes = require('./routes/users');
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 100, // Limita cada IP a 100 solicitudes por ventana
+  message: 'Demasiadas solicitudes desde esta IP, por favor intenta de nuevo más tarde.'
+});
+
 dotenv.config();
 connectDB();
 
 const app = express();
 
+app.use(helmet());
+app.use(limiter);
 app.use(cors({
-  origin: 'https://pabellonliterario.com',
-  credentials: true, // Esto permite enviar cookies
+  origin: process.env.CORS_ORIGIN,
+  credentials: true,
 }));
 app.use(express.json());
 app.use(cookieParser());
@@ -34,6 +44,11 @@ app.use(session({
     sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Política de cookies
   },
 }));
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Algo salió mal!' });
+});
 
 // Crear carpeta 'uploads' si no existe
 const uploadsDir = path.join(__dirname, 'uploads');

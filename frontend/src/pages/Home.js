@@ -12,11 +12,12 @@ const Home = () => {
   useEffect(() => {
     const fetchNovels = async () => {
       try {
-        const response = await fetch('https://pabellonliterario.com/api/novels');
+        const response = await fetch('/api/novels');
         const contentType = response.headers.get('content-type');
 
         if (!contentType || !contentType.includes('application/json')) {
           throw new Error('Respuesta no es JSON');
+          {error && <p className="text-center text-danger">{error}</p>}
         }
 
         const data = await response.json();
@@ -25,11 +26,13 @@ const Home = () => {
           setNovels(data); // Asegúrate de que sea un arreglo
         } else {
           throw new Error('Respuesta inesperada: no es un arreglo');
+          {error && <p className="text-center text-danger">{error}</p>}
         }
 
         setLoading(false);
       } catch (error) {
         console.error('Error en fetchNovels:', error.message);
+        {error && <p className="text-center text-danger">{error}</p>}
         setNovels([]); // Asegúrate de que novels siempre sea un arreglo
         setLoading(false);
       }
@@ -37,7 +40,7 @@ const Home = () => {
 
     const fetchLatestNovels = async () => {
       try {
-        const response = await fetch('https://pabellonliterario.com/api/novels/latest');
+        const response = await fetch('/api/novels/latest');
         if (!response.ok) throw new Error('Error al obtener últimas novelas');
         const data = await response.json();
         setLatestNovels(data); // Actualiza el estado
@@ -137,7 +140,7 @@ const Home = () => {
               {/* Apoyo y Discord */}
               <h2>¡Apóyanos!</h2>
               <p>Si te gustan nuestras traducciones y quieres ayudarnos a seguir, puedes hacerlo con una pequeña donación en nuestro perfil de Ko-fi.</p>
-              <Button href="https://ko-fi.com/betsyalejandra" target="_blank" variant="outline-light">¡Apóyanos en Ko-fi!</Button>
+              <Button href="https://ko-fi.com/betsyalejandra" target="_blank" rel="noopener noreferrer" variant="outline-light">¡Apóyanos en Ko-fi!</Button>
               <h2 className="mt-4">¡Únete a Nuestro Discord!</h2>
               <p>Si eres amante de las letras, las historias cautivadoras y las traducciones literarias, Pabellón Literario es el lugar perfecto para ti. ¡Únete y haz de nuestro servidor tu rincón literario favorito!
                 <br></br>En Pabellón Literario, las palabras tienen el poder de unirnos. ¡Te esperamos para que formes parte de esta comunidad única! 💕
@@ -187,7 +190,7 @@ const Home = () => {
       {/* Historia y Logros */}
       <section className="history-and-achievements py-5">
         <Container>
-          <h2 className="text-center text-light mb-5">Historia y Logros del Proyecto</h2>
+          <h2 className="text-center text-white mb-5">Historia y Logros del Proyecto</h2>
           <p className="text-center text-muted mb-5">
             Esta línea del tiempo resalta los hitos clave que marcaron el desarrollo de nuestro proyecto,
             desde su conceptualización hasta su primera versión lanzada al público.
