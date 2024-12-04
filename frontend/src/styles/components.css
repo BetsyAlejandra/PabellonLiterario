@@ -17,7 +17,8 @@
 
 /* Alinea el logo correctamente */
 .custom-navbar .logo-img {
-  width: 50px; /* Ajusta según el tamaño del logo */
+  width: 50px;
+  /* Ajusta según el tamaño del logo */
 }
 
 /* Asegura que el perfil esté siempre alineado correctamente */
@@ -38,17 +39,23 @@
 /* Alineación de la imagen de perfil */
 .profile-nav img {
   border-radius: 50%;
-  width: 40px; /* Ajusta el tamaño de la imagen */
-  height: 40px; /* Ajusta el tamaño de la imagen */
-  margin-bottom: 5px; /* Espacio entre la imagen y el nombre */
+  width: 40px;
+  /* Ajusta el tamaño de la imagen */
+  height: 40px;
+  /* Ajusta el tamaño de la imagen */
+  margin-bottom: 5px;
+  /* Espacio entre la imagen y el nombre */
 }
 
 /* Alineación del nombre debajo de la imagen */
 .profile-nav span {
   color: rgb(0, 0, 0);
-  font-weight: bold; /* Hacer el nombre más destacado */
-  font-size: 14px; /* Tamaño de la fuente del nombre */
-  text-align: center; /* Asegura que el nombre esté centrado */
+  font-weight: bold;
+  /* Hacer el nombre más destacado */
+  font-size: 14px;
+  /* Tamaño de la fuente del nombre */
+  text-align: center;
+  /* Asegura que el nombre esté centrado */
 }
 
 /* Estilos para el botón de búsqueda */
@@ -102,7 +109,8 @@
   }
 
   .profile-nav img {
-    margin-bottom: 10px; /* Asegura que haya espacio entre la imagen y el nombre */
+    margin-bottom: 10px;
+    /* Asegura que haya espacio entre la imagen y el nombre */
   }
 
   .custom-link {
@@ -117,118 +125,179 @@
 @media (min-width: 992px) {
   .custom-navbar .navbar-collapse {
     display: flex;
-    justify-content: center; /* Centra el menú en pantallas grandes */
+    justify-content: center;
+    /* Centra el menú en pantallas grandes */
   }
 
   .profile-nav {
     display: flex;
-    flex-direction: column; /* Asegura que en pantallas grandes también esté en columna */
+    flex-direction: column;
+    /* Asegura que en pantallas grandes también esté en columna */
     justify-content: center;
     align-items: center;
   }
 
   .profile-nav img {
-    margin-bottom: 5px; /* Asegura el espacio entre la imagen y el nombre */
+    margin-bottom: 5px;
+    /* Asegura el espacio entre la imagen y el nombre */
   }
 }
 
 
 .custom-footer {
-    background-color: #B2BABB; /* Color de fondo */
-    padding: 20px 0;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* Sombra similar al Navbar */
-  }
-  
-  .footer-link {
-    color: #000000; /* Color de los enlaces */
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-  }
-  
-  .footer-link:hover {
-    color: #A9DFBF; /* Cambio de color al pasar el mouse */
-  }
-  
-  .footer-rights {
-    color: #000000;
-    font-size: 14px;
-    font-weight: 300;
-  }
-  
-  .custom-footer .container {
-    max-width: 1200px;
-  }
-  
-  .custom-footer .row {
-    margin: 0;
-  }
-  
-  .custom-footer .col {
-    padding: 10px;
-  }
-  
-  /* Estilos generales para el contenedor del login */
+  background-color: #B2BABB;
+  /* Color de fondo */
+  padding: 20px 0;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  /* Sombra similar al Navbar */
+}
+
+.footer-link {
+  color: #000000;
+  /* Color de los enlaces */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #A9DFBF;
+  /* Cambio de color al pasar el mouse */
+}
+
+.footer-rights {
+  color: #000000;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.custom-footer .container {
+  max-width: 1200px;
+}
+
+.custom-footer .row {
+  margin: 0;
+}
+
+.custom-footer .col {
+  padding: 10px;
+}
+
+.footer-link {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+  /* Texto blanco */
+  background-color: #343a40;
+  /* Fondo oscuro */
+  border: 1px solid #ffc107;
+  /* Borde dorado */
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  /* Sin subrayado */
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.footer-link:hover {
+  background-color: #ffc107;
+  /* Fondo dorado */
+  color: #343a40;
+  /* Texto oscuro */
+  border-color: #ffc107;
+  /* Mantiene el borde dorado */
+  transform: scale(1.05);
+  /* Efecto de agrandamiento */
+}
+
+.footer-rights {
+  font-size: 14px;
+  color: #999999;
+  margin-top: 15px;
+}
+
+/* Estilos generales para el contenedor del login */
 .container {
-  margin-top: 50px; /* Espaciado superior */
+  margin-top: 50px;
+  /* Espaciado superior */
 }
 
 /* Estilo para la tarjeta de login */
 .login-card {
-  max-width: 400px; /* Ancho máximo de la tarjeta */
-  width: 100%; /* Asegura que la tarjeta ocupe todo el ancho disponible hasta el límite */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  border-radius: 8px; /* Bordes redondeados */
+  max-width: 400px;
+  /* Ancho máximo de la tarjeta */
+  width: 100%;
+  /* Asegura que la tarjeta ocupe todo el ancho disponible hasta el límite */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Sombra suave */
+  border-radius: 8px;
+  /* Bordes redondeados */
 }
 
 .card-body {
-  padding: 30px; /* Relleno interno de la tarjeta */
+  padding: 30px;
+  /* Relleno interno de la tarjeta */
 }
 
 .card-title {
   font-size: 24px;
   color: hsl(0, 0%, 100%);
-  margin-bottom: 20px; /* Espaciado entre título y el formulario */
+  margin-bottom: 20px;
+  /* Espaciado entre título y el formulario */
 }
 
 /* Estilo para los botones */
 .btn-primary1 {
-  background-color: #6C3483; /* Color de fondo del botón */
-  border-color: #6C3483; /* Color de borde del botón */
+  background-color: #6C3483;
+  /* Color de fondo del botón */
+  border-color: #6C3483;
+  /* Color de borde del botón */
 }
 
 .btn-primary1:hover {
-  background-color: #A9DFBF; /* Color de fondo al pasar el mouse */
-  border-color: #A9DFBF; /* Color de borde al pasar el mouse */
+  background-color: #A9DFBF;
+  /* Color de fondo al pasar el mouse */
+  border-color: #A9DFBF;
+  /* Color de borde al pasar el mouse */
 }
 
 
 .form-group {
-  margin-bottom: 1.5rem; /* Espaciado entre los campos de formulario */
+  margin-bottom: 1.5rem;
+  /* Espaciado entre los campos de formulario */
 }
 
 /* Estilo para las alertas de error */
 .alert-danger {
-  margin-top: 10px; /* Espaciado encima de la alerta */
+  margin-top: 10px;
+  /* Espaciado encima de la alerta */
   font-size: 14px;
 }
 
 /* Estilo para el input del correo y la contraseña */
 .form-control {
-  border-radius: 4px; /* Bordes redondeados */
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  border-radius: 4px;
+  /* Bordes redondeados */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  /* Sombra suave */
   transition: all 0.3s ease;
 }
 
 .form-control:focus {
-  border-color: #A9DFBF; /* Cambiar color al estar enfocado */
-  box-shadow: 0 0 8px rgba(169, 223, 191, 0.5); /* Efecto de enfoque */
+  border-color: #A9DFBF;
+  /* Cambiar color al estar enfocado */
+  box-shadow: 0 0 8px rgba(169, 223, 191, 0.5);
+  /* Efecto de enfoque */
 }
 
 /* Adaptabilidad a dispositivos móviles */
 @media (max-width: 768px) {
   .login-card {
-    margin: 20px; /* Espaciado a los lados en pantallas pequeñas */
+    margin: 20px;
+    /* Espaciado a los lados en pantallas pequeñas */
   }
 }
 
@@ -267,32 +336,4 @@
   border-color: #6C3483;
   background-color: #CDC3E3;
   margin-right: 10px;
-}
-
-.footer-link {
-  display: inline-block;
-  font-size: 16px;
-  font-weight: 500;
-  color: #ffffff; /* Texto blanco */
-  background-color: #343a40; /* Fondo oscuro */
-  border: 1px solid #ffc107; /* Borde dorado */
-  border-radius: 5px;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none; /* Sin subrayado */
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
-}
-
-.footer-link:hover {
-  background-color: #ffc107; /* Fondo dorado */
-  color: #343a40; /* Texto oscuro */
-  border-color: #ffc107; /* Mantiene el borde dorado */
-  transform: scale(1.05); /* Efecto de agrandamiento */
-}
-
-.footer-rights {
-  font-size: 14px;
-  color: #999999;
-  margin-top: 15px;
 }
