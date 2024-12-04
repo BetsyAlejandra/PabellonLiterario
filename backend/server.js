@@ -13,16 +13,21 @@ const fs = require('fs');
 const novelRoutes = require('./routes/novels');
 const userRoutes = require('./routes/users');
 
+// Configuración de Rate Limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
   max: 100, // Limita cada IP a 100 solicitudes por ventana
-  message: 'Demasiadas solicitudes desde esta IP, por favor intenta de nuevo más tarde.'
+  message: 'Demasiadas solicitudes desde esta IP, por favor intenta de nuevo más tarde.',
+  standardHeaders: true, // Retorna información de límite en los headers
+  legacyHeaders: false, // Desactiva los headers X-RateLimit
 });
 
 dotenv.config();
 connectDB();
 
 const app = express();
+// Configura 'trust proxy'
+app.set('trust proxy', 1); // Si estás usando un solo proxy, como Nginx
 
 app.use(helmet());
 app.use(limiter);
