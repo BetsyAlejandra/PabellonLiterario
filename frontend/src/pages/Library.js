@@ -10,7 +10,7 @@ const Library = () => {
     useEffect(() => {
         const fetchLibrary = async () => {
             try {
-                const res = await axios.get('https://pabellonliterario.com/api/library'); // Endpoint para la biblioteca
+                const res = await axios.get('/api/library'); // Endpoint para la biblioteca
                 setLibrary(res.data);
                 setLoading(false);
             } catch (err) {

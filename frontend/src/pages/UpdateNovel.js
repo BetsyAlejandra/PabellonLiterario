@@ -83,7 +83,7 @@ const UpdateNovel = () => {
     useEffect(() => {
         const fetchGenres = async () => {
             try {
-                const response = await axios.get('https://pabellonliterario.com/api/novels/genres');
+                const response = await axios.get('/api/novels/genres');
                 setGenres(response.data);
             } catch (error) {
                 console.error('Error al obtener los géneros:', error.message);
@@ -92,7 +92,7 @@ const UpdateNovel = () => {
 
         const fetchNovelDetails = async () => {
             try {
-                const response = await axios.get(`https://pabellonliterario.com/api/novels/${id}`);
+                const response = await axios.get(`/api/novels/${id}`);
                 const novel = response.data;
                 setTitle(novel.title);
                 setDescription(novel.description);
@@ -144,7 +144,7 @@ const UpdateNovel = () => {
 
         try {
             setLoading(true);
-            await axios.put(`https://pabellonliterario.com/api/novels/update/${id}`, formData, {
+            await axios.put(`/api/novels/update/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

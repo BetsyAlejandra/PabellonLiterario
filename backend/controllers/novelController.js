@@ -43,7 +43,7 @@ const createNovel = async (req, res) => {
     }
 
     // Guardar la URL de la imagen
-    const coverImage = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    const coverImage = `/uploads/${req.file.filename}`;
 
     const newNovel = await Novel.create({
       title,

@@ -13,7 +13,7 @@ const PasswordResetRequest = () => {
 
     try {
       await axios.post(
-        'https://pabellonliterario.com/api/auth/password-reset-request',
+        '/api/auth/password-reset-request',
         { email },
         { withCredentials: true }
       );

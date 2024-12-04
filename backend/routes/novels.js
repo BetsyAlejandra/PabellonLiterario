@@ -192,7 +192,7 @@ router.put('/update/:id', upload, handleMulterError, async (req, res) => {
 
     // Actualiza la portada solo si hay una nueva
     if (req.file) {
-      novel.coverImage = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+      novel.coverImage = `/uploads/${req.file.filename}`;
     }
 
 

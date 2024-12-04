@@ -17,7 +17,7 @@ const Register = () => {
 
     try {
       await axios.post(
-        'https://pabellonliterario.com/api/users/register',
+        '/api/users/register',
         { username, email, password },
         { withCredentials: true }
       );

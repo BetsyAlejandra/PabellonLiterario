@@ -23,7 +23,7 @@ const ReadChapter = () => {
     useEffect(() => {
         const fetchChapter = async () => {
             try {
-                const res = await fetch(`https://pabellonliterario.com/api/novels/${storyId}/chapters/${chapterId}`);
+                const res = await fetch(`/api/novels/${storyId}/chapters/${chapterId}`);
                 const data = await res.json();
                 setChapter(data);
                 setLoading(false);
@@ -34,6 +34,39 @@ const ReadChapter = () => {
         };
         fetchChapter();
     }, [storyId, chapterId]);
+
+    useEffect(() => {
+        const handleCopy = (e) => {
+            e.preventDefault();
+            alert('Copiar está deshabilitado en esta sección.');
+        };
+
+        const handleCut = (e) => {
+            e.preventDefault();
+            alert('Cortar está deshabilitado en esta sección.');
+        };
+
+        const handlePaste = (e) => {
+            e.preventDefault();
+            alert('Pegar está deshabilitado en esta sección.');
+        };
+
+        const readChapterElement = document.querySelector('.read-chapter');
+
+        if (readChapterElement) {
+            readChapterElement.addEventListener('copy', handleCopy);
+            readChapterElement.addEventListener('cut', handleCut);
+            readChapterElement.addEventListener('paste', handlePaste);
+        }
+
+        return () => {
+            if (readChapterElement) {
+                readChapterElement.removeEventListener('copy', handleCopy);
+                readChapterElement.removeEventListener('cut', handleCut);
+                readChapterElement.removeEventListener('paste', handlePaste);
+            }
+        };
+    }, []);
 
     const handleScroll = (e) => {
         const { scrollTop, scrollHeight, clientHeight } = e.target;
@@ -72,8 +105,25 @@ const ReadChapter = () => {
             style={{
                 filter: `brightness(${brightness}%)`,
                 fontSize: `${fontSize}px`,
+                userSelect: 'none', // Deshabilita la selección de texto
             }}
             onScroll={handleScroll}
+            onCopy={(e) => {
+                e.preventDefault();
+                alert('Copiar está deshabilitado en esta sección.');
+            }}
+            onCut={(e) => {
+                e.preventDefault();
+                alert('Cortar está deshabilitado en esta sección.');
+            }}
+            onPaste={(e) => {
+                e.preventDefault();
+                alert('Pegar está deshabilitado en esta sección.');
+            }}
+            onContextMenu={(e) => {
+                e.preventDefault();
+                alert('El menú contextual está deshabilitado.');
+            }}
         >
             {/* Barra de progreso fija */}
             <div className="progress-bar-container">

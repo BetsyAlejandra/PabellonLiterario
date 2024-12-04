@@ -15,7 +15,7 @@ const MyStories = () => {
     useEffect(() => {
         const fetchUserStories = async () => {
             try {
-                const res = await axios.get('https://pabellonliterario.com/api/novels/my-stories', {
+                const res = await axios.get('/api/novels/my-stories', {
                     withCredentials: true, // Envía cookies o tokens de sesión
                 });
                 setStories(res.data);
@@ -35,7 +35,7 @@ const MyStories = () => {
     const handleDeleteClick = async (id) => {
         if (window.confirm('¿Estás seguro de que deseas eliminar esta historia?')) {
             try {
-                await axios.delete(`https://pabellonliterario.com/api/novels/${id}`);
+                await axios.delete(`/api/novels/${id}`);
                 setStories((prevStories) => prevStories.filter((story) => story._id !== id));
                 alert('Historia eliminada exitosamente.');
             } catch (err) {

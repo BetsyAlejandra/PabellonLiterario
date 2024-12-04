@@ -10,7 +10,7 @@ const PerfilUsuario = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`https://pabellonliterario.com/api/users/${id}`);
+        const response = await axios.get(`/api/users/${id}`);
         setUser(response.data);
         setLoading(false);
       } catch (error) {

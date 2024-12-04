@@ -16,7 +16,7 @@ const Login = () => {
 
     try {
       await axios.post(
-        'https://pabellonliterario.com/api/users/login',
+        '/api/users/login',
         { email, password }, {
         withCredentials: true, // Asegura que las cookies se envíen
         headers: {
