@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.03aa69d5.css",
-    "main.js": "/static/js/main.7552ac39.js",
+    "main.css": "/static/css/main.2b689e17.css",
+    "main.js": "/static/js/main.f1501bba.js",
     "static/media/Marca de Agua2.png": "/static/media/Marca de Agua2.e8e2fe17f5803e84c594.png",
     "static/media/Logo1.png": "/static/media/Logo1.c3418b9c2c9ff83c102c.png",
     "index.html": "/index.html",
-    "main.03aa69d5.css.map": "/static/css/main.03aa69d5.css.map",
-    "main.7552ac39.js.map": "/static/js/main.7552ac39.js.map"
+    "main.2b689e17.css.map": "/static/css/main.2b689e17.css.map",
+    "main.f1501bba.js.map": "/static/js/main.f1501bba.js.map"
   },
   "entrypoints": [
-    "static/css/main.03aa69d5.css",
-    "static/js/main.7552ac39.js"
+    "static/css/main.2b689e17.css",
+    "static/js/main.f1501bba.js"
   ]
 }
