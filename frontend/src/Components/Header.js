@@ -115,8 +115,6 @@ const Header = () => {
         <Navbar.Collapse id="navbarScroll">
           <Nav className="me-auto">
             <Nav.Link as="div" className="custom-link" onClick={() => navigate('/')}>Home</Nav.Link>
-            <Nav.Link as="div" className="custom-link" onClick={() => navigate('/about')}>Acerca de</Nav.Link>
-            <Nav.Link as="div" className="custom-link" onClick={() => navigate('/contact')}>Contacto</Nav.Link>
           </Nav>
           <Nav className="ms-auto align-items-center">
             <Button className="search-icon me-2" onClick={() => setShowSearchModal(true)}>

@@ -12,8 +12,7 @@
 
 /* Elimina el espacio extra alrededor de los elementos del Navbar */
 .custom-navbar .navbar-nav {
-  margin-left: 0;
-  margin-right: 0;
+  margin: 0 auto;
 }
 
 /* Alineación del logo y el menú hamburguesa */
@@ -110,7 +109,8 @@
 /* Estilo para los enlaces de navegación */
 .custom-link {
   color: #343a40 !important; /* Texto oscuro */
-  font-weight: 500;
+  font-weight: bold;
+  text-transform: uppercase;
   margin-right: 15px;
   cursor: pointer;
   transition: color 0.3s ease;
@@ -240,6 +240,7 @@
   background-color: #B2BABB;
   /* Color de fondo */
   padding: 20px 0;
+  text-align: center;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
   /* Sombra similar al Navbar */
 }
@@ -258,7 +259,7 @@
 }
 
 .footer-rights {
-  color: #000000;
+  color: #666666;
   font-size: 14px;
   font-weight: 300;
 }
@@ -279,17 +280,13 @@
   display: inline-block;
   font-size: 16px;
   font-weight: 500;
-  color: #ffffff; /* Texto blanco */
-  /* Eliminamos el fondo y el borde para evitar el aspecto de botón */
-  /* background-color: #343a40; */
-  /* border: 1px solid #ffc107; */
-  /* border-radius: 5px; */
-  padding: 10px 0; /* Ajustamos el padding para que sea más vertical */
+  color: #ffffff;
+  padding: 10px 0; 
   text-align: center;
-  text-decoration: none; /* Sin subrayado */
+  text-decoration: none; 
   transition: color 0.3s ease-in-out, border-bottom 0.3s ease-in-out;
   cursor: pointer;
-  position: relative; /* Necesario para el efecto de subrayado */
+  position: relative; 
 }
 
 .footer-link::after {
