@@ -10,7 +10,9 @@ const createNovel = async (req, res) => {
 
     const authorUsername = req.session.user.username;
 
-    const { title, description, genres, classification, tags } = req.body;
+    const { title, description, genres, classification, tags, collaborators  } = req.body;
+
+    const genresArray = Array.isArray(genres) ? genres : [genres];
 
     const validGenres = [
       'Fantasía',
@@ -26,7 +28,7 @@ const createNovel = async (req, res) => {
       'Poesía',
       'Distopía',
     ];
-    if (!genres.every((genre) => validGenres.includes(genre))) {
+    if (!genresArray.every((genre) => validGenres.includes(genre))) {
       return res.status(400).json({ message: 'Género(s) inválido(s).' });
     }
 
@@ -57,7 +59,7 @@ const createNovel = async (req, res) => {
     const newNovel = await Novel.create({
       title,
       description,
-      genres,
+      genres: genresArray,
       classification,
       tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
       coverImage,
