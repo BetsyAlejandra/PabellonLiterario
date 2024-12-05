@@ -1,14 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import '../styles/global.css';
 
+// Definir una lista estática de géneros
+const GENRES = [
+  'Fantasía',
+  'Transmigración',
+  'Moderno',
+  'Policial',
+  'Entretenimiento',
+  'Transmigración Rápida',
+  'M-preg',
+  'Interestelar',
+  'Moderno',
+  'Renacimiento',
+  'Xianxia',
+  'Romance',
+  'Ciencia ficción',
+  'Drama',
+  'Aventura',
+  'Terror',
+  'Suspenso',
+  'Comedia',
+  'Histórico',
+  'Misterio',
+  'Poesía',
+  'Distopía',
+];
+
 const NovelForm = () => {
   const navigate = useNavigate();
+  
+  // Estados para los campos del formulario
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState('');
   const [subGenres, setSubGenres] = useState('');
   const [classification, setClassification] = useState('');
@@ -20,40 +47,31 @@ const NovelForm = () => {
   const [awards, setAwards] = useState([{ title: '', year: '', organization: '' }]);
   const [progress, setProgress] = useState('En progreso');
   const [loading, setLoading] = useState(false);
+  
+  // Estados para el modal de feedback
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [modalType, setModalType] = useState('success'); // Estado inicial
-
-  useEffect(() => {
-    const fetchGenres = async () => {
-      try {
-        const response = await axios.get('/api/novels/genres');
-        setGenres(response.data); // Guarda los géneros obtenidos
-      } catch (error) {
-        console.error('Error al obtener los géneros:', error.message);
-      }
-    };
-
-    fetchGenres();
-  }, []);
+  const [modalType, setModalType] = useState('success'); // 'success' o 'error'
 
   // Maneja el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     console.log('Género seleccionado:', selectedGenre);
-  
+
+    // Validar campos obligatorios
     if (!coverImage || !title || !description || selectedGenre === '' || !classification) {
       setModalMessage('Por favor, completa todos los campos obligatorios.');
       setModalType('error');
       setShowModal(true);
       return;
     }
-  
+
+    // Crear un FormData para enviar los datos del formulario
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-    formData.append('genres', selectedGenre); // Cambiado de genres.forEach
+    formData.append('genres', selectedGenre); // Solo un género
     formData.append('subGenres', JSON.stringify(subGenres.split(',').map(subGenre => subGenre.trim())));
     formData.append('classification', classification);
     formData.append('tags', JSON.stringify(tags.split(',').map(tag => tag.trim())));
@@ -62,34 +80,24 @@ const NovelForm = () => {
     formData.append('adaptations', JSON.stringify(adaptations));
     formData.append('awards', JSON.stringify(awards));
     formData.append('progress', progress);
-  
+
     try {
       setLoading(true);
       const res = await axios.post('/api/novels/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        withCredentials: true, // Incluye cookies de sesión
+        withCredentials: true, // Incluir cookies de sesión
       });
-  
+
       setModalMessage('¡Novela creada exitosamente!');
       setModalType('success');
       setShowModal(true);
-  
-      // Reiniciar solo los campos seleccionados
-      setTitle('');
-      setDescription('');
-      setSelectedGenre('');
-      setSubGenres('');
-      setClassification('');
-      setTags('');
-      setCoverImage(null);
-      setPreviewImage(null);
-      setCollaborators([{ name: '', role: '' }]);
-      setAdaptations([{ type: '', title: '', releaseDate: '', link: '' }]);
-      setAwards([{ title: '', year: '', organization: '' }]);
-      setProgress('En progreso');
-  
+
+      // Reiniciar los campos del formulario
+      resetForm();
+
+      // Redirigir después de un breve retraso
       setTimeout(() => {
         navigate('/my-stories');
       }, 2000);
@@ -100,7 +108,22 @@ const NovelForm = () => {
       setLoading(false);
     }
   };
-  
+
+  // Función para reiniciar los campos del formulario
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setSelectedGenre('');
+    setSubGenres('');
+    setClassification('');
+    setTags('');
+    setCoverImage(null);
+    setPreviewImage(null);
+    setCollaborators([{ name: '', role: '' }]);
+    setAdaptations([{ type: '', title: '', releaseDate: '', link: '' }]);
+    setAwards([{ title: '', year: '', organization: '' }]);
+    setProgress('En progreso');
+  };
 
   // Maneja la selección de la imagen de portada
   const handleImageChange = (e) => {
@@ -117,7 +140,7 @@ const NovelForm = () => {
     setModalMessage('');
   };
 
-  // Agregar o eliminar colaboradores
+  // Funciones para manejar colaboradores
   const handleCollaboratorChange = (index, e) => {
     const { name, value } = e.target;
     const newCollaborators = [...collaborators];
@@ -135,7 +158,7 @@ const NovelForm = () => {
     setCollaborators(newCollaborators);
   };
 
-  // Agregar o eliminar adaptaciones
+  // Funciones para manejar adaptaciones
   const handleAdaptationChange = (index, e) => {
     const { name, value } = e.target;
     const newAdaptations = [...adaptations];
@@ -153,7 +176,7 @@ const NovelForm = () => {
     setAdaptations(newAdaptations);
   };
 
-  // Agregar o eliminar premios
+  // Funciones para manejar premios
   const handleAwardChange = (index, e) => {
     const { name, value } = e.target;
     const newAwards = [...awards];
@@ -173,6 +196,7 @@ const NovelForm = () => {
 
   return (
     <div className="container my-5">
+      {/* Modal para mostrar mensajes de éxito o error */}
       <Modal
         show={showModal}
         onHide={handleCloseModal}
@@ -196,11 +220,14 @@ const NovelForm = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
       <div className="row">
+        {/* Formulario principal */}
         <div className="col-md-8">
           <div className="novel-form-card">
             <h2 className="text-center">Crear Nueva Novela</h2>
             <form onSubmit={handleSubmit}>
+              {/* Título */}
               <div className="form-group mt-3">
                 <label htmlFor="title">Título:</label>
                 <input
@@ -214,6 +241,7 @@ const NovelForm = () => {
                 />
               </div>
 
+              {/* Sinopsis */}
               <div className="form-group mt-3">
                 <label htmlFor="description">Sinopsis:</label>
                 <textarea
@@ -226,6 +254,7 @@ const NovelForm = () => {
                 />
               </div>
 
+              {/* Género (único) */}
               <div className="form-group mt-3">
                 <label htmlFor="genres">Género:</label>
                 <select
@@ -233,9 +262,10 @@ const NovelForm = () => {
                   value={selectedGenre}
                   onChange={(e) => setSelectedGenre(e.target.value)}
                   required
+                  className="form-control custom-input"
                 >
                   <option value="">Selecciona un género</option>
-                  {genres.map((genre, index) => (
+                  {GENRES.map((genre, index) => (
                     <option key={index} value={genre}>
                       {genre}
                     </option>
@@ -243,6 +273,7 @@ const NovelForm = () => {
                 </select>
               </div>
 
+              {/* Subgéneros */}
               <div className="form-group mt-3">
                 <label htmlFor="subGenres">Subgéneros:</label>
                 <input
@@ -255,6 +286,7 @@ const NovelForm = () => {
                 />
               </div>
 
+              {/* Clasificación */}
               <div className="form-group mt-3">
                 <label htmlFor="classification">Clasificación:</label>
                 <select
@@ -270,6 +302,7 @@ const NovelForm = () => {
                 </select>
               </div>
 
+              {/* Etiquetas */}
               <div className="form-group mt-3">
                 <label htmlFor="tags">Etiquetas (separadas por comas):</label>
                 <input
@@ -282,13 +315,15 @@ const NovelForm = () => {
                 />
               </div>
 
+              {/* Colaboradores */}
               <div className="form-group mt-3">
                 <label>Colaboradores:</label>
                 {collaborators.map((collaborator, index) => (
-                  <div key={index}>
+                  <div key={index} className="d-flex mb-2">
                     <input
                       type="text"
                       name="name"
+                      className="form-control me-2"
                       placeholder="Nombre"
                       value={collaborator.name}
                       onChange={(e) => handleCollaboratorChange(index, e)}
@@ -296,23 +331,34 @@ const NovelForm = () => {
                     <input
                       type="text"
                       name="role"
+                      className="form-control me-2"
                       placeholder="Rol"
                       value={collaborator.role}
                       onChange={(e) => handleCollaboratorChange(index, e)}
                     />
-                    <button type="button" className="remove-button" onClick={() => removeCollaborator(index)}>Eliminar</button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => removeCollaborator(index)}
+                    >
+                      Eliminar
+                    </button>
                   </div>
                 ))}
-                <button type="button" className="add-button" onClick={addCollaborator}>Añadir Colaborador</button>
+                <button type="button" className="btn btn-primary" onClick={addCollaborator}>
+                  Añadir Colaborador
+                </button>
               </div>
 
+              {/* Adaptaciones */}
               <div className="form-group mt-3">
                 <label>Adaptaciones:</label>
                 {adaptations.map((adaptation, index) => (
-                  <div key={index}>
+                  <div key={index} className="mb-2">
                     <input
                       type="text"
                       name="type"
+                      className="form-control mb-2"
                       placeholder="Tipo (ej. Película)"
                       value={adaptation.type}
                       onChange={(e) => handleAdaptationChange(index, e)}
@@ -320,6 +366,7 @@ const NovelForm = () => {
                     <input
                       type="text"
                       name="title"
+                      className="form-control mb-2"
                       placeholder="Título"
                       value={adaptation.title}
                       onChange={(e) => handleAdaptationChange(index, e)}
@@ -327,6 +374,7 @@ const NovelForm = () => {
                     <input
                       type="text"
                       name="releaseDate"
+                      className="form-control mb-2"
                       placeholder="Fecha de Lanzamiento"
                       value={adaptation.releaseDate}
                       onChange={(e) => handleAdaptationChange(index, e)}
@@ -334,23 +382,34 @@ const NovelForm = () => {
                     <input
                       type="url"
                       name="link"
+                      className="form-control mb-2"
                       placeholder="Enlace"
                       value={adaptation.link}
                       onChange={(e) => handleAdaptationChange(index, e)}
                     />
-                    <button type="button" className="remove-button" onClick={() => removeAdaptation(index)}>Eliminar</button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => removeAdaptation(index)}
+                    >
+                      Eliminar
+                    </button>
                   </div>
                 ))}
-                <button type="button" className="add-button" onClick={addAdaptation}>Añadir Adaptación</button>
+                <button type="button" className="btn btn-primary" onClick={addAdaptation}>
+                  Añadir Adaptación
+                </button>
               </div>
 
+              {/* Premios */}
               <div className="form-group mt-3">
                 <label>Premios:</label>
                 {awards.map((award, index) => (
-                  <div key={index}>
+                  <div key={index} className="mb-2">
                     <input
                       type="text"
                       name="title"
+                      className="form-control mb-2"
                       placeholder="Título del premio"
                       value={award.title}
                       onChange={(e) => handleAwardChange(index, e)}
@@ -358,6 +417,7 @@ const NovelForm = () => {
                     <input
                       type="text"
                       name="year"
+                      className="form-control mb-2"
                       placeholder="Año"
                       value={award.year}
                       onChange={(e) => handleAwardChange(index, e)}
@@ -365,16 +425,26 @@ const NovelForm = () => {
                     <input
                       type="text"
                       name="organization"
+                      className="form-control mb-2"
                       placeholder="Organización"
                       value={award.organization}
                       onChange={(e) => handleAwardChange(index, e)}
                     />
-                    <button type="button" className="remove-button" onClick={() => removeAward(index)}>Eliminar</button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => removeAward(index)}
+                    >
+                      Eliminar
+                    </button>
                   </div>
                 ))}
-                <button type="button" className="add-button" onClick={addAward}>Añadir Premio</button>
+                <button type="button" className="btn btn-primary" onClick={addAward}>
+                  Añadir Premio
+                </button>
               </div>
 
+              {/* Estado de progreso */}
               <div className="form-group mt-3">
                 <label htmlFor="progress">Estado de progreso:</label>
                 <select
@@ -390,6 +460,7 @@ const NovelForm = () => {
                 </select>
               </div>
 
+              {/* Botón de envío */}
               <button
                 type="submit"
                 className="btn btn-outline-light mt-4 w-100"
@@ -401,6 +472,7 @@ const NovelForm = () => {
           </div>
         </div>
 
+        {/* Vista previa de la portada */}
         <div className="col-md-4">
           <div className="novel-preview">
             <h5>Vista Previa de la Portada</h5>
@@ -411,7 +483,9 @@ const NovelForm = () => {
                 <p>Selecciona una imagen para la portada</p>
               )}
             </div>
-            <label htmlFor="coverImage" className="file-input-label">Elegir Portada</label>
+            <label htmlFor="coverImage" className="btn btn-secondary mt-4">
+              Elegir Portada
+            </label>
             <input
               type="file"
               id="coverImage"
@@ -419,7 +493,7 @@ const NovelForm = () => {
               accept="image/*"
               onChange={handleImageChange}
               required
-              style={{ display: 'none' }}  // Ocultar el input file real
+              style={{ display: 'none' }} // Ocultar el input file real
             />
           </div>
         </div>

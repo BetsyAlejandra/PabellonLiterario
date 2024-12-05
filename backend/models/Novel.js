@@ -17,20 +17,6 @@ const novelSchema = new mongoose.Schema(
     genres: {
       type: [String],
       required: true,
-      enum: [
-        'Fantasía',
-        'Romance',
-        'Ciencia ficción',
-        'Drama',
-        'Aventura',
-        'Terror',
-        'Misterio',
-        'Suspenso',
-        'Comedia',
-        'Histórico',
-        'Poesía',
-        'Distopía',
-      ],  // Lista de géneros principales
     },
     subGenres: [{ type: String }],  // Subgéneros adicionales
     classification: {
