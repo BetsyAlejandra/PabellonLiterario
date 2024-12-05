@@ -305,13 +305,13 @@ const NovelForm = () => {
               </div>
 
               <div className="form-group mt-3">
-                <label>Adaptaciones:</label>
+                <label>Adaptaciones, Raw (Novela Original)</label>
                 {adaptations.map((adaptation, index) => (
                   <div key={index}>
                     <input
                       type="text"
                       name="type"
-                      placeholder="Tipo (ej. Película)"
+                      placeholder="Tipo (ej. jjwxc)"
                       value={adaptation.type}
                       onChange={(e) => handleAdaptationChange(index, e)}
                     />

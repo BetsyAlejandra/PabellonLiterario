@@ -10,6 +10,8 @@ const MyStories = () => {
     const [error, setError] = useState(null);
     const [modalShow, setModalShow] = useState(false);
     const [selectedStory, setSelectedStory] = useState(null); // Historia seleccionada para mostrar capítulos
+    const [descriptionModalShow, setDescriptionModalShow] = useState(false); // Modal para descripción completa
+    const [selectedDescription, setSelectedDescription] = useState(''); // Descripción seleccionada
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -58,12 +60,26 @@ const MyStories = () => {
         navigate(`/edit-chapter/${storyId}/${chapterId}`); // Redirige a la página de edición del capítulo
     };
 
+    const handleViewDescription = (description) => {
+        setSelectedDescription(description); // Establece la descripción seleccionada
+        setDescriptionModalShow(true); // Muestra el modal de descripción
+    };
+
+    const handleAddNovel = () => {
+        navigate('/upload');
+    };
+
     if (loading) return <p className="text-center">Cargando historias...</p>;
     if (error) return <p className="text-center text-danger">{error}</p>;
 
     return (
         <div className="container my-5">
             <h2 className="text-center mb-4">Mis Historias</h2>
+            <div className="d-flex justify-content-end mb-4">
+                <button className="btn btn-success" onClick={handleAddNovel}>
+                    Agregar Novela
+                </button>
+            </div>
             <div className="row">
                 {stories.map((story) => (
                     <div key={story._id} className="col-md-6 col-lg-4 mb-4">
@@ -79,7 +95,15 @@ const MyStories = () => {
                             />
                             <div className="card-body">
                                 <h5 className="card-title">{story.title}</h5>
-                                <p className="card-text">{story.description}</p>
+                                <p className="card-text">
+                                    {story.description.substring(0, 100)}...
+                                    <button
+                                        className="btn btn-link p-0"
+                                        onClick={() => handleViewDescription(story.description)}
+                                    >
+                                        Leer más
+                                    </button>
+                                </p>
                                 <div className="mb-2">
                                     <strong>Géneros:</strong>{' '}
                                     <span className="text-primary">{story.genres.join(', ')}</span>
@@ -182,6 +206,23 @@ const MyStories = () => {
                     </Modal.Footer>
                 </Modal>
             )}
+
+            {/* Modal para mostrar descripción completa */}
+            <Modal
+                show={descriptionModalShow}
+                onHide={() => setDescriptionModalShow(false)}
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Descripción</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>{selectedDescription}</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setDescriptionModalShow(false)}>
+                        Cerrar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 };
