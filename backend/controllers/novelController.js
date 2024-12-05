@@ -12,6 +12,16 @@ const createNovel = async (req, res) => {
 
     const { title, description, genres, classification, tags, collaborators  } = req.body;
 
+    // Logs para depuración
+    console.log('=== Datos Recibidos ===');
+    console.log('Title:', title);
+    console.log('Description:', description);
+    console.log('Genres:', genres, 'Tipo:', typeof genres);
+    console.log('Classification:', classification);
+    console.log('Tags:', tags);
+    console.log('Collaborators:', collaborators);
+    console.log('Archivo Recibido:', req.file);
+
     const genresArray = Array.isArray(genres) ? genres : [genres];
 
     const validGenres = [
