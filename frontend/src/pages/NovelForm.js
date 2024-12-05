@@ -173,6 +173,18 @@ const NovelForm = () => {
     setCollaborators(updatedCollaborators);
   };
 
+  const removeCollaborator = (index) => {
+    const updated = [...collaborators];
+    updated.splice(index, 1);
+    setCollaborators(updated);
+  };
+
+  const removeAdaptation = (index) => {
+    const updated = [...adaptations];
+    updated.splice(index, 1);
+    setAdaptations(updated);
+  };
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -326,7 +338,7 @@ const NovelForm = () => {
                 {/* Género */}
                 <label>Género</label>
                 <select
-                  className="form-control"
+                  className="form-control custom-input"
                   value={selectedGenre}
                   onChange={(e) => setSelectedGenre(e.target.value)}
                   required
@@ -354,16 +366,20 @@ const NovelForm = () => {
                   placeholder="ej: romance, acción, drama"
                 />
 
-                <label>Clasificación</label>
-                <input
-                  type="text"
-                  className="form-control"
+                <label htmlFor="classification">Clasificación:</label>
+                <select
+                  id="classification"
+                  className="form-control custom-input"
                   value={classification}
                   onChange={(e) => setClassification(e.target.value)}
-                  placeholder="ej: +18, General"
-                />
+                  required
+                >
+                  <option value="">Seleccione</option>
+                  <option value="+18">+18</option>
+                  <option value="General">General</option>
+                </select>
 
-                {/* Colaboradores */}
+                {/* Colaboradores (opcionales) */}
                 <label>Colaboradores</label>
                 {collaborators.map((collaborator, index) => (
                   <div key={index}>
@@ -393,6 +409,14 @@ const NovelForm = () => {
                         </option>
                       ))}
                     </select>
+
+                    <button
+                      type="button"
+                      className="btn btn-danger btn-sm"
+                      onClick={() => removeCollaborator(index)}
+                    >
+                      Eliminar colaborador
+                    </button>
                   </div>
                 ))}
                 <button
@@ -403,7 +427,7 @@ const NovelForm = () => {
                   Añadir Colaborador
                 </button>
 
-                {/* Adaptaciones */}
+                {/* Adaptaciones (opcional) */}
                 <label>Adaptaciones</label>
                 {adaptations.map((adaptation, index) => (
                   <div key={index}>
@@ -432,8 +456,15 @@ const NovelForm = () => {
                           prev.map((ad, i) => (i === index ? { ...ad, link: e.target.value } : ad))
                         )
                       }
-                      placeholder="Enlace"
+                      placeholder="Enlace (opcional)"
                     />
+                    <button
+                      type="button"
+                      className="btn btn-danger btn-sm"
+                      onClick={() => removeAdaptation(index)}
+                    >
+                      Eliminar Adaptación
+                    </button>
                   </div>
                 ))}
                 <button
