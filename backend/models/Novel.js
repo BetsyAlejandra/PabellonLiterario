@@ -7,18 +7,26 @@ const novelSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      maxlength: 150,
+      maxlength: 300,
     },
     description: {
       type: String,
       required: true,
-      maxlength: 2000,
+      maxlength: 5000,
     },
     genres: {
       type: [String],
       required: true,
     },
-    subGenres: [{ type: String }],  // Subgéneros adicionales
+    subGenres: {
+      type: [String],
+      validate: {
+        validator: function (subGenres) {
+          return subGenres.length <= 15;
+        },
+        message: 'Puedes seleccionar hasta 15 subgéneros.',
+      },
+    },
     classification: {
       type: String,
       enum: ['+18', 'General'],
@@ -47,10 +55,12 @@ const novelSchema = new mongoose.Schema(
       type: String,
       required: [true, 'El autor es obligatorio'],
     },       
-    collaborators: [{
-      name: String,
-      role: { type: String, enum: ['Editor', 'Cotraductor'] },
-    }],
+    collaborators: [
+      {
+        name: String,
+        role: String, // Roles libres
+      },
+    ],
 
     // Imagen de la portada
     coverImage: {
@@ -66,7 +76,8 @@ const novelSchema = new mongoose.Schema(
 
     languageOrigin: {
       type: String,
-      default: 'Español',
+      enum: ['Japonés', 'Chino', 'Coreano', 'Inglés'],
+      required: true,
     },
 
     // Contadores y métricas de la novela
@@ -76,18 +87,20 @@ const novelSchema = new mongoose.Schema(
 
     password: { type: String, default: '' }, // Que tenga contraseña
 
-    rawOrigin: [{
-      origin: { type: String, required: true },
-      link: String,
-    }],
+    rawOrigin: [
+      {
+        origin: { type: String, required: true },
+        link: String,
+      },
+    ],
 
-    // Adaptaciones de la novela
-    adaptations: [{
-      type: { type: String, enum: ['Película', 'Serie', 'Cómic', 'Videojuego'] },
-      title: String,
-      releaseDate: Date,
-      link: String,
-    }],
+    adaptations: [
+      {
+        type: { type: String }, // Roles libres
+        title: String,
+        link: String,
+      },
+    ],
 
     // Capítulos de la novela
     chapters: [{

@@ -8,86 +8,64 @@ const createNovel = async (req, res) => {
       return res.status(401).json({ message: 'No autorizado. Debe iniciar sesión para crear una novela.' });
     }
 
-    const authorUsername = req.session.user.username;
+    const {
+      title,
+      description,
+      genres,
+      classification,
+      tags,
+      collaborators,
+      adaptations,
+      rawOrigin,
+      subGenres,
+      languageOrigin,
+      password, // Contraseña, solo requerida si el idioma de origen es "Coreano"
+      progress,
+    } = req.body;
 
-    // Extraer todos los campos necesarios, incluyendo 'collaborators'
-    const { title, description, genres, classification, tags, collaborators, adaptations, awards, progress } = req.body;
-
-    // Asegurarse de que 'genres' se maneje correctamente
-    let genresArray;
-    if (Array.isArray(genres)) {
-      genresArray = genres;
-    } else if (typeof genres === 'string') {
-      genresArray = [genres];
-    } else {
-      genresArray = [];
+    // Validaciones iniciales
+    if (!title || !description || !classification || !genres) {
+      return res.status(400).json({ message: 'Por favor completa todos los campos obligatorios.' });
     }
 
-    console.log('GenresArray:', genresArray);
-
-    // Verificar si el archivo de imagen se subió
     if (!req.file) {
-      return res.status(400).json({ message: 'La portada es obligatoria' });
+      return res.status(400).json({ message: 'La portada es obligatoria.' });
     }
 
-    // Verificar si el usuario existe
-    const user = await User.findOne({ username: authorUsername });
-    if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado.' });
+    if (languageOrigin === 'Coreano' && !password) {
+      return res.status(400).json({ message: 'Es obligatorio proporcionar una contraseña para novelas en coreano.' });
     }
 
-    // Guardar la URL de la imagen
-    const coverImage = `/uploads/${req.file.filename}`;
-
-    // Procesar campos adicionales
-    let parsedCollaborators = [];
-    if (collaborators) {
-      try {
-        parsedCollaborators = JSON.parse(collaborators);
-        console.log('Parsed Collaborators:', parsedCollaborators);
-      } catch (parseError) {
-        return res.status(400).json({ message: 'Formato de colaboradores inválido.' });
-      }
+    // Validar tipo de archivo (solo imágenes permitidas)
+    const validMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!validMimeTypes.includes(req.file.mimetype)) {
+      return res.status(400).json({ message: 'El archivo de portada debe ser una imagen válida (JPEG, PNG, WEBP).' });
     }
 
-    let parsedAdaptations = [];
-    if (adaptations) {
-      try {
-        parsedAdaptations = JSON.parse(adaptations);
-        console.log('Parsed Adaptations:', parsedAdaptations);
-      } catch (parseError) {
-        return res.status(400).json({ message: 'Formato de adaptaciones inválido.' });
-      }
-    }
+    // Limitar subgéneros a 15
+    const subGenresArray = Array.isArray(subGenres) ? subGenres.slice(0, 15) : [];
 
-    let parsedAwards = [];
-    if (awards) {
-      try {
-        parsedAwards = JSON.parse(awards);
-        console.log('Parsed Awards:', parsedAwards);
-      } catch (parseError) {
-        return res.status(400).json({ message: 'Formato de premios inválido.' });
-      }
-    }
-
-    // Validar roles de colaboradores
-    const validRoles = ['Editor', 'Cotraductor'];
-    if (parsedCollaborators.length > 0 && !parsedCollaborators.every(collab => validRoles.includes(collab.role))) {
-      return res.status(400).json({ message: 'Rol de colaborador inválido.' });
-    }
+    // Procesar datos
+    const genresArray = Array.isArray(genres) ? genres : genres ? [genres] : [];
+    const parsedCollaborators = collaborators ? JSON.parse(collaborators) : [];
+    const parsedAdaptations = adaptations ? JSON.parse(adaptations) : [];
+    const parsedRawOrigin = rawOrigin ? JSON.parse(rawOrigin) : [];
 
     // Crear la novela
     const newNovel = await Novel.create({
       title,
       description,
-      genres: genresArray, // Usar genresArray directamente
+      genres: genresArray,
       classification,
-      tags: tags ? JSON.parse(tags) : [], // Asegurarse de parsear las etiquetas
-      coverImage,
-      author: authorUsername, // Almacena el username en lugar del ObjectId
+      tags: tags ? JSON.parse(tags) : [],
+      coverImage: `/uploads/${req.file.filename}`,
+      author: req.session.user.username,
       collaborators: parsedCollaborators,
       adaptations: parsedAdaptations,
-      awards: parsedAwards,
+      rawOrigin: parsedRawOrigin,
+      subGenres: subGenresArray,
+      languageOrigin,
+      password: languageOrigin === 'Coreano' ? password : '', // Establecer contraseña solo si el idioma es Coreano
       progress,
     });
 
@@ -97,6 +75,8 @@ const createNovel = async (req, res) => {
     res.status(500).json({ message: 'Error al crear la novela', error: error.message });
   }
 };
+
+
 
 
 

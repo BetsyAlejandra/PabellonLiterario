@@ -4,104 +4,106 @@ import { useNavigate } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import '../styles/global.css';
 
-// Definir una lista estática de géneros
 const GENRES = [
-  'Fantasía',
-  'Transmigración',
-  'Moderno',
-  'Policial',
-  'Entretenimiento',
-  'Transmigración Rápida',
-  'M-preg',
-  'Interestelar',
-  'Moderno',
-  'Renacimiento',
-  'Xianxia',
-  'Romance',
-  'Ciencia ficción',
-  'Drama',
-  'Aventura',
-  'Terror',
-  'Suspenso',
-  'Comedia',
-  'Histórico',
-  'Misterio',
-  'Poesía',
-  'Distopía',
+  'Fantasía', 'Acción', 'Supernatural', 'Xuanhuan', 'Transmigración',
+  'Moderno', 'Policial', 'Entretenimiento', 'Transmigración Rápida',
+  'M-preg', 'Interestelar', 'Renacimiento', 'Xianxia', 'Romance',
+  'Ciencia ficción', 'Drama', 'Aventura', 'Terror', 'Suspenso',
+  'Comedia', 'Histórico', 'Misterio', 'Poesía', 'Distopía',
 ];
+
+const SUBGENRES = [
+  'Adaptado a Drama CD', 'Adaptado a Manhua', 'Amnesia', 'China Antigua',
+  'Cambios de Apariencia', 'Buddhismo', 'Cultivación', 'Protagonista Inteligente',
+  'Intereses Amorosos Fuertes', 'Dragones', 'Fantasmas', 'Animales Mágicos',
+  'Formaciones Mágicas', 'Feng Shui', 'Relaciones No-Humanas',
+];
+
+const ADAPTATION_TYPES = [
+  'Audio-Drama', 'Manhua', 'Manwha', 'Manga', 'K-Drama', 'Dorama',
+  'Película', 'Donghua', 'Anime', 'Videojuego',
+];
+
+const LANGUAGES = ['Japonés', 'Chino', 'Coreano', 'Inglés'];
 
 const NovelForm = () => {
   const navigate = useNavigate();
-
-  // Estados para los campos del formulario
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [selectedGenre, setSelectedGenre] = useState('');
-  const [subGenres, setSubGenres] = useState('');
+  const [subGenres, setSubGenres] = useState([]);
   const [classification, setClassification] = useState('');
   const [tags, setTags] = useState('');
   const [coverImage, setCoverImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [collaborators, setCollaborators] = useState([{ name: '', role: '' }]);
-  const [adaptations, setAdaptations] = useState([{ type: '', title: '', releaseDate: '', link: '' }]);
-  const [awards, setAwards] = useState([{ title: '', year: '', organization: '' }]);
+  const [userSuggestions, setUserSuggestions] = useState([]);
+  const [adaptations, setAdaptations] = useState([{ type: '', link: '' }]);
+  const [rawOrigin, setRawOrigin] = useState({ origin: '', link: '' });
+  const [languageOrigin, setLanguageOrigin] = useState('');
+  const [password, setPassword] = useState('');
   const [progress, setProgress] = useState('En progreso');
   const [loading, setLoading] = useState(false);
 
-  // Estados para los modales
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [modalType, setModalType] = useState('success'); // 'success', 'error', 'confirm'
-  const [confirmAction, setConfirmAction] = useState(null); // Para manejar acciones confirmadas
+  const [modalType, setModalType] = useState('success');
 
-  // Maneja el envío del formulario
+  const handleCloseModal = () => setShowModal(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log('Género seleccionado:', selectedGenre);
-
-    // Validar campos obligatorios
-    if (!coverImage || !title || !description || selectedGenre === '' || !classification) {
+    if (!coverImage || !title || !description || !selectedGenre || !classification || !languageOrigin ) {
       setModalMessage('Por favor, completa todos los campos obligatorios.');
       setModalType('error');
       setShowModal(true);
       return;
     }
 
-    // Crear un FormData para enviar los datos del formulario
+    if (languageOrigin === 'Coreano' && !password) {
+      setModalMessage('Por favor, configura una contraseña para las novelas en coreano.');
+      setModalType('error');
+      setShowModal(true);
+      return;
+    }
+
+    if (subGenres.length > 15) {
+      setModalMessage('Solo puedes seleccionar hasta 15 subgéneros.');
+      setModalType('error');
+      setShowModal(true);
+      return;
+    }
+
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-    formData.append('genres', selectedGenre); // Solo un género
-    formData.append('subGenres', JSON.stringify(subGenres.split(',').map(subGenre => subGenre.trim())));
+    formData.append('genres', selectedGenre);
+    formData.append('subGenres', JSON.stringify(subGenres));
     formData.append('classification', classification);
-    formData.append('tags', JSON.stringify(tags.split(',').map(tag => tag.trim())));
+    formData.append('tags', JSON.stringify(tags.split(',').map((tag) => tag.trim())));
     formData.append('coverImage', coverImage);
     formData.append('collaborators', JSON.stringify(collaborators));
     formData.append('adaptations', JSON.stringify(adaptations));
-    formData.append('awards', JSON.stringify(awards));
+    formData.append('rawOrigin', JSON.stringify(rawOrigin));
+    formData.append('languageOrigin', languageOrigin);
     formData.append('progress', progress);
 
     try {
       setLoading(true);
-      const res = await axios.post('/api/novels/create', formData, {
+      await axios.post('/api/novels/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        withCredentials: true, // Incluir cookies de sesión
+        withCredentials: true,
       });
 
       setModalMessage('¡Novela creada exitosamente!');
       setModalType('success');
       setShowModal(true);
-
-      // Reiniciar los campos del formulario
       resetForm();
 
-      // Redirigir después de un breve retraso
-      setTimeout(() => {
-        navigate('/my-stories');
-      }, 2000);
+      setTimeout(() => navigate('/my-stories'), 2000);
     } catch (error) {
       setModalMessage(`Error al crear la novela: ${error.response?.data.message || error.message}`);
       setModalType('error');
@@ -110,23 +112,22 @@ const NovelForm = () => {
     }
   };
 
-  // Función para reiniciar los campos del formulario
   const resetForm = () => {
     setTitle('');
     setDescription('');
     setSelectedGenre('');
-    setSubGenres('');
+    setSubGenres([]);
     setClassification('');
     setTags('');
     setCoverImage(null);
     setPreviewImage(null);
     setCollaborators([{ name: '', role: '' }]);
-    setAdaptations([{ type: '', title: '', releaseDate: '', link: '' }]);
-    setAwards([{ title: '', year: '', organization: '' }]);
+    setAdaptations([{ type: '', link: '' }]);
+    setRawOrigin({ origin: '', link: '' });
+    setLanguageOrigin('');
     setProgress('En progreso');
   };
 
-  // Maneja la selección de la imagen de portada
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -141,393 +142,187 @@ const NovelForm = () => {
     }
   };
 
-  // Manejo de modales de confirmación
-  const handleConfirm = (message, action) => {
-    setModalMessage(message);
-    setModalType('confirm');
-    setShowModal(true);
-    setConfirmAction(() => () => {
-      action();
-      setShowModal(false);
-    });
-  };
-
-  // Cerrar el modal
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setModalMessage('');
-    setConfirmAction(null);
-  };
-
-  // Funciones para manejar colaboradores
-  const handleCollaboratorChange = (index, e) => {
-    const { name, value } = e.target;
-    const newCollaborators = [...collaborators];
-    newCollaborators[index][name] = value;
-    setCollaborators(newCollaborators);
-  };
-
-  const addCollaborator = () => {
-    setCollaborators([...collaborators, { name: '', role: '' }]);
-  };
-
-  const removeCollaborator = (index) => {
-    const newCollaborators = [...collaborators];
-    newCollaborators.splice(index, 1);
-    setCollaborators(newCollaborators);
-  };
-
-  // Funciones para manejar adaptaciones
-  const handleAdaptationChange = (index, e) => {
-    const { name, value } = e.target;
-    const newAdaptations = [...adaptations];
-    newAdaptations[index][name] = value;
-    setAdaptations(newAdaptations);
-  };
-
-  const addAdaptation = () => {
-    setAdaptations([...adaptations, { type: '', title: '', releaseDate: '', link: '' }]);
-  };
-
-  const removeAdaptation = (index) => {
-    const newAdaptations = [...adaptations];
-    newAdaptations.splice(index, 1);
-    setAdaptations(newAdaptations);
-  };
-
-  // Funciones para manejar premios
-  const handleAwardChange = (index, e) => {
-    const { name, value } = e.target;
-    const newAwards = [...awards];
-    newAwards[index][name] = value;
-    setAwards(newAwards);
-  };
-
-  const addAward = () => {
-    setAwards([...awards, { title: '', year: '', organization: '' }]);
-  };
-
-  const removeAward = (index) => {
-    const newAwards = [...awards];
-    newAwards.splice(index, 1);
-    setAwards(newAwards);
+  const toggleSubGenre = (subGenre) => {
+    if (subGenres.includes(subGenre)) {
+      setSubGenres(subGenres.filter((sg) => sg !== subGenre));
+    } else if (subGenres.length < 15) {
+      setSubGenres([...subGenres, subGenre]);
+    }
   };
 
   return (
     <div className="container my-5">
-      {/* Modal para mostrar mensajes de éxito o error */}
-      <Modal
-        show={showModal}
-        onHide={handleCloseModal}
-        centered
-        className={modalType === 'success' ? 'modal-success' : modalType === 'error' ? 'modal-error' : 'modal-confirm'}
-      >
+      {/* Modal */}
+      <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
-          <Modal.Title>
-            {modalType === 'success' ? '¡Éxito!' : modalType === 'error' ? 'Error' : 'Confirmación'}
-          </Modal.Title>
+          <Modal.Title>{modalType === 'success' ? '¡Éxito!' : 'Error'}</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="text-center">
-          <p>{modalMessage}</p>
-        </Modal.Body>
-        <Modal.Footer className="d-flex justify-content-center">
-          {modalType === 'confirm' ? (
-            <>
-              <Button variant="secondary" onClick={handleCloseModal}>
-                Cancelar
-              </Button>
-              <Button variant="primary" onClick={confirmAction}>
-                Confirmar
-              </Button>
-            </>
-          ) : (
-            <Button
-              variant={modalType === 'success' ? 'success' : 'danger'}
-              onClick={handleCloseModal}
-            >
-              Cerrar
-            </Button>
-          )}
+        <Modal.Body>{modalMessage}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleCloseModal}>
+            Cerrar
+          </Button>
         </Modal.Footer>
       </Modal>
 
-      <div className="row">
-        {/* Formulario principal */}
-        <div className="col-md-8">
-          <div className="novel-form-card">
-            <h2 className="text-center">Crear Nueva Novela</h2>
-            <form onSubmit={handleSubmit}>
-              {/* Título */}
-              <div className="form-group mt-3">
-                <label htmlFor="title">Título:</label>
-                <input
-                  type="text"
-                  id="title"
-                  className="form-control custom-input"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-                  placeholder="Introduce el título de la novela"
-                />
-              </div>
+      {/* Formulario */}
+      <form onSubmit={handleSubmit}>
+        <h2>Crear Nueva Novela</h2>
 
-              {/* Sinopsis */}
-              <div className="form-group mt-3">
-                <label htmlFor="description">Sinopsis:</label>
-                <textarea
-                  id="description"
-                  className="form-control custom-input"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                  placeholder="Escribe una breve sinopsis de tu novela"
-                />
-              </div>
+        {/* Título */}
+        <label>Título</label>
+        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
 
-              {/* Género (único) */}
-              <div className="form-group mt-3">
-                <label htmlFor="genres">Género:</label>
-                <select
-                  id="genres"
-                  value={selectedGenre}
-                  onChange={(e) => setSelectedGenre(e.target.value)}
-                  required
-                  className="form-control custom-input"
-                >
-                  <option value="">Selecciona un género</option>
-                  {GENRES.map((genre, index) => (
-                    <option key={index} value={genre}>
-                      {genre}
-                    </option>
-                  ))}
-                </select>
-              </div>
+        {/* Sinopsis */}
+        <label>Sinopsis</label>
+        <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
 
-              {/* Subgéneros */}
-              <div className="form-group mt-3">
-                <label htmlFor="subGenres">Subgéneros:</label>
-                <input
-                  type="text"
-                  id="subGenres"
-                  className="form-control custom-input"
-                  value={subGenres}
-                  onChange={(e) => setSubGenres(e.target.value)}
-                  placeholder="Subgéneros separados por coma"
-                />
-              </div>
+        {/* Idioma de origen */}
+        <label>Idioma de Origen</label>
+        <select value={languageOrigin} onChange={(e) => setLanguageOrigin(e.target.value)} required>
+          <option value="">Selecciona un idioma</option>
+          {LANGUAGES.map((lang) => (
+            <option key={lang} value={lang}>
+              {lang}
+            </option>
+          ))}
+        </select>
 
-              {/* Clasificación */}
-              <div className="form-group mt-3">
-                <label htmlFor="classification">Clasificación:</label>
-                <select
-                  id="classification"
-                  className="form-control custom-input"
-                  value={classification}
-                  onChange={(e) => setClassification(e.target.value)}
-                  required
-                >
-                  <option value="">Seleccione</option>
-                  <option value="+18">+18</option>
-                  <option value="General">General</option>
-                </select>
-              </div>
-
-              {/* Etiquetas */}
-              <div className="form-group mt-3">
-                <label htmlFor="tags">Etiquetas (separadas por comas):</label>
-                <input
-                  type="text"
-                  id="tags"
-                  className="form-control custom-input"
-                  value={tags}
-                  onChange={(e) => setTags(e.target.value)}
-                  placeholder="Ejemplo: Aventura, magia, amor"
-                />
-              </div>
-
-              {/* Colaboradores */}
-              <div className="form-group mt-3">
-                <label>Colaboradores:</label>
-                {collaborators.map((collaborator, index) => (
-                  <div key={index} className="d-flex mb-2">
-                    <input
-                      type="text"
-                      name="name"
-                      className="form-control me-2"
-                      placeholder="Nombre"
-                      value={collaborator.name}
-                      onChange={(e) => handleCollaboratorChange(index, e)}
-                    />
-                    <input
-                      type="text"
-                      name="role"
-                      className="form-control me-2"
-                      placeholder="Rol"
-                      value={collaborator.role}
-                      onChange={(e) => handleCollaboratorChange(index, e)}
-                    />
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={() => removeCollaborator(index)}
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                ))}
-                <button type="button" className="btn btn-primary" onClick={addCollaborator}>
-                  Añadir Colaborador
-                </button>
-              </div>
-
-              {/* Adaptaciones */}
-              <div className="form-group mt-3">
-                <label>Adaptaciones:</label>
-                {adaptations.map((adaptation, index) => (
-                  <div key={index} className="mb-2">
-                    <input
-                      type="text"
-                      name="type"
-                      className="form-control mb-2"
-                      placeholder="Tipo (ej. Película)"
-                      value={adaptation.type}
-                      onChange={(e) => handleAdaptationChange(index, e)}
-                    />
-                    <input
-                      type="text"
-                      name="title"
-                      className="form-control mb-2"
-                      placeholder="Título"
-                      value={adaptation.title}
-                      onChange={(e) => handleAdaptationChange(index, e)}
-                    />
-                    <input
-                      type="text"
-                      name="releaseDate"
-                      className="form-control mb-2"
-                      placeholder="Fecha de Lanzamiento"
-                      value={adaptation.releaseDate}
-                      onChange={(e) => handleAdaptationChange(index, e)}
-                    />
-                    <input
-                      type="url"
-                      name="link"
-                      className="form-control mb-2"
-                      placeholder="Enlace"
-                      value={adaptation.link}
-                      onChange={(e) => handleAdaptationChange(index, e)}
-                    />
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={() => removeAdaptation(index)}
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                ))}
-                <button type="button" className="btn btn-primary" onClick={addAdaptation}>
-                  Añadir Adaptación
-                </button>
-              </div>
-
-              {/* Premios */}
-              <div className="form-group mt-3">
-                <label>Premios:</label>
-                {awards.map((award, index) => (
-                  <div key={index} className="mb-2">
-                    <input
-                      type="text"
-                      name="title"
-                      className="form-control mb-2"
-                      placeholder="Título del premio"
-                      value={award.title}
-                      onChange={(e) => handleAwardChange(index, e)}
-                    />
-                    <input
-                      type="text"
-                      name="year"
-                      className="form-control mb-2"
-                      placeholder="Año"
-                      value={award.year}
-                      onChange={(e) => handleAwardChange(index, e)}
-                    />
-                    <input
-                      type="text"
-                      name="organization"
-                      className="form-control mb-2"
-                      placeholder="Organización"
-                      value={award.organization}
-                      onChange={(e) => handleAwardChange(index, e)}
-                    />
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={() => removeAward(index)}
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                ))}
-                <button type="button" className="btn btn-primary" onClick={addAward}>
-                  Añadir Premio
-                </button>
-              </div>
-
-              {/* Estado de progreso */}
-              <div className="form-group mt-3">
-                <label htmlFor="progress">Estado de progreso:</label>
-                <select
-                  id="progress"
-                  className="form-control custom-input"
-                  value={progress}
-                  onChange={(e) => setProgress(e.target.value)}
-                  required
-                >
-                  <option value="En progreso">En progreso</option>
-                  <option value="Finalizada">Finalizada</option>
-                  <option value="Pausada">Pausada</option>
-                </select>
-              </div>
-
-              {/* Botón de envío */}
-              <button
-                type="submit"
-                className="btn btn-outline-light mt-4 w-100"
-                disabled={loading}
-              >
-                {loading ? 'Creando...' : 'Crear Novela'}
-              </button>
-            </form>
-          </div>
-        </div>
-
-        {/* Vista previa de la portada */}
-        <div className="col-md-4">
-          <div className="novel-preview">
-            <h5>Vista Previa de la Portada</h5>
-            <div className="mt-3">
-              {previewImage ? (
-                <img src={previewImage} alt="Vista previa de la portada" className="novel-cover" />
-              ) : (
-                <p>Selecciona una imagen para la portada</p>
-              )}
-            </div>
-            <label htmlFor="coverImage" className="btn btn-secondary mt-4">
-              Elegir Portada
-            </label>
+        {languageOrigin === 'Coreano' && (
+          <div className="form-group">
+            <label>Contraseña:</label>
             <input
-              type="file"
-              id="coverImage"
-              className="form-control-file mt-4 custom-file-input"
-              accept="image/*"
-              onChange={handleImageChange}
+              type="password"
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
-              style={{ display: 'none' }} // Ocultar el input file real
             />
           </div>
-        </div>
-      </div>
+        )}
+
+        {/* Portada */}
+        <label>Portada</label>
+        <input type="file" onChange={handleImageChange} accept="image/*" required />
+
+        {/* Género */}
+        <label>Género</label>
+        <select value={selectedGenre} onChange={(e) => setSelectedGenre(e.target.value)} required>
+          <option value="">Selecciona un género</option>
+          {GENRES.map((genre) => (
+            <option key={genre} value={genre}>
+              {genre}
+            </option>
+          ))}
+        </select>
+
+        {/* Subgéneros */}
+        <label>Subgéneros (hasta 15)</label>
+        {SUBGENRES.map((subGenre) => (
+          <div key={subGenre}>
+            <input
+              type="checkbox"
+              checked={subGenres.includes(subGenre)}
+              onChange={() => toggleSubGenre(subGenre)}
+            />
+            {subGenre}
+          </div>
+        ))}
+
+        {/* Colaboradores */}
+        <label>Colaboradores</label>
+        {collaborators.map((collaborator, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              value={collaborator.name}
+              onChange={(e) =>
+                setCollaborators((prev) =>
+                  prev.map((col, i) => (i === index ? { ...col, name: e.target.value } : col))
+                )
+              }
+              placeholder="Nombre"
+              required
+            />
+            <input
+              type="text"
+              value={collaborator.role}
+              onChange={(e) =>
+                setCollaborators((prev) =>
+                  prev.map((col, i) => (i === index ? { ...col, role: e.target.value } : col))
+                )
+              }
+              placeholder="Rol"
+            />
+          </div>
+        ))}
+        <button type="button" onClick={() => setCollaborators([...collaborators, { name: '', role: '' }])}>
+          Añadir Colaborador
+        </button>
+
+        {/* Adaptaciones */}
+        <label>Adaptaciones</label>
+        {adaptations.map((adaptation, index) => (
+          <div key={index}>
+            <select
+              value={adaptation.type}
+              onChange={(e) =>
+                setAdaptations((prev) =>
+                  prev.map((ad, i) => (i === index ? { ...ad, type: e.target.value } : ad))
+                )
+              }
+            >
+              <option value="">Selecciona un tipo</option>
+              {ADAPTATION_TYPES.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+            <input
+              type="url"
+              value={adaptation.link}
+              onChange={(e) =>
+                setAdaptations((prev) =>
+                  prev.map((ad, i) => (i === index ? { ...ad, link: e.target.value } : ad))
+                )
+              }
+              placeholder="Enlace"
+            />
+          </div>
+        ))}
+        <button type="button" onClick={() => setAdaptations([...adaptations, { type: '', link: '' }])}>
+          Añadir Adaptación
+        </button>
+
+        {/* Enlace a la novela de origen */}
+        <label>Enlace a la Novela de Origen</label>
+        <input
+          type="text"
+          value={rawOrigin.origin}
+          onChange={(e) => setRawOrigin((prev) => ({ ...prev, origin: e.target.value }))}
+          placeholder="Nombre de la novela original"
+        />
+        <input
+          type="url"
+          value={rawOrigin.link}
+          onChange={(e) => setRawOrigin((prev) => ({ ...prev, link: e.target.value }))}
+          placeholder="Enlace a la novela original"
+        />
+
+        {/* Estado */}
+        <label>Estado</label>
+        <select value={progress} onChange={(e) => setProgress(e.target.value)} required>
+          <option value="En progreso">En progreso</option>
+          <option value="Finalizada">Finalizada</option>
+          <option value="Pausada">Pausada</option>
+        </select>
+
+        {/* Botón de envío */}
+        <button type="submit" disabled={loading}>
+          {loading ? 'Creando...' : 'Crear Novela'}
+        </button>
+      </form>
     </div>
   );
 };
