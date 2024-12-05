@@ -116,6 +116,7 @@ const NovelForm = () => {
     formData.append('rawOrigin', JSON.stringify(rawOrigin));
     formData.append('languageOrigin', languageOrigin);
     formData.append('progress', progress);
+    formData.append('password', password);
 
     try {
       setLoading(true);
