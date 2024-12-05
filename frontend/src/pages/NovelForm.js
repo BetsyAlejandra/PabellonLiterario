@@ -38,7 +38,7 @@ const NovelForm = () => {
   const [coverImage, setCoverImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [collaborators, setCollaborators] = useState([{ username: '', role: '' }]);
-  const [userSuggestions, setUserSuggestions] = useState([]);
+  const [userSuggestions, setUserSuggestions] = useState(null);
   const [adaptations, setAdaptations] = useState([{ type: '', link: '' }]);
   const [rawOrigin, setRawOrigin] = useState({ origin: '', link: '' });
   const [languageOrigin, setLanguageOrigin] = useState('');
@@ -154,28 +154,24 @@ const NovelForm = () => {
     setLanguageOrigin('');
     setProgress('En progreso');
   };
-  
+
   const handleCollaboratorChange = async (index, key, value) => {
     const updatedCollaborators = [...collaborators];
     updatedCollaborators[index][key] = value;
-  
+
     if (key === 'username' && value.length > 2) {
       try {
         const { data } = await axios.get(`/api/users/suggestions?name=${value}`);
-        // Verificar que data sea un array antes de asignar
-        if (Array.isArray(data)) {
-          setUserSuggestions(data);
-        } else {
-          setUserSuggestions([]); // Por si acaso no es un array
-        }
+        setUserSuggestions(data); // data es un objeto o null
       } catch (error) {
         console.error(error);
-        setUserSuggestions([]);
+        setUserSuggestions(null);
       }
     }
-  
+
     setCollaborators(updatedCollaborators);
   };
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -262,7 +258,7 @@ const NovelForm = () => {
                 </div>
               )}
             </div>
-            
+
             <div className="col-md-8">
               {/* Formulario */}
               <form onSubmit={handleSubmit}>
@@ -361,9 +357,9 @@ const NovelForm = () => {
                       onChange={(e) => handleCollaboratorChange(index, 'username', e.target.value)}
                     />
                     <datalist id={`user-suggestions-${index}`}>
-                      {userSuggestions.map((user) => (
-                        <option key={user.id} value={user.username} />
-                      ))}
+                      {userSuggestions && (
+                        <option value={userSuggestions.username} />
+                      )}
                     </datalist>
 
                     <select
