@@ -13,7 +13,7 @@ const createNovel = async (req, res) => {
     const authorUsername = req.session.user.username;
 
     const { title, description, genres, classification, tags } = req.body;
-
+    console.log('genres recibido en el backend:', genres);
     const validGenres = [
       'Fantasía', 'Horror', 'Moderno', 'Policial', 'Transmigración',
       'Transmigración Rápida', 'Viaje en el Tiempo', 'Xianxia', 'Recuentos de Vida',
@@ -21,6 +21,9 @@ const createNovel = async (req, res) => {
       'Romance', 'Ciencia ficción', 'Drama', 'Aventura', 'Terror', 'Misterio',
       'Suspenso', 'Comedia', 'Histórico', 'Poesía', 'Distopía',
     ];
+
+    // Asegúrate de que genres sea un arreglo
+    const parsedGenres = typeof genres === 'string' ? JSON.parse(genres) : genres;
 
     // Validar que genres sea un arreglo antes de verificar los géneros
     if (!Array.isArray(genres) || !genres.every((genre) => validGenres.includes(genre))) {
