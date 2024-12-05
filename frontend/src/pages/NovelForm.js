@@ -40,16 +40,16 @@ const NovelForm = () => {
   // Maneja el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     console.log('Género seleccionado:', selectedGenre);
-  
+
     if (!coverImage || !title || !description || selectedGenre.length === 0 || !classification) {
       setModalMessage('Por favor, completa todos los campos obligatorios.');
       setModalType('error');
       setShowModal(true);
       return;
     }
-  
+
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
@@ -62,7 +62,7 @@ const NovelForm = () => {
     formData.append('adaptations', JSON.stringify(adaptations));
     formData.append('awards', JSON.stringify(awards));
     formData.append('progress', progress);
-  
+
     try {
       setLoading(true);
       const res = await axios.post('/api/novels/create', formData, {
@@ -71,11 +71,11 @@ const NovelForm = () => {
         },
         withCredentials: true, // Incluye cookies de sesión
       });
-  
+
       setModalMessage('¡Novela creada exitosamente!');
       setModalType('success');
       setShowModal(true);
-  
+
       setTimeout(() => {
         navigate('/my-stories');
       }, 2000);
@@ -85,7 +85,7 @@ const NovelForm = () => {
       setShowModal(true);
       setLoading(false);
     }
-  };  
+  };
 
   // Maneja la selección de la imagen de portada
   const handleImageChange = (e) => {
@@ -218,7 +218,7 @@ const NovelForm = () => {
                   value={selectedGenre}
                   onChange={(e) => {
                     setSelectedGenre(e.target.value);
-                    setGenres([e.target.value]); // Asegúrate de que genres tenga el género seleccionado
+                    // No modificar 'genres' aquí
                   }}
                   required
                 >

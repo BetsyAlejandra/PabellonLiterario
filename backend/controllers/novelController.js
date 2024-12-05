@@ -14,6 +14,7 @@ const createNovel = async (req, res) => {
 
     const { title, description, genres, classification, tags } = req.body;
 
+    // Lista de géneros válidos
     const validGenres = [
       'Fantasía', 'Horror', 'Moderno', 'Policial', 'Transmigración',
       'Transmigración Rápida', 'Viaje en el Tiempo', 'Xianxia', 'Recuentos de Vida',
@@ -23,9 +24,8 @@ const createNovel = async (req, res) => {
     ];
 
     // Asegúrate de que genres sea un arreglo
-    const parsedGenres = typeof genres === 'string' ? JSON.parse(genres) : genres;
-
-    // Validar que parsedGenres sea un arreglo antes de verificar los géneros
+    const parsedGenres = Array.isArray(genres) ? genres : JSON.parse(genres);
+    // Validar que parsedGenres sea un arreglo y que contenga géneros válidos
     if (!Array.isArray(parsedGenres) || !parsedGenres.every((genre) => validGenres.includes(genre))) {
       return res.status(400).json({ message: 'Género(s) inválido(s) o datos no válidos.' });
     }

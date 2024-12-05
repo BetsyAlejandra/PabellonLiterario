@@ -18,35 +18,14 @@ const isAuthenticated = (req, res, next) => {
 
 const getGenres = (req, res) => {
   console.log('Ruta /genres alcanzada');
-  const genres = [
-    'Fantasía',
-      'Horror',
-      'Moderno',
-      'Policial',
-      'Transmigración',
-      'Transmigración Rápida',
-      'Viaje en el Tiempo',
-      'Xianxia',
-      'Recuentos de Vida',
-      'Renacimiento',
-      'Antiguo',
-      'Contemporaneo',
-      'ABO',
-      'Juvenil',
-      'Interestelar',
-      'Romance',
-      'Ciencia ficción',
-      'Drama',
-      'Aventura',
-      'Terror',
-      'Misterio',
-      'Suspenso',
-      'Comedia',
-      'Histórico',
-      'Poesía',
-      'Distopía',
+  const validGenres = [
+    'Fantasía', 'Horror', 'Moderno', 'Policial', 'Transmigración',
+    'Transmigración Rápida', 'Viaje en el Tiempo', 'Xianxia', 'Recuentos de Vida',
+    'Renacimiento', 'Antiguo', 'Contemporaneo', 'ABO', 'Juvenil', 'Interestelar',
+    'Romance', 'Ciencia ficción', 'Drama', 'Aventura', 'Terror', 'Misterio',
+    'Suspenso', 'Comedia', 'Histórico', 'Poesía', 'Distopía',
   ];
-  res.status(200).json(genres);
+  res.status(200).json(validGenres);
 };
 
 router.get('/search', searchNovels);
