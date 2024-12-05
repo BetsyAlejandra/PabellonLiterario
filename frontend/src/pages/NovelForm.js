@@ -63,6 +63,11 @@ const NovelForm = () => {
     formData.append('awards', JSON.stringify(awards));
     formData.append('progress', progress);
 
+    // Imprime el contenido de formData
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
+
     try {
       setLoading(true);
       const res = await axios.post('/api/novels/create', formData, {

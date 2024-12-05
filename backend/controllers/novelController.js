@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const Novel = require('../models/Novel');
 const User = require('../models/User');
 
-// Crear una novela
-const User = require('../models/User'); // Asegúrate de que la ruta es correcta
-const Novel = require('../models/Novel'); // Asegúrate de que la ruta es correcta
-
 const createNovel = async (req, res) => {
   try {
     if (!req.session.user || !req.session.user.username) {
@@ -16,14 +12,22 @@ const createNovel = async (req, res) => {
 
     const { title, description, genres, classification, tags, subGenres, collaborators, adaptations, awards, progress } = req.body;
 
+    console.log('Datos recibidos en el backend:', {
+      title,
+      description,
+      genres,
+      classification,
+      tags,
+      subGenres,
+      collaborators,
+      adaptations,
+      awards,
+      progress
+    });
+
     // Lista de géneros válidos
-    const validGenres = [
-      'Fantasía', 'Horror', 'Moderno', 'Policial', 'Transmigración',
-      'Transmigración Rápida', 'Viaje en el Tiempo', 'Xianxia', 'Recuentos de Vida',
-      'Renacimiento', 'Antiguo', 'Contemporaneo', 'ABO', 'Juvenil', 'Interestelar',
-      'Romance', 'Ciencia ficción', 'Drama', 'Aventura', 'Terror', 'Misterio',
-      'Suspenso', 'Comedia', 'Histórico', 'Poesía', 'Distopía',
-    ];
+    const validGenres = ["Fantasía","Romance","Ciencia ficción","Drama",
+      "Aventura","Terror","Suspenso","Comedia","Histórico","Misterio","Poesía","Distopía"];
 
     // Validar géneros
     const parsedGenres = Array.isArray(genres) ? genres : JSON.parse(genres);
@@ -71,7 +75,7 @@ const createNovel = async (req, res) => {
 
     res.status(201).json(newNovel);
   } catch (error) {
-    console.error('Error al crear la novela:', error);
+    console.error('Error al crear la novela:', error); // Imprime todo el objeto de error
     res.status(500).json({ message: 'Error al crear la novela', error: error.message });
   }
 };
