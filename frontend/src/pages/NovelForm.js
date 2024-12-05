@@ -32,7 +32,7 @@ const GENRES = [
 
 const NovelForm = () => {
   const navigate = useNavigate();
-  
+
   // Estados para los campos del formulario
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -47,11 +47,12 @@ const NovelForm = () => {
   const [awards, setAwards] = useState([{ title: '', year: '', organization: '' }]);
   const [progress, setProgress] = useState('En progreso');
   const [loading, setLoading] = useState(false);
-  
-  // Estados para el modal de feedback
+
+  // Estados para los modales
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [modalType, setModalType] = useState('success'); // 'success' o 'error'
+  const [modalType, setModalType] = useState('success'); // 'success', 'error', 'confirm'
+  const [confirmAction, setConfirmAction] = useState(null); // Para manejar acciones confirmadas
 
   // Maneja el envío del formulario
   const handleSubmit = async (e) => {
@@ -129,15 +130,33 @@ const NovelForm = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setCoverImage(file);
-      setPreviewImage(URL.createObjectURL(file));
+      if (file.size > 5 * 1024 * 1024) {
+        setModalMessage('El archivo seleccionado supera el tamaño máximo permitido de 5MB.');
+        setModalType('error');
+        setShowModal(true);
+      } else {
+        setCoverImage(file);
+        setPreviewImage(URL.createObjectURL(file));
+      }
     }
+  };
+
+  // Manejo de modales de confirmación
+  const handleConfirm = (message, action) => {
+    setModalMessage(message);
+    setModalType('confirm');
+    setShowModal(true);
+    setConfirmAction(() => () => {
+      action();
+      setShowModal(false);
+    });
   };
 
   // Cerrar el modal
   const handleCloseModal = () => {
     setShowModal(false);
     setModalMessage('');
+    setConfirmAction(null);
   };
 
   // Funciones para manejar colaboradores
@@ -201,23 +220,34 @@ const NovelForm = () => {
         show={showModal}
         onHide={handleCloseModal}
         centered
-        className={modalType === 'success' ? 'modal-success' : 'modal-error'}
+        className={modalType === 'success' ? 'modal-success' : modalType === 'error' ? 'modal-error' : 'modal-confirm'}
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            {modalType === 'success' ? '¡Éxito!' : 'Error'}
+            {modalType === 'success' ? '¡Éxito!' : modalType === 'error' ? 'Error' : 'Confirmación'}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center">
           <p>{modalMessage}</p>
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-center">
-          <Button
-            variant={modalType === 'success' ? 'success' : 'danger'}
-            onClick={handleCloseModal}
-          >
-            Cerrar
-          </Button>
+          {modalType === 'confirm' ? (
+            <>
+              <Button variant="secondary" onClick={handleCloseModal}>
+                Cancelar
+              </Button>
+              <Button variant="primary" onClick={confirmAction}>
+                Confirmar
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant={modalType === 'success' ? 'success' : 'danger'}
+              onClick={handleCloseModal}
+            >
+              Cerrar
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
 

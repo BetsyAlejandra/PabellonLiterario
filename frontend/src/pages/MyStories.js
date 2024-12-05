@@ -9,16 +9,18 @@ const MyStories = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [modalShow, setModalShow] = useState(false);
-    const [selectedStory, setSelectedStory] = useState(null); // Historia seleccionada para mostrar capítulos
+    const [confirmModalShow, setConfirmModalShow] = useState(false); // Modal de confirmación
     const [descriptionModalShow, setDescriptionModalShow] = useState(false); // Modal para descripción completa
+    const [selectedStory, setSelectedStory] = useState(null); // Historia seleccionada
     const [selectedDescription, setSelectedDescription] = useState(''); // Descripción seleccionada
+    const [storyToDelete, setStoryToDelete] = useState(null); // Historia a eliminar
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserStories = async () => {
             try {
                 const res = await axios.get('/api/novels/my-stories', {
-                    withCredentials: true, // Envía cookies o tokens de sesión
+                    withCredentials: true,
                 });
                 setStories(res.data);
                 setLoading(false);
@@ -34,18 +36,24 @@ const MyStories = () => {
         navigate(`/update/${id}`);
     };
 
-    const handleDeleteClick = async (id) => {
-        if (window.confirm('¿Estás seguro de que deseas eliminar esta historia?')) {
-            try {
-                await axios.delete(`/api/novels/${id}`, {
-                    withCredentials: true, // Incluir cookies de sesión
-                });
-                setStories((prevStories) => prevStories.filter((story) => story._id !== id));
-                alert('Historia eliminada exitosamente.');
-            } catch (err) {
-                alert('Error al eliminar la historia. Intenta nuevamente.');
-                console.error(err);
-            }
+    const handleDeleteClick = (id) => {
+        setStoryToDelete(id); // Establece la historia a eliminar
+        setConfirmModalShow(true); // Muestra el modal de confirmación
+    };
+
+    const confirmDelete = async () => {
+        try {
+            await axios.delete(`/api/novels/${storyToDelete}`, {
+                withCredentials: true,
+            });
+            setStories((prevStories) =>
+                prevStories.filter((story) => story._id !== storyToDelete)
+            );
+            setStoryToDelete(null);
+            setConfirmModalShow(false); // Cierra el modal
+        } catch (err) {
+            alert('Error al eliminar la historia. Intenta nuevamente.');
+            console.error(err);
         }
     };
 
@@ -54,17 +62,17 @@ const MyStories = () => {
     };
 
     const handleViewChapters = (story) => {
-        setSelectedStory(story); // Establece la historia seleccionada
-        setModalShow(true); // Muestra el modal
+        setSelectedStory(story);
+        setModalShow(true);
     };
 
     const handleEditChapter = (storyId, chapterId) => {
-        navigate(`/edit-chapter/${storyId}/${chapterId}`); // Redirige a la página de edición del capítulo
+        navigate(`/edit-chapter/${storyId}/${chapterId}`);
     };
 
     const handleViewDescription = (description) => {
-        setSelectedDescription(description); // Establece la descripción seleccionada
-        setDescriptionModalShow(true); // Muestra el modal de descripción
+        setSelectedDescription(description);
+        setDescriptionModalShow(true);
     };
 
     const handleAddNovel = () => {
@@ -77,8 +85,6 @@ const MyStories = () => {
     return (
         <div className="container my-5">
             <h2 className="text-center mb-4">Mis Historias</h2>
-            <div className="d-flex justify-content-end mb-4">
-            </div>
             <div className="row">
                 {stories.map((story) => (
                     <div key={story._id} className="col-md-6 col-lg-4 mb-4">
@@ -151,13 +157,7 @@ const MyStories = () => {
                             Capítulos de {selectedStory.title}
                         </Modal.Title>
                     </Modal.Header>
-                    <Modal.Body
-                        style={{
-                            backgroundColor: '#2c2c2c',
-                            color: '#f0f0f0',
-                            borderRadius: '8px',
-                        }}
-                    >
+                    <Modal.Body style={{ backgroundColor: '#2c2c2c', color: '#f0f0f0' }}>
                         {selectedStory.chapters && selectedStory.chapters.length > 0 ? (
                             <ul className="list-group">
                                 {selectedStory.chapters.map((chapter, idx) => (
@@ -187,16 +187,8 @@ const MyStories = () => {
                             <p>No hay capítulos disponibles.</p>
                         )}
                     </Modal.Body>
-                    <Modal.Footer
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                        }}
-                    >
-                        <Button
-                            variant="success"
-                            onClick={() => handleAddChapter(selectedStory._id)}
-                        >
+                    <Modal.Footer>
+                        <Button variant="success" onClick={() => handleAddChapter(selectedStory._id)}>
                             Agregar Capítulo
                         </Button>
                         <Button variant="secondary" onClick={() => setModalShow(false)}>
@@ -219,6 +211,26 @@ const MyStories = () => {
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setDescriptionModalShow(false)}>
                         Cerrar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            {/* Modal de confirmación */}
+            <Modal
+                show={confirmModalShow}
+                onHide={() => setConfirmModalShow(false)}
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirmar eliminación</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>¿Estás seguro de que deseas eliminar esta historia?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setConfirmModalShow(false)}>
+                        Cancelar
+                    </Button>
+                    <Button variant="danger" onClick={confirmDelete}>
+                        Eliminar
                     </Button>
                 </Modal.Footer>
             </Modal>

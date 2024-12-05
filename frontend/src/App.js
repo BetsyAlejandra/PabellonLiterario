@@ -25,6 +25,7 @@ import UpdateNovel from './pages/UpdateNovel';
 import EditChapter from './pages/EditChapter';
 import SearchResults from './pages/SearchResults';
 import ReadChapter from './pages/ReadChapter';
+import NovelsPage from './pages/NovelsPage';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="/password-reset-request" element={<PasswordResetRequest />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/library" element={<Library />} />
+          <Route path='/Novelas' element={<NovelsPage />} />
           <Route path="/story-detail/:id" element={<StoryDetail />} />
           <Route path="/read-chapter/:storyId/:chapterId" element={<ReadChapter />} />
           <Route path="/user-profile/:id" element={<PerfilUsuario />} />

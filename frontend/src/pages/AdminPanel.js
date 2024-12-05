@@ -4,15 +4,18 @@ import '../styles/adminPanel.css'; // Archivo CSS para personalización
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState('');
   const [selectedRoles, setSelectedRoles] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('https://pabellonliterario.com/api/users/all', { withCredentials: true });
+        const response = await axios.get('/api/users/all', { withCredentials: true });
         setUsers(response.data);
+        setFilteredUsers(response.data);
         setLoading(false);
       } catch (error) {
         console.error('Error al cargar usuarios:', error);
@@ -20,6 +23,17 @@ const AdminPanel = () => {
     };
     fetchUsers();
   }, []);
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    const lowercasedTerm = term.toLowerCase();
+    const filtered = users.filter(
+      (user) =>
+        user.username.toLowerCase().includes(lowercasedTerm) ||
+        user.email?.toLowerCase().includes(lowercasedTerm)
+    );
+    setFilteredUsers(filtered);
+  };
 
   const handleRoleChange = (role) => {
     if (selectedRoles.includes(role)) {
@@ -37,7 +51,7 @@ const AdminPanel = () => {
 
     try {
       await axios.put(
-        `https://pabellonliterario.com/api/users/assign-roles/${selectedUser}`,
+        `/api/users/assign-roles/${selectedUser}`,
         { roles: selectedRoles },
         { withCredentials: true }
       );
@@ -55,21 +69,28 @@ const AdminPanel = () => {
       <div className="admin-panel-card">
         <h1>Panel de Administrador</h1>
         <div className="form-group">
-          <label htmlFor="userSelect">Selecciona un usuario:</label>
-          <select
-            id="userSelect"
-            onChange={(e) => setSelectedUser(e.target.value)}
-            value={selectedUser}
-          >
-            <option value="" disabled>
-              Selecciona un usuario
-            </option>
-            {users.map((user) => (
-              <option key={user._id} value={user._id}>
-                {user.username} ({user.roles.join(', ')})
-              </option>
+          <label htmlFor="searchBar">Buscar usuario:</label>
+          <input
+            type="text"
+            id="searchBar"
+            placeholder="Busca por nombre o email"
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
+          />
+        </div>
+        <div className="user-list">
+          <h2>Lista de Usuarios</h2>
+          <ul>
+            {filteredUsers.map((user) => (
+              <li
+                key={user._id}
+                className={`user-item ${selectedUser === user._id ? 'selected' : ''}`}
+                onClick={() => setSelectedUser(user._id)}
+              >
+                <strong>{user.username}</strong> ({user.roles.join(', ')})
+              </li>
             ))}
-          </select>
+          </ul>
         </div>
         <div className="form-group">
           <label>Selecciona los roles:</label>
