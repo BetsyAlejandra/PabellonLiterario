@@ -54,9 +54,9 @@ const NovelForm = () => {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('genres', selectedGenre); // Cambiado de genres.forEach
-    formData.append('subGenres', subGenres.split(',').map(subGenre => subGenre.trim()));
+    formData.append('subGenres', JSON.stringify(subGenres.split(',').map(subGenre => subGenre.trim())));
     formData.append('classification', classification);
-    formData.append('tags', tags.split(',').map(tag => tag.trim()));
+    formData.append('tags', JSON.stringify(tags.split(',').map(tag => tag.trim())));
     formData.append('coverImage', coverImage);
     formData.append('collaborators', JSON.stringify(collaborators));
     formData.append('adaptations', JSON.stringify(adaptations));
@@ -79,7 +79,7 @@ const NovelForm = () => {
       // Reiniciar solo los campos seleccionados
       setTitle('');
       setDescription('');
-      setSelectedGenre(''); // Reiniciar selectedGenre
+      setSelectedGenre('');
       setSubGenres('');
       setClassification('');
       setTags('');

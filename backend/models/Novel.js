@@ -88,7 +88,7 @@ const novelSchema = new mongoose.Schema(
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],  // Usuarios que siguen la novela
     isPremium: { type: Boolean, default: false },  // Si es contenido premium
 
-    password: {type: String, default: false}, //Que tenga contraseña
+    password: { type: String, default: '' }, // Que tenga contraseña
 
     rawOrigin: [{
       origin: { type: String, required: true },
@@ -133,7 +133,6 @@ const novelSchema = new mongoose.Schema(
 
     // Recomendaciones relacionadas
     recommendedNovels: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Novel' }],
-
   },
   { timestamps: true }  // Para registrar las fechas de creación y actualización
 );

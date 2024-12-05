@@ -81,6 +81,16 @@ const createNovel = async (req, res) => {
       } catch (parseError) {
         return res.status(400).json({ message: 'Formato de colaboradores inválido.' });
       }
+      
+    }
+    let parsedSubGenres = [];
+    if (subGenres) {
+      try {
+        parsedSubGenres = JSON.parse(subGenres);
+        console.log('Parsed SubGenres:', parsedSubGenres);
+      } catch (parseError) {
+        return res.status(400).json({ message: 'Formato de subgéneros inválido.' });
+      }
     }
 
     let parsedAdaptations = [];
@@ -115,7 +125,7 @@ const createNovel = async (req, res) => {
       description,
       genres: genresArray, // Usar genresArray en lugar de genres
       classification,
-      tags: tags ? tags : [], // Ya está procesado como arreglo en frontend
+      tags: parsedSubGenres, // Ya está procesado como arreglo en frontend
       coverImage,
       author: authorUsername, // Almacena el username en lugar del ObjectId
       collaborators: parsedCollaborators,
