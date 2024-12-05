@@ -76,9 +76,6 @@ const MyStories = () => {
         <div className="container my-5">
             <h2 className="text-center mb-4">Mis Historias</h2>
             <div className="d-flex justify-content-end mb-4">
-                <button className="btn btn-success" onClick={handleAddNovel}>
-                    Agregar Novela
-                </button>
             </div>
             <div className="row">
                 {stories.map((story) => (
