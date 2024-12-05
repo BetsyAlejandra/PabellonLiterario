@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Table } from 'react-bootstrap';
 import '../styles/global.css';
 
 const GENRES = [
@@ -26,6 +26,9 @@ const ADAPTATION_TYPES = [
 
 const LANGUAGES = ['Japonés', 'Chino', 'Coreano', 'Inglés'];
 
+// Asegúrate de definir este arreglo antes de usarlo
+const ROLES = ['Traductor', 'Editor', 'Ilustrador', 'Corrector'];
+
 const NovelForm = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
@@ -36,7 +39,7 @@ const NovelForm = () => {
   const [tags, setTags] = useState('');
   const [coverImage, setCoverImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
-  const [collaborators, setCollaborators] = useState([{ name: '', role: '' }]);
+  const [collaborators, setCollaborators] = useState([{ username: '', role: '' }]);
   const [userSuggestions, setUserSuggestions] = useState([]);
   const [adaptations, setAdaptations] = useState([{ type: '', link: '' }]);
   const [rawOrigin, setRawOrigin] = useState({ origin: '', link: '' });
@@ -49,12 +52,31 @@ const NovelForm = () => {
   const [modalMessage, setModalMessage] = useState('');
   const [modalType, setModalType] = useState('success');
 
+  const [showSubGenreModal, setShowSubGenreModal] = useState(false);
+
   const handleCloseModal = () => setShowModal(false);
+
+  const closeSubGenreModal = () => {
+    setShowSubGenreModal(false);
+  };
+
+  const validateCollaborators = () => {
+    return collaborators.every(
+      (collaborator) => collaborator.username.trim() !== '' && collaborator.role.trim() !== ''
+    );
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!coverImage || !title || !description || !selectedGenre || !classification || !languageOrigin ) {
+    if (
+      !coverImage ||
+      !title ||
+      !description ||
+      !selectedGenre ||
+      !classification ||
+      !languageOrigin
+    ) {
       setModalMessage('Por favor, completa todos los campos obligatorios.');
       setModalType('error');
       setShowModal(true);
@@ -70,6 +92,13 @@ const NovelForm = () => {
 
     if (subGenres.length > 15) {
       setModalMessage('Solo puedes seleccionar hasta 15 subgéneros.');
+      setModalType('error');
+      setShowModal(true);
+      return;
+    }
+
+    if (!validateCollaborators()) {
+      setModalMessage('Todos los colaboradores deben tener un nombre de usuario y un rol.');
       setModalType('error');
       setShowModal(true);
       return;
@@ -121,11 +150,23 @@ const NovelForm = () => {
     setTags('');
     setCoverImage(null);
     setPreviewImage(null);
-    setCollaborators([{ name: '', role: '' }]);
+    setCollaborators([{ username: '', role: '' }]);
     setAdaptations([{ type: '', link: '' }]);
     setRawOrigin({ origin: '', link: '' });
     setLanguageOrigin('');
     setProgress('En progreso');
+  };
+
+  const handleCollaboratorChange = async (index, key, value) => {
+    const updatedCollaborators = [...collaborators];
+    updatedCollaborators[index][key] = value;
+
+    if (key === 'username' && value.length > 2) {
+      const { data } = await axios.get(`/api/users/suggestions?name=${value}`);
+      setUserSuggestions(data);
+    }
+
+    setCollaborators(updatedCollaborators);
   };
 
   const handleImageChange = (e) => {
@@ -162,6 +203,34 @@ const NovelForm = () => {
           <Button variant="primary" onClick={handleCloseModal}>
             Cerrar
           </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Modal para subgéneros */}
+      <Modal show={showSubGenreModal} onHide={closeSubGenreModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Selecciona Subgéneros</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Table>
+            <tbody>
+              {SUBGENRES.map((subGenre) => (
+                <tr key={subGenre}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={subGenres.includes(subGenre)}
+                      onChange={() => toggleSubGenre(subGenre)}
+                    />
+                  </td>
+                  <td>{subGenre}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={closeSubGenreModal}>Cerrar</Button>
         </Modal.Footer>
       </Modal>
 
@@ -218,16 +287,7 @@ const NovelForm = () => {
 
         {/* Subgéneros */}
         <label>Subgéneros (hasta 15)</label>
-        {SUBGENRES.map((subGenre) => (
-          <div key={subGenre}>
-            <input
-              type="checkbox"
-              checked={subGenres.includes(subGenre)}
-              onChange={() => toggleSubGenre(subGenre)}
-            />
-            {subGenre}
-          </div>
-        ))}
+        <Button onClick={() => setShowSubGenreModal(true)}>Seleccionar Subgéneros</Button>
 
         {/* Colaboradores */}
         <label>Colaboradores</label>
@@ -235,28 +295,34 @@ const NovelForm = () => {
           <div key={index}>
             <input
               type="text"
-              value={collaborator.name}
-              onChange={(e) =>
-                setCollaborators((prev) =>
-                  prev.map((col, i) => (i === index ? { ...col, name: e.target.value } : col))
-                )
-              }
-              placeholder="Nombre"
-              required
+              placeholder="Usuario"
+              list={`user-suggestions-${index}`}
+              value={collaborator.username}
+              onChange={(e) => handleCollaboratorChange(index, 'username', e.target.value)}
             />
-            <input
-              type="text"
+            <datalist id={`user-suggestions-${index}`}>
+              {userSuggestions.map((user) => (
+                <option key={user.id} value={user.username} />
+              ))}
+            </datalist>
+
+            <select
               value={collaborator.role}
-              onChange={(e) =>
-                setCollaborators((prev) =>
-                  prev.map((col, i) => (i === index ? { ...col, role: e.target.value } : col))
-                )
-              }
-              placeholder="Rol"
-            />
+              onChange={(e) => handleCollaboratorChange(index, 'role', e.target.value)}
+            >
+              <option value="">Selecciona un rol</option>
+              {ROLES.map((role) => (
+                <option key={role} value={role}>
+                  {role}
+                </option>
+              ))}
+            </select>
           </div>
         ))}
-        <button type="button" onClick={() => setCollaborators([...collaborators, { name: '', role: '' }])}>
+        <button
+          type="button"
+          onClick={() => setCollaborators([...collaborators, { username: '', role: '' }])}
+        >
           Añadir Colaborador
         </button>
 
