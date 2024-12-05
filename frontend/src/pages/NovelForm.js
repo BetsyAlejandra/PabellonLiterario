@@ -73,7 +73,8 @@ const NovelForm = () => {
       !description ||
       !selectedGenre ||
       !classification ||
-      !languageOrigin
+      !languageOrigin ||
+      !rawOrigin
     ) {
       setModalMessage('Por favor, completa todos los campos obligatorios.');
       setModalType('error');
@@ -343,6 +344,24 @@ const NovelForm = () => {
                 <Button variant="outline-light" onClick={() => setShowSubGenreModal(true)}>
                   Seleccionar Subgéneros
                 </Button>
+
+                <label>Etiquetas (opcional, separadas por coma)</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={tags}
+                  onChange={(e) => setTags(e.target.value)}
+                  placeholder="ej: romance, acción, drama"
+                />
+
+                <label>Clasificación</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={classification}
+                  onChange={(e) => setClassification(e.target.value)}
+                  placeholder="ej: +18, General"
+                />
 
                 {/* Colaboradores */}
                 <label>Colaboradores</label>
