@@ -53,7 +53,7 @@ const NovelForm = () => {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-    formData.append('genres', genres);
+    genres.forEach(genre => formData.append('genres', genre));
     formData.append('subGenres', subGenres.split(',').map(subGenre => subGenre.trim()));
     formData.append('classification', classification);
     formData.append('tags', tags.split(',').map(tag => tag.trim()));
