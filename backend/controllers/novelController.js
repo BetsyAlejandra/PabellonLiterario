@@ -12,27 +12,20 @@ const createNovel = async (req, res) => {
 
     const { title, description, genres, classification, tags, subGenres, collaborators, adaptations, awards, progress } = req.body;
 
-    console.log('Datos recibidos en el backend:', {
-      title,
-      description,
-      genres,
-      classification,
-      tags,
-      subGenres,
-      collaborators,
-      adaptations,
-      awards,
-      progress
-    });
-
     // Lista de géneros válidos
-    const validGenres = ["Fantasía","Romance","Ciencia ficción","Drama",
-      "Aventura","Terror","Suspenso","Comedia","Histórico","Misterio","Poesía","Distopía"];
+    const validGenres = ["Fantasía", "Romance", "Ciencia ficción", "Drama", "Aventura", "Terror",
+      "Suspenso", "Comedia", "Histórico", "Misterio", "Poesía", "Distopía"];
 
-    // Validar géneros
-    const parsedGenres = Array.isArray(genres) ? genres : JSON.parse(genres);
-    if (!Array.isArray(parsedGenres) || !parsedGenres.every((genre) => validGenres.includes(genre))) {
-      return res.status(400).json({ message: 'Género(s) inválido(s) o datos no válidos.' });
+    console.log('Tipo de parsedGenres:', typeof parsedGenres, Array.isArray(parsedGenres));
+    console.log('Contenido de parsedGenres:', parsedGenres);
+
+    // Validar y parsear géneros
+    let parsedGenres;
+    try {
+      parsedGenres = Array.isArray(genres) ? genres : JSON.parse(genres);
+    } catch (parseError) {
+      console.error('Error al parsear géneros:', parseError);
+      return res.status(400).json({ message: 'Formato de géneros inválido.' });
     }
     console.log('genres recibido en el backend:', parsedGenres);
 
@@ -57,6 +50,12 @@ const createNovel = async (req, res) => {
     const parsedAwards = awards ? JSON.parse(awards) : [];
     const novelProgress = ['En progreso', 'Finalizada', 'En revisión', 'Pausada'].includes(progress) ? progress : 'En progreso';
 
+    // Validar roles de colaboradores
+    const validRoles = ['Editor', 'Cotraductor'];
+    if (!parsedCollaborators.every(collab => validRoles.includes(collab.role))) {
+      return res.status(400).json({ message: 'Rol de colaborador inválido.' });
+    }
+
     // Crear la novela
     const newNovel = await Novel.create({
       title,
@@ -75,10 +74,11 @@ const createNovel = async (req, res) => {
 
     res.status(201).json(newNovel);
   } catch (error) {
-    console.error('Error al crear la novela:', error); // Imprime todo el objeto de error
+    console.error('Error al crear la novela:', error);
     res.status(500).json({ message: 'Error al crear la novela', error: error.message });
   }
 };
+
 
 
 // Obtener todas las novelas

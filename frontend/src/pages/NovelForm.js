@@ -408,12 +408,14 @@ const NovelForm = () => {
             <input
               type="file"
               id="coverImage"
+              name="coverImage" // Añade este atributo
               className="form-control-file mt-4 custom-file-input"
               accept="image/*"
               onChange={handleImageChange}
               required
-              style={{ display: 'none' }}  // Ocultar el input file real
+              style={{ display: 'none' }}
             />
+
           </div>
         </div>
       </div>

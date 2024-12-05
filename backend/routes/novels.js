@@ -23,6 +23,7 @@ const getGenres = (req, res) => {
   res.status(200).json(validGenres);
 };
 
+router.get('/genres', getGenres); // Rutas específicas primero
 router.get('/search', searchNovels);
 router.get('/my-stories', isAuthenticated, async (req, res) => {
   try {
@@ -40,14 +41,10 @@ router.get('/my-stories', isAuthenticated, async (req, res) => {
     res.status(500).json({ message: 'Error al cargar las historias.' });
   }
 });
-
-// Rutas específicas primero
-router.get('/genres', getGenres); // Rutas específicas primero
 router.get('/latest', getLatestNovels);
-
 router.get('/', getNovels);
-// Ruta para subir una novela con imagen
 router.post('/create', isAuthenticated, upload, handleMulterError, createNovel);
+
 router.get('/:storyId/chapters/:chapterId', async (req, res) => {
   const { storyId, chapterId } = req.params;
   try {
@@ -118,7 +115,6 @@ router.get('/:storyId/chapters/:chapterId/navigation', async (req, res) => {
     res.status(500).json({ message: 'Error al obtener navegación.', error });
   }
 });
-
 router.get('/:id', (req, res, next) => {
   const { id } = req.params;
 
