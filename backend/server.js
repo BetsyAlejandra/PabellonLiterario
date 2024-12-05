@@ -43,7 +43,7 @@ app.use(cors({
 }));
 
 // Middleware para parsear JSON y cookies
-app.use(express.json({ limit: '10kb' })); // Limita el tamaño de las solicitudes
+app.use(express.json({ limit: '100mb' }));
 app.use(cookieParser());
 
 // Configuración de sesiones

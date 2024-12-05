@@ -25,8 +25,6 @@ const ADAPTATION_TYPES = [
 ];
 
 const LANGUAGES = ['Japonés', 'Chino', 'Coreano', 'Inglés'];
-
-// Asegúrate de definir este arreglo antes de usarlo
 const ROLES = ['Traductor', 'Editor', 'Ilustrador', 'Corrector'];
 
 const NovelForm = () => {
@@ -192,203 +190,267 @@ const NovelForm = () => {
   };
 
   return (
-    <div className="container my-5">
-      {/* Modal */}
-      <Modal show={showModal} onHide={handleCloseModal} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{modalType === 'success' ? '¡Éxito!' : 'Error'}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{modalMessage}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleCloseModal}>
-            Cerrar
-          </Button>
-        </Modal.Footer>
-      </Modal>
+    <div className="novel-form-container">
+      <div className="novel-form-card">
+        <div className="container my-5">
+          {/* Modal */}
+          <Modal
+            show={showModal}
+            onHide={handleCloseModal}
+            centered
+            className={modalType === 'success' ? 'modal-success' : 'modal-error'}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>{modalType === 'success' ? '¡Éxito!' : 'Error'}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>{modalMessage}</Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant={modalType === 'success' ? 'success' : 'danger'}
+                onClick={handleCloseModal}
+              >
+                Cerrar
+              </Button>
+            </Modal.Footer>
+          </Modal>
 
-      {/* Modal para subgéneros */}
-      <Modal show={showSubGenreModal} onHide={closeSubGenreModal} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Selecciona Subgéneros</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Table>
-            <tbody>
-              {SUBGENRES.map((subGenre) => (
-                <tr key={subGenre}>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={subGenres.includes(subGenre)}
-                      onChange={() => toggleSubGenre(subGenre)}
-                    />
-                  </td>
-                  <td>{subGenre}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={closeSubGenreModal}>Cerrar</Button>
-        </Modal.Footer>
-      </Modal>
+          {/* Modal para subgéneros */}
+          <Modal show={showSubGenreModal} onHide={closeSubGenreModal} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Selecciona Subgéneros</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Table>
+                <tbody>
+                  {SUBGENRES.map((subGenre) => (
+                    <tr key={subGenre}>
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={subGenres.includes(subGenre)}
+                          onChange={() => toggleSubGenre(subGenre)}
+                        />
+                      </td>
+                      <td>{subGenre}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" onClick={closeSubGenreModal}>Cerrar</Button>
+            </Modal.Footer>
+          </Modal>
 
-      {/* Formulario */}
-      <form onSubmit={handleSubmit}>
-        <h2>Crear Nueva Novela</h2>
+          {/* Formulario */}
+          <form onSubmit={handleSubmit}>
+            <h2>Crear Nueva Novela</h2>
 
-        {/* Título */}
-        <label>Título</label>
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
-
-        {/* Sinopsis */}
-        <label>Sinopsis</label>
-        <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
-
-        {/* Idioma de origen */}
-        <label>Idioma de Origen</label>
-        <select value={languageOrigin} onChange={(e) => setLanguageOrigin(e.target.value)} required>
-          <option value="">Selecciona un idioma</option>
-          {LANGUAGES.map((lang) => (
-            <option key={lang} value={lang}>
-              {lang}
-            </option>
-          ))}
-        </select>
-
-        {languageOrigin === 'Coreano' && (
-          <div className="form-group">
-            <label>Contraseña:</label>
-            <input
-              type="password"
-              className="form-control"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-        )}
-
-        {/* Portada */}
-        <label>Portada</label>
-        <input type="file" onChange={handleImageChange} accept="image/*" required />
-
-        {/* Género */}
-        <label>Género</label>
-        <select value={selectedGenre} onChange={(e) => setSelectedGenre(e.target.value)} required>
-          <option value="">Selecciona un género</option>
-          {GENRES.map((genre) => (
-            <option key={genre} value={genre}>
-              {genre}
-            </option>
-          ))}
-        </select>
-
-        {/* Subgéneros */}
-        <label>Subgéneros (hasta 15)</label>
-        <Button onClick={() => setShowSubGenreModal(true)}>Seleccionar Subgéneros</Button>
-
-        {/* Colaboradores */}
-        <label>Colaboradores</label>
-        {collaborators.map((collaborator, index) => (
-          <div key={index}>
+            {/* Título */}
+            <label>Título</label>
             <input
               type="text"
-              placeholder="Usuario"
-              list={`user-suggestions-${index}`}
-              value={collaborator.username}
-              onChange={(e) => handleCollaboratorChange(index, 'username', e.target.value)}
+              className="form-control"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
             />
-            <datalist id={`user-suggestions-${index}`}>
-              {userSuggestions.map((user) => (
-                <option key={user.id} value={user.username} />
-              ))}
-            </datalist>
 
+            {/* Sinopsis */}
+            <label>Sinopsis</label>
+            <textarea
+              className="form-control"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+
+            {/* Idioma de origen */}
+            <label>Idioma de Origen</label>
             <select
-              value={collaborator.role}
-              onChange={(e) => handleCollaboratorChange(index, 'role', e.target.value)}
+              className="form-control"
+              value={languageOrigin}
+              onChange={(e) => setLanguageOrigin(e.target.value)}
+              required
             >
-              <option value="">Selecciona un rol</option>
-              {ROLES.map((role) => (
-                <option key={role} value={role}>
-                  {role}
+              <option value="">Selecciona un idioma</option>
+              {LANGUAGES.map((lang) => (
+                <option key={lang} value={lang}>
+                  {lang}
                 </option>
               ))}
             </select>
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={() => setCollaborators([...collaborators, { username: '', role: '' }])}
-        >
-          Añadir Colaborador
-        </button>
 
-        {/* Adaptaciones */}
-        <label>Adaptaciones</label>
-        {adaptations.map((adaptation, index) => (
-          <div key={index}>
+            {languageOrigin === 'Coreano' && (
+              <div className="form-group">
+                <label>Contraseña:</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+            )}
+
+            {/* Portada */}
+            <label>Portada</label>
+            <input
+              type="file"
+              className="form-control-file"
+              onChange={handleImageChange}
+              accept="image/*"
+              required
+            />
+
+            {previewImage && (
+              <div className="novel-preview">
+                <h5>Previsualización de la Portada</h5>
+                <img src={previewImage} alt="Preview" className="novel-cover" />
+              </div>
+            )}
+
+            {/* Género */}
+            <label>Género</label>
             <select
-              value={adaptation.type}
-              onChange={(e) =>
-                setAdaptations((prev) =>
-                  prev.map((ad, i) => (i === index ? { ...ad, type: e.target.value } : ad))
-                )
-              }
+              className="form-control"
+              value={selectedGenre}
+              onChange={(e) => setSelectedGenre(e.target.value)}
+              required
             >
-              <option value="">Selecciona un tipo</option>
-              {ADAPTATION_TYPES.map((type) => (
-                <option key={type} value={type}>
-                  {type}
+              <option value="">Selecciona un género</option>
+              {GENRES.map((genre) => (
+                <option key={genre} value={genre}>
+                  {genre}
                 </option>
               ))}
             </select>
+
+            {/* Subgéneros */}
+            <label>Subgéneros (hasta 15)</label>
+            <Button variant="outline-light" onClick={() => setShowSubGenreModal(true)}>
+              Seleccionar Subgéneros
+            </Button>
+
+            {/* Colaboradores */}
+            <label>Colaboradores</label>
+            {collaborators.map((collaborator, index) => (
+              <div key={index}>
+                <input
+                  type="text"
+                  placeholder="Usuario"
+                  list={`user-suggestions-${index}`}
+                  className="form-control"
+                  value={collaborator.username}
+                  onChange={(e) => handleCollaboratorChange(index, 'username', e.target.value)}
+                />
+                <datalist id={`user-suggestions-${index}`}>
+                  {userSuggestions.map((user) => (
+                    <option key={user.id} value={user.username} />
+                  ))}
+                </datalist>
+
+                <select
+                  className="form-control"
+                  value={collaborator.role}
+                  onChange={(e) => handleCollaboratorChange(index, 'role', e.target.value)}
+                >
+                  <option value="">Selecciona un rol</option>
+                  {ROLES.map((role) => (
+                    <option key={role} value={role}>
+                      {role}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="add-button"
+              onClick={() => setCollaborators([...collaborators, { username: '', role: '' }])}
+            >
+              Añadir Colaborador
+            </button>
+
+            {/* Adaptaciones */}
+            <label>Adaptaciones</label>
+            {adaptations.map((adaptation, index) => (
+              <div key={index}>
+                <select
+                  className="form-control"
+                  value={adaptation.type}
+                  onChange={(e) =>
+                    setAdaptations((prev) =>
+                      prev.map((ad, i) => (i === index ? { ...ad, type: e.target.value } : ad))
+                    )
+                  }
+                >
+                  <option value="">Selecciona un tipo</option>
+                  {ADAPTATION_TYPES.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  type="url"
+                  className="form-control"
+                  value={adaptation.link}
+                  onChange={(e) =>
+                    setAdaptations((prev) =>
+                      prev.map((ad, i) => (i === index ? { ...ad, link: e.target.value } : ad))
+                    )
+                  }
+                  placeholder="Enlace"
+                />
+              </div>
+            ))}
+            <button
+              type="button"
+              className="add-button"
+              onClick={() => setAdaptations([...adaptations, { type: '', link: '' }])}
+            >
+              Añadir Adaptación
+            </button>
+
+            {/* Enlace a la novela de origen */}
+            <label>Enlace a la Novela de Origen</label>
+            <input
+              type="text"
+              className="form-control"
+              value={rawOrigin.origin}
+              onChange={(e) => setRawOrigin((prev) => ({ ...prev, origin: e.target.value }))}
+              placeholder="Nombre de la novela original"
+            />
             <input
               type="url"
-              value={adaptation.link}
-              onChange={(e) =>
-                setAdaptations((prev) =>
-                  prev.map((ad, i) => (i === index ? { ...ad, link: e.target.value } : ad))
-                )
-              }
-              placeholder="Enlace"
+              className="form-control"
+              value={rawOrigin.link}
+              onChange={(e) => setRawOrigin((prev) => ({ ...prev, link: e.target.value }))}
+              placeholder="Enlace a la novela original"
             />
-          </div>
-        ))}
-        <button type="button" onClick={() => setAdaptations([...adaptations, { type: '', link: '' }])}>
-          Añadir Adaptación
-        </button>
 
-        {/* Enlace a la novela de origen */}
-        <label>Enlace a la Novela de Origen</label>
-        <input
-          type="text"
-          value={rawOrigin.origin}
-          onChange={(e) => setRawOrigin((prev) => ({ ...prev, origin: e.target.value }))}
-          placeholder="Nombre de la novela original"
-        />
-        <input
-          type="url"
-          value={rawOrigin.link}
-          onChange={(e) => setRawOrigin((prev) => ({ ...prev, link: e.target.value }))}
-          placeholder="Enlace a la novela original"
-        />
+            {/* Estado */}
+            <label>Estado</label>
+            <select
+              className="form-control"
+              value={progress}
+              onChange={(e) => setProgress(e.target.value)}
+              required
+            >
+              <option value="En progreso">En progreso</option>
+              <option value="Finalizada">Finalizada</option>
+              <option value="Pausada">Pausada</option>
+            </select>
 
-        {/* Estado */}
-        <label>Estado</label>
-        <select value={progress} onChange={(e) => setProgress(e.target.value)} required>
-          <option value="En progreso">En progreso</option>
-          <option value="Finalizada">Finalizada</option>
-          <option value="Pausada">Pausada</option>
-        </select>
-
-        {/* Botón de envío */}
-        <button type="submit" disabled={loading}>
-          {loading ? 'Creando...' : 'Crear Novela'}
-        </button>
-      </form>
+            {/* Botón de envío */}
+            <button type="submit" className="add-button" disabled={loading}>
+              {loading ? 'Creando...' : 'Crear Novela'}
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

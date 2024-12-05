@@ -203,6 +203,29 @@ router.put('/profile', isAuthenticated, upload.single('profilePhoto'), async (re
   }
 });
 
+// Ruta para obtener sugerencias de usuarios
+router.get('/api/users/suggestions', async (req, res) => {
+  const { name } = req.query;
+
+  if (!name) {
+    return res.status(400).json({ error: 'El parámetro "name" es requerido.' });
+  }
+
+  try {
+    // Usar una expresión regular para buscar coincidencias parciales, case-insensitive
+    const regex = new RegExp(name, 'i');
+
+    // Buscar usuarios cuyo username contenga el valor de 'name'
+    const users = await User.find({ username: regex })
+      .select('username _id') // selecciona los campos que quieres devolver
+      .limit(10); // limitar el número de resultados si es necesario
+
+    return res.json(users);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Error en el servidor' });
+  }
+});
 
 
 module.exports = router;

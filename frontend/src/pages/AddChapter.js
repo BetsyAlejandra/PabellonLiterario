@@ -175,6 +175,18 @@ const AddChapter = () => {
                             >
                                 ↦
                             </button>
+
+                            <button
+                                className="btn btn-tool"
+                                onClick={() => {
+                                    const url = prompt("Ingrese la URL del enlace:");
+                                    if (url) {
+                                        editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+                                    }
+                                }}
+                            >
+                                🌐
+                            </button>
                         </div>
 
                         <div className="editor-container border p-2 rounded">
