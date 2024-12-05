@@ -13,7 +13,7 @@ const createNovel = async (req, res) => {
     const authorUsername = req.session.user.username;
 
     const { title, description, genres, classification, tags } = req.body;
-    console.log('genres recibido en el backend:', genres);
+
     const validGenres = [
       'Fantasía', 'Horror', 'Moderno', 'Policial', 'Transmigración',
       'Transmigración Rápida', 'Viaje en el Tiempo', 'Xianxia', 'Recuentos de Vida',
@@ -25,10 +25,12 @@ const createNovel = async (req, res) => {
     // Asegúrate de que genres sea un arreglo
     const parsedGenres = typeof genres === 'string' ? JSON.parse(genres) : genres;
 
-    // Validar que genres sea un arreglo antes de verificar los géneros
-    if (!Array.isArray(genres) || !genres.every((genre) => validGenres.includes(genre))) {
+    // Validar que parsedGenres sea un arreglo antes de verificar los géneros
+    if (!Array.isArray(parsedGenres) || !parsedGenres.every((genre) => validGenres.includes(genre))) {
       return res.status(400).json({ message: 'Género(s) inválido(s) o datos no válidos.' });
     }
+    console.log('genres recibido en el backend:', parsedGenres);
+
 
     // Verificar si el archivo de imagen se subió
     if (!req.file) {
@@ -46,7 +48,7 @@ const createNovel = async (req, res) => {
     const newNovel = await Novel.create({
       title,
       description,
-      genres,
+      genres: parsedGenres,
       classification,
       tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
       coverImage,
