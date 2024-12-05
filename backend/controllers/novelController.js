@@ -10,9 +10,33 @@ const createNovel = async (req, res) => {
 
     const authorUsername = req.session.user.username;
 
-    const { title, description, genres, classification, tags, collaborators  } = req.body;
+    // Extraer todos los campos necesarios, incluyendo 'collaborators'
+    const { title, description, genres, classification, tags, collaborators, adaptations, awards, progress } = req.body;
 
-    const genresArray = Array.isArray(genres) ? genres : [genres];
+    // Logs para depuración
+    console.log('=== Datos Recibidos ===');
+    console.log('Title:', title);
+    console.log('Description:', description);
+    console.log('Genres:', genres, 'Tipo:', typeof genres);
+    console.log('Classification:', classification);
+    console.log('Tags:', tags);
+    console.log('Collaborators:', collaborators);
+    console.log('Adaptations:', adaptations);
+    console.log('Awards:', awards);
+    console.log('Progress:', progress);
+    console.log('Archivo Recibido:', req.file);
+
+    // Asegurarse de que 'genres' se maneje correctamente
+    let genresArray;
+    if (Array.isArray(genres)) {
+      genresArray = genres;
+    } else if (typeof genres === 'string') {
+      genresArray = [genres];
+    } else {
+      genresArray = [];
+    }
+
+    console.log('GenresArray:', genresArray);
 
     const validGenres = [
       'Fantasía',
@@ -28,6 +52,8 @@ const createNovel = async (req, res) => {
       'Poesía',
       'Distopía',
     ];
+
+    // Validar géneros
     if (!genresArray.every((genre) => validGenres.includes(genre))) {
       return res.status(400).json({ message: 'Género(s) inválido(s).' });
     }
@@ -47,11 +73,39 @@ const createNovel = async (req, res) => {
     const coverImage = `/uploads/${req.file.filename}`;
 
     // Procesar campos adicionales
-    const parsedCollaborators = collaborators ? JSON.parse(collaborators) : [];
+    let parsedCollaborators = [];
+    if (collaborators) {
+      try {
+        parsedCollaborators = JSON.parse(collaborators);
+        console.log('Parsed Collaborators:', parsedCollaborators);
+      } catch (parseError) {
+        return res.status(400).json({ message: 'Formato de colaboradores inválido.' });
+      }
+    }
+
+    let parsedAdaptations = [];
+    if (adaptations) {
+      try {
+        parsedAdaptations = JSON.parse(adaptations);
+        console.log('Parsed Adaptations:', parsedAdaptations);
+      } catch (parseError) {
+        return res.status(400).json({ message: 'Formato de adaptaciones inválido.' });
+      }
+    }
+
+    let parsedAwards = [];
+    if (awards) {
+      try {
+        parsedAwards = JSON.parse(awards);
+        console.log('Parsed Awards:', parsedAwards);
+      } catch (parseError) {
+        return res.status(400).json({ message: 'Formato de premios inválido.' });
+      }
+    }
 
     // Validar roles de colaboradores
     const validRoles = ['Editor', 'Cotraductor'];
-    if (!parsedCollaborators.every(collab => validRoles.includes(collab.role))) {
+    if (parsedCollaborators.length > 0 && !parsedCollaborators.every(collab => validRoles.includes(collab.role))) {
       return res.status(400).json({ message: 'Rol de colaborador inválido.' });
     }
 
@@ -59,11 +113,15 @@ const createNovel = async (req, res) => {
     const newNovel = await Novel.create({
       title,
       description,
-      genres: genresArray,
+      genres: genresArray, // Usar genresArray en lugar de genres
       classification,
-      tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
+      tags: tags ? tags : [], // Ya está procesado como arreglo en frontend
       coverImage,
       author: authorUsername, // Almacena el username en lugar del ObjectId
+      collaborators: parsedCollaborators,
+      adaptations: parsedAdaptations,
+      awards: parsedAwards,
+      progress,
     });
 
     res.status(201).json(newNovel);
@@ -72,6 +130,7 @@ const createNovel = async (req, res) => {
     res.status(500).json({ message: 'Error al crear la novela', error: error.message });
   }
 };
+
 
 
 

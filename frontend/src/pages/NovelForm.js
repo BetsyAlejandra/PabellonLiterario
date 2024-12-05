@@ -40,20 +40,20 @@ const NovelForm = () => {
   // Maneja el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     console.log('Género seleccionado:', selectedGenre);
-
-    if (!coverImage || !title || !description || genres.length === 0 || !classification) {
+  
+    if (!coverImage || !title || !description || selectedGenre === '' || !classification) {
       setModalMessage('Por favor, completa todos los campos obligatorios.');
       setModalType('error');
       setShowModal(true);
       return;
     }
-
+  
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-    genres.forEach(genre => formData.append('genres', genre));
+    formData.append('genres', selectedGenre); // Cambiado de genres.forEach
     formData.append('subGenres', subGenres.split(',').map(subGenre => subGenre.trim()));
     formData.append('classification', classification);
     formData.append('tags', tags.split(',').map(tag => tag.trim()));
@@ -62,7 +62,7 @@ const NovelForm = () => {
     formData.append('adaptations', JSON.stringify(adaptations));
     formData.append('awards', JSON.stringify(awards));
     formData.append('progress', progress);
-
+  
     try {
       setLoading(true);
       const res = await axios.post('/api/novels/create', formData, {
@@ -71,14 +71,15 @@ const NovelForm = () => {
         },
         withCredentials: true, // Incluye cookies de sesión
       });
-
+  
       setModalMessage('¡Novela creada exitosamente!');
       setModalType('success');
       setShowModal(true);
-
+  
+      // Reiniciar solo los campos seleccionados
       setTitle('');
       setDescription('');
-      setGenres('');
+      setSelectedGenre(''); // Reiniciar selectedGenre
       setSubGenres('');
       setClassification('');
       setTags('');
@@ -88,7 +89,7 @@ const NovelForm = () => {
       setAdaptations([{ type: '', title: '', releaseDate: '', link: '' }]);
       setAwards([{ title: '', year: '', organization: '' }]);
       setProgress('En progreso');
-
+  
       setTimeout(() => {
         navigate('/my-stories');
       }, 2000);
@@ -99,6 +100,7 @@ const NovelForm = () => {
       setLoading(false);
     }
   };
+  
 
   // Maneja la selección de la imagen de portada
   const handleImageChange = (e) => {
