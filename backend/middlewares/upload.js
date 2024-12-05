@@ -43,7 +43,7 @@ const upload = multer({
 // Middleware de manejo de errores para multer
 const handleMulterError = (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
-    // Errores relacionados con multer (ej., tamaño del archivo)
+    console.error('Error de Multer:', err.message); // Imprimir mensaje del error
     return res.status(400).json({ message: `Error al subir el archivo: ${err.message}` });
   } else if (err) {
     // Otros errores (ej., tipo de archivo no permitido)
