@@ -1,8 +1,8 @@
 const express = require('express');
 const Novel = require('../models/Novel');
-const { createNovel, getNovels, getLatestNovels, 
+const { createNovel, getNovels, getLatestNovels,
   getNovelById, addChapter, addReview, searchNovels,
-getChapterById  } = require('../controllers/novelController');
+  getChapterById } = require('../controllers/novelController');
 const { upload, handleMulterError } = require('../middlewares/upload');
 
 const router = express.Router();
@@ -18,9 +18,21 @@ const isAuthenticated = (req, res, next) => {
 
 const getGenres = (req, res) => {
   console.log('Ruta /genres alcanzada');
-  const validGenres = ["Fantasía","Romance","Ciencia ficción","Drama","Aventura","Terror",
-    "Suspenso","Comedia","Histórico","Misterio","Poesía","Distopía"];
-  res.status(200).json(validGenres);
+  const genres = [
+    'Fantasía',
+    'Romance',
+    'Ciencia ficción',
+    'Drama',
+    'Aventura',
+    'Terror',
+    'Suspenso',
+    'Comedia',
+    'Histórico',
+    'Misterio',
+    'Poesía',
+    'Distopía',
+  ];
+  res.status(200).json(genres);
 };
 
 router.get('/genres', getGenres); // Rutas específicas primero
@@ -48,19 +60,19 @@ router.post('/create', isAuthenticated, upload, handleMulterError, createNovel);
 router.get('/:storyId/chapters/:chapterId', async (req, res) => {
   const { storyId, chapterId } = req.params;
   try {
-      const novel = await Novel.findById(storyId);
-      if (!novel) {
-          return res.status(404).json({ message: 'Novela no encontrada' });
-      }
+    const novel = await Novel.findById(storyId);
+    if (!novel) {
+      return res.status(404).json({ message: 'Novela no encontrada' });
+    }
 
-      const chapter = novel.chapters.id(chapterId);
-      if (!chapter) {
-          return res.status(404).json({ message: 'Capítulo no encontrado' });
-      }
+    const chapter = novel.chapters.id(chapterId);
+    if (!chapter) {
+      return res.status(404).json({ message: 'Capítulo no encontrado' });
+    }
 
-      res.status(200).json(chapter);
+    res.status(200).json(chapter);
   } catch (error) {
-      res.status(500).json({ message: 'Error al obtener el capítulo', error: error.message });
+    res.status(500).json({ message: 'Error al obtener el capítulo', error: error.message });
   }
 });
 router.put('/:storyId/chapters/:chapterId', async (req, res) => {
@@ -68,23 +80,23 @@ router.put('/:storyId/chapters/:chapterId', async (req, res) => {
   const { title, content } = req.body;
 
   try {
-      const novel = await Novel.findById(storyId);
-      if (!novel) {
-          return res.status(404).json({ message: 'Novela no encontrada' });
-      }
+    const novel = await Novel.findById(storyId);
+    if (!novel) {
+      return res.status(404).json({ message: 'Novela no encontrada' });
+    }
 
-      const chapter = novel.chapters.id(chapterId);
-      if (!chapter) {
-          return res.status(404).json({ message: 'Capítulo no encontrado' });
-      }
+    const chapter = novel.chapters.id(chapterId);
+    if (!chapter) {
+      return res.status(404).json({ message: 'Capítulo no encontrado' });
+    }
 
-      chapter.title = title || chapter.title;
-      chapter.content = content || chapter.content;
+    chapter.title = title || chapter.title;
+    chapter.content = content || chapter.content;
 
-      await novel.save();
-      res.status(200).json({ message: 'Capítulo actualizado exitosamente' });
+    await novel.save();
+    res.status(200).json({ message: 'Capítulo actualizado exitosamente' });
   } catch (error) {
-      res.status(500).json({ message: 'Error al actualizar el capítulo', error: error.message });
+    res.status(500).json({ message: 'Error al actualizar el capítulo', error: error.message });
   }
 });
 router.post('/:id/reviews', isAuthenticated, addReview);

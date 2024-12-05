@@ -17,8 +17,20 @@ const novelSchema = new mongoose.Schema(
     genres: {
       type: [String],
       required: true,
-      enum: ["Fantasía","Romance","Ciencia ficción","Drama","Aventura",
-        "Terror","Suspenso","Comedia","Histórico","Misterio","Poesía","Distopía"],
+      enum: [
+        'Fantasía',
+        'Romance',
+        'Ciencia ficción',
+        'Drama',
+        'Aventura',
+        'Terror',
+        'Misterio',
+        'Suspenso',
+        'Comedia',
+        'Histórico',
+        'Poesía',
+        'Distopía',
+      ],  // Lista de géneros principales
     },
     subGenres: [{ type: String }],  // Subgéneros adicionales
     classification: {
@@ -48,7 +60,7 @@ const novelSchema = new mongoose.Schema(
     author: {
       type: String,
       required: [true, 'El autor es obligatorio'],
-    },
+    },       
     collaborators: [{
       name: String,
       role: { type: String, enum: ['Editor', 'Cotraductor'] },
@@ -76,7 +88,7 @@ const novelSchema = new mongoose.Schema(
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],  // Usuarios que siguen la novela
     isPremium: { type: Boolean, default: false },  // Si es contenido premium
 
-    password: { type: String, default: false }, //Que tenga contraseña
+    password: {type: String, default: false}, //Que tenga contraseña
 
     rawOrigin: [{
       origin: { type: String, required: true },

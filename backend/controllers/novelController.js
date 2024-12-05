@@ -10,26 +10,25 @@ const createNovel = async (req, res) => {
 
     const authorUsername = req.session.user.username;
 
-    const { title, description, genres, classification, tags, subGenres, collaborators, adaptations, awards, progress } = req.body;
+    const { title, description, genres, classification, tags } = req.body;
 
-    // Lista de géneros válidos
-    const validGenres = ["Fantasía", "Romance", "Ciencia ficción", "Drama", "Aventura", "Terror",
-      "Suspenso", "Comedia", "Histórico", "Misterio", "Poesía", "Distopía"];
-
-      console.log('Tipo de genres recibido:', typeof genres);
-      console.log('Contenido de genres recibido:', genres);
-
-    // Validar y parsear géneros
-    let parsedGenres;
-    try {
-      // Asegúrate de que `genres` sea un arreglo
-      parsedGenres = Array.isArray(genres) ? genres : JSON.parse(genres);
-    } catch (parseError) {
-      console.error('Error al parsear géneros:', parseError);
-      return res.status(400).json({ message: 'Formato de géneros inválido.' });
+    const validGenres = [
+      'Fantasía',
+      'Romance',
+      'Ciencia ficción',
+      'Drama',
+      'Aventura',
+      'Terror',
+      'Misterio',
+      'Suspenso',
+      'Comedia',
+      'Histórico',
+      'Poesía',
+      'Distopía',
+    ];
+    if (!genres.every((genre) => validGenres.includes(genre))) {
+      return res.status(400).json({ message: 'Género(s) inválido(s).' });
     }
-
-    console.log('Genres procesados:', parsedGenres);
 
     // Verificar si el archivo de imagen se subió
     if (!req.file) {
@@ -46,11 +45,7 @@ const createNovel = async (req, res) => {
     const coverImage = `/uploads/${req.file.filename}`;
 
     // Procesar campos adicionales
-    const parsedSubGenres = subGenres ? JSON.parse(subGenres) : [];
     const parsedCollaborators = collaborators ? JSON.parse(collaborators) : [];
-    const parsedAdaptations = adaptations ? JSON.parse(adaptations) : [];
-    const parsedAwards = awards ? JSON.parse(awards) : [];
-    const novelProgress = ['En progreso', 'Finalizada', 'En revisión', 'Pausada'].includes(progress) ? progress : 'En progreso';
 
     // Validar roles de colaboradores
     const validRoles = ['Editor', 'Cotraductor'];
@@ -62,16 +57,11 @@ const createNovel = async (req, res) => {
     const newNovel = await Novel.create({
       title,
       description,
-      genres: parsedGenres,
+      genres,
       classification,
-      tags: tags ? JSON.parse(tags) : [],
+      tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
       coverImage,
-      author: authorUsername,
-      subGenres: parsedSubGenres,
-      collaborators: parsedCollaborators,
-      adaptations: parsedAdaptations,
-      awards: parsedAwards,
-      progress: novelProgress,
+      author: authorUsername, // Almacena el username en lugar del ObjectId
     });
 
     res.status(201).json(newNovel);

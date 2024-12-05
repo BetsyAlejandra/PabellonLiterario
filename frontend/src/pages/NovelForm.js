@@ -27,7 +27,7 @@ const NovelForm = () => {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const response = await axios.get('/api/novels/genres');
+        const response = await axios.get('http://localhost:5000/api/novels/genres');
         setGenres(response.data); // Guarda los géneros obtenidos
       } catch (error) {
         console.error('Error al obtener los géneros:', error.message);
@@ -43,7 +43,7 @@ const NovelForm = () => {
 
     console.log('Género seleccionado:', selectedGenre);
 
-    if (!coverImage || !title || !description || selectedGenre.length === 0 || !classification) {
+    if (!coverImage || !title || !description || genres.length === 0 || !classification) {
       setModalMessage('Por favor, completa todos los campos obligatorios.');
       setModalType('error');
       setShowModal(true);
@@ -53,25 +53,19 @@ const NovelForm = () => {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-    formData.append('genres', JSON.stringify([selectedGenre])); // Asegúrate de que se pase como un arreglo
-    console.log('Géneros:', JSON.stringify([selectedGenre]));
-    formData.append('subGenres', JSON.stringify(subGenres.split(',').map((subGenre) => subGenre.trim())));
+    formData.append('genres', genres);
+    formData.append('subGenres', subGenres.split(',').map(subGenre => subGenre.trim()));
     formData.append('classification', classification);
-    formData.append('tags', JSON.stringify(tags.split(',').map((tag) => tag.trim())));
+    formData.append('tags', tags.split(',').map(tag => tag.trim()));
     formData.append('coverImage', coverImage);
     formData.append('collaborators', JSON.stringify(collaborators));
     formData.append('adaptations', JSON.stringify(adaptations));
     formData.append('awards', JSON.stringify(awards));
     formData.append('progress', progress);
 
-    // Imprime el contenido de formData
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ': ' + pair[1]);
-    }
-
     try {
       setLoading(true);
-      const res = await axios.post('/api/novels/create', formData, {
+      const res = await axios.post('http://localhost:5000/api/novels/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -81,6 +75,19 @@ const NovelForm = () => {
       setModalMessage('¡Novela creada exitosamente!');
       setModalType('success');
       setShowModal(true);
+
+      setTitle('');
+      setDescription('');
+      setGenres('');
+      setSubGenres('');
+      setClassification('');
+      setTags('');
+      setCoverImage(null);
+      setPreviewImage(null);
+      setCollaborators([{ name: '', role: '' }]);
+      setAdaptations([{ type: '', title: '', releaseDate: '', link: '' }]);
+      setAwards([{ title: '', year: '', organization: '' }]);
+      setProgress('En progreso');
 
       setTimeout(() => {
         navigate('/my-stories');
@@ -222,10 +229,7 @@ const NovelForm = () => {
                 <select
                   id="genres"
                   value={selectedGenre}
-                  onChange={(e) => {
-                    setSelectedGenre(e.target.value);
-                    // No modificar 'genres' aquí
-                  }}
+                  onChange={(e) => setSelectedGenre(e.target.value)}
                   required
                 >
                   <option value="">Selecciona un género</option>
@@ -301,13 +305,13 @@ const NovelForm = () => {
               </div>
 
               <div className="form-group mt-3">
-                <label>Adaptaciones, Raw (Novela Original)</label>
+                <label>Adaptaciones:</label>
                 {adaptations.map((adaptation, index) => (
                   <div key={index}>
                     <input
                       type="text"
                       name="type"
-                      placeholder="Tipo (ej. jjwxc)"
+                      placeholder="Tipo (ej. Película)"
                       value={adaptation.type}
                       onChange={(e) => handleAdaptationChange(index, e)}
                     />
@@ -409,14 +413,12 @@ const NovelForm = () => {
             <input
               type="file"
               id="coverImage"
-              name="coverImage" // Añade este atributo
               className="form-control-file mt-4 custom-file-input"
               accept="image/*"
               onChange={handleImageChange}
               required
-              style={{ display: 'none' }}
+              style={{ display: 'none' }}  // Ocultar el input file real
             />
-
           </div>
         </div>
       </div>
