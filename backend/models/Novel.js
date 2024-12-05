@@ -18,18 +18,11 @@ const novelSchema = new mongoose.Schema(
       type: [String],
       required: true,
       enum: [
-        'Fantasía',
-        'Romance',
-        'Ciencia ficción',
-        'Drama',
-        'Aventura',
-        'Terror',
-        'Misterio',
-        'Suspenso',
-        'Comedia',
-        'Histórico',
-        'Poesía',
-        'Distopía',
+        'Fantasía', 'Horror', 'Moderno', 'Policial', 'Transmigración',
+      'Transmigración Rápida', 'Viaje en el Tiempo', 'Xianxia', 'Recuentos de Vida',
+      'Renacimiento', 'Antiguo', 'Contemporaneo', 'ABO', 'Juvenil', 'Interestelar',
+      'Romance', 'Ciencia ficción', 'Drama', 'Aventura', 'Terror', 'Misterio',
+      'Suspenso', 'Comedia', 'Histórico', 'Poesía', 'Distopía',
       ],  // Lista de géneros principales
     },
     subGenres: [{ type: String }],  // Subgéneros adicionales

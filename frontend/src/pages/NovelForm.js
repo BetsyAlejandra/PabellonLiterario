@@ -229,7 +229,10 @@ const NovelForm = () => {
                 <select
                   id="genres"
                   value={selectedGenre}
-                  onChange={(e) => setSelectedGenre(e.target.value)}
+                  onChange={(e) => {
+                    setSelectedGenre(e.target.value);
+                    setGenres([e.target.value]); // Asegúrate de que genres tenga el género seleccionado
+                  }}
                   required
                 >
                   <option value="">Selecciona un género</option>

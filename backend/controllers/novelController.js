@@ -15,35 +15,16 @@ const createNovel = async (req, res) => {
     const { title, description, genres, classification, tags } = req.body;
 
     const validGenres = [
-      'Fantasía',
-      'Horror',
-      'Moderno',
-      'Policial',
-      'Transmigración',
-      'Transmigración Rápida',
-      'Viaje en el Tiempo',
-      'Xianxia',
-      'Recuentos de Vida',
-      'Renacimiento',
-      'Antiguo',
-      'Contemporaneo',
-      'ABO',
-      'Juvenil',
-      'Interestelar',
-      'Romance',
-      'Ciencia ficción',
-      'Drama',
-      'Aventura',
-      'Terror',
-      'Misterio',
-      'Suspenso',
-      'Comedia',
-      'Histórico',
-      'Poesía',
-      'Distopía',
+      'Fantasía', 'Horror', 'Moderno', 'Policial', 'Transmigración',
+      'Transmigración Rápida', 'Viaje en el Tiempo', 'Xianxia', 'Recuentos de Vida',
+      'Renacimiento', 'Antiguo', 'Contemporaneo', 'ABO', 'Juvenil', 'Interestelar',
+      'Romance', 'Ciencia ficción', 'Drama', 'Aventura', 'Terror', 'Misterio',
+      'Suspenso', 'Comedia', 'Histórico', 'Poesía', 'Distopía',
     ];
-    if (!genres.every((genre) => validGenres.includes(genre))) {
-      return res.status(400).json({ message: 'Género(s) inválido(s).' });
+
+    // Validar que genres sea un arreglo antes de verificar los géneros
+    if (!Array.isArray(genres) || !genres.every((genre) => validGenres.includes(genre))) {
+      return res.status(400).json({ message: 'Género(s) inválido(s) o datos no válidos.' });
     }
 
     // Verificar si el archivo de imagen se subió
