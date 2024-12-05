@@ -3,16 +3,18 @@ const Novel = require('../models/Novel');
 const User = require('../models/User');
 
 // Crear una novela
+const User = require('../models/User'); // Asegúrate de que la ruta es correcta
+const Novel = require('../models/Novel'); // Asegúrate de que la ruta es correcta
+
 const createNovel = async (req, res) => {
   try {
-
     if (!req.session.user || !req.session.user.username) {
       return res.status(401).json({ message: 'No autorizado. Debe iniciar sesión para crear una novela.' });
     }
 
     const authorUsername = req.session.user.username;
 
-    const { title, description, genres, classification, tags } = req.body;
+    const { title, description, genres, classification, tags, subGenres, collaborators, adaptations, awards, progress } = req.body;
 
     // Lista de géneros válidos
     const validGenres = [
@@ -23,19 +25,18 @@ const createNovel = async (req, res) => {
       'Suspenso', 'Comedia', 'Histórico', 'Poesía', 'Distopía',
     ];
 
-    // Asegúrate de que genres sea un arreglo
+    // Validar géneros
     const parsedGenres = Array.isArray(genres) ? genres : JSON.parse(genres);
-    // Validar que parsedGenres sea un arreglo y que contenga géneros válidos
     if (!Array.isArray(parsedGenres) || !parsedGenres.every((genre) => validGenres.includes(genre))) {
       return res.status(400).json({ message: 'Género(s) inválido(s) o datos no válidos.' });
     }
     console.log('genres recibido en el backend:', parsedGenres);
 
-
     // Verificar si el archivo de imagen se subió
     if (!req.file) {
       return res.status(400).json({ message: 'La portada es obligatoria' });
     }
+
     // Verificar si el usuario existe
     const user = await User.findOne({ username: authorUsername });
     if (!user) {
@@ -45,22 +46,36 @@ const createNovel = async (req, res) => {
     // Guardar la URL de la imagen
     const coverImage = `/uploads/${req.file.filename}`;
 
+    // Procesar campos adicionales
+    const parsedSubGenres = subGenres ? JSON.parse(subGenres) : [];
+    const parsedCollaborators = collaborators ? JSON.parse(collaborators) : [];
+    const parsedAdaptations = adaptations ? JSON.parse(adaptations) : [];
+    const parsedAwards = awards ? JSON.parse(awards) : [];
+    const novelProgress = ['En progreso', 'Finalizada', 'En revisión', 'Pausada'].includes(progress) ? progress : 'En progreso';
+
+    // Crear la novela
     const newNovel = await Novel.create({
       title,
       description,
       genres: parsedGenres,
       classification,
-      tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
+      tags: tags ? JSON.parse(tags) : [],
       coverImage,
-      author: authorUsername, // Almacena el username en lugar del ObjectId
+      author: authorUsername,
+      subGenres: parsedSubGenres,
+      collaborators: parsedCollaborators,
+      adaptations: parsedAdaptations,
+      awards: parsedAwards,
+      progress: novelProgress,
     });
 
     res.status(201).json(newNovel);
   } catch (error) {
-    console.error('Error al crear la novela:', error.message);
-    res.status(500).json({ message: 'Error al crear la novela', error });
+    console.error('Error al crear la novela:', error);
+    res.status(500).json({ message: 'Error al crear la novela', error: error.message });
   }
 };
+
 
 // Obtener todas las novelas
 const getNovels = async (req, res) => {

@@ -46,7 +46,7 @@ const novelSchema = new mongoose.Schema(
     completedAt: Date,  // Fecha de finalización si aplica
     progress: {
       type: String,
-      enum: ['En progreso', 'Finalizada', 'En revisión'],
+      enum: ['En progreso', 'Finalizada', 'Pausada'],
       default: 'En progreso',
     },
 
