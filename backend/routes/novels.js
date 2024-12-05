@@ -2,7 +2,7 @@ const express = require('express');
 const Novel = require('../models/Novel');
 const { createNovel, getNovels, getLatestNovels,
   getNovelById, addChapter, addReview, searchNovels,
-  getChapterById } = require('../controllers/novelController');
+  getChapterById, deleteNovel } = require('../controllers/novelController');
 const { upload, handleMulterError } = require('../middlewares/upload');
 
 const router = express.Router();
@@ -203,5 +203,6 @@ router.put('/update/:id', upload, handleMulterError, async (req, res) => {
 });
 
 router.post('/add-chapter/:id', addChapter);
+router.delete('/:id', isAuthenticated, deleteNovel);
 
 module.exports = router;

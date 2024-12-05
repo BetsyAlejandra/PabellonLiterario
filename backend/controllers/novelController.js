@@ -261,8 +261,41 @@ const getChapterById = async (req, res) => {
   }
 };
 
+const deleteNovel = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.session?.user?.id; // Asumiendo que estás almacenando el ID del usuario en la sesión
+
+  // Validar que el ID proporcionado es un ObjectId válido
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: 'ID de novela no válido.' });
+  }
+
+  try {
+    // Buscar la novela por ID
+    const novel = await Novel.findById(id);
+    if (!novel) {
+      return res.status(404).json({ message: 'Novela no encontrada.' });
+    }
+
+    // Verificar que el usuario que realiza la solicitud es el autor de la novela
+    if (novel.author !== req.session.user.username) {
+      return res.status(403).json({ message: 'No tienes permiso para eliminar esta novela.' });
+    }
+
+    // Eliminar la novela
+    await Novel.findByIdAndDelete(id);
+
+    res.status(200).json({ message: 'Novela eliminada exitosamente.' });
+  } catch (error) {
+    console.error('Error al eliminar la novela:', error.message);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+};
+
+
 
 module.exports = {
   createNovel, getNovels, getLatestNovels,
-  getNovelById, addChapter, addReview, searchNovels, getChapterById
+  getNovelById, addChapter, addReview, searchNovels, getChapterById,
+  deleteNovel
 };

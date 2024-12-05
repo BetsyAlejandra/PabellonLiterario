@@ -37,7 +37,9 @@ const MyStories = () => {
     const handleDeleteClick = async (id) => {
         if (window.confirm('¿Estás seguro de que deseas eliminar esta historia?')) {
             try {
-                await axios.delete(`/api/novels/${id}`);
+                await axios.delete(`/api/novels/${id}`, {
+                    withCredentials: true, // Incluir cookies de sesión
+                });
                 setStories((prevStories) => prevStories.filter((story) => story._id !== id));
                 alert('Historia eliminada exitosamente.');
             } catch (err) {
