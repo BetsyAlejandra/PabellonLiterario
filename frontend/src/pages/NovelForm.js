@@ -53,7 +53,8 @@ const NovelForm = () => {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-    formData.append('genres', JSON.stringify([selectedGenre])); // Asegúrate de que es un arreglo
+    formData.append('genres', JSON.stringify([selectedGenre])); // Asegúrate de que se pase como un arreglo
+    console.log('Géneros:', JSON.stringify([selectedGenre]));
     formData.append('subGenres', JSON.stringify(subGenres.split(',').map((subGenre) => subGenre.trim())));
     formData.append('classification', classification);
     formData.append('tags', JSON.stringify(tags.split(',').map((tag) => tag.trim())));

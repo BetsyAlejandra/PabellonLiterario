@@ -16,18 +16,20 @@ const createNovel = async (req, res) => {
     const validGenres = ["Fantasía", "Romance", "Ciencia ficción", "Drama", "Aventura", "Terror",
       "Suspenso", "Comedia", "Histórico", "Misterio", "Poesía", "Distopía"];
 
-    console.log('Tipo de parsedGenres:', typeof parsedGenres, Array.isArray(parsedGenres));
-    console.log('Contenido de parsedGenres:', parsedGenres);
+      console.log('Tipo de genres recibido:', typeof genres);
+      console.log('Contenido de genres recibido:', genres);
 
     // Validar y parsear géneros
     let parsedGenres;
     try {
+      // Asegúrate de que `genres` sea un arreglo
       parsedGenres = Array.isArray(genres) ? genres : JSON.parse(genres);
     } catch (parseError) {
       console.error('Error al parsear géneros:', parseError);
       return res.status(400).json({ message: 'Formato de géneros inválido.' });
     }
-    console.log('genres recibido en el backend:', parsedGenres);
+
+    console.log('Genres procesados:', parsedGenres);
 
     // Verificar si el archivo de imagen se subió
     if (!req.file) {
