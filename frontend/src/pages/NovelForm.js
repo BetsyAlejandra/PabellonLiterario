@@ -154,16 +154,26 @@ const NovelForm = () => {
     setLanguageOrigin('');
     setProgress('En progreso');
   };
-
+  
   const handleCollaboratorChange = async (index, key, value) => {
     const updatedCollaborators = [...collaborators];
     updatedCollaborators[index][key] = value;
-
+  
     if (key === 'username' && value.length > 2) {
-      const { data } = await axios.get(`/api/users/suggestions?name=${value}`);
-      setUserSuggestions(data);
+      try {
+        const { data } = await axios.get(`/api/users/suggestions?name=${value}`);
+        // Verificar que data sea un array antes de asignar
+        if (Array.isArray(data)) {
+          setUserSuggestions(data);
+        } else {
+          setUserSuggestions([]); // Por si acaso no es un array
+        }
+      } catch (error) {
+        console.error(error);
+        setUserSuggestions([]);
+      }
     }
-
+  
     setCollaborators(updatedCollaborators);
   };
 
