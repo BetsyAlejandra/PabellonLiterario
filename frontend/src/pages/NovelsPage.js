@@ -53,9 +53,12 @@ const NovelsPage = () => {
         {currentNovels.map((novel) => (
           <div className="col-md-4 mb-4" key={novel.id}>
             <div className="card">
-              <div className="story-image-container">
-                <img src={novel.cover} alt={novel.title} className="story-image" />
-              </div>
+              <img
+                variant="top"
+                src={novel.coverImage} // Usar el campo `coverImage` para la portada
+                className="carousel-image"
+                alt={`Cover image for ${novel.title}`}
+              />
               <div className="card-body">
                 <h5 className="card-title">{novel.title}</h5>
                 <p className="card-text">{novel.description.substring(0, 100)}...</p>

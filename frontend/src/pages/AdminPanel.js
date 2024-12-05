@@ -9,6 +9,8 @@ const AdminPanel = () => {
   const [selectedRoles, setSelectedRoles] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 10; // Número de usuarios por página
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -33,6 +35,7 @@ const AdminPanel = () => {
         user.email?.toLowerCase().includes(lowercasedTerm)
     );
     setFilteredUsers(filtered);
+    setCurrentPage(1); // Reinicia a la primera página después de buscar
   };
 
   const handleRoleChange = (role) => {
@@ -62,6 +65,12 @@ const AdminPanel = () => {
     }
   };
 
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+
   if (loading) return <div className="loading">Cargando...</div>;
 
   return (
@@ -81,7 +90,7 @@ const AdminPanel = () => {
         <div className="user-list">
           <h2>Lista de Usuarios</h2>
           <ul>
-            {filteredUsers.map((user) => (
+            {currentUsers.map((user) => (
               <li
                 key={user._id}
                 className={`user-item ${selectedUser === user._id ? 'selected' : ''}`}
@@ -136,6 +145,19 @@ const AdminPanel = () => {
         <button className="assign-role-btn" onClick={assignRoles}>
           Asignar Roles
         </button>
+      </div>
+
+      {/* Paginación */}
+      <div className="pagination">
+        {[...Array(Math.ceil(filteredUsers.length / usersPerPage)).keys()].map((number) => (
+          <button
+            key={number + 1}
+            className={`page-btn ${currentPage === number + 1 ? 'active' : ''}`}
+            onClick={() => paginate(number + 1)}
+          >
+            {number + 1}
+          </button>
+        ))}
       </div>
     </div>
   );
