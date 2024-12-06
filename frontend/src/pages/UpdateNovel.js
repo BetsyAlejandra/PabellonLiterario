@@ -47,15 +47,15 @@ const UpdateNovel = () => {
     const [password, setPassword] = useState('');
     const [progress, setProgress] = useState('En progreso');
     const [loading, setLoading] = useState(false);
-  
+
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
     const [modalType, setModalType] = useState('success');
-  
+
     const [showSubGenreModal, setShowSubGenreModal] = useState(false);
-  
+
     const closeSubGenreModal = () => {
-      setShowSubGenreModal(false);
+        setShowSubGenreModal(false);
     };
 
     const handleCollaboratorChange = async (index, key, value) => {
@@ -96,7 +96,7 @@ const UpdateNovel = () => {
                 setTitle(novel.title);
                 setDescription(novel.description);
                 setSelectedGenre(novel.genres[0] || '');
-                setSubGenres(novel.subGenres ? novel.subGenres.join(', ') : '');
+                setSubGenres(novel.subGenres || []);
                 setClassification(novel.classification || '');
                 setTags(novel.tags ? novel.tags.join(', ') : '');
                 setCollaborators(novel.collaborators || [{ name: '', role: '' }]);
@@ -140,13 +140,15 @@ const UpdateNovel = () => {
         }
 
         // Validar subgéneros
-        const subGenresArray = subGenres ? subGenres.split(',').map((s) => s.trim()).filter(Boolean) : [];
+        const subGenresArray = subGenres; // ahora subGenres es array
         if (subGenresArray.length > 15) {
             setModalMessage('Solo puedes seleccionar hasta 15 subgéneros.');
             setModalType('error');
             setShowModal(true);
             return;
         }
+        
+
 
         // Validar colaboradores si son obligatorios (en el create eran obligatorios solo si se llenaba algo)
         // En el ultimo requerimiento se dejaron colaboradores opcionales, no es obligatorio validarlos.
@@ -219,6 +221,7 @@ const UpdateNovel = () => {
             setSubGenres([...subGenres, subGenre]);
         }
     };
+
 
     const handleCloseModal = () => {
         setShowModal(false);
