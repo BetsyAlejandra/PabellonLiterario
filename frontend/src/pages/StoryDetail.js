@@ -163,8 +163,8 @@ const StoryDetail = () => {
                             <div className="mt-3">
                                 <strong>Novela Original:</strong>{' '}
                                 {story.rawOrigin && story.rawOrigin.length > 0 ? (
-                                    <a href={story.rawOrigin[1].link} target="_blank" rel="noopener noreferrer">
-                                        {story.rawOrigin[1].origin}
+                                    <a href={story.rawOrigin[0].link} target="_blank" rel="noopener noreferrer">
+                                        {story.rawOrigin[0].origin}
                                     </a>
                                 ) : 'No disponible'}
 
