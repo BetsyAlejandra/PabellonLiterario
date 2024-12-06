@@ -61,10 +61,10 @@ const ReadChapter = () => {
 
         const handleKeyDown = (e) => {
             if (
-                (e.ctrlKey || e.metaKey) && 
-                (e.key === 'c' || e.key === 'C' || 
-                 e.key === 'v' || e.key === 'V' || 
-                 e.key === 'x' || e.key === 'X')
+                (e.ctrlKey || e.metaKey) &&
+                (e.key === 'c' || e.key === 'C' ||
+                    e.key === 'v' || e.key === 'V' ||
+                    e.key === 'x' || e.key === 'X')
             ) {
                 e.preventDefault();
                 alert('Esta acción está deshabilitada en esta sección.');
@@ -170,7 +170,7 @@ const ReadChapter = () => {
             {/* Modal de anotación */}
             <Modal show={annotationModalShow} onHide={() => setAnnotationModalShow(false)} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Anotación</Modal.Title>
+                    <Modal.Title>Anotación para "{currentAnnotation}"</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p>{currentAnnotation}</p>
@@ -181,6 +181,7 @@ const ReadChapter = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
 
             {/* Ajustes */}
             <div className={`floating-controls`}>
@@ -265,6 +266,20 @@ const ReadChapter = () => {
                     </Button>
                 </Form>
             </Container>
+
+            {chapter.annotations && chapter.annotations.length > 0 && (
+                <Container className="annotations-list mt-4">
+                    <h3>Anotaciones</h3>
+                    <ul>
+                        {chapter.annotations.map((ann, idx) => (
+                            <li key={idx}>
+                                <strong>{ann.text}:</strong> {ann.meaning}
+                            </li>
+                        ))}
+                    </ul>
+                </Container>
+            )}
+
         </div>
     );
 };

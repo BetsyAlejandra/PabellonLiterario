@@ -77,7 +77,7 @@ router.get('/:storyId/chapters/:chapterId', async (req, res) => {
 });
 router.put('/:storyId/chapters/:chapterId', async (req, res) => {
   const { storyId, chapterId } = req.params;
-  const { title, content } = req.body;
+  const { title, content, annotations } = req.body; // Asegúrate de extraer annotations
 
   try {
     const novel = await Novel.findById(storyId);
@@ -92,6 +92,11 @@ router.put('/:storyId/chapters/:chapterId', async (req, res) => {
 
     chapter.title = title || chapter.title;
     chapter.content = content || chapter.content;
+
+    // Actualiza las anotaciones
+    if (annotations && Array.isArray(annotations)) {
+      chapter.annotations = annotations;
+    }
 
     await novel.save();
     res.status(200).json({ message: 'Capítulo actualizado exitosamente' });
@@ -133,32 +138,6 @@ router.post('/api/novels/:id/reviews/:reviewId/reply', isAuthenticated, async (r
   }
 });
 router.get('/:storyId/chapters/:chapterId', getChapterById);
-router.get('/:storyId/chapters/:chapterId/navigation', async (req, res) => {
-  const { storyId, chapterId } = req.params;
-  try {
-    const novel = await Novel.findById(storyId);
-    if (!novel) {
-      return res.status(404).json({ message: 'Novela no encontrada.' });
-    }
-
-    const chapterIndex = novel.chapters.findIndex(ch => ch._id.toString() === chapterId);
-    if (chapterIndex === -1) {
-      return res.status(404).json({ message: 'Capítulo no encontrado.' });
-    }
-
-    const previous = chapterIndex > 0 ? novel.chapters[chapterIndex - 1]._id : null;
-    const next = chapterIndex < novel.chapters.length - 1 ? novel.chapters[chapterIndex + 1]._id : null;
-
-    res.status(200).json({
-      previous,
-      next,
-      content: storyId,
-    });
-  } catch (error) {
-    console.error('Error al obtener navegación:', error.message);
-    res.status(500).json({ message: 'Error al obtener navegación.', error });
-  }
-});
 router.get('/:id', (req, res, next) => {
   const { id } = req.params;
 
@@ -174,10 +153,6 @@ router.get('/:id', (req, res, next) => {
 
   // Llama al controlador para manejar la solicitud
   getNovelById(req, res);
-});
-router.post('/:id/validate-password', isAuthenticated, async (req, res) => {
-  // Lógica: comparar la contraseña enviada en req.body con la de la novela si es coreano.
-  // Devolver success o error
 });
 
 // Ruta para actualizar una novela

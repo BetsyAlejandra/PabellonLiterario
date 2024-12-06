@@ -130,7 +130,7 @@ const getNovelById = async (req, res) => {
 const addChapter = async (req, res) => {
   try {
     const { id } = req.params;  // ID de la novela a la que se le agregará el capítulo
-    const { title, content } = req.body;  // Título y contenido del capítulo
+    const { title, content, annotations, publishedAt } = req.body;
 
     // Validar los datos
     if (!title || !content) {
@@ -141,8 +141,10 @@ const addChapter = async (req, res) => {
     const newChapter = {
       title,
       content,
-      publishedAt: new Date(),  // Fecha de publicación del capítulo (actual)
+      publishedAt,
+      annotations // asegúrate de guardar las anotaciones aquí
     };
+
 
     // Buscar la novela por su ID y agregar el capítulo
     const novel = await Novel.findById(id);
@@ -229,17 +231,35 @@ const getChapterById = async (req, res) => {
       return res.status(404).json({ message: 'Novela no encontrada.' });
     }
 
-    const chapter = novel.chapters.id(chapterId); // Buscar capítulo por su ID en el array
-    if (!chapter) {
+    // Encuentra el índice del capítulo en el array chapters
+    const chapterIndex = novel.chapters.findIndex(ch => ch._id.toString() === chapterId);
+
+    if (chapterIndex === -1) {
       return res.status(404).json({ message: 'Capítulo no encontrado.' });
     }
 
-    res.status(200).json(chapter); // Enviar el capítulo como respuesta
+    // Obtiene el capítulo actual
+    const currentChapter = novel.chapters[chapterIndex];
+
+    // Determina previous y next
+    const previous = chapterIndex > 0 ? novel.chapters[chapterIndex - 1]._id : null;
+    const next = chapterIndex < novel.chapters.length - 1 ? novel.chapters[chapterIndex + 1]._id : null;
+
+    // Convierte el capítulo a objeto (si es un subdocumento de Mongoose)
+    const chapterObject = currentChapter.toObject ? currentChapter.toObject() : currentChapter;
+
+    // Añade previous y next al objeto antes de enviarlo
+    res.status(200).json({
+      ...chapterObject,
+      previous,
+      next,
+    });
   } catch (error) {
     console.error('Error al obtener el capítulo:', error.message);
     res.status(500).json({ message: 'Error al obtener el capítulo.', error: error.message });
   }
 };
+
 
 const deleteNovel = async (req, res) => {
   const { id } = req.params;
