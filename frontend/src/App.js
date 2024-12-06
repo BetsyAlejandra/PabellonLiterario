@@ -43,7 +43,6 @@ function App() {
           <Route path='/Novelas' element={<NovelsPage />} />
           <Route path="/story-detail/:id" element={<StoryDetail />} />
           <Route path="/read-chapter/:storyId/:chapterId" element={<ReadChapter />} />
-          <Route path="/user-profile/:id" element={<PerfilUsuario />} />
           <Route path="/add-chapter/:id" element={<AddChapter />} />
 
           {/* Rutas protegidas */}
@@ -53,7 +52,7 @@ function App() {
           <Route path="/edit-chapter/:storyId/:chapterId" element={<EditChapter />} />
           <Route path="/upload" element={<NovelForm />} />
           <Route path="/profile" element={<Perfil />} />
-          <Route path="/profileperson" element={<PerfilUsuario />} />
+          <Route path="/profileperson/:id" element={<PerfilUsuario />} />
           <Route path="/admin-panel" element={<AdminPanel />} />
         </Routes>
 
