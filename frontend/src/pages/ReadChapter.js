@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Modal, Button, Container, Form } from 'react-bootstrap';
 import { FaArrowLeft, FaBook, FaArrowRight, FaCog } from 'react-icons/fa';
-import DOMPurify from 'dompurify'; // Asegúrate de instalar dompurify
+import DOMPurify from 'dompurify';
 import '../styles/readChapter.css';
 
 const ReadChapter = () => {
@@ -15,8 +15,6 @@ const ReadChapter = () => {
     const [brightness, setBrightness] = useState(100);
     const [progress, setProgress] = useState(0);
     const [showSettings, setShowSettings] = useState(false);
-    const [comments, setComments] = useState({});
-    const [newComment, setNewComment] = useState('');
     const [generalComment, setGeneralComment] = useState('');
     const [generalComments, setGeneralComments] = useState([]);
 
@@ -68,9 +66,7 @@ const ReadChapter = () => {
         const handleKeyDown = (e) => {
             if (
                 (e.ctrlKey || e.metaKey) &&
-                (e.key === 'c' || e.key === 'C' ||
-                    e.key === 'v' || e.key === 'V' ||
-                    e.key === 'x' || e.key === 'X')
+                ['c', 'C', 'v', 'V', 'x', 'X'].includes(e.key)
             ) {
                 e.preventDefault();
                 alert('Esta acción está deshabilitada en esta sección.');
@@ -98,30 +94,17 @@ const ReadChapter = () => {
         };
     }, []);
 
-    useEffect(() => {
-        const handleAnnotationClick = (e) => {
-            const target = e.target;
-            if (target.classList.contains('annotation-btn')) {
-                e.preventDefault();
-                e.stopPropagation();
-                const annotationText = target.getAttribute('data-annotation');
-                console.log('Anotación clickeada:', annotationText); // Para depuración
-                setCurrentAnnotation(annotationText);
-                setAnnotationModalShow(true);
-            }
-        };
-
-        const chapterContent = chapterContentRef.current;
-        if (chapterContent) {
-            chapterContent.addEventListener('click', handleAnnotationClick);
+    const handleAnnotationClick = (e) => {
+        const target = e.target.closest('.annotation-btn'); // Usar closest para capturar clics en elementos hijos
+        if (target) {
+            e.preventDefault();
+            e.stopPropagation();
+            const annotationText = target.getAttribute('data-annotation');
+            console.log('Anotación clickeada:', annotationText); // Para depuración
+            setCurrentAnnotation(annotationText);
+            setAnnotationModalShow(true);
         }
-
-        return () => {
-            if (chapterContent) {
-                chapterContent.removeEventListener('click', handleAnnotationClick);
-            }
-        };
-    }, [chapter]);
+    };
 
     useEffect(() => {
         if (chapter) {
@@ -140,10 +123,6 @@ const ReadChapter = () => {
     const handleFontSizeChange = (size) => setFontSize(size);
     const handleBrightnessChange = (value) => setBrightness(value);
 
-    const handleCommentSubmit = () => {
-        // Lógica para guardar comentario en párrafo seleccionado (si se implementa)
-    };
-
     const handleGeneralCommentSubmit = () => {
         if (generalComment.trim()) {
             setGeneralComments((prev) => [...prev, generalComment]);
@@ -153,6 +132,11 @@ const ReadChapter = () => {
 
     if (loading) return <p>Cargando...</p>;
     if (error) return <p>{error}</p>;
+
+    // Opcional: Configuración de DOMPurify para asegurar que se permiten los atributos data-annotation
+    const sanitizeOptions = {
+        ALLOWED_ATTR: [...DOMPurify.defaultConfig.ALLOWED_ATTR, 'data-annotation'],
+    };
 
     return (
         <div
@@ -179,7 +163,8 @@ const ReadChapter = () => {
                 <div
                     className="chapter-content"
                     ref={chapterContentRef}
-                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(chapter.content) }}
+                    onClick={handleAnnotationClick} // Añadir el manejador aquí
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(chapter.content, sanitizeOptions) }}
                 ></div>
             </Container>
 
@@ -296,6 +281,7 @@ const ReadChapter = () => {
             )}
         </div>
     );
+
 };
 
 export default ReadChapter;
