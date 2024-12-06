@@ -114,6 +114,10 @@ const novelSchema = new mongoose.Schema(
       user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
       comment: String,
       createdAt: { type: Date, default: Date.now },
+      replies: [{
+        text: String,
+        createdAt: { type: Date, default: Date.now }
+      }]
     }],
 
     // Premios que ha recibido la novela

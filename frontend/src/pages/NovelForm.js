@@ -358,7 +358,7 @@ const NovelForm = () => {
                   Seleccionar Subgéneros
                 </Button>
 
-                <label>Etiquetas (opcional, separadas por coma)</label>
+                <label>Etiquetas (separadas por coma)</label>
                 <input
                   type="text"
                   className="form-control"

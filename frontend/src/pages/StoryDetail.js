@@ -17,6 +17,11 @@ const StoryDetail = () => {
     const [selectedReview, setSelectedReview] = useState(null); // Reseña seleccionada para responder
     const [reply, setReply] = useState(''); // Respuesta a la reseña
 
+    // Modal para password si el idioma es Coreano
+    const [showPasswordModal, setShowPasswordModal] = useState(false);
+    const [enteredPassword, setEnteredPassword] = useState('');
+    const [chapterToRead, setChapterToRead] = useState(null);
+
     useEffect(() => {
         const fetchStory = async () => {
             try {
@@ -33,9 +38,9 @@ const StoryDetail = () => {
 
     const handleSaveStory = async () => {
         try {
-            const res = await axios.post(`/api/novels/${id}/follow`, {}, {
-            withCredentials: true, // Asegura que las cookies se envíen
-        });
+            await axios.post(`/api/novels/${id}/follow`, {}, {
+                withCredentials: true,
+            });
             setSaved(true);
             alert('Historia guardada en tu biblioteca.');
         } catch (err) {
@@ -46,19 +51,19 @@ const StoryDetail = () => {
     const handleReviewSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(`/api/novels/${id}/reviews`, 
-            { 
-                comment: review 
-            }, 
-            { withCredentials: true });
-    
+            await axios.post(`/api/novels/${id}/reviews`,
+                {
+                    comment: review
+                },
+                { withCredentials: true });
+
             alert('Reseña enviada exitosamente.');
             setReview('');
         } catch (err) {
             alert('Error al enviar la reseña.');
         }
     };
-    
+
 
     const handleReplySubmit = async (e, reviewId) => {
         e.preventDefault();
@@ -75,9 +80,27 @@ const StoryDetail = () => {
     };
 
     const handleReadChapter = (chapterId) => {
-        navigate(`/read-chapter/${id}/${chapterId}`);
+        // Si el idioma es Coreano, pedir password antes de leer
+        if (story.languageOrigin === 'Coreano') {
+            setChapterToRead(chapterId);
+            setShowPasswordModal(true);
+        } else {
+            navigate(`/read-chapter/${id}/${chapterId}`);
+        }
     };
 
+    const handlePasswordSubmit = async () => {
+        // Aquí podrías verificar la contraseña antes de permitir leer.
+        // Asumamos que la contraseña correcta es la almacenada en story.password (si existe)
+        // De no tener la contraseña en story, ajusta la lógica según tu API.
+        if (enteredPassword.trim() === story.password) {
+            setShowPasswordModal(false);
+            setEnteredPassword('');
+            navigate(`/read-chapter/${id}/${chapterToRead}`);
+        } else {
+            alert('Contraseña incorrecta.');
+        }
+    };
 
     if (loading) return <p>Cargando...</p>;
     if (error) return <p>{error}</p>;
@@ -101,6 +124,14 @@ const StoryDetail = () => {
                             >
                                 Leer
                             </Button>
+                            {/* Mostrar autor (usuario encargado) */}
+                            <div className="mt-3">
+                                <strong>Autor:</strong>{' '}
+                                <Button variant="link" onClick={() => navigate(`/profileperson/${story.author}`)}>
+                                    {story.author}
+                                </Button>
+
+                            </div>
                         </Card.Body>
                     </Card>
                 </div>
@@ -111,6 +142,9 @@ const StoryDetail = () => {
                             <div>
                                 <strong>Clasificación:</strong>{' '}
                                 <span className="badge bg-secondary">{story.classification}</span>
+                            </div>
+                            <div>
+                                <strong>Idioma de Origen:</strong> {story.languageOrigin}
                             </div>
                             <div>
                                 <strong>Géneros:</strong> {story.genres.join(', ')}
@@ -125,6 +159,50 @@ const StoryDetail = () => {
                                 <strong>Etiquetas:</strong>{' '}
                                 {story.tags.length > 0 ? story.tags.join(', ') : 'Sin etiquetas'}
                             </div>
+                            {/* Mostrar rawOrigin */}
+                            <div className="mt-3">
+                                <strong>Novela Original:</strong>{' '}
+                                {story.rawOrigin && story.rawOrigin.length > 0 ? (
+                                    <a href={story.rawOrigin[1].link} target="_blank" rel="noopener noreferrer">
+                                        {story.rawOrigin[1].origin}
+                                    </a>
+                                ) : 'No disponible'}
+
+                            </div>
+
+                            {/* Mostrar colaboradores con link a profileperson */}
+                            <div className="mt-3">
+                                <strong>Colaboradores:</strong>{' '}
+                                {story.collaborators && story.collaborators.length > 0 ? (
+                                    story.collaborators.map((col, i) => (
+                                        <span key={i}>
+                                            <Button
+                                                variant="link"
+                                                onClick={() => navigate(`/profileperson/${col.name}`)}
+                                            >
+                                                {col.name} ({col.role})
+                                            </Button>
+                                            {i < story.collaborators.length - 1 && ', '}
+                                        </span>
+                                    ))
+                                ) : 'No hay colaboradores'}
+
+                            </div>
+
+                            {/* Mostrar adaptaciones */}
+                            <div className="mt-3">
+                                <strong>Adaptaciones:</strong>{' '}
+                                {story.adaptations && story.adaptations.length > 0 ? (
+                                    story.adaptations.map((adap, i) => (
+                                        <span key={i}>
+                                            {adap.type} - {adap.title}: <a href={adap.link} target="_blank" rel="noopener noreferrer">{adap.link}</a>
+                                            {i < story.adaptations.length - 1 && ', '}
+                                        </span>
+                                    ))
+                                ) : 'No hay adaptaciones'}
+
+                            </div>
+
                             <div className="mt-3">
                                 <p>
                                     {story.description.length > 200
@@ -173,7 +251,7 @@ const StoryDetail = () => {
                 <h4>Comentarios</h4>
                 <form onSubmit={handleReviewSubmit} className="mb-4">
                     <div className="form-group mt-2">
-                        <label htmlFor="review">Deja una comentario</label>
+                        <label htmlFor="review">Deja un comentario</label>
                         <textarea
                             id="review"
                             className="form-control"
@@ -193,16 +271,10 @@ const StoryDetail = () => {
                         <Card key={idx} className="shadow-sm mb-3">
                             <Card.Body>
                                 <div>
-                                    <strong>{rev.user.username}</strong> -{' '}
-                                    {[...Array(rev.rating)].map((_, i) => (
-                                        <span key={i}>★★★★★</span>
-                                    ))}
+                                    <strong>{rev.user.username}</strong>
                                 </div>
                                 <p>{rev.comment}</p>
-                                <Button
-                                    variant="link"
-                                    onClick={() => setSelectedReview(rev)}
-                                >
+                                <Button variant="link" onClick={() => setSelectedReview(rev)}>
                                     Responder
                                 </Button>
                                 {rev.replies?.map((reply, index) => (
@@ -220,6 +292,7 @@ const StoryDetail = () => {
                 )}
             </div>
 
+            {/* Modal Responder Reseña */}
             <Modal show={!!selectedReview} onHide={() => setSelectedReview(null)} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Responder a {selectedReview?.user.username}</Modal.Title>
@@ -246,6 +319,7 @@ const StoryDetail = () => {
                 </Modal.Footer>
             </Modal>
 
+            {/* Modal Descripción Completa */}
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Descripción Completa</Modal.Title>
@@ -254,6 +328,31 @@ const StoryDetail = () => {
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowModal(false)}>
                         Cerrar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            {/* Modal Contraseña (si idioma es coreano) */}
+            <Modal show={showPasswordModal} onHide={() => setShowPasswordModal(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Esta novela esta protegida por contraseña</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Para adquirir la contraseña de la novela, buscala en el discord de Pabellón Literario.</p>
+                    <input
+                        type="password"
+                        className="form-control"
+                        placeholder="Contraseña"
+                        value={enteredPassword}
+                        onChange={(e) => setEnteredPassword(e.target.value)}
+                    />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={handlePasswordSubmit}>
+                        Leer
+                    </Button>
+                    <Button variant="secondary" onClick={() => setShowPasswordModal(false)}>
+                        Cancelar
                     </Button>
                 </Modal.Footer>
             </Modal>

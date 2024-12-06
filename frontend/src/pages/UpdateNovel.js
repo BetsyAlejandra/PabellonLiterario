@@ -4,12 +4,28 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import '../styles/global.css';
 
-const LANGUAGES = ['Japonés', 'Chino', 'Coreano', 'Inglés'];
-const ROLES = ['Traductor', 'Editor', 'Ilustrador', 'Corrector'];
+const GENRES = [
+    'Fantasía', 'Acción', 'Supernatural', 'Xuanhuan', 'Transmigración',
+    'Moderno', 'Policial', 'Entretenimiento', 'Transmigración Rápida',
+    'M-preg', 'Interestelar', 'Renacimiento', 'Xianxia', 'Romance',
+    'Ciencia ficción', 'Drama', 'Aventura', 'Terror', 'Suspenso',
+    'Comedia', 'Histórico', 'Misterio', 'Poesía', 'Distopía',
+];
+
+const SUBGENRES = [
+    'Adaptado a Drama CD', 'Adaptado a Manhua', 'Amnesia', 'China Antigua',
+    'Cambios de Apariencia', 'Buddhismo', 'Cultivación', 'Protagonista Inteligente',
+    'Intereses Amorosos Fuertes', 'Dragones', 'Fantasmas', 'Animales Mágicos',
+    'Formaciones Mágicas', 'Feng Shui', 'Relaciones No-Humanas',
+];
+
 const ADAPTATION_TYPES = [
     'Audio-Drama', 'Manhua', 'Manwha', 'Manga', 'K-Drama', 'Dorama',
     'Película', 'Donghua', 'Anime', 'Videojuego',
 ];
+
+const LANGUAGES = ['Japonés', 'Chino', 'Coreano', 'Inglés'];
+const ROLES = ['Traductor', 'Editor', 'Ilustrador', 'Corrector'];
 
 const UpdateNovel = () => {
     const { id } = useParams(); // ID de la novela para editar
@@ -37,58 +53,35 @@ const UpdateNovel = () => {
     const [modalMessage, setModalMessage] = useState('');
     const [modalType, setModalType] = useState('success');
 
-    // Manejo de colaboradores
-    const handleCollaboratorChange = (index, e) => {
-        const { name, value } = e.target;
-        const newCollaborators = [...collaborators];
-        newCollaborators[index][name] = value;
-        setCollaborators(newCollaborators);
-    };
+    const [showSubGenreModal, setShowSubGenreModal] = useState(false);
 
-    const addCollaborator = () => {
-        setCollaborators([...collaborators, { name: '', role: '' }]);
+    const handleCollaboratorChange = async (index, key, value) => {
+        const updatedCollaborators = [...collaborators];
+        updatedCollaborators[index][key] = value;
+
+        if (key === 'username' && value.length > 2) {
+            try {
+                const { data } = await axios.get(`/api/users/suggestions?name=${value}`);
+                setUserSuggestions(data); // data es un objeto o null
+            } catch (error) {
+                console.error(error);
+                setUserSuggestions(null);
+            }
+        }
+
+        setCollaborators(updatedCollaborators);
     };
 
     const removeCollaborator = (index) => {
-        const newCollaborators = [...collaborators];
-        newCollaborators.splice(index, 1);
-        setCollaborators(newCollaborators);
-    };
-
-    // Manejo de adaptaciones
-    const handleAdaptationChange = (index, e) => {
-        const { name, value } = e.target;
-        const newAdaptations = [...adaptations];
-        newAdaptations[index][name] = value;
-        setAdaptations(newAdaptations);
-    };
-
-    const addAdaptation = () => {
-        setAdaptations([...adaptations, { type: '', title: '', releaseDate: '', link: '' }]);
+        const updated = [...collaborators];
+        updated.splice(index, 1);
+        setCollaborators(updated);
     };
 
     const removeAdaptation = (index) => {
-        const newAdaptations = [...adaptations];
-        newAdaptations.splice(index, 1);
-        setAdaptations(newAdaptations);
-    };
-
-    // Manejo de premios
-    const handleAwardChange = (index, e) => {
-        const { name, value } = e.target;
-        const newAwards = [...awards];
-        newAwards[index][name] = value;
-        setAwards(newAwards);
-    };
-
-    const addAward = () => {
-        setAwards([...awards, { title: '', year: '', organization: '' }]);
-    };
-
-    const removeAward = (index) => {
-        const newAwards = [...awards];
-        newAwards.splice(index, 1);
-        setAwards(newAwards);
+        const updated = [...adaptations];
+        updated.splice(index, 1);
+        setAdaptations(updated);
     };
 
     useEffect(() => {
@@ -228,6 +221,15 @@ const UpdateNovel = () => {
         }
     }
 
+
+    const toggleSubGenre = (subGenre) => {
+        if (subGenres.includes(subGenre)) {
+            setSubGenres(subGenres.filter((sg) => sg !== subGenre));
+        } else if (subGenres.length < 15) {
+            setSubGenres([...subGenres, subGenre]);
+        }
+    };
+
     const handleCloseModal = () => {
         setShowModal(false);
         setModalMessage('');
@@ -245,10 +247,8 @@ const UpdateNovel = () => {
                 <Modal.Header closeButton>
                     <Modal.Title>{modalType === 'success' ? '¡Éxito!' : 'Error'}</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="text-center">
-                    <p>{modalMessage}</p>
-                </Modal.Body>
-                <Modal.Footer className="d-flex justify-content-center">
+                <Modal.Body>{modalMessage}</Modal.Body>
+                <Modal.Footer>
                     <Button
                         variant={modalType === 'success' ? 'success' : 'danger'}
                         onClick={handleCloseModal}
@@ -258,13 +258,41 @@ const UpdateNovel = () => {
                 </Modal.Footer>
             </Modal>
 
+            {/* Modal para subgéneros */}
+            <Modal show={showSubGenreModal} onHide={closeSubGenreModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Selecciona Subgéneros</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Table>
+                        <tbody>
+                            {SUBGENRES.map((subGenre) => (
+                                <tr key={subGenre}>
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            checked={subGenres.includes(subGenre)}
+                                            onChange={() => toggleSubGenre(subGenre)}
+                                        />
+                                    </td>
+                                    <td>{subGenre}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={closeSubGenreModal}>Cerrar</Button>
+                </Modal.Footer>
+            </Modal>
+
             <div className="row">
                 <div className="col-md-8">
                     <div className="novel-form-card">
                         <h2 className="text-center mb-4">Editar Novela</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group mb-3">
-                                <label htmlFor="title">Título (Obligatorio):</label>
+                                <label htmlFor="title">Título</label>
                                 <input
                                     type="text"
                                     id="title"
@@ -277,7 +305,7 @@ const UpdateNovel = () => {
                             </div>
 
                             <div className="form-group mb-3">
-                                <label htmlFor="description">Sinopsis (Obligatorio):</label>
+                                <label htmlFor="description">Sinopsis</label>
                                 <textarea
                                     id="description"
                                     className="form-control custom-input"
@@ -289,7 +317,7 @@ const UpdateNovel = () => {
                             </div>
 
                             <div className="form-group mb-3">
-                                <label>Idioma de Origen (Obligatorio):</label>
+                                <label>Idioma de Origen</label>
                                 <select
                                     className="form-control"
                                     value={languageOrigin}
@@ -307,7 +335,7 @@ const UpdateNovel = () => {
 
                             {languageOrigin === 'Coreano' && (
                                 <div className="form-group">
-                                    <label>Contraseña (Obligatorio si Coreano):</label>
+                                    <label>Contraseña</label>
                                     <input
                                         type="password"
                                         className="form-control"
@@ -319,7 +347,7 @@ const UpdateNovel = () => {
                             )}
 
                             <div className="form-group mb-3">
-                                <label htmlFor="genres">Género (Obligatorio):</label>
+                                <label htmlFor="genres">Género</label>
                                 <select
                                     id="genres"
                                     className="form-control"
@@ -328,8 +356,8 @@ const UpdateNovel = () => {
                                     required
                                 >
                                     <option value="">Selecciona un género</option>
-                                    {genres.map((genre, index) => (
-                                        <option key={index} value={genre}>
+                                    {GENRES.map((genre) => (
+                                        <option key={genre} value={genre}>
                                             {genre}
                                         </option>
                                     ))}
@@ -337,19 +365,14 @@ const UpdateNovel = () => {
                             </div>
 
                             <div className="form-group mb-3">
-                                <label htmlFor="subGenres">Subgéneros (opcional, máximo 15):</label>
-                                <input
-                                    type="text"
-                                    id="subGenres"
-                                    className="form-control custom-input"
-                                    value={subGenres}
-                                    onChange={(e) => setSubGenres(e.target.value)}
-                                    placeholder="Subgéneros separados por coma"
-                                />
+                                <label htmlFor="subGenres">Subgéneros</label>
+                                <Button variant="outline-light" onClick={() => setShowSubGenreModal(true)}>
+                                    Seleccionar Subgéneros
+                                </Button>
                             </div>
 
                             <div className="form-group mb-3">
-                                <label htmlFor="classification">Clasificación (Obligatorio):</label>
+                                <label htmlFor="classification">Clasificación</label>
                                 <select
                                     id="classification"
                                     className="form-control custom-input"
@@ -364,7 +387,7 @@ const UpdateNovel = () => {
                             </div>
 
                             <div className="form-group mb-3">
-                                <label htmlFor="tags">Etiquetas (opcional, separadas por comas):</label>
+                                <label htmlFor="tags">Etiquetas</label>
                                 <input
                                     type="text"
                                     id="tags"
@@ -374,133 +397,124 @@ const UpdateNovel = () => {
                                     placeholder="Ejemplo: Aventura, magia, amor"
                                 />
                             </div>
-
-                            {/* Origen de la novela (Obligatorio) */}
                             <div className="form-group mb-3">
-                                <label>Nombre de la novela original (Obligatorio):</label>
+                                <label>Enlace a la Novela de Origen</label>
                                 <input
                                     type="text"
-                                    className="form-control custom-input"
+                                    className="form-control"
                                     value={rawOrigin.origin}
                                     onChange={(e) => setRawOrigin((prev) => ({ ...prev, origin: e.target.value }))}
-                                    required
+                                    placeholder="Nombre de la novela original"
                                 />
-                            </div>
-                            <div className="form-group mb-3">
-                                <label>Enlace a la novela original (Obligatorio):</label>
                                 <input
                                     type="url"
-                                    className="form-control custom-input"
+                                    className="form-control"
                                     value={rawOrigin.link}
                                     onChange={(e) => setRawOrigin((prev) => ({ ...prev, link: e.target.value }))}
-                                    required
+                                    placeholder="Enlace a la novela original"
                                 />
                             </div>
 
                             <div className="form-group mb-3">
-                                <label>Colaboradores (opcional):</label>
+                                <label>Colaboradores</label>
                                 {collaborators.map((collaborator, index) => (
                                     <div key={index}>
                                         <input
                                             type="text"
-                                            name="name"
-                                            placeholder="Nombre"
-                                            value={collaborator.name}
-                                            onChange={(e) => handleCollaboratorChange(index, e)}
-                                            className="form-control custom-input my-1"
+                                            placeholder="Usuario"
+                                            list={`user-suggestions-${index}`}
+                                            className="form-control"
+                                            value={collaborator.username}
+                                            onChange={(e) => handleCollaboratorChange(index, 'username', e.target.value)}
                                         />
-                                        <input
-                                            type="text"
-                                            name="role"
-                                            placeholder="Rol"
+                                        <datalist id={`user-suggestions-${index}`}>
+                                            {userSuggestions && (
+                                                <option value={userSuggestions.username} />
+                                            )}
+                                        </datalist>
+
+                                        <select
+                                            className="form-control"
                                             value={collaborator.role}
-                                            onChange={(e) => handleCollaboratorChange(index, e)}
-                                            className="form-control custom-input my-1"
-                                        />
-                                        <button type="button" className="remove-button" onClick={() => removeCollaborator(index)}>Eliminar</button>
+                                            onChange={(e) => handleCollaboratorChange(index, 'role', e.target.value)}
+                                        >
+                                            <option value="">Selecciona un rol</option>
+                                            {ROLES.map((role) => (
+                                                <option key={role} value={role}>
+                                                    {role}
+                                                </option>
+                                            ))}
+                                        </select>
+
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger btn-sm"
+                                            onClick={() => removeCollaborator(index)}
+                                        >
+                                            Eliminar colaborador
+                                        </button>
                                     </div>
                                 ))}
-                                <button type="button" className="add-button" onClick={addCollaborator}>Añadir Colaborador</button>
+                                <button
+                                    type="button"
+                                    className="add-button"
+                                    onClick={() => setCollaborators([...collaborators, { username: '', role: '' }])}
+                                >
+                                    Añadir Colaborador
+                                </button>
                             </div>
 
                             <div className="form-group mb-3">
-                                <label>Adaptaciones (opcional):</label>
+                                <label>Adaptaciones</label>
                                 {adaptations.map((adaptation, index) => (
                                     <div key={index}>
-                                        <input
-                                            type="text"
-                                            name="type"
-                                            placeholder="Tipo (ej. Película)"
+                                        <select
+                                            className="form-control"
                                             value={adaptation.type}
-                                            onChange={(e) => handleAdaptationChange(index, e)}
-                                            className="form-control custom-input my-1"
-                                        />
-                                        <input
-                                            type="text"
-                                            name="title"
-                                            placeholder="Título"
-                                            value={adaptation.title}
-                                            onChange={(e) => handleAdaptationChange(index, e)}
-                                            className="form-control custom-input my-1"
-                                        />
-                                        <input
-                                            type="text"
-                                            name="releaseDate"
-                                            placeholder="Fecha de Lanzamiento"
-                                            value={adaptation.releaseDate}
-                                            onChange={(e) => handleAdaptationChange(index, e)}
-                                            className="form-control custom-input my-1"
-                                        />
+                                            onChange={(e) =>
+                                                setAdaptations((prev) =>
+                                                    prev.map((ad, i) => (i === index ? { ...ad, type: e.target.value } : ad))
+                                                )
+                                            }
+                                        >
+                                            <option value="">Selecciona un tipo</option>
+                                            {ADAPTATION_TYPES.map((type) => (
+                                                <option key={type} value={type}>
+                                                    {type}
+                                                </option>
+                                            ))}
+                                        </select>
                                         <input
                                             type="url"
-                                            name="link"
-                                            placeholder="Enlace"
+                                            className="form-control"
                                             value={adaptation.link}
-                                            onChange={(e) => handleAdaptationChange(index, e)}
-                                            className="form-control custom-input my-1"
+                                            onChange={(e) =>
+                                                setAdaptations((prev) =>
+                                                    prev.map((ad, i) => (i === index ? { ...ad, link: e.target.value } : ad))
+                                                )
+                                            }
+                                            placeholder="Enlace (opcional)"
                                         />
-                                        <button type="button" className="remove-button" onClick={() => removeAdaptation(index)}>Eliminar</button>
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger btn-sm"
+                                            onClick={() => removeAdaptation(index)}
+                                        >
+                                            Eliminar Adaptación
+                                        </button>
                                     </div>
                                 ))}
-                                <button type="button" className="add-button" onClick={addAdaptation}>Añadir Adaptación</button>
+                                <button
+                                    type="button"
+                                    className="add-button"
+                                    onClick={() => setAdaptations([...adaptations, { type: '', link: '' }])}
+                                >
+                                    Añadir Adaptación
+                                </button>
                             </div>
 
                             <div className="form-group mb-3">
-                                <label>Premios (opcional):</label>
-                                {awards.map((award, index) => (
-                                    <div key={index}>
-                                        <input
-                                            type="text"
-                                            name="title"
-                                            placeholder="Título del premio"
-                                            value={award.title}
-                                            onChange={(e) => handleAwardChange(index, e)}
-                                            className="form-control custom-input my-1"
-                                        />
-                                        <input
-                                            type="text"
-                                            name="year"
-                                            placeholder="Año"
-                                            value={award.year}
-                                            onChange={(e) => handleAwardChange(index, e)}
-                                            className="form-control custom-input my-1"
-                                        />
-                                        <input
-                                            type="text"
-                                            name="organization"
-                                            placeholder="Organización"
-                                            value={award.organization}
-                                            onChange={(e) => handleAwardChange(index, e)}
-                                            className="form-control custom-input my-1"
-                                        />
-                                        <button type="button" className="remove-button" onClick={() => removeAward(index)}>Eliminar</button>
-                                    </div>
-                                ))}
-                                <button type="button" className="add-button" onClick={addAward}>Añadir Premio</button>
-                            </div>
-
-                            <div className="form-group mb-3">
-                                <label htmlFor="progress">Estado de progreso (Obligatorio):</label>
+                                <label htmlFor="progress">Estado de progreso</label>
                                 <select
                                     id="progress"
                                     className="form-control custom-input"

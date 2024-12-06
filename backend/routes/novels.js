@@ -100,6 +100,38 @@ router.put('/:storyId/chapters/:chapterId', async (req, res) => {
   }
 });
 router.post('/:id/reviews', isAuthenticated, addReview);
+router.post('/api/novels/:id/reviews/:reviewId/reply', isAuthenticated, async (req, res) => {
+  try {
+    const { id, reviewId } = req.params;
+    const { text } = req.body;
+
+    if (!text || text.trim() === '') {
+      return res.status(400).json({ message: 'El texto de la respuesta es obligatorio.' });
+    }
+
+    const novel = await Novel.findById(id);
+    if (!novel) {
+      return res.status(404).json({ message: 'Novela no encontrada.' });
+    }
+
+    // Busca la reseña dentro del arreglo reviews
+    const review = novel.reviews.id(reviewId);
+    if (!review) {
+      return res.status(404).json({ message: 'Reseña no encontrada.' });
+    }
+
+    // Agrega la respuesta al arreglo replies de la reseña
+    review.replies = review.replies || [];
+    review.replies.push({ text, createdAt: new Date() });
+
+    await novel.save();
+
+    res.status(201).json({ message: 'Respuesta agregada exitosamente.', review });
+  } catch (error) {
+    console.error('Error al agregar respuesta:', error);
+    res.status(500).json({ message: 'Error interno del servidor', error: error.message });
+  }
+});
 router.get('/:storyId/chapters/:chapterId', getChapterById);
 router.get('/:storyId/chapters/:chapterId/navigation', async (req, res) => {
   const { storyId, chapterId } = req.params;
@@ -143,6 +175,11 @@ router.get('/:id', (req, res, next) => {
   // Llama al controlador para manejar la solicitud
   getNovelById(req, res);
 });
+router.post('/:id/validate-password', isAuthenticated, async (req, res) => {
+  // Lógica: comparar la contraseña enviada en req.body con la de la novela si es coreano.
+  // Devolver success o error
+});
+
 // Ruta para actualizar una novela
 router.put('/update/:id', upload, handleMulterError, async (req, res) => {
   try {
