@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Row, Col, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 
 const PerfilUsuario = () => {
-  const { username } = useParams();
+  const { id } = useParams(); // ahora esperamos un ID
   const [user, setUser] = useState(null); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,7 +12,8 @@ const PerfilUsuario = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`/profileperson/${username}`);
+        // Petición usando el id
+        const response = await axios.get(`/profileperson/${id}`);
         setUser(response.data);
         setLoading(false);
       } catch (error) {
@@ -22,7 +23,7 @@ const PerfilUsuario = () => {
       }
     };
     fetchProfile();
-  }, [username]);
+  }, [id]);
 
   if (loading) return <div className="text-center text-light">Cargando perfil...</div>;
   if (error) return <p className="text-center text-danger">{error}</p>;
@@ -33,7 +34,6 @@ const PerfilUsuario = () => {
     <div className="user-profile container my-5">
       <Row className="justify-content-center">
         <Col md={5} className="mb-4">
-          {/* Card del perfil del usuario */}
           <Card className="bg-dark text-light">
             <Card.Body className="text-center">
               <img 
@@ -55,13 +55,11 @@ const PerfilUsuario = () => {
                   ))}
                 </div>
               )}
-              {/* Sin botón Editar ya que es vista pública */}
             </Card.Body>
           </Card>
         </Col>
 
         <Col md={7} className="mb-4">
-          {/* Card para las traducciones si es Traductor */}
           <Card className="bg-dark text-light">
             <Card.Body>
               <h4 className="mb-4">Traducciones</h4>
@@ -73,7 +71,6 @@ const PerfilUsuario = () => {
                         <Card.Img variant="top" src={work.coverImage} alt={`Portada de ${work.title}`} />
                         <Card.Body>
                           <Card.Title>{work.title}</Card.Title>
-                          {/* Llevar a /story-detail/${work.id} en lugar de editar */}
                           <Button variant="outline-light" href={`/story-detail/${work.id}`}>
                             Ver historia
                           </Button>
