@@ -57,24 +57,7 @@ router.get('/latest', getLatestNovels);
 router.get('/', getNovels);
 router.post('/create', isAuthenticated, upload, handleMulterError, createNovel);
 
-router.get('/:storyId/chapters/:chapterId', async (req, res) => {
-  const { storyId, chapterId } = req.params;
-  try {
-    const novel = await Novel.findById(storyId);
-    if (!novel) {
-      return res.status(404).json({ message: 'Novela no encontrada' });
-    }
-
-    const chapter = novel.chapters.id(chapterId);
-    if (!chapter) {
-      return res.status(404).json({ message: 'Capítulo no encontrado' });
-    }
-
-    res.status(200).json(chapter);
-  } catch (error) {
-    res.status(500).json({ message: 'Error al obtener el capítulo', error: error.message });
-  }
-});
+router.get('/:storyId/chapters/:chapterId', getChapterById);
 router.put('/:storyId/chapters/:chapterId', async (req, res) => {
   const { storyId, chapterId } = req.params;
   const { title, content, annotations } = req.body; // Asegúrate de extraer annotations
@@ -137,7 +120,7 @@ router.post('/api/novels/:id/reviews/:reviewId/reply', isAuthenticated, async (r
     res.status(500).json({ message: 'Error interno del servidor', error: error.message });
   }
 });
-router.get('/:storyId/chapters/:chapterId', getChapterById);
+
 router.get('/:id', (req, res, next) => {
   const { id } = req.params;
 

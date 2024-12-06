@@ -27,6 +27,9 @@ const ReadChapter = () => {
         const fetchChapter = async () => {
             try {
                 const res = await fetch(`/api/novels/${storyId}/chapters/${chapterId}`);
+                if (!res.ok) {
+                    throw new Error('Error al cargar el capítulo.');
+                }
                 const data = await res.json();
                 setChapter(data);
                 setLoading(false);
@@ -37,6 +40,7 @@ const ReadChapter = () => {
         };
         fetchChapter();
     }, [storyId, chapterId]);
+
 
     useEffect(() => {
         const handleCopy = (e) => {
@@ -114,6 +118,13 @@ const ReadChapter = () => {
                 chapterContent.removeEventListener('click', handleAnnotationClick);
             }
         };
+    }, [chapter]);
+
+    useEffect(() => {
+        if (chapter) {
+            console.log('ID Capítulo Anterior:', chapter.previous);
+            console.log('ID Capítulo Siguiente:', chapter.next);
+        }
     }, [chapter]);
 
     const handleScroll = (e) => {
