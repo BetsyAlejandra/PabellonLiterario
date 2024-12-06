@@ -99,10 +99,17 @@ const ReadChapter = () => {
         if (target) {
             e.preventDefault();
             e.stopPropagation();
-            const annotationText = target.getAttribute('data-annotation');
-            console.log('Anotación clickeada:', annotationText); // Para depuración
-            setCurrentAnnotation(annotationText);
-            setAnnotationModalShow(true);
+            const encodedAnnotationText = target.getAttribute('data-annotation');
+            if (encodedAnnotationText) {
+                try {
+                    const annotationText = decodeURIComponent(encodedAnnotationText);
+                    console.log('Anotación clickeada:', annotationText); // Para depuración
+                    setCurrentAnnotation(annotationText);
+                    setAnnotationModalShow(true);
+                } catch (error) {
+                    console.error('Error al decodificar la anotación:', error);
+                }
+            }
         }
     };
 

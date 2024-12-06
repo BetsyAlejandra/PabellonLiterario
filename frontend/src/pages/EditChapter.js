@@ -110,7 +110,10 @@ const EditChapter = () => {
     const handleSaveAnnotation = () => {
         if (!selectedText || !annotationText) return;
     
-        const annotationHTML = `<button type="button" class="annotation-btn" data-annotation="${annotationText}" style="color: blue; text-decoration: underline; cursor: pointer; background: none; border: none; padding: 0; font: inherit;">${selectedText}</button>`;
+        // Escapar el texto de la anotación
+        const escapedAnnotationText = encodeURIComponent(annotationText);
+    
+        const annotationHTML = `<button type="button" class="annotation-btn" data-annotation="${escapedAnnotationText}" style="color: blue; text-decoration: underline; cursor: pointer; background: none; border: none; padding: 0; font: inherit;">${selectedText}</button>`;
     
         editor
             .chain()
@@ -130,6 +133,7 @@ const EditChapter = () => {
         setModalShow(false);
         setShowAnnotationButton(false);
     };
+    
     
 
     if (loading) return <p className="text-center">Cargando datos del capítulo...</p>;

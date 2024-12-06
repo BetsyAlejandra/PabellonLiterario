@@ -9,6 +9,7 @@ import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
 import { Modal, Button } from 'react-bootstrap';
+import DOMPurify from 'dompurify';
 import '../styles/global.css';
 
 const AddChapter = () => {
@@ -96,7 +97,10 @@ const AddChapter = () => {
     const handleSaveAnnotation = () => {
         if (!selectedText || !annotationText) return;
     
-        const annotationHTML = `<button type="button" class="annotation-btn" data-annotation="${annotationText}" style="color: blue; text-decoration: underline; cursor: pointer; background: none; border: none; padding: 0; font: inherit;">${selectedText}</button>`;
+        // Escapar el texto de la anotación
+        const escapedAnnotationText = encodeURIComponent(annotationText);
+    
+        const annotationHTML = `<button type="button" class="annotation-btn" data-annotation="${escapedAnnotationText}" style="color: blue; text-decoration: underline; cursor: pointer; background: none; border: none; padding: 0; font: inherit;">${selectedText}</button>`;
     
         editor
             .chain()
@@ -116,8 +120,6 @@ const AddChapter = () => {
         setModalShow(false);
         setShowAnnotationButton(false);
     };
-    
-    
 
     return (
         <div className="container my-5">
