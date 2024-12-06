@@ -14,11 +14,14 @@ const ReadChapter = () => {
     const [brightness, setBrightness] = useState(100);
     const [progress, setProgress] = useState(0);
     const [showSettings, setShowSettings] = useState(false);
-    const [selectedParagraph, setSelectedParagraph] = useState(null);
     const [comments, setComments] = useState({});
     const [newComment, setNewComment] = useState('');
     const [generalComment, setGeneralComment] = useState('');
     const [generalComments, setGeneralComments] = useState([]);
+
+    // Estados para el modal de anotaciones
+    const [annotationModalShow, setAnnotationModalShow] = useState(false);
+    const [currentAnnotation, setCurrentAnnotation] = useState('');
 
     useEffect(() => {
         const fetchChapter = async () => {
@@ -57,7 +60,6 @@ const ReadChapter = () => {
         };
 
         const handleKeyDown = (e) => {
-            // Detecta atajos de teclado comunes para copiar, cortar y pegar
             if (
                 (e.ctrlKey || e.metaKey) && 
                 (e.key === 'c' || e.key === 'C' || 
@@ -90,6 +92,30 @@ const ReadChapter = () => {
         };
     }, []);
 
+    useEffect(() => {
+        // Listener para click en anotaciones
+        const handleAnnotationClick = (e) => {
+            const target = e.target;
+            if (target.classList.contains('annotation')) {
+                e.preventDefault();
+                const annotationText = target.getAttribute('data-annotation');
+                setCurrentAnnotation(annotationText);
+                setAnnotationModalShow(true);
+            }
+        };
+
+        const chapterContent = document.querySelector('.chapter-content');
+        if (chapterContent) {
+            chapterContent.addEventListener('click', handleAnnotationClick);
+        }
+
+        return () => {
+            if (chapterContent) {
+                chapterContent.removeEventListener('click', handleAnnotationClick);
+            }
+        };
+    }, [chapter]);
+
     const handleScroll = (e) => {
         const { scrollTop, scrollHeight, clientHeight } = e.target;
         const totalHeight = scrollHeight - clientHeight;
@@ -101,14 +127,7 @@ const ReadChapter = () => {
     const handleBrightnessChange = (value) => setBrightness(value);
 
     const handleCommentSubmit = () => {
-        if (newComment.trim() && selectedParagraph !== null) {
-            setComments((prev) => ({
-                ...prev,
-                [selectedParagraph]: [...(prev[selectedParagraph] || []), newComment],
-            }));
-            setNewComment('');
-            setSelectedParagraph(null);
-        }
+        // Lógica para guardar comentario en párrafo seleccionado (si se implementa)
     };
 
     const handleGeneralCommentSubmit = () => {
@@ -118,7 +137,7 @@ const ReadChapter = () => {
         }
     };
 
-    if (loading) return <p>Cargando capítulo...</p>;
+    if (loading) return <p>Cargando...</p>;
     if (error) return <p>{error}</p>;
 
     return (
@@ -127,7 +146,9 @@ const ReadChapter = () => {
             style={{
                 filter: `brightness(${brightness}%)`,
                 fontSize: `${fontSize}px`,
-                userSelect: 'none', // Deshabilita la selección de texto
+                userSelect: 'none',
+                overflowY: 'auto',
+                height: '100vh'
             }}
             onScroll={handleScroll}
         >
@@ -146,41 +167,23 @@ const ReadChapter = () => {
                 ></div>
             </Container>
 
-            {/* Modal para comentarios en párrafos */}
-            <Modal show={selectedParagraph !== null} onHide={() => setSelectedParagraph(null)} centered>
+            {/* Modal de anotación */}
+            <Modal show={annotationModalShow} onHide={() => setAnnotationModalShow(false)} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Comentarios</Modal.Title>
+                    <Modal.Title>Anotación</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {comments[selectedParagraph] && (
-                        <div className="comment-list">
-                            {comments[selectedParagraph].map((comment, idx) => (
-                                <div key={idx} className="comment-item">
-                                    {comment}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                    <Form.Control
-                        as="textarea"
-                        rows={3}
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                        placeholder="Escribe tu comentario aquí..."
-                    />
+                    <p>{currentAnnotation}</p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setSelectedParagraph(null)}>
+                    <Button variant="secondary" onClick={() => setAnnotationModalShow(false)}>
                         Cerrar
-                    </Button>
-                    <Button variant="primary" onClick={handleCommentSubmit}>
-                        Enviar
                     </Button>
                 </Modal.Footer>
             </Modal>
 
-            {/* Botón flotante para ajustes */}
-            <div className={`floating-controls ${showSettings ? 'open' : ''}`}>
+            {/* Ajustes */}
+            <div className={`floating-controls`}>
                 <Button
                     variant="primary"
                     className="settings-toggle"
@@ -239,7 +242,7 @@ const ReadChapter = () => {
                 </Button>
             </div>
 
-            {/* Sección de comentarios generales */}
+            {/* Comentarios generales */}
             <Container className="general-comments">
                 <h3>Comentarios del capítulo</h3>
                 <div className="comment-list">
