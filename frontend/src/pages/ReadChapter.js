@@ -95,7 +95,7 @@ const ReadChapter = () => {
     }, []);
 
     const handleAnnotationClick = (e) => {
-        const target = e.target.closest('.annotation-btn'); // Usar closest para capturar clics en elementos hijos
+        const target = e.target.closest('.annotation-btn'); // Captura el botón de anotación
         if (target) {
             e.preventDefault();
             e.stopPropagation();
@@ -133,9 +133,9 @@ const ReadChapter = () => {
     if (loading) return <p>Cargando...</p>;
     if (error) return <p>{error}</p>;
 
-    // Opcional: Configuración de DOMPurify para asegurar que se permiten los atributos data-annotation
+    // Configuración de DOMPurify para permitir 'data-annotation'
     const sanitizeOptions = {
-        ALLOWED_ATTR: [...DOMPurify.defaultConfig.ALLOWED_ATTR, 'data-annotation'],
+        ADD_ATTR: ['data-annotation'],
     };
 
     return (
@@ -163,7 +163,7 @@ const ReadChapter = () => {
                 <div
                     className="chapter-content"
                     ref={chapterContentRef}
-                    onClick={handleAnnotationClick} // Añadir el manejador aquí
+                    onClick={handleAnnotationClick} // Manejador de clic
                     dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(chapter.content, sanitizeOptions) }}
                 ></div>
             </Container>
