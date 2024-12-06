@@ -4,6 +4,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import '../styles/global.css';
 
+const LANGUAGES = ['Japonés', 'Chino', 'Coreano', 'Inglés'];
+const ROLES = ['Traductor', 'Editor', 'Ilustrador', 'Corrector'];
+const ADAPTATION_TYPES = [
+    'Audio-Drama', 'Manhua', 'Manwha', 'Manga', 'K-Drama', 'Dorama',
+    'Película', 'Donghua', 'Anime', 'Videojuego',
+];
+
 const UpdateNovel = () => {
     const { id } = useParams(); // ID de la novela para editar
     const navigate = useNavigate();
@@ -20,13 +27,17 @@ const UpdateNovel = () => {
     const [collaborators, setCollaborators] = useState([{ name: '', role: '' }]);
     const [adaptations, setAdaptations] = useState([{ type: '', title: '', releaseDate: '', link: '' }]);
     const [awards, setAwards] = useState([{ title: '', year: '', organization: '' }]);
-    const [progress, setProgress] = useState('');
+    const [progress, setProgress] = useState('En progreso');
+    const [languageOrigin, setLanguageOrigin] = useState('');
+    const [password, setPassword] = useState('');
+    const [rawOrigin, setRawOrigin] = useState({ origin: '', link: '' });
+
     const [loading, setLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
     const [modalType, setModalType] = useState('success');
 
-    // Agregar o eliminar colaboradores
+    // Manejo de colaboradores
     const handleCollaboratorChange = (index, e) => {
         const { name, value } = e.target;
         const newCollaborators = [...collaborators];
@@ -44,7 +55,7 @@ const UpdateNovel = () => {
         setCollaborators(newCollaborators);
     };
 
-    // Agregar o eliminar adaptaciones
+    // Manejo de adaptaciones
     const handleAdaptationChange = (index, e) => {
         const { name, value } = e.target;
         const newAdaptations = [...adaptations];
@@ -62,7 +73,7 @@ const UpdateNovel = () => {
         setAdaptations(newAdaptations);
     };
 
-    // Agregar o eliminar premios
+    // Manejo de premios
     const handleAwardChange = (index, e) => {
         const { name, value } = e.target;
         const newAwards = [...awards];
@@ -94,16 +105,25 @@ const UpdateNovel = () => {
             try {
                 const response = await axios.get(`/api/novels/${id}`);
                 const novel = response.data;
+
                 setTitle(novel.title);
                 setDescription(novel.description);
                 setSelectedGenre(novel.genres[0] || '');
-                setSubGenres(novel.subGenres.join(', '));
-                setClassification(novel.classification);
-                setTags(novel.tags.join(', '));
+                setSubGenres(novel.subGenres ? novel.subGenres.join(', ') : '');
+                setClassification(novel.classification || '');
+                setTags(novel.tags ? novel.tags.join(', ') : '');
                 setCollaborators(novel.collaborators || [{ name: '', role: '' }]);
                 setAdaptations(novel.adaptations || [{ type: '', title: '', releaseDate: '', link: '' }]);
                 setAwards(novel.awards || [{ title: '', year: '', organization: '' }]);
-                setProgress(novel.progress);
+                setProgress(novel.progress || 'En progreso');
+                setLanguageOrigin(novel.languageOrigin || '');
+
+                // rawOrigin es un objeto con origin y link, si no existe, se pone vacío
+                setRawOrigin(novel.rawOrigin || { origin: '', link: '' });
+
+                // Si hay password, se muestra solo si es Coreano, de lo contrario vacío
+                setPassword(novel.languageOrigin === 'Coreano' ? novel.password || '' : '');
+
                 // Usa la URL pública de la imagen almacenada
                 if (novel.coverImage) {
                     setPreviewImage(novel.coverImage);
@@ -120,24 +140,54 @@ const UpdateNovel = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!title || !description || genres.length === 0 || !classification) {
-            setModalMessage('Por favor, completa todos los campos obligatorios.');
+        // Validaciones similares a la creación
+        if (!title || !description || !selectedGenre || !classification || !languageOrigin || !rawOrigin.origin || !rawOrigin.link) {
+            setModalMessage('Por favor, completa todos los campos obligatorios (Título, Sinopsis, Género, Clasificación, Idioma, Origen de la novela).');
             setModalType('error');
             setShowModal(true);
             return;
         }
 
+        if (languageOrigin === 'Coreano' && !password) {
+            setModalMessage('Por favor, configura una contraseña para las novelas en coreano.');
+            setModalType('error');
+            setShowModal(true);
+            return;
+        }
+
+        // Validar subgéneros
+        const subGenresArray = subGenres ? subGenres.split(',').map((s) => s.trim()).filter(Boolean) : [];
+        if (subGenresArray.length > 15) {
+            setModalMessage('Solo puedes seleccionar hasta 15 subgéneros.');
+            setModalType('error');
+            setShowModal(true);
+            return;
+        }
+
+        // Validar colaboradores si son obligatorios (en el create eran obligatorios solo si se llenaba algo)
+        // En el ultimo requerimiento se dejaron colaboradores opcionales, no es obligatorio validarlos.
+        // Si quisieras validarlos solo si se agregan:
+        // if (collaborators.some(c => c.name.trim() || c.role.trim())) { ...validación... }
+        // Por ahora, no se exige colaborador obligatorio.
+
+        const tagsArray = tags ? tags.split(',').map((tag) => tag.trim()).filter(Boolean) : [];
+
         const formData = new FormData();
         formData.append('title', title);
         formData.append('description', description);
         formData.append('genres', selectedGenre);
-        formData.append('subGenres', JSON.stringify(subGenres.split(',').map((sub) => sub.trim())));
+        formData.append('subGenres', JSON.stringify(subGenresArray));
         formData.append('classification', classification);
-        formData.append('tags', JSON.stringify(tags.split(',').map((tag) => tag.trim())));
+        formData.append('tags', JSON.stringify(tagsArray));
         formData.append('collaborators', JSON.stringify(collaborators));
         formData.append('adaptations', JSON.stringify(adaptations));
         formData.append('awards', JSON.stringify(awards));
         formData.append('progress', progress);
+        formData.append('languageOrigin', languageOrigin);
+        formData.append('password', password);
+        formData.append('rawOrigin', JSON.stringify(rawOrigin));
+
+        // Si se seleccionó una nueva portada, se envía
         if (coverImage) {
             formData.append('coverImage', coverImage);
         }
@@ -168,11 +218,15 @@ const UpdateNovel = () => {
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-        if (file) {
+        if (file.size > 5 * 1024 * 1024) {
+            setModalMessage('El archivo seleccionado supera el tamaño máximo permitido de 5MB.');
+            setModalType('error');
+            setShowModal(true);
+        } else {
             setCoverImage(file);
             setPreviewImage(URL.createObjectURL(file)); // Muestra la imagen seleccionada
         }
-    };
+    }
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -210,7 +264,7 @@ const UpdateNovel = () => {
                         <h2 className="text-center mb-4">Editar Novela</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group mb-3">
-                                <label htmlFor="title">Título:</label>
+                                <label htmlFor="title">Título (Obligatorio):</label>
                                 <input
                                     type="text"
                                     id="title"
@@ -223,7 +277,7 @@ const UpdateNovel = () => {
                             </div>
 
                             <div className="form-group mb-3">
-                                <label htmlFor="description">Sinopsis:</label>
+                                <label htmlFor="description">Sinopsis (Obligatorio):</label>
                                 <textarea
                                     id="description"
                                     className="form-control custom-input"
@@ -235,9 +289,40 @@ const UpdateNovel = () => {
                             </div>
 
                             <div className="form-group mb-3">
-                                <label htmlFor="genres">Género:</label>
+                                <label>Idioma de Origen (Obligatorio):</label>
+                                <select
+                                    className="form-control"
+                                    value={languageOrigin}
+                                    onChange={(e) => setLanguageOrigin(e.target.value)}
+                                    required
+                                >
+                                    <option value="">Selecciona un idioma</option>
+                                    {LANGUAGES.map((lang) => (
+                                        <option key={lang} value={lang}>
+                                            {lang}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {languageOrigin === 'Coreano' && (
+                                <div className="form-group">
+                                    <label>Contraseña (Obligatorio si Coreano):</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                            )}
+
+                            <div className="form-group mb-3">
+                                <label htmlFor="genres">Género (Obligatorio):</label>
                                 <select
                                     id="genres"
+                                    className="form-control"
                                     value={selectedGenre}
                                     onChange={(e) => setSelectedGenre(e.target.value)}
                                     required
@@ -252,7 +337,7 @@ const UpdateNovel = () => {
                             </div>
 
                             <div className="form-group mb-3">
-                                <label htmlFor="subGenres">Subgéneros:</label>
+                                <label htmlFor="subGenres">Subgéneros (opcional, máximo 15):</label>
                                 <input
                                     type="text"
                                     id="subGenres"
@@ -264,7 +349,7 @@ const UpdateNovel = () => {
                             </div>
 
                             <div className="form-group mb-3">
-                                <label htmlFor="classification">Clasificación:</label>
+                                <label htmlFor="classification">Clasificación (Obligatorio):</label>
                                 <select
                                     id="classification"
                                     className="form-control custom-input"
@@ -279,7 +364,7 @@ const UpdateNovel = () => {
                             </div>
 
                             <div className="form-group mb-3">
-                                <label htmlFor="tags">Etiquetas (separadas por comas):</label>
+                                <label htmlFor="tags">Etiquetas (opcional, separadas por comas):</label>
                                 <input
                                     type="text"
                                     id="tags"
@@ -290,8 +375,30 @@ const UpdateNovel = () => {
                                 />
                             </div>
 
+                            {/* Origen de la novela (Obligatorio) */}
                             <div className="form-group mb-3">
-                                <label>Colaboradores:</label>
+                                <label>Nombre de la novela original (Obligatorio):</label>
+                                <input
+                                    type="text"
+                                    className="form-control custom-input"
+                                    value={rawOrigin.origin}
+                                    onChange={(e) => setRawOrigin((prev) => ({ ...prev, origin: e.target.value }))}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group mb-3">
+                                <label>Enlace a la novela original (Obligatorio):</label>
+                                <input
+                                    type="url"
+                                    className="form-control custom-input"
+                                    value={rawOrigin.link}
+                                    onChange={(e) => setRawOrigin((prev) => ({ ...prev, link: e.target.value }))}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group mb-3">
+                                <label>Colaboradores (opcional):</label>
                                 {collaborators.map((collaborator, index) => (
                                     <div key={index}>
                                         <input
@@ -300,6 +407,7 @@ const UpdateNovel = () => {
                                             placeholder="Nombre"
                                             value={collaborator.name}
                                             onChange={(e) => handleCollaboratorChange(index, e)}
+                                            className="form-control custom-input my-1"
                                         />
                                         <input
                                             type="text"
@@ -307,6 +415,7 @@ const UpdateNovel = () => {
                                             placeholder="Rol"
                                             value={collaborator.role}
                                             onChange={(e) => handleCollaboratorChange(index, e)}
+                                            className="form-control custom-input my-1"
                                         />
                                         <button type="button" className="remove-button" onClick={() => removeCollaborator(index)}>Eliminar</button>
                                     </div>
@@ -315,7 +424,7 @@ const UpdateNovel = () => {
                             </div>
 
                             <div className="form-group mb-3">
-                                <label>Adaptaciones:</label>
+                                <label>Adaptaciones (opcional):</label>
                                 {adaptations.map((adaptation, index) => (
                                     <div key={index}>
                                         <input
@@ -324,6 +433,7 @@ const UpdateNovel = () => {
                                             placeholder="Tipo (ej. Película)"
                                             value={adaptation.type}
                                             onChange={(e) => handleAdaptationChange(index, e)}
+                                            className="form-control custom-input my-1"
                                         />
                                         <input
                                             type="text"
@@ -331,6 +441,7 @@ const UpdateNovel = () => {
                                             placeholder="Título"
                                             value={adaptation.title}
                                             onChange={(e) => handleAdaptationChange(index, e)}
+                                            className="form-control custom-input my-1"
                                         />
                                         <input
                                             type="text"
@@ -338,6 +449,7 @@ const UpdateNovel = () => {
                                             placeholder="Fecha de Lanzamiento"
                                             value={adaptation.releaseDate}
                                             onChange={(e) => handleAdaptationChange(index, e)}
+                                            className="form-control custom-input my-1"
                                         />
                                         <input
                                             type="url"
@@ -345,6 +457,7 @@ const UpdateNovel = () => {
                                             placeholder="Enlace"
                                             value={adaptation.link}
                                             onChange={(e) => handleAdaptationChange(index, e)}
+                                            className="form-control custom-input my-1"
                                         />
                                         <button type="button" className="remove-button" onClick={() => removeAdaptation(index)}>Eliminar</button>
                                     </div>
@@ -353,7 +466,7 @@ const UpdateNovel = () => {
                             </div>
 
                             <div className="form-group mb-3">
-                                <label>Premios:</label>
+                                <label>Premios (opcional):</label>
                                 {awards.map((award, index) => (
                                     <div key={index}>
                                         <input
@@ -362,6 +475,7 @@ const UpdateNovel = () => {
                                             placeholder="Título del premio"
                                             value={award.title}
                                             onChange={(e) => handleAwardChange(index, e)}
+                                            className="form-control custom-input my-1"
                                         />
                                         <input
                                             type="text"
@@ -369,6 +483,7 @@ const UpdateNovel = () => {
                                             placeholder="Año"
                                             value={award.year}
                                             onChange={(e) => handleAwardChange(index, e)}
+                                            className="form-control custom-input my-1"
                                         />
                                         <input
                                             type="text"
@@ -376,6 +491,7 @@ const UpdateNovel = () => {
                                             placeholder="Organización"
                                             value={award.organization}
                                             onChange={(e) => handleAwardChange(index, e)}
+                                            className="form-control custom-input my-1"
                                         />
                                         <button type="button" className="remove-button" onClick={() => removeAward(index)}>Eliminar</button>
                                     </div>
@@ -384,7 +500,7 @@ const UpdateNovel = () => {
                             </div>
 
                             <div className="form-group mb-3">
-                                <label htmlFor="progress">Estado de progreso:</label>
+                                <label htmlFor="progress">Estado de progreso (Obligatorio):</label>
                                 <select
                                     id="progress"
                                     className="form-control custom-input"

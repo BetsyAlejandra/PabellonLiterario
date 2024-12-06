@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Button,} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const NovelsPage = () => {
   const [novels, setNovels] = useState([]);
@@ -64,7 +66,9 @@ const NovelsPage = () => {
                 <p className="card-text">{novel.description.substring(0, 100)}...</p>
               </div>
               <div className="card-footer text-center">
-                <button className="btn btn-outline-light">Leer más</button>
+                <Button as={Link} variant="outline-light" to={`/story-detail/${novel._id}`}>
+                  Ver más
+                </Button>
               </div>
             </div>
           </div>

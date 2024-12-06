@@ -146,8 +146,8 @@ router.get('/:id', (req, res, next) => {
 // Ruta para actualizar una novela
 router.put('/update/:id', upload, handleMulterError, async (req, res) => {
   try {
-
     const { id } = req.params;
+    // Obtener campos del body
     const {
       title,
       description,
@@ -159,38 +159,159 @@ router.put('/update/:id', upload, handleMulterError, async (req, res) => {
       adaptations,
       awards,
       progress,
+      languageOrigin,
+      password,
+      rawOrigin,
     } = req.body;
 
-    // Busca la novela por ID
-    const novel = await Novel.findById(id);
-
+    // Validar ID
     if (!/^[0-9a-fA-F]{24}$/.test(id)) {
       return res.status(400).json({ message: 'ID no válido' });
     }
 
+    // Buscar la novela por ID
+    const novel = await Novel.findById(id);
     if (!novel) {
       return res.status(404).json({ message: 'Novela no encontrada.' });
     }
 
+    // Validaciones de campos obligatorios
+    // Solo se validan si se envían, si no se envían se mantienen los valores anteriores
+    const finalTitle = title !== undefined ? title.trim() : novel.title;
+    const finalDescription = description !== undefined ? description.trim() : novel.description;
+    const finalClassification = classification !== undefined ? classification.trim() : novel.classification;
+    const finalLanguageOrigin = languageOrigin !== undefined ? languageOrigin.trim() : novel.languageOrigin;
+    const finalGenres = genres !== undefined ? genres.trim() : (novel.genres && novel.genres[0]) || '';
 
+    // Si alguno de estos campos queda vacío tras el merge con el valor anterior,
+    // significa que no se tenía valor y no se envió nuevo (y eran obligatorios).
+    if (!finalTitle || !finalDescription || !finalClassification || !finalLanguageOrigin || !finalGenres) {
+      return res.status(400).json({ message: 'Por favor, completa todos los campos obligatorios (Título, Sinopsis, Clasificación, Idioma, Género).' });
+    }
+
+    // Procesar subgéneros
+    let finalSubGenres = novel.subGenres;
+    if (subGenres !== undefined) {
+      try {
+        const parsedSub = JSON.parse(subGenres);
+        if (!Array.isArray(parsedSub)) {
+          return res.status(400).json({ message: 'subGenres debe ser un arreglo.' });
+        }
+        if (parsedSub.length > 15) {
+          return res.status(400).json({ message: 'Solo puedes seleccionar hasta 15 subgéneros.' });
+        }
+        finalSubGenres = parsedSub;
+      } catch (err) {
+        return res.status(400).json({ message: 'Error al parsear subGenres.' });
+      }
+    }
+
+    // Procesar tags
+    let finalTags = novel.tags;
+    if (tags !== undefined) {
+      try {
+        finalTags = JSON.parse(tags);
+        if (!Array.isArray(finalTags)) {
+          return res.status(400).json({ message: 'tags debe ser un arreglo.' });
+        }
+      } catch (err) {
+        return res.status(400).json({ message: 'Error al parsear tags.' });
+      }
+    }
+
+    // Procesar colaboradores
+    let finalCollaborators = novel.collaborators;
+    if (collaborators !== undefined) {
+      try {
+        finalCollaborators = JSON.parse(collaborators);
+        if (!Array.isArray(finalCollaborators)) {
+          return res.status(400).json({ message: 'collaborators debe ser un arreglo.' });
+        }
+      } catch (err) {
+        return res.status(400).json({ message: 'Error al parsear collaborators.' });
+      }
+    }
+
+    // Procesar adaptaciones
+    let finalAdaptations = novel.adaptations;
+    if (adaptations !== undefined) {
+      try {
+        finalAdaptations = JSON.parse(adaptations);
+        if (!Array.isArray(finalAdaptations)) {
+          return res.status(400).json({ message: 'adaptations debe ser un arreglo.' });
+        }
+      } catch (err) {
+        return res.status(400).json({ message: 'Error al parsear adaptations.' });
+      }
+    }
+
+    // Procesar premios
+    let finalAwards = novel.awards;
+    if (awards !== undefined) {
+      try {
+        finalAwards = JSON.parse(awards);
+        if (!Array.isArray(finalAwards)) {
+          return res.status(400).json({ message: 'awards debe ser un arreglo.' });
+        }
+      } catch (err) {
+        return res.status(400).json({ message: 'Error al parsear awards.' });
+      }
+    }
+
+    // Procesar rawOrigin
+    let finalRawOrigin = novel.rawOrigin;
+    if (rawOrigin !== undefined) {
+      try {
+        const parsedRawOrigin = JSON.parse(rawOrigin);
+        if (!parsedRawOrigin || !parsedRawOrigin.origin || !parsedRawOrigin.link) {
+          return res.status(400).json({ message: 'rawOrigin debe contener origin y link.' });
+        }
+        finalRawOrigin = parsedRawOrigin;
+      } catch (err) {
+        return res.status(400).json({ message: 'Error al parsear rawOrigin.' });
+      }
+    } else {
+      // Si no se envía rawOrigin y no existe en la novela, es obligatorio.
+      if (!novel.rawOrigin || !novel.rawOrigin.origin || !novel.rawOrigin.link) {
+        return res.status(400).json({ message: 'rawOrigin (origin y link) es obligatorio.' });
+      }
+      finalRawOrigin = novel.rawOrigin;
+    }
+
+    // Validar idioma y password
+    let finalPassword = novel.password;
+    if (finalLanguageOrigin === 'Coreano') {
+      // Si es coreano, password es obligatorio
+      if (password === undefined && !finalPassword) {
+        return res.status(400).json({ message: 'Es obligatorio proporcionar una contraseña para novelas en coreano.' });
+      } else if (password !== undefined) {
+        finalPassword = password;
+      }
+    } else {
+      // Si no es coreano, puede no haber password (opcional)
+      // Podemos dejar el password tal cual, o vaciarlo si se desea.
+      // finalPassword = ''; // descomentar si se quiere limpiar la password en caso de cambiar el idioma
+    }
 
     // Actualiza los campos
-    novel.title = title || novel.title;
-    novel.description = description || novel.description;
-    novel.genres = genres ? [genres] : novel.genres;
-    novel.subGenres = subGenres ? JSON.parse(subGenres) : novel.subGenres;
-    novel.classification = classification || novel.classification;
-    novel.tags = tags ? JSON.parse(tags) : novel.tags;
-    novel.collaborators = collaborators ? JSON.parse(collaborators) : novel.collaborators;
-    novel.adaptations = adaptations ? JSON.parse(adaptations) : novel.adaptations;
-    novel.awards = awards ? JSON.parse(awards) : novel.awards;
+    novel.title = finalTitle;
+    novel.description = finalDescription;
+    novel.genres = finalGenres ? [finalGenres] : novel.genres;
+    novel.subGenres = finalSubGenres;
+    novel.classification = finalClassification;
+    novel.tags = finalTags;
+    novel.collaborators = finalCollaborators;
+    novel.adaptations = finalAdaptations;
+    novel.awards = finalAwards;
     novel.progress = progress || novel.progress;
+    novel.languageOrigin = finalLanguageOrigin;
+    novel.password = finalPassword;
+    novel.rawOrigin = finalRawOrigin;
 
     // Actualiza la portada solo si hay una nueva
     if (req.file) {
       novel.coverImage = `/uploads/${req.file.filename}`;
     }
-
 
     // Guarda los cambios en la base de datos
     await novel.save();
@@ -201,6 +322,7 @@ router.put('/update/:id', upload, handleMulterError, async (req, res) => {
     res.status(500).json({ message: 'Error al actualizar la novela.', error: err.message });
   }
 });
+
 
 router.post('/add-chapter/:id', addChapter);
 router.delete('/:id', isAuthenticated, deleteNovel);
