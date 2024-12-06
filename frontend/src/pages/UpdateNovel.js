@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Table } from 'react-bootstrap';
+
 import '../styles/global.css';
 
 const GENRES = [
@@ -30,30 +31,32 @@ const ROLES = ['Traductor', 'Editor', 'Ilustrador', 'Corrector'];
 const UpdateNovel = () => {
     const { id } = useParams(); // ID de la novela para editar
     const navigate = useNavigate();
-
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [genres, setGenres] = useState([]);
     const [selectedGenre, setSelectedGenre] = useState('');
-    const [subGenres, setSubGenres] = useState('');
+    const [subGenres, setSubGenres] = useState([]);
     const [classification, setClassification] = useState('');
     const [tags, setTags] = useState('');
     const [coverImage, setCoverImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
-    const [collaborators, setCollaborators] = useState([{ name: '', role: '' }]);
-    const [adaptations, setAdaptations] = useState([{ type: '', title: '', releaseDate: '', link: '' }]);
-    const [awards, setAwards] = useState([{ title: '', year: '', organization: '' }]);
-    const [progress, setProgress] = useState('En progreso');
+    const [collaborators, setCollaborators] = useState([{ username: '', role: '' }]);
+    const [userSuggestions, setUserSuggestions] = useState(null);
+    const [adaptations, setAdaptations] = useState([{ type: '', link: '' }]);
+    const [rawOrigin, setRawOrigin] = useState({ origin: '', link: '' });
     const [languageOrigin, setLanguageOrigin] = useState('');
     const [password, setPassword] = useState('');
-    const [rawOrigin, setRawOrigin] = useState({ origin: '', link: '' });
-
+    const [progress, setProgress] = useState('En progreso');
     const [loading, setLoading] = useState(false);
+  
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
     const [modalType, setModalType] = useState('success');
-
+  
     const [showSubGenreModal, setShowSubGenreModal] = useState(false);
+  
+    const closeSubGenreModal = () => {
+      setShowSubGenreModal(false);
+    };
 
     const handleCollaboratorChange = async (index, key, value) => {
         const updatedCollaborators = [...collaborators];
@@ -85,15 +88,6 @@ const UpdateNovel = () => {
     };
 
     useEffect(() => {
-        const fetchGenres = async () => {
-            try {
-                const response = await axios.get('/api/novels/genres');
-                setGenres(response.data);
-            } catch (error) {
-                console.error('Error al obtener los géneros:', error.message);
-            }
-        };
-
         const fetchNovelDetails = async () => {
             try {
                 const response = await axios.get(`/api/novels/${id}`);
@@ -107,7 +101,6 @@ const UpdateNovel = () => {
                 setTags(novel.tags ? novel.tags.join(', ') : '');
                 setCollaborators(novel.collaborators || [{ name: '', role: '' }]);
                 setAdaptations(novel.adaptations || [{ type: '', title: '', releaseDate: '', link: '' }]);
-                setAwards(novel.awards || [{ title: '', year: '', organization: '' }]);
                 setProgress(novel.progress || 'En progreso');
                 setLanguageOrigin(novel.languageOrigin || '');
 
@@ -125,8 +118,6 @@ const UpdateNovel = () => {
                 console.error('Error al cargar la novela:', error.message);
             }
         };
-
-        fetchGenres();
         fetchNovelDetails();
     }, [id]);
 
@@ -174,7 +165,6 @@ const UpdateNovel = () => {
         formData.append('tags', JSON.stringify(tagsArray));
         formData.append('collaborators', JSON.stringify(collaborators));
         formData.append('adaptations', JSON.stringify(adaptations));
-        formData.append('awards', JSON.stringify(awards));
         formData.append('progress', progress);
         formData.append('languageOrigin', languageOrigin);
         formData.append('password', password);
