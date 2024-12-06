@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Modal, Button, Container, Form } from 'react-bootstrap';
-import { FaCommentDots, FaArrowLeft, FaBook, FaArrowRight, FaCog } from 'react-icons/fa';
+import { FaArrowLeft, FaBook, FaArrowRight, FaCog } from 'react-icons/fa';
 import '../styles/readChapter.css';
 
 const ReadChapter = () => {
@@ -40,7 +40,6 @@ const ReadChapter = () => {
         };
         fetchChapter();
     }, [storyId, chapterId]);
-
 
     useEffect(() => {
         const handleCopy = (e) => {
@@ -102,7 +101,9 @@ const ReadChapter = () => {
             const target = e.target;
             if (target.classList.contains('annotation')) {
                 e.preventDefault();
+                e.stopPropagation(); // Evita que el evento se propague
                 const annotationText = target.getAttribute('data-annotation');
+                console.log('Anotación clickeada:', annotationText); // Para depuración
                 setCurrentAnnotation(annotationText);
                 setAnnotationModalShow(true);
             }
@@ -159,7 +160,8 @@ const ReadChapter = () => {
                 fontSize: `${fontSize}px`,
                 userSelect: 'none',
                 overflowY: 'auto',
-                height: '100vh'
+                height: '100vh',
+                position: 'relative', // Para posicionar el botón flotante correctamente
             }}
             onScroll={handleScroll}
         >
@@ -181,7 +183,7 @@ const ReadChapter = () => {
             {/* Modal de anotación */}
             <Modal show={annotationModalShow} onHide={() => setAnnotationModalShow(false)} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Anotación para "{currentAnnotation}"</Modal.Title>
+                    <Modal.Title>Anotación</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p>{currentAnnotation}</p>
@@ -192,7 +194,6 @@ const ReadChapter = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
 
             {/* Ajustes */}
             <div className={`floating-controls`}>
@@ -231,7 +232,7 @@ const ReadChapter = () => {
             <div className="chapter-navigation text-center">
                 <Button
                     variant="link"
-                    onClick={() => navigate(`/read-chapter/${storyId}/${chapter.previous}`)}
+                    onClick={() => chapter.previous && navigate(`/read-chapter/${storyId}/${chapter.previous}`)}
                     disabled={!chapter.previous}
                     className="nav-btn"
                 >
@@ -246,7 +247,7 @@ const ReadChapter = () => {
                 </Button>
                 <Button
                     variant="link"
-                    onClick={() => navigate(`/read-chapter/${storyId}/${chapter.next}`)}
+                    onClick={() => chapter.next && navigate(`/read-chapter/${storyId}/${chapter.next}`)}
                     disabled={!chapter.next}
                     className="nav-btn"
                 >
@@ -290,7 +291,6 @@ const ReadChapter = () => {
                     </ul>
                 </Container>
             )}
-
         </div>
     );
 };

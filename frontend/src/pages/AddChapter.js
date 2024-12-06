@@ -95,28 +95,28 @@ const AddChapter = () => {
 
     const handleSaveAnnotation = () => {
         if (!selectedText || !annotationText) return;
-
+    
         const annotationHTML = `<span class="annotation" data-annotation="${annotationText}" style="color: blue; text-decoration: underline; cursor: pointer;">${selectedText}</span>`;
-
-
+    
         editor
             .chain()
             .focus()
             .deleteRange(editor.state.selection)
             .insertContent(annotationHTML)
             .run();
-
+    
         const newAnnotation = {
             text: selectedText,
             meaning: annotationText,
         };
         setAnnotations([...annotations, newAnnotation]);
-
+    
         setSelectedText('');
         setAnnotationText('');
         setModalShow(false);
         setShowAnnotationButton(false);
     };
+    
 
     return (
         <div className="container my-5">
