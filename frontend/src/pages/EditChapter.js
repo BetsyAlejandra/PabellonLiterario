@@ -110,7 +110,7 @@ const EditChapter = () => {
     const handleSaveAnnotation = () => {
         if (!selectedText || !annotationText) return;
 
-        const annotationHTML = `<a href="#" class="annotation" data-annotation="${annotationText}" style="color: blue; text-decoration: underline;">${selectedText}</a>`;
+        const annotationHTML = `<span class="annotation" data-annotation="${annotationText}" style="color: blue; text-decoration: underline; cursor: pointer;">${selectedText}</span>`;
 
         editor
             .chain()
