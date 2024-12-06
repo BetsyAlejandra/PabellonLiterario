@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Modal, Button, Container, Form } from 'react-bootstrap';
+import { Modal, Button, Container, Form, OverlayTrigger, Popover } from 'react-bootstrap';
 import { FaArrowLeft, FaBook, FaArrowRight, FaCog } from 'react-icons/fa';
 import DOMPurify from 'dompurify';
+import parse, { domToReact } from 'html-react-parser';
 import '../styles/readChapter.css';
 
 const ReadChapter = () => {
@@ -18,11 +19,13 @@ const ReadChapter = () => {
     const [generalComment, setGeneralComment] = useState('');
     const [generalComments, setGeneralComments] = useState([]);
 
-    // Estados para el modal de anotaciones
+    // Estados para el modal de anotaciones (si aún deseas usarlos para otras funcionalidades)
     const [annotationModalShow, setAnnotationModalShow] = useState(false);
     const [currentAnnotation, setCurrentAnnotation] = useState('');
 
+    // Referencias para manejar el desplazamiento
     const chapterContentRef = useRef(null);
+    const readChapterRef = useRef(null); // Nueva referencia añadida
 
     useEffect(() => {
         const fetchChapter = async () => {
@@ -73,7 +76,7 @@ const ReadChapter = () => {
             }
         };
 
-        const readChapterElement = document.querySelector('.read-chapter');
+        const readChapterElement = readChapterRef.current; // Usar la nueva referencia
 
         if (readChapterElement) {
             readChapterElement.addEventListener('copy', handleCopy);
@@ -94,31 +97,15 @@ const ReadChapter = () => {
         };
     }, []);
 
-    const handleAnnotationClick = (e) => {
-        const target = e.target.closest('.annotation-btn'); // Captura el botón de anotación
-        if (target) {
-            e.preventDefault();
-            e.stopPropagation();
-            const encodedAnnotationText = target.getAttribute('data-annotation');
-            if (encodedAnnotationText) {
-                try {
-                    const annotationText = decodeURIComponent(encodedAnnotationText);
-                    console.log('Anotación clickeada:', annotationText); // Para depuración
-                    setCurrentAnnotation(annotationText);
-                    setAnnotationModalShow(true);
-                } catch (error) {
-                    console.error('Error al decodificar la anotación:', error);
-                }
-            }
-        }
-    };
-
+    // Nuevo useEffect para desplazar al inicio al cambiar de capítulo
     useEffect(() => {
-        if (chapter) {
-            console.log('ID Capítulo Anterior:', chapter.previous);
-            console.log('ID Capítulo Siguiente:', chapter.next);
+        if (readChapterRef.current) {
+            readChapterRef.current.scrollTo({
+                top: 0,
+                behavior: 'smooth', // Opcional: para un desplazamiento suave
+            });
         }
-    }, [chapter]);
+    }, [storyId, chapterId]);
 
     const handleScroll = (e) => {
         const { scrollTop, scrollHeight, clientHeight } = e.target;
@@ -137,17 +124,52 @@ const ReadChapter = () => {
         }
     };
 
-    if (loading) return <p>Cargando...</p>;
-    if (error) return <p>{error}</p>;
+    // Función para renderizar Popover
+    const renderPopover = (annotation) => (
+        <Popover id={`popover-${annotation}`}>
+            <Popover.Header as="h3">Anotación</Popover.Header>
+            <Popover.Body>{annotation}</Popover.Body>
+        </Popover>
+    );
 
-    // Configuración de DOMPurify para permitir 'data-annotation'
+    if (loading) return <p className="text-center">Cargando...</p>;
+    if (error) return <p className="text-center text-danger">{error}</p>;
+
+    // Configuración de DOMPurify para permitir 'data-annotation' y la clase 'annotation'
     const sanitizeOptions = {
-        ADD_ATTR: ['data-annotation'],
+        ADD_ATTR: ['data-annotation', 'class'],
+    };
+
+    // Parsear y envolver las anotaciones con OverlayTrigger y Popover
+    const sanitizedContent = DOMPurify.sanitize(chapter.content, sanitizeOptions);
+
+    const options = {
+        replace: ({ name, attribs, children }) => {
+            if (!attribs) return;
+            if (name === 'span' && attribs.class === 'annotation') {
+                const annotationText = decodeURIComponent(attribs['data-annotation']);
+                return (
+                    <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        placement="top"
+                        overlay={renderPopover(annotationText)}
+                    >
+                        <span
+                            className="annotation"
+                            style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
+                        >
+                            {domToReact(children, options)}
+                        </span>
+                    </OverlayTrigger>
+                );
+            }
+        },
     };
 
     return (
         <div
             className="read-chapter"
+            ref={readChapterRef} // Adjunta la referencia aquí
             style={{
                 filter: `brightness(${brightness}%)`,
                 fontSize: `${fontSize}px`,
@@ -170,12 +192,13 @@ const ReadChapter = () => {
                 <div
                     className="chapter-content"
                     ref={chapterContentRef}
-                    onClick={handleAnnotationClick} // Manejador de clic
-                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(chapter.content, sanitizeOptions) }}
-                ></div>
+                    // Eliminamos el manejador de clic ya que usamos Popovers
+                >
+                    {parse(sanitizedContent, options)}
+                </div>
             </Container>
 
-            {/* Modal de anotación */}
+            {/* Modal de anotación (si aún deseas mantenerlo para otras funcionalidades) */}
             <Modal show={annotationModalShow} onHide={() => setAnnotationModalShow(false)} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Anotación</Modal.Title>
@@ -227,7 +250,11 @@ const ReadChapter = () => {
             <div className="chapter-navigation text-center">
                 <Button
                     variant="link"
-                    onClick={() => chapter.previous && navigate(`/read-chapter/${storyId}/${chapter.previous}`)}
+                    onClick={() => {
+                        if (chapter.previous) {
+                            navigate(`/read-chapter/${storyId}/${chapter.previous}`);
+                        }
+                    }}
                     disabled={!chapter.previous}
                     className="nav-btn"
                 >
@@ -242,7 +269,11 @@ const ReadChapter = () => {
                 </Button>
                 <Button
                     variant="link"
-                    onClick={() => chapter.next && navigate(`/read-chapter/${storyId}/${chapter.next}`)}
+                    onClick={() => {
+                        if (chapter.next) {
+                            navigate(`/read-chapter/${storyId}/${chapter.next}`);
+                        }
+                    }}
                     disabled={!chapter.next}
                     className="nav-btn"
                 >

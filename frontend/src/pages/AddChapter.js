@@ -96,25 +96,26 @@ const AddChapter = () => {
 
     const handleSaveAnnotation = () => {
         if (!selectedText || !annotationText) return;
-    
+
         // Escapar el texto de la anotación
         const escapedAnnotationText = encodeURIComponent(annotationText);
-    
-        const annotationHTML = `<button type="button" class="annotation-btn" data-annotation="${escapedAnnotationText}" style="color: blue; text-decoration: underline; cursor: pointer; background: none; border: none; padding: 0; font: inherit;">${selectedText}</button>`;
-    
+
+        // Utilizar 'span' en lugar de 'button'
+        const annotationHTML = `<span class="annotation" data-annotation="${escapedAnnotationText}" style="color: blue; text-decoration: underline; cursor: pointer;">${selectedText}</span>`;
+
         editor
             .chain()
             .focus()
             .deleteRange(editor.state.selection)
             .insertContent(annotationHTML)
             .run();
-    
+
         const newAnnotation = {
             text: selectedText,
             meaning: annotationText,
         };
         setAnnotations([...annotations, newAnnotation]);
-    
+
         setSelectedText('');
         setAnnotationText('');
         setModalShow(false);
@@ -265,6 +266,7 @@ const AddChapter = () => {
             </Modal>
         </div>
     );
+
 };
 
 export default AddChapter;

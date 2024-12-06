@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEditor, EditorContent } from '@tiptap/react';
@@ -9,6 +9,8 @@ import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
 import { Modal, Button } from 'react-bootstrap';
+import DOMPurify from 'dompurify';
+import '../styles/global.css';
 
 const EditChapter = () => {
     const { storyId, chapterId } = useParams();
@@ -19,10 +21,13 @@ const EditChapter = () => {
     const [selectedText, setSelectedText] = useState('');
     const [modalShow, setModalShow] = useState(false);
     const [annotationText, setAnnotationText] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true); // Inicialmente en true para cargar datos
     const [error, setError] = useState(null);
     const [showAnnotationButton, setShowAnnotationButton] = useState(false);
     const [buttonPosition, setButtonPosition] = useState({ top: 0, left: 0 });
+
+    // Referencia para manejar el botón flotante
+    const floatingButtonRef = useRef(null);
 
     const editor = useEditor({
         extensions: [
@@ -71,6 +76,7 @@ const EditChapter = () => {
                 const chapter = res.data;
                 setTitle(chapter.title);
                 editor?.commands.setContent(chapter.content || '');
+                setAnnotations(chapter.annotations || []);
                 setLoading(false);
             } catch (err) {
                 setError(err.response?.data?.message || 'Error al cargar el capítulo.');
@@ -109,32 +115,47 @@ const EditChapter = () => {
 
     const handleSaveAnnotation = () => {
         if (!selectedText || !annotationText) return;
-    
+
         // Escapar el texto de la anotación
         const escapedAnnotationText = encodeURIComponent(annotationText);
-    
-        const annotationHTML = `<button type="button" class="annotation-btn" data-annotation="${escapedAnnotationText}" style="color: blue; text-decoration: underline; cursor: pointer; background: none; border: none; padding: 0; font: inherit;">${selectedText}</button>`;
-    
+
+        // Utilizar 'span' en lugar de 'button'
+        const annotationHTML = `<span class="annotation" data-annotation="${escapedAnnotationText}" style="color: blue; text-decoration: underline; cursor: pointer;">${selectedText}</span>`;
+
         editor
             .chain()
             .focus()
             .deleteRange(editor.state.selection)
             .insertContent(annotationHTML)
             .run();
-    
+
         const newAnnotation = {
             text: selectedText,
             meaning: annotationText,
         };
         setAnnotations([...annotations, newAnnotation]);
-    
+
         setSelectedText('');
         setAnnotationText('');
         setModalShow(false);
         setShowAnnotationButton(false);
     };
-    
-    
+
+    // Manejar clic fuera del botón flotante para cerrarlo
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                floatingButtonRef.current &&
+                !floatingButtonRef.current.contains(event.target)
+            ) {
+                setShowAnnotationButton(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     if (loading) return <p className="text-center">Cargando datos del capítulo...</p>;
     if (error) return <p className="text-center text-danger">{error}</p>;
@@ -196,6 +217,17 @@ const EditChapter = () => {
                             >
                                 ↦
                             </button>
+                            <button
+                                className="btn btn-tool"
+                                onClick={() => {
+                                    const url = prompt("Ingrese la URL del enlace:");
+                                    if (url) {
+                                        editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+                                    }
+                                }}
+                            >
+                                🌐
+                            </button>
                         </div>
 
                         <div className="editor-container border p-2 rounded">
@@ -223,6 +255,7 @@ const EditChapter = () => {
                 </div>
             </div>
 
+            {/* Botón flotante para anotaciones */}
             {showAnnotationButton && (
                 <div
                     className="floating-btn"
@@ -232,6 +265,7 @@ const EditChapter = () => {
                         left: buttonPosition.left,
                         zIndex: 1000,
                     }}
+                    ref={floatingButtonRef}
                 >
                     <button
                         className="btn btn-success"
@@ -242,6 +276,7 @@ const EditChapter = () => {
                 </div>
             )}
 
+            {/* Modal para agregar significado */}
             <Modal show={modalShow} onHide={() => setModalShow(false)} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Agregar Significado</Modal.Title>
@@ -268,6 +303,7 @@ const EditChapter = () => {
             </Modal>
         </div>
     );
+
 };
 
 export default EditChapter;
