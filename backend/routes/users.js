@@ -234,18 +234,15 @@ router.get('/profileperson/:username', async (req, res) => {
       return res.status(404).json({ message: 'Usuario no encontrado.' });
     }
 
-    // Ajustar la URL de la foto de perfil si es necesario
     const profilePhotoUrl = user.profilePhoto.startsWith('http') 
       ? user.profilePhoto
       : `${req.protocol}://${req.get('host')}${user.profilePhoto}`;
-    
-    // Ajustar la URL de la foto de portada si es necesario
+
     const coverPhotoUrl = user.coverPhoto.startsWith('http')
       ? user.coverPhoto
       : `${req.protocol}://${req.get('host')}${user.coverPhoto}`;
 
     let translatedWorks = [];
-    // Si el usuario es traductor, buscamos las novelas cuyo author = username
     if (user.roles.includes('Traductor')) {
       const novels = await Novel.find({ author: username }).select('title coverImage');
       translatedWorks = novels.map(novel => ({
@@ -262,13 +259,14 @@ router.get('/profileperson/:username', async (req, res) => {
       roles: user.roles || [],
       description: user.description || 'Sin descripción',
       socialLinks: user.socialLinks || [],
-      translatedWorks 
+      translatedWorks
     });
   } catch (error) {
     console.error('Error al obtener perfil de usuario:', error);
     res.status(500).json({ message: 'Error interno del servidor', error: error.message });
   }
 });
+
 
 
 

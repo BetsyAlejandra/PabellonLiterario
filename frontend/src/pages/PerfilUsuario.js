@@ -33,6 +33,7 @@ const PerfilUsuario = () => {
     <div className="user-profile container my-5">
       <Row className="justify-content-center">
         <Col md={5} className="mb-4">
+          {/* Card del perfil del usuario (público) */}
           <Card className="bg-dark text-light">
             <Card.Body className="text-center">
               <img 
@@ -50,7 +51,9 @@ const PerfilUsuario = () => {
                 <div className="my-3">
                   <h5>Redes Sociales:</h5>
                   {user.socialLinks.map((link, index) => (
-                    <p key={index}><a href={link} target="_blank" rel="noopener noreferrer" className="text-light">{link}</a></p>
+                    <p key={index}>
+                      <a href={link} target="_blank" rel="noopener noreferrer" className="text-light">{link}</a>
+                    </p>
                   ))}
                 </div>
               )}
@@ -59,6 +62,7 @@ const PerfilUsuario = () => {
         </Col>
 
         <Col md={7} className="mb-4">
+          {/* Card para las traducciones si es Traductor */}
           <Card className="bg-dark text-light">
             <Card.Body>
               <h4 className="mb-4">Traducciones</h4>
@@ -70,6 +74,7 @@ const PerfilUsuario = () => {
                         <Card.Img variant="top" src={work.coverImage} alt={`Portada de ${work.title}`} />
                         <Card.Body>
                           <Card.Title>{work.title}</Card.Title>
+                          {/* Llevar a /story-detail/${work.id} */}
                           <Button variant="outline-light" href={`/story-detail/${work.id}`}>
                             Ver historia
                           </Button>
