@@ -234,24 +234,38 @@ router.get('/profileperson/:username', async (req, res) => {
       return res.status(404).json({ message: 'Usuario no encontrado.' });
     }
 
-    // Ajusta las URLs de las imágenes si es necesario
+    // Ajustar URLs si es necesario
     const profilePhotoUrl = user.profilePhoto.startsWith('http') 
       ? user.profilePhoto
       : `${req.protocol}://${req.get('host')}${user.profilePhoto}`;
+      
+    // Ahora obtenemos las novelas asociadas a este usuario.
+    let translatedWorks = [];
+    // Ejemplo: Si consideras que las novelas traducidas son aquellas donde el 'author' es el username
+    if (user.roles.includes('Traductor')) {
+      const novels = await Novel.find({ author: username }).select('title coverImage');
+      translatedWorks = novels.map(novel => ({
+        id: novel._id,
+        title: novel.title,
+        coverImage: novel.coverImage
+      }));
+    }
 
     res.status(200).json({
       username: user.username,
       profilePhoto: profilePhotoUrl,
-      coverPhoto: coverPhotoUrl,
+      coverPhoto: user.coverPhoto || 'https://defaultimage.com/cover.jpg',
       roles: user.roles || [],
       description: user.description || 'Sin descripción',
-      socialLinks: user.socialLinks || []
+      socialLinks: user.socialLinks || [],
+      translatedWorks // ahora devolvemos este arreglo
     });
   } catch (error) {
     console.error('Error al obtener perfil de usuario:', error);
     res.status(500).json({ message: 'Error interno del servidor', error: error.message });
   }
 });
+  
 
 
 
