@@ -225,33 +225,35 @@ router.get('/api/users/suggestions', async (req, res) => {
   }
 });
 
-router.get('/profileperson/:id', async (req, res) => {
+router.get('/profileperson/:username', async (req, res) => {
   try {
-    const { id } = req.params;
-    const user = await User.findById(id).select('username profilePhoto coverPhoto description roles socialLinks');
+    const { username } = req.params;
+    const user = await User.findOne({ username }).select('username profilePhoto coverPhoto description roles socialLinks');
 
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado.' });
     }
 
+    // Ajustar la URL de la foto de perfil si es necesario
     const profilePhotoUrl = user.profilePhoto.startsWith('http') 
       ? user.profilePhoto
       : `${req.protocol}://${req.get('host')}${user.profilePhoto}`;
+    
+    // Ajustar la URL de la foto de portada si es necesario
+    const coverPhotoUrl = user.coverPhoto.startsWith('http')
+      ? user.coverPhoto
+      : `${req.protocol}://${req.get('host')}${user.coverPhoto}`;
 
     let translatedWorks = [];
+    // Si el usuario es traductor, buscamos las novelas cuyo author = username
     if (user.roles.includes('Traductor')) {
-      // Asumiendo que las novelas donde el autor es user.username son sus traducciones
-      const novels = await Novel.find({ author: user.username }).select('title coverImage');
+      const novels = await Novel.find({ author: username }).select('title coverImage');
       translatedWorks = novels.map(novel => ({
         id: novel._id,
         title: novel.title,
         coverImage: novel.coverImage
       }));
     }
-
-    const coverPhotoUrl = user.coverPhoto.startsWith('http')
-      ? user.coverPhoto
-      : `${req.protocol}://${req.get('host')}${user.coverPhoto}`;
 
     res.status(200).json({
       username: user.username,
@@ -260,13 +262,14 @@ router.get('/profileperson/:id', async (req, res) => {
       roles: user.roles || [],
       description: user.description || 'Sin descripción',
       socialLinks: user.socialLinks || [],
-      translatedWorks
+      translatedWorks 
     });
   } catch (error) {
     console.error('Error al obtener perfil de usuario:', error);
     res.status(500).json({ message: 'Error interno del servidor', error: error.message });
   }
 });
+
 
 
 

@@ -52,7 +52,7 @@ function App() {
           <Route path="/edit-chapter/:storyId/:chapterId" element={<EditChapter />} />
           <Route path="/upload" element={<NovelForm />} />
           <Route path="/profile" element={<Perfil />} />
-          <Route path="/profileperson/:id" element={<PerfilUsuario />} />
+          <Route path="/profileperson/:username" element={<PerfilUsuario />} />
           <Route path="/admin-panel" element={<AdminPanel />} />
         </Routes>
 

@@ -4,7 +4,7 @@ import { Row, Col, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 
 const PerfilUsuario = () => {
-  const { id } = useParams(); // ahora esperamos un ID
+  const { username } = useParams();
   const [user, setUser] = useState(null); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,8 +12,7 @@ const PerfilUsuario = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        // Petición usando el id
-        const response = await axios.get(`/profileperson/${id}`);
+        const response = await axios.get(`/profileperson/${username}`);
         setUser(response.data);
         setLoading(false);
       } catch (error) {
@@ -23,7 +22,7 @@ const PerfilUsuario = () => {
       }
     };
     fetchProfile();
-  }, [id]);
+  }, [username]);
 
   if (loading) return <div className="text-center text-light">Cargando perfil...</div>;
   if (error) return <p className="text-center text-danger">{error}</p>;
