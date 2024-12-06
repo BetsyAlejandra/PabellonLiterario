@@ -96,7 +96,7 @@ const AddChapter = () => {
     const handleSaveAnnotation = () => {
         if (!selectedText || !annotationText) return;
     
-        const annotationHTML = `<span class="annotation" data-annotation="${annotationText}" style="color: blue; text-decoration: underline; cursor: pointer;">${selectedText}</span>`;
+        const annotationHTML = `<button type="button" class="annotation-btn" data-annotation="${annotationText}" style="color: blue; text-decoration: underline; cursor: pointer; background: none; border: none; padding: 0; font: inherit;">${selectedText}</button>`;
     
         editor
             .chain()
@@ -116,6 +116,7 @@ const AddChapter = () => {
         setModalShow(false);
         setShowAnnotationButton(false);
     };
+    
     
 
     return (

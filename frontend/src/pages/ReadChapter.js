@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Modal, Button, Container, Form } from 'react-bootstrap';
 import { FaArrowLeft, FaBook, FaArrowRight, FaCog } from 'react-icons/fa';
+import DOMPurify from 'dompurify'; // Asegúrate de instalar dompurify
 import '../styles/readChapter.css';
 
 const ReadChapter = () => {
@@ -22,6 +23,8 @@ const ReadChapter = () => {
     // Estados para el modal de anotaciones
     const [annotationModalShow, setAnnotationModalShow] = useState(false);
     const [currentAnnotation, setCurrentAnnotation] = useState('');
+
+    const chapterContentRef = useRef(null);
 
     useEffect(() => {
         const fetchChapter = async () => {
@@ -96,12 +99,11 @@ const ReadChapter = () => {
     }, []);
 
     useEffect(() => {
-        // Listener para click en anotaciones
         const handleAnnotationClick = (e) => {
             const target = e.target;
-            if (target.classList.contains('annotation')) {
+            if (target.classList.contains('annotation-btn')) {
                 e.preventDefault();
-                e.stopPropagation(); // Evita que el evento se propague
+                e.stopPropagation();
                 const annotationText = target.getAttribute('data-annotation');
                 console.log('Anotación clickeada:', annotationText); // Para depuración
                 setCurrentAnnotation(annotationText);
@@ -109,7 +111,7 @@ const ReadChapter = () => {
             }
         };
 
-        const chapterContent = document.querySelector('.chapter-content');
+        const chapterContent = chapterContentRef.current;
         if (chapterContent) {
             chapterContent.addEventListener('click', handleAnnotationClick);
         }
@@ -176,7 +178,8 @@ const ReadChapter = () => {
 
                 <div
                     className="chapter-content"
-                    dangerouslySetInnerHTML={{ __html: chapter.content }}
+                    ref={chapterContentRef}
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(chapter.content) }}
                 ></div>
             </Container>
 

@@ -109,27 +109,28 @@ const EditChapter = () => {
 
     const handleSaveAnnotation = () => {
         if (!selectedText || !annotationText) return;
-
-        const annotationHTML = `<span class="annotation" data-annotation="${annotationText}" style="color: blue; text-decoration: underline; cursor: pointer;">${selectedText}</span>`;
-
+    
+        const annotationHTML = `<button type="button" class="annotation-btn" data-annotation="${annotationText}" style="color: blue; text-decoration: underline; cursor: pointer; background: none; border: none; padding: 0; font: inherit;">${selectedText}</button>`;
+    
         editor
             .chain()
             .focus()
             .deleteRange(editor.state.selection)
             .insertContent(annotationHTML)
             .run();
-
+    
         const newAnnotation = {
             text: selectedText,
             meaning: annotationText,
         };
         setAnnotations([...annotations, newAnnotation]);
-
+    
         setSelectedText('');
         setAnnotationText('');
         setModalShow(false);
         setShowAnnotationButton(false);
     };
+    
 
     if (loading) return <p className="text-center">Cargando datos del capítulo...</p>;
     if (error) return <p className="text-center text-danger">{error}</p>;
