@@ -17,7 +17,11 @@ const SUBGENRES = [
     'Adaptado a Drama CD', 'Adaptado a Manhua', 'Amnesia', 'China Antigua',
     'Cambios de Apariencia', 'Buddhismo', 'Cultivación', 'Protagonista Inteligente',
     'Intereses Amorosos Fuertes', 'Dragones', 'Fantasmas', 'Animales Mágicos',
-    'Formaciones Mágicas', 'Feng Shui', 'Relaciones No-Humanas',
+    'Formaciones Mágicas', 'Feng Shui', 'Relaciones No-Humanas', 'Toque Cómico', '',
+    'Viaje en el Tiempo','Transmigración','Mitología','Venganza','Tsundere','Shounen Ai',
+    'Época Moderna','Reencarnación','Protagonista Desinteresado','Inmortales','Oscuro',  
+    'Demonios','Demoniaco','Diablos','Gore','Multiples Identidades','Pareja Poderosa',
+    'Romance lento','Detectives','Espias','Pasado Traumatico',
 ];
 
 const ADAPTATION_TYPES = [

@@ -14,6 +14,7 @@ const PerfilUsuario = () => {
       try {
         const response = await axios.get(`/profileperson/${username}`);
         setUser(response.data);
+        console.log('Perfil del usuario:', response.data);
         setLoading(false);
       } catch (error) {
         console.error('Error al cargar el perfil público:', error);

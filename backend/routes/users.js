@@ -228,7 +228,7 @@ router.get('/api/users/suggestions', async (req, res) => {
 router.get('/profileperson/:username', async (req, res) => {
   try {
     const { username } = req.params;
-    const user = await User.findOne({ username }).select('username profilePhoto coverPhoto description roles socialLinks');
+    const user = await User.findOne({ username }).select('username profilePhoto description roles socialLinks');
 
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado.' });
@@ -237,10 +237,6 @@ router.get('/profileperson/:username', async (req, res) => {
     const profilePhotoUrl = user.profilePhoto.startsWith('http') 
       ? user.profilePhoto
       : `${req.protocol}://${req.get('host')}${user.profilePhoto}`;
-
-    const coverPhotoUrl = user.coverPhoto.startsWith('http')
-      ? user.coverPhoto
-      : `${req.protocol}://${req.get('host')}${user.coverPhoto}`;
 
     let translatedWorks = [];
     if (user.roles.includes('Traductor')) {
