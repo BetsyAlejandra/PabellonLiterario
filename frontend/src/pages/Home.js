@@ -72,7 +72,7 @@ const Home = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 1,
     responsive: [
       {
@@ -119,18 +119,17 @@ const Home = () => {
               {novels.map((novel) => (
                 <Card
                   key={novel._id}
-                  className="text-center bg-dark text-light border-0 mx-2"
-                  style={{ maxWidth: "300px" }}
+                  className="text-center card"
                 >
                   <Card.Img
                     variant="top"
                     src={novel.coverImage}
                     alt={`Cover image for ${novel.title}`}
-                    style={{ height: "350px", objectFit: "cover" }}
+                    className="carousel-image"
                   />
                   <Card.Body>
-                    <Card.Title className="text-light">{novel.title}</Card.Title>
-                    <Button as={Link} to={`/story-detail/${novel._id}`} variant="outline-light">
+                    <Card.Title>{novel.title}</Card.Title>
+                    <Button as={Link} to={`/story-detail/${novel._id}`} className="btn">
                       Ver más
                     </Button>
                   </Card.Body>

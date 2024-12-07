@@ -74,43 +74,94 @@ h2 {
   margin-top: 5px; 
 }
 
-/* ... (Código CSS existente) ... */
-/* Galería del Carrusel */
+/* Estilo general del carrusel */
+.translated-works-gallery {
+  background-color: #000000; /* Fondo negro para resaltar las tarjetas */
+  padding: 20px 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Título de la galería */
 .translated-works-gallery h2 {
+  color: #CDC3E3; /* Tono claro para destacar */
+  font-size: 2rem;
   margin-bottom: 20px;
-  color: #CDC3E3; /* Color elegante */
+  text-align: center;
 }
 
 /* Estilo de las tarjetas */
 .slick-slide {
-  display: flex !important; /* Asegura que las tarjetas estén centradas */
+  display: flex !important;
   justify-content: center;
+  align-items: center;
 }
 
 .slick-list {
-  padding: 0 20px; /* Espaciado lateral */
+  padding: 0 20px;
 }
 
-.carousel-image {
-  height: 350px;
-  object-fit: cover;
+.card {
+  background-color: #6C3483; /* Fondo de tarjeta en tono púrpura */
+  color: #B2BABB; /* Texto en tono gris claro */
   border-radius: 10px;
+  max-width: 300px;
+  min-width: 250px;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease-in-out;
 }
 
-.carousel-image:hover {
-  transform: scale(1.05); /* Efecto de zoom */
+.card:hover {
+  transform: scale(1.05); /* Zoom al pasar el mouse */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
 }
 
-/* Estilo de los puntos de navegación */
+/* Imagen de la tarjeta */
+.card .carousel-image {
+  height: 350px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0; /* Bordes superiores redondeados */
+  border-bottom: 3px solid #A9DFBF; /* Línea verde claro como detalle */
+}
+
+/* Texto dentro de la tarjeta */
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #CDC3E3; /* Tono claro */
+}
+
+.card-body {
+  padding: 15px;
+}
+
+/* Botón en las tarjetas */
+.card .btn {
+  background-color: #A9DFBF; /* Verde claro */
+  color: #000000; /* Texto negro */
+  border: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.card .btn:hover {
+  background-color: #6C3483; /* Cambiar a púrpura al pasar el mouse */
+  color: #CDC3E3; /* Texto claro */
+}
+
+/* Personalización de los puntos del carrusel */
 .slick-dots li button:before {
-  color: #ffffff;
+  color: #B2BABB;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #A9DFBF;
 }
 
 .slick-prev:before, .slick-next:before {
-  color: #ffffff;
+  color: #CDC3E3;
 }
-
 
 /* Últimas Traducciones */
 .latest-translations .latest-translation-image {
