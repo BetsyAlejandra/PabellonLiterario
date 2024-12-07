@@ -138,51 +138,37 @@ const Home = () => {
             <Col md={6} className="latest-translations">
               <h2 className="text-light">Últimas Traducciones</h2>
               <Row>
-                {/* Primera Fila: 3 Portadas */}
-                {topLatestNovels.map((novel) => (
-                  <Col key={novel._id} md={4} sm={6} xs={12} className="mb-4 d-flex justify-content-center">
-                    <Card className="bg-dark text-light border-light position-relative">
-                      <Card.Img
-                        variant="top"
-                        src={novel.coverImage}
-                        alt={`Cover image for ${novel.title}`}
-                        className="card-img latest-translation-image"
-                      />
-                      <div className="overlay">
-                        <Card.Body>
-                          <Card.Title>{novel.title}</Card.Title>
-                          <Card.Text>{novel.genre}</Card.Text>
-                          <Button as={Link} variant="outline-light" to={`/story-detail/${novel._id}`}>
-                            Ver más
-                          </Button>
-                        </Card.Body>
-                      </div>
-                    </Card>
-                  </Col>
-                ))}
-
-                {/* Segunda Fila: 2 Portadas */}
-                {bottomLatestNovels.map((novel) => (
-                  <Col key={novel._id} md={6} sm={6} xs={12} className="mb-4 d-flex justify-content-center">
-                    <Card className="bg-dark text-light border-light position-relative">
-                      <Card.Img
-                        variant="top"
-                        src={novel.coverImage}
-                        alt={`Cover image for ${novel.title}`}
-                        className="card-img latest-translation-image"
-                      />
-                      <div className="overlay">
-                        <Card.Body>
-                          <Card.Title>{novel.title}</Card.Title>
-                          <Card.Text>{novel.genre}</Card.Text>
-                          <Button as={Link} variant="outline-light" to={`/story-detail/${novel._id}`}>
-                            Ver más
-                          </Button>
-                        </Card.Body>
-                      </div>
-                    </Card>
-                  </Col>
-                ))}
+                {latestNovels.length === 0 ? (
+                  <p className="text-light">No hay traducciones recientes.</p>
+                ) : (
+                  latestNovels.map((novel, index) => (
+                    <Col
+                      key={novel._id}
+                      className="mb-4 d-flex justify-content-center"
+                      md={index < 3 ? 4 : 6} // 3 en la primera fila (md=4), 2 en la segunda (md=6)
+                      sm={6}
+                      xs={12}
+                    >
+                      <Card className="bg-dark text-light border-light position-relative">
+                        <Card.Img
+                          variant="top"
+                          src={novel.coverImage}
+                          alt={`Cover image for ${novel.title}`}
+                          className="card-img latest-translation-image"
+                        />
+                        <div className="overlay">
+                          <Card.Body>
+                            <Card.Title>{novel.title}</Card.Title>
+                            <Card.Text>{novel.genre}</Card.Text>
+                            <Button as={Link} variant="outline-light" to={`/story-detail/${novel._id}`}>
+                              Ver más
+                            </Button>
+                          </Card.Body>
+                        </div>
+                      </Card>
+                    </Col>
+                  ))
+                )}
               </Row>
             </Col>
 
