@@ -105,14 +105,19 @@ const Home = () => {
                         <Card
                           key={novel._id}
                           className="text-center bg-dark text-light border-0 mx-2"
-                          style={{ maxWidth: "250px" }}
+                          style={{
+                            width: "300px", // Ajusta el ancho de cada tarjeta
+                            height: "400px", // Ajusta la altura de cada tarjeta
+                          }}
                         >
                           <Card.Img
                             variant="top"
                             src={novel.coverImage}
-                            className="carousel-image"
                             alt={`Cover image for ${novel.title}`}
-                            style={{ height: "350px", objectFit: "cover" }}
+                            style={{
+                              height: "250px",
+                              objectFit: "cover", // Asegura que las imágenes estén bien proporcionadas
+                            }}
                           />
                           <Card.Body>
                             <Card.Title className="text-light">{novel.title}</Card.Title>
@@ -129,6 +134,7 @@ const Home = () => {
                 <p className="text-center text-light">No hay novelas disponibles</p>
               )}
             </Carousel>
+
           )}
         </Container>
       </section>

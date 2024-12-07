@@ -79,29 +79,73 @@ h2 {
 /* Galería del Carrusel */
 .translated-works-gallery h2 {
   margin-bottom: 20px;
-  color: #CDC3E3; /* Asegura que el título sea legible */
+  color: #CDC3E3; /* Título legible */
 }
 
+/* Asegurar que las imágenes del carrusel estén bien proporcionadas */
 .carousel-image {
   height: 350px;
   object-fit: cover;
+  border-radius: 10px; /* Bordes redondeados */
+  transition: transform 0.3s ease-in-out; /* Animación de hover */
 }
-
-.carousel-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 
 .carousel-image:hover {
   transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
 }
 
+/* Centrar y distribuir las tarjetas en el carrusel */
+.carousel-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Espaciado entre las tarjetas */
+}
+
+.carousel-item .card {
+  flex: 0 0 30%; /* Cada tarjeta ocupa el 30% del ancho */
+  max-width: 300px; /* Máximo ancho para evitar desbordes */
+  min-width: 250px; /* Mínimo ancho para mantener consistencia */
+  height: auto; /* Ajustar altura automáticamente */
+}
+
+/* Ajustar imágenes dentro de las tarjetas */
+.carousel-item .card .carousel-image {
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Añadir sombra y fondo al contenedor del carrusel */
+.carousel-inner {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #1C2833; /* Fondo oscuro */
+}
+
+/* Espaciado entre las tarjetas del carrusel */
+.translated-works-gallery .carousel .carousel-item .card {
+  margin: 0 10px; /* Espaciado lateral */
+}
+
+/* Responsividad del Carrusel */
+@media (max-width: 768px) {
+  .carousel-item .card {
+    flex: 0 0 45%; /* Dos tarjetas por fila en pantallas pequeñas */
+  }
+}
+
+@media (max-width: 576px) {
+  .carousel-item .card {
+    flex: 0 0 90%; /* Una tarjeta por fila en pantallas muy pequeñas */
+  }
+}
+
 /* Últimas Traducciones */
 .latest-translations .latest-translation-image {
   width: 100%;
-  height: 250px; /* Altura ajustada para mayor visibilidad */
+  height: 250px;
   object-fit: cover;
   border-radius: 10px;
 }
@@ -124,25 +168,18 @@ h2 {
 }
 
 .latest-translations .card:hover .overlay {
-  opacity: 1; /* La opacidad se aumenta al pasar el mouse */
+  opacity: 1; /* Mostrar superposición al pasar el mouse */
 }
 
-/* Asegurar que las imágenes del carrusel estén centradas */
-.translated-works-gallery .carousel .carousel-item {
-  display: flex;
-  justify-content: center;
-}
-
-.translated-works-gallery .carousel .carousel-item .row {
-  width: 100%;
+/* Agregar sombra al contenedor de últimas traducciones */
+.latest-translations .card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 /* Ajustes Responsivos */
 @media (max-width: 768px) {
-  .carousel-image {
-    width: 180px;
-    height: 250px;
-  }
 
   .latest-translations .latest-translation-image {
     height: 200px;
@@ -399,78 +436,7 @@ input.form-control.tag-input {
   margin-bottom: 1.5rem;
 }
 
-.carousel-inner {
-  display: flex;
-  justify-content: center; /* Asegura que las imágenes se centren */
-}
 
-.carousel {
-  max-width: 100%; /* Evitar que el carrusel se desborde */
-  overflow: hidden; /* Ocultar cualquier imagen que se desborde */
-  margin: 0 auto; /* Centrar el carrusel */
-}
-
-/* Portadas del Carrusel centradas */
-.translated-works-gallery .carousel .carousel-item .row {
-  justify-content: center;
-}
-
-/* Últimas Traducciones: Aumentar el tamaño de la imagen */
-.latest-translations .latest-translation-image {
-  height: 250px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-/* Estilo para la superposición en el Carrusel */
-.translated-works-gallery .carousel .carousel-item .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  border-radius: 10px;
-}
-
-.translated-works-gallery .carousel .carousel-item .overlay .card-body {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 0 0 10px 10px;
-}
-
-.translated-works-gallery .carousel .carousel-item .overlay .card-title,
-.translated-works-gallery .carousel .carousel-item .overlay .card-text {
-  color: #ffffff;
-}
-
-/* Agregar sombra al carrusel */
-.translated-works-gallery .carousel-inner {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-  padding: 20px;
-  background-color: #1C2833;
-}
-
-/* Ajuste del espacio entre las portadas del carrusel */
-.translated-works-gallery .carousel .carousel-item .col {
-  padding: 0 10px;
-}
-
-/* Ajuste de la superposición en Últimas Traducciones */
-.latest-translations .overlay {
-  background-color: rgba(0, 0, 0, 0.6);
-  transition: opacity 0.3s ease-in-out;
-}
-
-.latest-translations .card:hover .overlay {
-  opacity: 1;
-}
 
 /* Agrega esto en tu archivo CSS si lo prefieres */
 .floating-button {
