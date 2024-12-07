@@ -101,7 +101,7 @@ h2 {
   padding: 0 20px;
 }
 
-.card {
+.card1 {
   background-color: #6C3483; /* Fondo de tarjeta en tono púrpura */
   color: #B2BABB; /* Texto en tono gris claro */
   border-radius: 10px;
@@ -112,13 +112,13 @@ h2 {
   transition: transform 0.3s ease-in-out;
 }
 
-.card:hover {
+.card1:hover {
   transform: scale(1.05); /* Zoom al pasar el mouse */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
 }
 
 /* Imagen de la tarjeta */
-.card .carousel-image {
+.card1 .carousel-image {
   height: 350px;
   object-fit: cover;
   border-radius: 10px 10px 0 0; /* Bordes superiores redondeados */
@@ -126,18 +126,18 @@ h2 {
 }
 
 /* Texto dentro de la tarjeta */
-.card-title {
+.card1-title {
   font-size: 1.2rem;
   font-weight: bold;
   color: #CDC3E3; /* Tono claro */
 }
 
-.card-body {
+.card1-body {
   padding: 15px;
 }
 
 /* Botón en las tarjetas */
-.card .btn {
+.card1 .btn1 {
   background-color: #A9DFBF; /* Verde claro */
   color: #000000; /* Texto negro */
   border: none;
@@ -145,7 +145,7 @@ h2 {
   transition: background-color 0.3s ease-in-out;
 }
 
-.card .btn:hover {
+.card1 .btn1:hover {
   background-color: #6C3483; /* Cambiar a púrpura al pasar el mouse */
   color: #CDC3E3; /* Texto claro */
 }

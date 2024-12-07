@@ -129,7 +129,7 @@ const Home = () => {
                   />
                   <Card.Body>
                     <Card.Title>{novel.title}</Card.Title>
-                    <Button as={Link} to={`/story-detail/${novel._id}`} className="btn">
+                    <Button as={Link} to={`/story-detail/${novel._id}`} className="btn1">
                       Ver más
                     </Button>
                   </Card.Body>
