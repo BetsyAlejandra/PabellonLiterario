@@ -96,44 +96,34 @@ const Home = () => {
           {loading ? (
             <p className="text-center text-light">Cargando novelas...</p>
           ) : (
-            <Carousel interval={3000} indicators={groupedNovels.length > 1} pause={false}>
-              {groupedNovels.length > 0 ? (
-                groupedNovels.map((group, groupIndex) => (
-                  <Carousel.Item key={groupIndex}>
-                    <div className="d-flex justify-content-center">
-                      {group.map((novel) => (
-                        <Card
-                          key={novel._id}
-                          className="text-center bg-dark text-light border-0 mx-2"
-                          style={{
-                            width: "300px", // Ajusta el ancho de cada tarjeta
-                            height: "400px", // Ajusta la altura de cada tarjeta
-                          }}
-                        >
-                          <Card.Img
-                            variant="top"
-                            src={novel.coverImage}
-                            alt={`Cover image for ${novel.title}`}
-                            style={{
-                              height: "250px",
-                              objectFit: "cover", // Asegura que las imágenes estén bien proporcionadas
-                            }}
-                          />
-                          <Card.Body>
-                            <Card.Title className="text-light">{novel.title}</Card.Title>
-                            <Button as={Link} variant="outline-light" to={`/story-detail/${novel._id}`}>
-                              Ver más
-                            </Button>
-                          </Card.Body>
-                        </Card>
-                      ))}
-                    </div>
-                  </Carousel.Item>
-                ))
-              ) : (
-                <p className="text-center text-light">No hay novelas disponibles</p>
-              )}
-            </Carousel>
+            <Carousel interval={5000} indicators={groupedNovels.length > 1} pause={false}>
+  {groupedNovels.map((group, groupIndex) => (
+    <Carousel.Item key={groupIndex}>
+      <div className="d-flex justify-content-center align-items-center">
+        {group.map((novel) => (
+          <Card
+            key={novel._id}
+            className="text-center bg-dark text-light border-0"
+          >
+            <Card.Img
+              variant="top"
+              src={novel.coverImage}
+              className="carousel-image"
+              alt={`Cover image for ${novel.title}`}
+            />
+            <Card.Body>
+              <Card.Title className="text-light">{novel.title}</Card.Title>
+              <Button as={Link} variant="outline-light" to={`/story-detail/${novel._id}`}>
+                Ver más
+              </Button>
+            </Card.Body>
+          </Card>
+        ))}
+      </div>
+    </Carousel.Item>
+  ))}
+</Carousel>
+
 
           )}
         </Container>
