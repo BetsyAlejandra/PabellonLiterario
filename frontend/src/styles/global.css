@@ -732,16 +732,3 @@ input.form-control.tag-input {
   background-color: #A9DFBF;
   color: #000;
 }
-
-/* Responsividad adicional */
-@media (max-width: 768px) {
-  .translated-works-gallery .carousel-image {
-    height: 150px;
-  }
-}
-
-@media (max-width: 576px) {
-  .translated-works-gallery .carousel-image {
-    height: 120px;
-  }
-}
