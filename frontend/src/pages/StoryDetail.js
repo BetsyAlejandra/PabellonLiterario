@@ -21,6 +21,10 @@ const StoryDetail = () => {
     const [showPasswordModal, setShowPasswordModal] = useState(false);
     const [enteredPassword, setEnteredPassword] = useState('');
     const [chapterToRead, setChapterToRead] = useState(null);
+    const [passwordError, setPasswordError] = useState(''); // Para mostrar errores de contraseña
+
+    // Estado para manejar la autorización de capítulos
+    const [authorizedChapters, setAuthorizedChapters] = useState({});
 
     useEffect(() => {
         const fetchStory = async () => {
@@ -70,7 +74,7 @@ const StoryDetail = () => {
         try {
             await axios.post(`/api/novels/${id}/reviews/${reviewId}/reply`, {
                 text: reply,
-            });
+            }, { withCredentials: true });
             alert('Respuesta enviada.');
             setReply('');
             setSelectedReview(null);
@@ -82,23 +86,42 @@ const StoryDetail = () => {
     const handleReadChapter = (chapterId) => {
         // Si el idioma es Coreano, pedir password antes de leer
         if (story.languageOrigin === 'Coreano') {
-            setChapterToRead(chapterId);
-            setShowPasswordModal(true);
+            // Verificar si el capítulo ya está autorizado
+            if (authorizedChapters[chapterId]) {
+                navigate(`/read-chapter/${id}/${chapterId}`);
+            } else {
+                setChapterToRead(chapterId);
+                setShowPasswordModal(true);
+            }
         } else {
             navigate(`/read-chapter/${id}/${chapterId}`);
         }
     };
 
     const handlePasswordSubmit = async () => {
-        // Aquí podrías verificar la contraseña antes de permitir leer.
-        // Asumamos que la contraseña correcta es la almacenada en story.password (si existe)
-        // De no tener la contraseña en story, ajusta la lógica según tu API.
-        if (enteredPassword.trim() === story.password) {
-            setShowPasswordModal(false);
-            setEnteredPassword('');
-            navigate(`/read-chapter/${id}/${chapterToRead}`);
-        } else {
-            alert('Contraseña incorrecta.');
+        if (!enteredPassword.trim()) {
+            setPasswordError('Por favor, ingresa una contraseña.');
+            return;
+        }
+
+        try {
+            const res = await axios.post(`/api/novels/${id}/verify-password`, {
+                password: enteredPassword
+            }, { withCredentials: true });
+
+            if (res.data.authorized) {
+                // Autorizar el acceso al capítulo
+                setAuthorizedChapters(prev => ({ ...prev, [chapterToRead]: true }));
+                setShowPasswordModal(false);
+                setEnteredPassword('');
+                setPasswordError('');
+                navigate(`/read-chapter/${id}/${chapterToRead}`);
+            } else {
+                setPasswordError('Contraseña incorrecta.');
+            }
+        } catch (err) {
+            console.error(err);
+            setPasswordError('Error al verificar la contraseña.');
         }
     };
 
@@ -310,6 +333,7 @@ const StoryDetail = () => {
                     <Button
                         variant="primary"
                         onClick={(e) => handleReplySubmit(e, selectedReview?._id)}
+                        disabled={!reply.trim()}
                     >
                         Responder
                     </Button>
@@ -335,17 +359,24 @@ const StoryDetail = () => {
             {/* Modal Contraseña (si idioma es coreano) */}
             <Modal show={showPasswordModal} onHide={() => setShowPasswordModal(false)} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Esta novela esta protegida por contraseña</Modal.Title>
+                    <Modal.Title>Esta novela está protegida por contraseña</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>Para adquirir la contraseña de la novela, buscala en el discord de Pabellón Literario.</p>
-                    <input
-                        type="password"
-                        className="form-control"
-                        placeholder="Contraseña"
-                        value={enteredPassword}
-                        onChange={(e) => setEnteredPassword(e.target.value)}
-                    />
+                    <p>Para acceder a esta novela, ingresa la contraseña proporcionada.</p>
+                    <Form.Group controlId="password">
+                        <Form.Label>Contraseña</Form.Label>
+                        <Form.Control
+                            type="password"
+                            placeholder="Ingresa la contraseña"
+                            value={enteredPassword}
+                            onChange={(e) => setEnteredPassword(e.target.value)}
+                        />
+                        {passwordError && (
+                            <Form.Text className="text-danger">
+                                {passwordError}
+                            </Form.Text>
+                        )}
+                    </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={handlePasswordSubmit}>
@@ -358,6 +389,7 @@ const StoryDetail = () => {
             </Modal>
         </div>
     );
+
 };
 
 export default StoryDetail;

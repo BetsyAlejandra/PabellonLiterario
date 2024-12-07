@@ -2,8 +2,9 @@ const express = require('express');
 const Novel = require('../models/Novel');
 const { createNovel, getNovels, getLatestNovels,
   getNovelById, addChapter, addReview, searchNovels,
-  getChapterById, deleteNovel } = require('../controllers/novelController');
+  getChapterById, deleteNovel, verifyPassword  } = require('../controllers/novelController');
 const { upload, handleMulterError } = require('../middlewares/upload');
+const bcrypt = require('bcryptjs');
 
 const router = express.Router();
 
@@ -87,6 +88,9 @@ router.put('/:storyId/chapters/:chapterId', async (req, res) => {
     res.status(500).json({ message: 'Error al actualizar el capítulo', error: error.message });
   }
 });
+
+// Añade la ruta para verificar la contraseña
+router.post('/:id/verify-password', verifyPassword);
 router.post('/:id/reviews', isAuthenticated, addReview);
 router.post('/api/novels/:id/reviews/:reviewId/reply', isAuthenticated, async (req, res) => {
   try {
@@ -280,12 +284,14 @@ router.put('/update/:id', upload, handleMulterError, async (req, res) => {
       if (password === undefined && !finalPassword) {
         return res.status(400).json({ message: 'Es obligatorio proporcionar una contraseña para novelas en coreano.' });
       } else if (password !== undefined) {
-        finalPassword = password;
+        // Hashear la nueva contraseña
+        const saltRounds = 10;
+        finalPassword = await bcrypt.hash(password, saltRounds);
       }
     } else {
       // Si no es coreano, puede no haber password (opcional)
-      // Podemos dejar el password tal cual, o vaciarlo si se desea.
-      // finalPassword = ''; // descomentar si se quiere limpiar la password en caso de cambiar el idioma
+      // Opcionalmente, podrías limpiar la contraseña si el idioma cambia a no Coreano
+      // finalPassword = ''; // Descomentar si se desea
     }
 
     // Actualiza los campos

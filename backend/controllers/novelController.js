@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Novel = require('../models/Novel');
 const User = require('../models/User');
+const bcrypt = require('bcryptjs');
 
 const createNovel = async (req, res) => {
   try {
@@ -51,6 +52,13 @@ const createNovel = async (req, res) => {
     const parsedAdaptations = adaptations ? JSON.parse(adaptations) : [];
     const parsedRawOrigin = rawOrigin ? JSON.parse(rawOrigin) : [];
 
+    // Hash de la contraseña si aplica
+    let hashedPassword = '';
+    if (languageOrigin === 'Coreano' && password) {
+      const saltRounds = 10;
+      hashedPassword = await bcrypt.hash(password, saltRounds);
+    }
+
     // Crear la novela
     const newNovel = await Novel.create({
       title,
@@ -65,7 +73,7 @@ const createNovel = async (req, res) => {
       rawOrigin: parsedRawOrigin,
       subGenres: subGenresArray,
       languageOrigin,
-      password: languageOrigin === 'Coreano' ? password : '', // Establecer contraseña solo si el idioma es Coreano
+      password: hashedPassword, // Establecer contraseña hasheada solo si aplica
       progress,
     });
 
@@ -75,12 +83,6 @@ const createNovel = async (req, res) => {
     res.status(500).json({ message: 'Error al crear la novela', error: error.message });
   }
 };
-
-
-
-
-
-
 
 // Obtener todas las novelas
 const getNovels = async (req, res) => {
@@ -291,10 +293,44 @@ const deleteNovel = async (req, res) => {
   }
 };
 
+const verifyPassword = async (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body;
+
+  // Validar entrada
+  if (!password) {
+    return res.status(400).json({ message: 'La contraseña es requerida.' });
+  }
+
+  try {
+    const novel = await Novel.findById(id);
+    if (!novel) {
+      return res.status(404).json({ message: 'Novela no encontrada.' });
+    }
+
+    // Solo verificar si el idioma de origen es Coreano
+    if (novel.languageOrigin !== 'Coreano') {
+      return res.status(400).json({ message: 'Esta novela no requiere una contraseña.' });
+    }
+
+    // Verificar la contraseña utilizando bcrypt
+    const isMatch = await bcrypt.compare(password, novel.password);
+    if (isMatch) {
+
+      return res.status(200).json({ message: 'Contraseña correcta.', authorized: true });
+    } else {
+      return res.status(401).json({ message: 'Contraseña incorrecta.', authorized: false });
+    }
+  } catch (error) {
+    console.error('Error al verificar la contraseña:', error.message);
+    return res.status(500).json({ message: 'Error interno del servidor.', error: error.message });
+  }
+};
+
 
 
 module.exports = {
   createNovel, getNovels, getLatestNovels,
   getNovelById, addChapter, addReview, searchNovels, getChapterById,
-  deleteNovel
+  deleteNovel, verifyPassword
 };
