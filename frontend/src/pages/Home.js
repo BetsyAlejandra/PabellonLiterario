@@ -55,7 +55,7 @@ const Home = () => {
     fetchLatestNovels(); // Llama a ambas funciones al montar el componente
   }, []);
 
-  // Función para dividir el array en grupos de 6
+  // Función para dividir el array en grupos de 3
   const chunkArray = (array, chunkSize) => {
     const results = [];
     for (let i = 0; i < array.length; i += chunkSize) {
@@ -64,8 +64,8 @@ const Home = () => {
     return results;
   };
 
-  // Dividir las novelas en grupos de 6
-  const groupedNovels = chunkArray(novels, 6);
+  // Dividir las novelas en grupos de 3
+  const groupedNovels = chunkArray(novels, 3);
 
   return (
     <div className="home-page">
@@ -98,7 +98,7 @@ const Home = () => {
                   <Carousel.Item key={groupIndex}>
                     <Row className="justify-content-center">
                       {group.map((novel, index) => (
-                        <Col key={index} md={2} sm={4} xs={6} className="mb-4 d-flex justify-content-center">
+                        <Col key={index} md={4} sm={6} xs={12} className="mb-4 d-flex justify-content-center">
                           <Card className="text-center bg-dark text-light border-0">
                             <Card.Img
                               variant="top"
@@ -137,8 +137,14 @@ const Home = () => {
                 {latestNovels.length === 0 ? (
                   <p className="text-light">No hay traducciones recientes.</p>
                 ) : (
-                  latestNovels.map(novel => (
-                    <Col key={novel._id} className="mb-4" md={12}>
+                  latestNovels.map((novel, index) => (
+                    <Col
+                      key={novel._id}
+                      className="mb-4 d-flex justify-content-center"
+                      md={index < 3 ? 4 : 6} // 3 en la primera fila (md=4), 2 en la segunda (md=6)
+                      sm={6}
+                      xs={12}
+                    >
                       <Card className="bg-dark text-light border-light position-relative">
                         <Card.Img
                           variant="top"
@@ -161,7 +167,6 @@ const Home = () => {
                 )}
               </Row>
             </Col>
-
 
             {/* Sección de Soporte y Discord */}
             <Col md={6} className="support-section text-light">
