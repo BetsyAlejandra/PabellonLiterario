@@ -39,7 +39,7 @@ h2 {
 
 .watermark-logo {
   width: auto;
-  max-width: 40%; /* Ajusta el tamaño de la imagen, el máximo será el 50% del contenedor */
+  max-width: 40%; /* Ajusta el tamaño de la imagen, el máximo será el 40% del contenedor */
   height: auto;
 }
 
@@ -57,7 +57,6 @@ h2 {
   font-size: 18px; 
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
-
 .join-button:hover {
   background-color: #6C3483; 
   color: #B2BABB; 
@@ -75,50 +74,103 @@ h2 {
   margin-top: 5px; 
 }
 
-
 /* Galería */
 .translated-works-gallery h2 {
   margin-bottom: 20px;
 }
 
-/* Asegura que las tarjetas ocupen todo el ancho de su columna */
-.translated-works-gallery .card {
-  height: 100%;
+/* Portadas del Carrusel */
+.carousel-image {
+  width: 250px; /* Ancho ajustado a 250px */
+  height: 350px; /* Altura ajustada para mantener la proporción */
+  object-fit: cover; /* Mantiene la proporción de la imagen sin deformarla */
+  border-radius: 10px;
+}
+
+/* Últimas Traducciones */
+.latest-translations .latest-translation-image {
+  width: 100%;
+  height: 250px; /* Altura ajustada para mayor visibilidad */
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Superposición en Últimas Traducciones */
+.latest-translations .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro con opacidad */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
+  padding: 15px;
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
 }
 
-/* Ajustes para el carrusel múltiple */
-.translated-works-gallery .carousel-inner {
+.latest-translations .card:hover .overlay {
+  opacity: 1; /* La opacidad se aumenta al pasar el mouse */
+}
+
+/* Asegurar que las imágenes del carrusel estén centradas */
+.translated-works-gallery .carousel .carousel-item {
   display: flex;
   justify-content: center;
 }
 
-.translated-works-gallery .carousel-item {
-  display: flex;
-  justify-content: center;
+.translated-works-gallery .carousel .carousel-item .row {
+  width: 100%;
 }
 
-.translated-works-gallery .carousel-item .row {
-  display: flex;
-  justify-content: center;
+/* Ajustes Responsivos */
+@media (max-width: 768px) {
+  .carousel-image {
+    width: 180px;
+    height: 250px;
+  }
+
+  .latest-translations .latest-translation-image {
+    height: 200px;
+  }
 }
 
 /* Cartas */
 .card {
   border-radius: 10px;
+  overflow: hidden;
+  background-color: #1C2833;
+  color: #B2BABB;
 }
 
-/* Traductora del mes */
-.translator-of-the-month {
-  background-color: #000000;
-  padding: 30px 0;
-}
-.translator-of-the-month h3 {
-  color: #A9DFBF;
+.card-title {
+  font-weight: bold;
 }
 
+.card h5 {
+  color: #ffffff; /* Color específico para el título */
+}
+
+.card p {
+  color: #ffffff; /* Color para descripciones y textos secundarios */
+}
+
+.card-footer button {
+  color: #fff; /* Asegura que los botones tengan texto blanco */
+}
+.card-footer {
+  background-color: #B2BABB;
+}
+
+/* Superposición en Últimas Traducciones */
+.latest-translations .overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Timeline */
 .history-and-achievements {
   background-color: #1f1f1f; /* Fondo oscuro */
   color: #ffffff; /* Texto claro */
@@ -348,10 +400,11 @@ input.form-control.tag-input {
   justify-content: center; /* Asegura que las imágenes se centren */
 }
 
+/* Portadas del Carrusel */
 .carousel-image {
-  width: 100%;
-  height: 200px; /* Ajusta la altura según sea necesario */
-  object-fit: cover;
+  width: 250px; /* Ajusta el ancho a 250px */
+  height: 350px; /* Ajusta la altura para mantener la proporción */
+  object-fit: cover; /* Mantiene la proporción de la imagen sin deformarla */
   border-radius: 10px;
 }
 
@@ -361,79 +414,50 @@ input.form-control.tag-input {
   margin: 0 auto; /* Centrar el carrusel */
 }
 
-/* Estilo para la superposición en últimas traducciones */
-.latest-translations .card {
-  position: relative;
-  overflow: hidden;
+/* Portadas del Carrusel centradas */
+.translated-works-gallery .carousel .carousel-item .row {
+  justify-content: center;
 }
 
-.latest-translations .card-img {
-  height: 250px; /* Aumentar la altura */
-  object-fit: cover; /* Mantener la proporción */
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+/* Últimas Traducciones: Aumentar el tamaño de la imagen */
+.latest-translations .latest-translation-image {
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
-@media (max-width: 768px) {
-  .latest-translations .card-img {
-    height: 200px;
-  }
+/* Ajuste de la altura del carrusel para acomodar las imágenes */
+.translated-works-gallery .carousel-item {
+  padding: 20px 0;
 }
 
-@media (max-width: 576px) {
-  .latest-translations .card-img {
-    height: 150px;
-  }
-}
-
+/* Ajuste de la altura de la superposición */
 .latest-translations .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8); /* Incrementar la opacidad */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 10px;
-  opacity: 0;
+  padding: 20px;
+}
+
+/* Mejora del overlay en el carrusel */
+.translated-works-gallery .carousel .carousel-item .card-body {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0 0 10px 10px;
+}
+
+/* Asegurar que las portadas mantengan su tamaño */
+.translated-works-gallery .carousel .carousel-item .card-img {
+  width: 250px;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Ajuste de la superposición en Últimas Traducciones */
+.latest-translations .overlay {
+  background-color: rgba(0, 0, 0, 0.6);
   transition: opacity 0.3s ease-in-out;
 }
 
 .latest-translations .card:hover .overlay {
-  opacity: 0.9; /* La opacidad se aumenta al pasar el mouse */
-}
-
-.latest-translations .card-body {
-  color: white;
-  z-index: 2; /* Asegura que el texto esté por encima de la imagen */
-}
-
-
-.latest-translations .card-title {
-  font-size: 1.1rem; /* Aumentar el tamaño del texto */
-  color: #6C3483; /* Cambiar el color del texto para mayor contraste */
-  margin-bottom: 10px;
-}
-
-.latest-translations .card-text {
-  font-size: 1rem;
-  margin-bottom: 15px;
-}
-
-
-.latest-translations .btn-outline-light {
-  border-color: white;
-  color: white;
-  text-transform: uppercase;
-  font-size: 0.9rem; /* Aumentar el tamaño de la fuente */
-  padding: 8px 16px; /* Incrementar el padding */
-}
-
-.latest-translations .btn-outline-light:hover {
-  background-color: white;
-  color: black;
+  opacity: 1;
 }
 
 /* Agrega esto en tu archivo CSS si lo prefieres */

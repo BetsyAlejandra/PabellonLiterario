@@ -96,9 +96,9 @@ const Home = () => {
               {groupedNovels.length > 0 ? (
                 groupedNovels.map((group, groupIndex) => (
                   <Carousel.Item key={groupIndex}>
-                    <Row>
+                    <Row className="justify-content-center">
                       {group.map((novel, index) => (
-                        <Col key={index} md={2} sm={4} xs={6} className="mb-4">
+                        <Col key={index} md={2} sm={4} xs={6} className="mb-4 d-flex justify-content-center">
                           <Card className="text-center bg-dark text-light border-0">
                             <Card.Img
                               variant="top"
@@ -144,7 +144,7 @@ const Home = () => {
                           variant="top"
                           src={novel.coverImage}
                           alt={`Cover image for ${novel.title}`}
-                          className="card-img"
+                          className="card-img latest-translation-image"
                         />
                         <div className="overlay">
                           <Card.Body>
@@ -161,6 +161,7 @@ const Home = () => {
                 )}
               </Row>
             </Col>
+
 
             {/* Sección de Soporte y Discord */}
             <Col md={6} className="support-section text-light">
