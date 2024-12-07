@@ -2,8 +2,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Container, Form, OverlayTrigger, Popover } from 'react-bootstrap';
-import { FaArrowLeft, FaBook, FaArrowRight, FaCog } from 'react-icons/fa';
-import DOMPurify from 'dompurify';
+import { FaArrowLeft, FaBook, FaArrowRight } from 'react-icons/fa';
+import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
+import DOMPurify from 'dompurify';  
 import parse, { domToReact } from 'html-react-parser';
 import '../styles/readChapter.css';
 
@@ -19,6 +20,7 @@ const ReadChapter = () => {
     const [showSettings, setShowSettings] = useState(false);
     const [generalComment, setGeneralComment] = useState('');
     const [generalComments, setGeneralComments] = useState([]);
+    const [fontColor, setFontColor] = useState("#FBFCFC");
 
     // Referencias para manejar el desplazamiento
     const readChapterRef = useRef(null); // Referencia al contenedor principal
@@ -175,17 +177,19 @@ const ReadChapter = () => {
     return (
         <div
             className="read-chapter"
-            ref={readChapterRef} // Adjunta la referencia aquí
+            ref={readChapterRef}
             style={{
                 filter: `brightness(${brightness}%)`,
                 fontSize: `${fontSize}px`,
+                color: fontColor, // Aplica el color de la fuente
                 userSelect: 'none',
                 overflowY: 'auto',
                 height: '100vh',
-                position: 'relative', // Para posicionar el botón flotante correctamente
+                position: 'relative',
             }}
             onScroll={handleScroll}
         >
+
             {/* Barra de progreso fija */}
             <div className="progress-bar-container">
                 <div className="progress-bar" style={{ width: `${progress}%` }}></div>
@@ -197,7 +201,7 @@ const ReadChapter = () => {
 
                 <div
                     className="chapter-content"
-                    // Eliminamos el manejador de clic ya que usamos Popovers
+                // Eliminamos el manejador de clic ya que usamos Popovers
                 >
                     {parse(sanitizedContent, options)}
                 </div>
@@ -208,10 +212,11 @@ const ReadChapter = () => {
                 <Button
                     variant="primary"
                     className="settings-toggle"
-                    onClick={() => setShowSettings(!showSettings)}
+                    onClick={() => setShowSettings((prev) => !prev)} // Cambia entre mostrar/ocultar
                 >
-                    <FaCog />
+                    {showSettings ? <FaArrowDown /> : <FaArrowUp />}
                 </Button>
+
                 {showSettings && (
                     <div className="settings-panel">
                         <Form.Group>
@@ -222,6 +227,19 @@ const ReadChapter = () => {
                                 value={fontSize}
                                 onChange={(e) => handleFontSizeChange(e.target.value)}
                             />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Color de Fuente</Form.Label>
+                            <Form.Select
+                                value={fontColor}
+                                onChange={(e) => setFontColor(e.target.value)}
+                            >
+                                <option value="#B2BABB">Gris Claro (#B2BABB)</option>
+                                <option value="#CDC3E3">Morado Claro (#CDC3E3)</option>
+                                <option value="#A9DFBF">Verde Claro (#A9DFBF)</option>
+                                <option value="#FBFCFC">Blanco (#FBFCFC)</option>
+                                <option value="#FDEDEC">Rosado Claro (#FDEDEC)</option>
+                            </Form.Select>
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Brillo</Form.Label>

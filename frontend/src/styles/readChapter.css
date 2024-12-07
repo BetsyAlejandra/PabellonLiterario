@@ -116,39 +116,50 @@
   z-index: 1000;
 }
 
+/* Botón de configuración flotante */
 .settings-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #6C3483; /* Morado claro */
+  color: #414141; /* Blanco */
   border-radius: 50%;
-  background-color: #A9DFBF;
-  margin-bottom: 10px;
-  width: 60px;
-  height: 60px;
-  border-color: #CDC3E3;
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.3);
-}
-
-.settings-panel {
-  margin-top: 10px;
-  padding: 10px;
-  background: #A9DFBF;
-  color: #6C3483;
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
 }
 
 .settings-toggle:hover {
-  border-radius: 50%;
-  background-color: #CDC3E3;
-  width: 60px;
-  height: 60px;
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+  background-color: #A9DFBF; /* Verde claro */
 }
+
+/* Panel de ajustes */
+.settings-panel {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background-color: #1a1a1a;
+  border: 1px solid #B2BABB;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 250px;
+}
+
+/* Ocultar flechas */
+.nav-btn {
+  display: inline-block;
+  margin: 0 5px;
+  color: #6C3483;
+}
+
 
 .settings-toggle:active {
   transform: scale(0.9);

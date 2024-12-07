@@ -1,0 +1,87 @@
+/* Fondo oscuro general */
+body {
+    background-color: #000000; /* Fondo oscuro */
+    color: #FBFCFC; /* Texto claro */
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Estilo general de las tarjetas */
+  .card {
+    background-color: #6C3483; /* Fondo morado oscuro */
+    color: #FBFCFC; /* Texto claro */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+  /* Botones */
+  .btn {
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .btn-primary {
+    background-color: #A9DFBF; /* Verde claro */
+    color: #000000;
+  }
+  
+  .btn-primary:hover {
+    background-color: #CDC3E3; /* Morado claro */
+    color: #000000;
+  }
+  
+  .btn-secondary {
+    background-color: #CDC3E3; /* Morado claro */
+    color: #000000;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #A9DFBF; /* Verde claro */
+    color: #000000;
+  }
+  
+  /* Imagen de portada */
+  .card img {
+    border-radius: 10px 10px 0 0;
+    object-fit: cover;
+    max-height: 400px;
+  }
+  
+  /* Sección de capítulos */
+  .chapter-card {
+    background-color: #B2BABB; /* Gris claro */
+    color: #000000;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+  
+  .chapter-card:hover {
+    transform: translateY(-5px); /* Animación sutil al pasar el mouse */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Sección de comentarios */
+  .comment-card {
+    background-color: #CDC3E3; /* Morado claro */
+    color: #000000;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .comment-card textarea {
+    background-color: #FBFCFC; /* Blanco */
+    color: #000000;
+    border: 1px solid #B2BABB; /* Gris */
+    border-radius: 5px;
+  }
+  
+  .comment-reply {
+    background-color: #A9DFBF; /* Verde claro */
+    color: #000000;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+  }  

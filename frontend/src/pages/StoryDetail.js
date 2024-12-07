@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Modal, Button, Card, Form } from 'react-bootstrap';
-import '../styles/global.css';
+import ReactPaginate from 'react-paginate';
+import '../styles/StoryDetail.css';
 
 const StoryDetail = () => {
     const { id } = useParams();
@@ -13,9 +14,14 @@ const StoryDetail = () => {
     const [error, setError] = useState(null);
     const [saved, setSaved] = useState(false);
     const [review, setReview] = useState('');
+    const [sortByDate, setSortByDate] = useState(false); // Controla el orden de los capítulos
     const [showModal, setShowModal] = useState(false);
     const [selectedReview, setSelectedReview] = useState(null); // Reseña seleccionada para responder
     const [reply, setReply] = useState(''); // Respuesta a la reseña
+    const [currentPage, setCurrentPage] = useState(0);
+
+
+    const chaptersPerPage = 10; // Número de capítulos por página
 
     // Modal para password si el idioma es Coreano
     const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -102,6 +108,18 @@ const StoryDetail = () => {
         }
     };
 
+    // Función para obtener los capítulos de la página actual
+    const paginatedChapters = story.chapters
+        .slice()
+        .sort((a, b) => (sortByDate ? new Date(a.publishedAt) - new Date(b.publishedAt) : new Date(b.publishedAt) - new Date(a.publishedAt))) // Ordenar por fecha
+        .slice(currentPage * chaptersPerPage, (currentPage + 1) * chaptersPerPage);
+
+
+    const handlePageChange = (selectedItem) => {
+        setCurrentPage(selectedItem.selected); // Actualiza la página actual
+    };
+
+
     if (loading) return <p>Cargando...</p>;
     if (error) return <p>{error}</p>;
 
@@ -114,23 +132,20 @@ const StoryDetail = () => {
                             variant="top"
                             src={story.coverImage}
                             alt={`Portada de ${story.title}`}
-                            style={{ maxHeight: '400px', objectFit: 'cover' }}
                         />
                         <Card.Body>
                             <Button
-                                className="btn btn-secondary mt-2"
+                                className="btn btn-primary mt-2"
                                 onClick={() => handleReadChapter(story.chapters[0]?._id)}
                                 disabled={!story.chapters.length}
                             >
                                 Leer
                             </Button>
-                            {/* Mostrar autor (usuario encargado) */}
                             <div className="mt-3">
                                 <strong>Autor:</strong>{' '}
                                 <Button variant="link" onClick={() => navigate(`/profileperson/${story.author}`)}>
                                     {story.author}
                                 </Button>
-
                             </div>
                         </Card.Body>
                     </Card>
@@ -226,13 +241,15 @@ const StoryDetail = () => {
 
             <div className="mt-5">
                 <h4>Capítulos</h4>
-                {story.chapters.length ? (
-                    story.chapters.map((chapter) => (
+                <Button variant="secondary" onClick={() => setSortByDate(!sortByDate)}>
+                    Ordenar por fecha {sortByDate ? 'Ascendente' : 'Descendente'}
+                </Button>
+                {paginatedChapters.length ? (
+                    paginatedChapters.map((chapter) => (
                         <Card
                             key={chapter._id}
-                            className="shadow-sm mb-3"
+                            className="chapter-card shadow-sm mb-3"
                             onClick={() => handleReadChapter(chapter._id)}
-                            style={{ cursor: 'pointer' }}
                         >
                             <Card.Body>
                                 <h5>{chapter.title}</h5>
@@ -245,22 +262,30 @@ const StoryDetail = () => {
                 ) : (
                     <p>No hay capítulos disponibles.</p>
                 )}
+                <ReactPaginate
+                    previousLabel={'← Anterior'}
+                    nextLabel={'Siguiente →'}
+                    pageCount={Math.ceil(story.chapters.length / chaptersPerPage)} // Número total de páginas
+                    onPageChange={handlePageChange} // Maneja el cambio de página
+                    containerClassName={'pagination'}
+                    previousLinkClassName={'pagination__link'}
+                    nextLinkClassName={'pagination__link'}
+                    disabledClassName={'pagination__link--disabled'}
+                    activeClassName={'pagination__link--active'}
+                />
             </div>
+
 
             <div className="mt-5">
                 <h4>Comentarios</h4>
                 <form onSubmit={handleReviewSubmit} className="mb-4">
-                    <div className="form-group mt-2">
-                        <label htmlFor="review">Deja un comentario</label>
-                        <textarea
-                            id="review"
-                            className="form-control"
-                            rows="3"
-                            value={review}
-                            onChange={(e) => setReview(e.target.value)}
-                            placeholder="Escribe tu reseña aquí..."
-                        />
-                    </div>
+                    <textarea
+                        className="form-control"
+                        rows="3"
+                        value={review}
+                        onChange={(e) => setReview(e.target.value)}
+                        placeholder="Escribe tu reseña aquí..."
+                    />
                     <button type="submit" className="btn btn-primary mt-2" disabled={!review}>
                         Enviar reseña
                     </button>
@@ -268,7 +293,7 @@ const StoryDetail = () => {
 
                 {story.reviews.length ? (
                     story.reviews.map((rev, idx) => (
-                        <Card key={idx} className="shadow-sm mb-3">
+                        <Card key={idx} className="comment-card shadow-sm mb-3">
                             <Card.Body>
                                 <div>
                                     <strong>{rev.user.username}</strong>
@@ -278,11 +303,9 @@ const StoryDetail = () => {
                                     Responder
                                 </Button>
                                 {rev.replies?.map((reply, index) => (
-                                    <Card key={index} className="mt-2">
-                                        <Card.Body>
-                                            <p>{reply.text}</p>
-                                        </Card.Body>
-                                    </Card>
+                                    <div key={index} className="comment-reply">
+                                        {reply.text}
+                                    </div>
                                 ))}
                             </Card.Body>
                         </Card>
@@ -291,6 +314,7 @@ const StoryDetail = () => {
                     <p>No hay reseñas disponibles.</p>
                 )}
             </div>
+
 
             {/* Modal Responder Reseña */}
             <Modal show={!!selectedReview} onHide={() => setSelectedReview(null)} centered>
