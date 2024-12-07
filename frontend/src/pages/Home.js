@@ -100,26 +100,29 @@ const Home = () => {
               {groupedNovels.length > 0 ? (
                 groupedNovels.map((group, groupIndex) => (
                   <Carousel.Item key={groupIndex}>
-                    <Row className="justify-content-center">
+                    <div className="d-flex justify-content-center">
                       {group.map((novel) => (
-                        <Col key={novel._id} md={4} sm={6} xs={12} className="mb-4 d-flex justify-content-center">
-                          <Card className="text-center bg-dark text-light border-0">
-                            <Card.Img
-                              variant="top"
-                              src={novel.coverImage}
-                              className="carousel-image"
-                              alt={`Cover image for ${novel.title}`}
-                            />
-                            <Card.Body>
-                              <Card.Title className="text-light">{novel.title}</Card.Title>
-                              <Button as={Link} variant="outline-light" to={`/story-detail/${novel._id}`}>
-                                Ver más
-                              </Button>
-                            </Card.Body>
-                          </Card>
-                        </Col>
+                        <Card
+                          key={novel._id}
+                          className="text-center bg-dark text-light border-0 mx-2"
+                          style={{ maxWidth: "250px" }}
+                        >
+                          <Card.Img
+                            variant="top"
+                            src={novel.coverImage}
+                            className="carousel-image"
+                            alt={`Cover image for ${novel.title}`}
+                            style={{ height: "350px", objectFit: "cover" }}
+                          />
+                          <Card.Body>
+                            <Card.Title className="text-light">{novel.title}</Card.Title>
+                            <Button as={Link} variant="outline-light" to={`/story-detail/${novel._id}`}>
+                              Ver más
+                            </Button>
+                          </Card.Body>
+                        </Card>
                       ))}
-                    </Row>
+                    </div>
                   </Carousel.Item>
                 ))
               ) : (

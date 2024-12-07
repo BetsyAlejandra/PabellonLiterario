@@ -82,14 +82,17 @@ h2 {
   color: #CDC3E3; /* Asegura que el título sea legible */
 }
 
-/* Portadas del Carrusel */
 .carousel-image {
-  width: 250px; /* Ancho ajustado a 250px */
-  height: 350px; /* Altura ajustada para mantener la proporción */
-  object-fit: cover; /* Mantiene la proporción de la imagen sin deformarla */
-  border-radius: 10px;
-  transition: transform 0.3s ease;
+  height: 350px;
+  object-fit: cover;
 }
+
+.carousel-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 .carousel-image:hover {
   transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
@@ -396,24 +399,9 @@ input.form-control.tag-input {
   margin-bottom: 1.5rem;
 }
 
-/* Establecer un ancho máximo para cada item del carrusel */
-.carousel-item {
-  max-width: 250px; /* Ancho máximo para el carrusel */
-  flex: 0 0 auto; /* Evitar que se estiren las imágenes */
-  margin: 0 10px; /* Espacio entre imágenes */
-}
-
 .carousel-inner {
   display: flex;
   justify-content: center; /* Asegura que las imágenes se centren */
-}
-
-/* Portadas del Carrusel */
-.carousel-image {
-  width: 250px; /* Ajusta el ancho a 250px */
-  height: 350px; /* Ajusta la altura para mantener la proporción */
-  object-fit: cover; /* Mantiene la proporción de la imagen sin deformarla */
-  border-radius: 10px;
 }
 
 .carousel {
