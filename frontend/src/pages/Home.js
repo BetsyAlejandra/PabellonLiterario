@@ -97,32 +97,32 @@ const Home = () => {
             <p className="text-center text-light">Cargando novelas...</p>
           ) : (
             <Carousel interval={5000} indicators={groupedNovels.length > 1} pause={false}>
-  {groupedNovels.map((group, groupIndex) => (
-    <Carousel.Item key={groupIndex}>
-      <div className="d-flex justify-content-center align-items-center">
-        {group.map((novel) => (
-          <Card
-            key={novel._id}
-            className="text-center bg-dark text-light border-0"
-          >
-            <Card.Img
-              variant="top"
-              src={novel.coverImage}
-              className="carousel-image"
-              alt={`Cover image for ${novel.title}`}
-            />
-            <Card.Body>
-              <Card.Title className="text-light">{novel.title}</Card.Title>
-              <Button as={Link} variant="outline-light" to={`/story-detail/${novel._id}`}>
-                Ver más
-              </Button>
-            </Card.Body>
-          </Card>
-        ))}
-      </div>
-    </Carousel.Item>
-  ))}
-</Carousel>
+              {groupedNovels.map((group, groupIndex) => (
+                <Carousel.Item key={groupIndex}>
+                  <div className="d-flex justify-content-center align-items-center">
+                    {group.map((novel) => (
+                      <Card
+                        key={novel._id}
+                        className="text-center bg-dark text-light border-0"
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={novel.coverImage}
+                          className="carousel-image"
+                          alt={`Cover image for ${novel.title}`}
+                        />
+                        <Card.Body>
+                          <Card.Title className="text-light">{novel.title}</Card.Title>
+                          <Button as={Link} variant="outline-light" to={`/story-detail/${novel._id}`}>
+                            Ver más
+                          </Button>
+                        </Card.Body>
+                      </Card>
+                    ))}
+                  </div>
+                </Carousel.Item>
+              ))}
+            </Carousel>
 
 
           )}

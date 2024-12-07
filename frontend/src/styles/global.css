@@ -76,75 +76,50 @@ h2 {
 
 /* ... (Código CSS existente) ... */
 
-/* Estilo General para la Galería */
+/* Galería del Carrusel */
 .translated-works-gallery h2 {
   margin-bottom: 20px;
   color: #CDC3E3; /* Título legible */
-  text-align: center;
 }
 
-/* Asegurar que las imágenes del carrusel estén bien proporcionadas */
+/* Tarjetas del Carrusel */
+.carousel-item {
+  display: flex;
+  justify-content: space-between; /* Espaciado uniforme entre tarjetas */
+  align-items: center; /* Centrar verticalmente */
+  gap: 20px; /* Espaciado entre tarjetas */
+  padding: 0 20px; /* Evitar que las tarjetas toquen los bordes */
+}
+
+.carousel-item .card {
+  flex: 1 1 calc(33.333% - 40px); /* Tres tarjetas por fila con espacio */
+  max-width: 300px; /* Limitar el tamaño máximo */
+  min-width: 250px; /* Tamaño mínimo consistente */
+  margin: 0 auto; /* Centrar cada tarjeta */
+  height: auto; /* Ajustar la altura automáticamente */
+}
+
 .carousel-image {
-  height: 300px;
-  object-fit: cover;
+  height: 350px; /* Altura fija para las imágenes */
+  object-fit: cover; /* Asegurar que la imagen no se deforme */
   border-radius: 10px; /* Bordes redondeados */
   transition: transform 0.3s ease-in-out; /* Animación de hover */
 }
 
 .carousel-image:hover {
-  transform: scale(1.05); /* Efecto de zoom */
+  transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
 }
 
-/* Centrar y distribuir las tarjetas en el carrusel */
-.carousel-item {
-  display: flex;
-  justify-content: center;
-  gap: 20px; /* Espaciado entre tarjetas */
-  align-items: center;
-}
-
-.carousel-item .card {
-  flex: 0 0 calc(33.333% - 20px); /* Cada tarjeta ocupa un tercio del contenedor */
-  max-width: 300px; /* Limitar ancho máximo */
-  height: auto;
-  background-color: #1C2833; /* Fondo oscuro */
-  border-radius: 10px; /* Bordes redondeados */
-  overflow: hidden;
-}
-
-/* Ajustar imágenes dentro de las tarjetas */
-.carousel-item .card .carousel-image {
-  height: 200px;
-  object-fit: cover;
-  border-radius: 10px 10px 0 0;
-}
-
-/* Botón en las tarjetas */
-.carousel-item .card .btn {
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-/* Añadir sombra y fondo al contenedor del carrusel */
-.carousel-inner {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-  padding: 10px;
-  background-color: #1C2833;
-  max-width: 1000px; /* Limitar ancho máximo del carrusel */
-  margin: 0 auto; /* Centrar el carrusel */
-}
-
-/* Responsividad */
-@media (max-width: 768px) {
+/* Responsividad del Carrusel */
+@media (max-width: 992px) {
   .carousel-item .card {
-    flex: 0 0 calc(50% - 20px); /* Dos tarjetas por fila en pantallas medianas */
+    flex: 1 1 calc(50% - 20px); /* Dos tarjetas por fila en pantallas medianas */
   }
 }
 
 @media (max-width: 576px) {
   .carousel-item .card {
-    flex: 0 0 100%; /* Una tarjeta por fila en pantallas pequeñas */
+    flex: 1 1 100%; /* Una tarjeta por fila en pantallas pequeñas */
   }
 }
 
