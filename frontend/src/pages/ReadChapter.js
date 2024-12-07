@@ -1,3 +1,4 @@
+// src/components/ReadChapter.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Container, Form, OverlayTrigger, Popover } from 'react-bootstrap';
@@ -127,7 +128,7 @@ const ReadChapter = () => {
 
     // Configuración de DOMPurify para permitir 'data-annotation' y la clase 'annotation'
     const sanitizeOptions = {
-        ADD_ATTR: ['data-annotation', 'class'],
+        ADD_ATTR: ['data-annotation', 'class', 'src', 'alt'],
     };
 
     // Función para renderizar Popover
@@ -161,6 +162,12 @@ const ReadChapter = () => {
                         </span>
                     </OverlayTrigger>
                 );
+            }
+            if (name === 'img') {
+                return <img src={attribs.src} alt={attribs.alt || 'Imagen'} style={{ maxWidth: '100%' }} />;
+            }
+            if (name === 'hr') {
+                return <hr />;
             }
         },
     };

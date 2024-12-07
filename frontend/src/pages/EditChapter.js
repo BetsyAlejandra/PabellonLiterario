@@ -1,3 +1,4 @@
+// src/components/EditChapter.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -8,6 +9,9 @@ import Italic from '@tiptap/extension-italic';
 import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
+import Image from '@tiptap/extension-image';
+import HorizontalRule from '@tiptap/extension-horizontal-rule';
+import Annotation from '../extensions/Annotation'; // Asegúrate de que la ruta sea correcta
 import { Modal, Button } from 'react-bootstrap';
 import DOMPurify from 'dompurify';
 import '../styles/global.css';
@@ -21,7 +25,7 @@ const EditChapter = () => {
     const [selectedText, setSelectedText] = useState('');
     const [modalShow, setModalShow] = useState(false);
     const [annotationText, setAnnotationText] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showAnnotationButton, setShowAnnotationButton] = useState(false);
     const [buttonPosition, setButtonPosition] = useState({ top: 0, left: 0 });
@@ -34,6 +38,9 @@ const EditChapter = () => {
             Underline,
             Link,
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
+            Image,
+            HorizontalRule,
+            Annotation, // Añade la extensión de anotación aquí
         ],
         content: '',
         editorProps: {
@@ -73,6 +80,7 @@ const EditChapter = () => {
                 const chapter = res.data;
                 setTitle(chapter.title);
                 editor?.commands.setContent(chapter.content || '');
+                setAnnotations(chapter.annotations || []);
                 setLoading(false);
             } catch (err) {
                 setError(err.response?.data?.message || 'Error al cargar el capítulo.');
@@ -112,18 +120,8 @@ const EditChapter = () => {
     const handleSaveAnnotation = () => {
         if (!selectedText || !annotationText) return;
 
-        // Escapar el texto de la anotación
-        const escapedAnnotationText = encodeURIComponent(annotationText);
-
-        // Utilizar 'span' en lugar de 'button'
-        const annotationHTML = `<span class="annotation" data-annotation="${escapedAnnotationText}" style="color: blue; text-decoration: underline; cursor: pointer;">${selectedText}</span>`;
-
-        editor
-            .chain()
-            .focus()
-            .deleteRange(editor.state.selection)
-            .insertContent(annotationHTML)
-            .run();
+        // Utiliza el comando definido en la extensión para establecer una anotación
+        editor.chain().focus().setAnnotation({ text: annotationText }).run();
 
         const newAnnotation = {
             text: selectedText,
@@ -135,6 +133,19 @@ const EditChapter = () => {
         setAnnotationText('');
         setModalShow(false);
         setShowAnnotationButton(false);
+    };
+
+    // Función para insertar una imagen
+    const insertImage = () => {
+        const url = prompt("Ingrese la URL de la imagen:");
+        if (url) {
+            editor.chain().focus().setImage({ src: url }).run();
+        }
+    };
+
+    // Función para insertar un separador de texto
+    const insertSeparator = () => {
+        editor.chain().focus().setHorizontalRule().run();
     };
 
     if (loading) return <p className="text-center">Cargando datos del capítulo...</p>;
@@ -164,38 +175,77 @@ const EditChapter = () => {
                             <button
                                 className="btn btn-tool"
                                 onClick={() => editor.chain().focus().toggleBold().run()}
+                                disabled={!editor}
                             >
                                 <b>B</b>
                             </button>
                             <button
                                 className="btn btn-tool"
                                 onClick={() => editor.chain().focus().toggleItalic().run()}
+                                disabled={!editor}
                             >
                                 <i>I</i>
                             </button>
                             <button
                                 className="btn btn-tool"
                                 onClick={() => editor.chain().focus().toggleUnderline().run()}
+                                disabled={!editor}
                             >
                                 <u>U</u>
                             </button>
                             <button
                                 className="btn btn-tool"
                                 onClick={() => editor.chain().focus().setTextAlign('left').run()}
+                                disabled={!editor}
                             >
                                 ↤
                             </button>
                             <button
                                 className="btn btn-tool"
                                 onClick={() => editor.chain().focus().setTextAlign('center').run()}
+                                disabled={!editor}
                             >
                                 ↔
                             </button>
                             <button
                                 className="btn btn-tool"
                                 onClick={() => editor.chain().focus().setTextAlign('right').run()}
+                                disabled={!editor}
                             >
                                 ↦
+                            </button>
+
+                            <button
+                                className="btn btn-tool"
+                                onClick={() => {
+                                    const url = prompt("Ingrese la URL del enlace:");
+                                    if (url) {
+                                        editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+                                    }
+                                }}
+                                disabled={!editor}
+                            >
+                                🌐
+                            </button>
+
+                            {/* Botón para insertar imagen */}
+                            <button
+                                className="btn btn-tool"
+                                onClick={insertImage}
+                                disabled={!editor}
+                                title="Insertar Imagen"
+                            >
+                                🖼️
+                            </button>
+
+                            {/* Botón para insertar separador */}
+                            <button
+                                className="btn btn-tool"
+                                onClick={insertSeparator}
+                                disabled={!editor}
+                                title="Insertar Separador"
+                            >
+                                ➖
                             </button>
                         </div>
 

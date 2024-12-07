@@ -81,6 +81,30 @@ h2 {
   margin-bottom: 20px;
 }
 
+/* Asegura que las tarjetas ocupen todo el ancho de su columna */
+.translated-works-gallery .card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Ajustes para el carrusel múltiple */
+.translated-works-gallery .carousel-inner {
+  display: flex;
+  justify-content: center;
+}
+
+.translated-works-gallery .carousel-item {
+  display: flex;
+  justify-content: center;
+}
+
+.translated-works-gallery .carousel-item .row {
+  display: flex;
+  justify-content: center;
+}
+
 /* Cartas */
 .card {
   border-radius: 10px;
@@ -325,9 +349,10 @@ input.form-control.tag-input {
 }
 
 .carousel-image {
-  width: 100%; /* Asegura que las imágenes ocupen el ancho completo del contenedor */
+  width: 100%;
   height: 200px; /* Ajusta la altura según sea necesario */
-  object-fit: cover; /* Mantiene la proporción de la imagen sin deformarla */
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .carousel {
@@ -336,14 +361,29 @@ input.form-control.tag-input {
   margin: 0 auto; /* Centrar el carrusel */
 }
 
+/* Estilo para la superposición en últimas traducciones */
 .latest-translations .card {
-  position: relative; /* Para que el overlay se ubique sobre la imagen */
+  position: relative;
+  overflow: hidden;
 }
 
 .latest-translations .card-img {
-  width: 100%;
-  height: 200px; /* Ajusta la altura según lo necesites */
-  object-fit: cover; /* Asegura que la imagen no se deforme */
+  height: 250px; /* Aumentar la altura */
+  object-fit: cover; /* Mantener la proporción */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .latest-translations .card-img {
+    height: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  .latest-translations .card-img {
+    height: 150px;
+  }
 }
 
 .latest-translations .overlay {
@@ -352,7 +392,7 @@ input.form-control.tag-input {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro con opacidad */
+  background-color: rgba(0, 0, 0, 0.8); /* Incrementar la opacidad */
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -370,8 +410,10 @@ input.form-control.tag-input {
   z-index: 2; /* Asegura que el texto esté por encima de la imagen */
 }
 
+
 .latest-translations .card-title {
-  font-size: 1.2rem;
+  font-size: 1.1rem; /* Aumentar el tamaño del texto */
+  color: #6C3483; /* Cambiar el color del texto para mayor contraste */
   margin-bottom: 10px;
 }
 
@@ -380,10 +422,13 @@ input.form-control.tag-input {
   margin-bottom: 15px;
 }
 
+
 .latest-translations .btn-outline-light {
   border-color: white;
   color: white;
   text-transform: uppercase;
+  font-size: 0.9rem; /* Aumentar el tamaño de la fuente */
+  padding: 8px 16px; /* Incrementar el padding */
 }
 
 .latest-translations .btn-outline-light:hover {
@@ -702,4 +747,17 @@ input.form-control.tag-input {
 .pagination .page-link:hover {
   background-color: #A9DFBF;
   color: #000;
+}
+
+/* Responsividad adicional */
+@media (max-width: 768px) {
+  .translated-works-gallery .carousel-image {
+    height: 150px;
+  }
+}
+
+@media (max-width: 576px) {
+  .translated-works-gallery .carousel-image {
+    height: 120px;
+  }
 }

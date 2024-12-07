@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import FloatingButton from './Components/FloatingButton';
 import Footer from './Components/Footer';
 import Header from './Components/Header';
-import DonationBanner from './Components/DonationBanner';
 
 // Páginas
 import AddChapter from './pages/AddChapter';
@@ -33,7 +32,6 @@ function App() {
     <Router>
       <div className="App">
         <Header />
-        <DonationBanner />
         {/* Definimos las rutas aquí */}
         <Routes>
           <Route path="/" element={<Home />} />

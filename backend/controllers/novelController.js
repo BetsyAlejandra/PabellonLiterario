@@ -130,7 +130,7 @@ const getNovelById = async (req, res) => {
 const addChapter = async (req, res) => {
   try {
     const { id } = req.params;  // ID de la novela a la que se le agregará el capítulo
-    const { title, content, annotations, publishedAt } = req.body;
+    const { title, content, publishedAt } = req.body;
 
     // Validar los datos
     if (!title || !content) {
@@ -142,7 +142,6 @@ const addChapter = async (req, res) => {
       title,
       content,
       publishedAt,
-      annotations // asegúrate de guardar las anotaciones aquí
     };
 
 

@@ -107,10 +107,6 @@ const novelSchema = new mongoose.Schema(
       title: String,
       content: String,
       publishedAt: Date,
-      annotations: [{
-        text: String,
-        meaning: String
-      }]
     }],
 
     // Reseñas de los usuarios
