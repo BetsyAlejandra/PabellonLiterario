@@ -75,52 +75,40 @@ h2 {
 }
 
 /* ... (Código CSS existente) ... */
-
 /* Galería del Carrusel */
 .translated-works-gallery h2 {
   margin-bottom: 20px;
-  color: #CDC3E3; /* Título legible */
+  color: #CDC3E3; /* Color elegante */
 }
 
-/* Tarjetas del Carrusel */
-.carousel-item {
-  display: flex;
-  justify-content: space-between; /* Espaciado uniforme entre tarjetas */
-  align-items: center; /* Centrar verticalmente */
-  gap: 20px; /* Espaciado entre tarjetas */
-  padding: 0 20px; /* Evitar que las tarjetas toquen los bordes */
+/* Estilo de las tarjetas */
+.slick-slide {
+  display: flex !important; /* Asegura que las tarjetas estén centradas */
+  justify-content: center;
 }
 
-.carousel-item .card {
-  flex: 1 1 calc(33.333% - 40px); /* Tres tarjetas por fila con espacio */
-  max-width: 300px; /* Limitar el tamaño máximo */
-  min-width: 250px; /* Tamaño mínimo consistente */
-  margin: 0 auto; /* Centrar cada tarjeta */
-  height: auto; /* Ajustar la altura automáticamente */
+.slick-list {
+  padding: 0 20px; /* Espaciado lateral */
 }
 
 .carousel-image {
-  height: 350px; /* Altura fija para las imágenes */
-  object-fit: cover; /* Asegurar que la imagen no se deforme */
-  border-radius: 10px; /* Bordes redondeados */
-  transition: transform 0.3s ease-in-out; /* Animación de hover */
+  height: 350px;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
 }
 
 .carousel-image:hover {
-  transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
+  transform: scale(1.05); /* Efecto de zoom */
 }
 
-/* Responsividad del Carrusel */
-@media (max-width: 992px) {
-  .carousel-item .card {
-    flex: 1 1 calc(50% - 20px); /* Dos tarjetas por fila en pantallas medianas */
-  }
+/* Estilo de los puntos de navegación */
+.slick-dots li button:before {
+  color: #ffffff;
 }
 
-@media (max-width: 576px) {
-  .carousel-item .card {
-    flex: 1 1 100%; /* Una tarjeta por fila en pantallas pequeñas */
-  }
+.slick-prev:before, .slick-next:before {
+  color: #ffffff;
 }
 
 

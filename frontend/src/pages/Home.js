@@ -4,6 +4,10 @@ import { Container, Row, Col, Button, Card, Carousel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import '../styles/global.css';
 import marcadeagua from '../assets/Marca de Agua2.png';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+import Slider from "react-slick";
 
 const Home = () => {
   const [novels, setNovels] = useState([]); // Estado para almacenar las novelas
@@ -64,12 +68,27 @@ const Home = () => {
     return results;
   };
 
-  // Dividir las novelas en grupos de 3 sin limitar a uno solo
-  const groupedNovels = chunkArray(novels, 3);
-
-  // Dividir las últimas traducciones en 3 arriba y 2 abajo
-  const topLatestNovels = latestNovels.slice(0, 3);
-  const bottomLatestNovels = latestNovels.slice(3, 5);
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2, // Mostrar 2 tarjetas en pantallas medianas
+        },
+      },
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 1, // Mostrar 1 tarjeta en pantallas pequeñas
+        },
+      },
+    ],
+  };
 
   return (
     <div className="home-page">
@@ -96,35 +115,28 @@ const Home = () => {
           {loading ? (
             <p className="text-center text-light">Cargando novelas...</p>
           ) : (
-            <Carousel interval={5000} indicators={groupedNovels.length > 1} pause={false}>
-              {groupedNovels.map((group, groupIndex) => (
-                <Carousel.Item key={groupIndex}>
-                  <div className="d-flex justify-content-center align-items-center">
-                    {group.map((novel) => (
-                      <Card
-                        key={novel._id}
-                        className="text-center bg-dark text-light border-0"
-                      >
-                        <Card.Img
-                          variant="top"
-                          src={novel.coverImage}
-                          className="carousel-image"
-                          alt={`Cover image for ${novel.title}`}
-                        />
-                        <Card.Body>
-                          <Card.Title className="text-light">{novel.title}</Card.Title>
-                          <Button as={Link} variant="outline-light" to={`/story-detail/${novel._id}`}>
-                            Ver más
-                          </Button>
-                        </Card.Body>
-                      </Card>
-                    ))}
-                  </div>
-                </Carousel.Item>
+            <Slider {...settings}>
+              {novels.map((novel) => (
+                <Card
+                  key={novel._id}
+                  className="text-center bg-dark text-light border-0 mx-2"
+                  style={{ maxWidth: "300px" }}
+                >
+                  <Card.Img
+                    variant="top"
+                    src={novel.coverImage}
+                    alt={`Cover image for ${novel.title}`}
+                    style={{ height: "350px", objectFit: "cover" }}
+                  />
+                  <Card.Body>
+                    <Card.Title className="text-light">{novel.title}</Card.Title>
+                    <Button as={Link} to={`/story-detail/${novel._id}`} variant="outline-light">
+                      Ver más
+                    </Button>
+                  </Card.Body>
+                </Card>
               ))}
-            </Carousel>
-
-
+            </Slider>
           )}
         </Container>
       </section>
