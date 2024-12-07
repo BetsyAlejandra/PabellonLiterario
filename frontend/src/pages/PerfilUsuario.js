@@ -12,7 +12,7 @@ const PerfilUsuario = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`/profileperson/${username}`);
+        const response = await axios.get(`/api/users/profileperson/${username}`);
         setUser(response.data);
         console.log('Perfil del usuario:', response.data);
         setLoading(false);
