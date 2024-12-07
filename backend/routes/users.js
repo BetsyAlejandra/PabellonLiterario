@@ -251,7 +251,6 @@ router.get('/profileperson/:username', async (req, res) => {
     res.status(200).json({
       username: user.username,
       profilePhoto: profilePhotoUrl,
-      coverPhoto: coverPhotoUrl,
       roles: user.roles || [],
       description: user.description || 'Sin descripción',
       socialLinks: user.socialLinks || [],
