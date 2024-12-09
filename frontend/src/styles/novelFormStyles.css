@@ -1,0 +1,68 @@
+body {
+    background-color: #000;
+    color: #E0E0E0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .novel-form-container {
+    padding: 2rem;
+  }
+  
+  .novel-form-card {
+    background: #2C2C2C;
+    border: 1px solid #FFD700;
+    border-radius: 10px;
+    padding: 2rem;
+  }
+  
+  .form-title {
+    color: #FFD700;
+    margin-bottom: 1.5rem;
+  }
+  
+  .fantasy-input {
+    background: #1E1E1E;
+    border: 1px solid #FFD700;
+    color: #FFD700;
+  }
+  
+  .fantasy-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 10px #4CAF50;
+  }
+  
+  .fantasy-button {
+    background: #FFD700;
+    color: #000;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  .fantasy-button:hover {
+    background: #4CAF50;
+    color: #FFF;
+  }
+  
+  .preview-container img {
+    max-width: 100%;
+    margin-top: 1rem;
+    border: 2px solid #FFD700;
+    border-radius: 5px;
+  }
+  
+  .required {
+    color: #FF6347;
+  }
+  
+  .modal-success .modal-content {
+    background-color: #1E1E1E;
+    border: 2px solid #4CAF50;
+  }
+  
+  .modal-error .modal-content {
+    background-color: #1E1E1E;
+    border: 2px solid #FF6347;
+  }
+  

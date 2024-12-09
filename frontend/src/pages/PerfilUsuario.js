@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
+import '../styles/perfilUsuarioStyles.css'; // Importa el archivo CSS
 
 const PerfilUsuario = () => {
   const { username } = useParams();
-  const [user, setUser] = useState(null); 
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3; // Número de traducciones por página
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -29,22 +32,40 @@ const PerfilUsuario = () => {
 
   const isTranslator = user.roles && user.roles.includes('Traductor');
 
+  // Cálculo de los elementos para la paginación
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentTranslatedWorks = isTranslator && user.translatedWorks
+    ? user.translatedWorks.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
+
+  const totalPages = Math.ceil((user.translatedWorks?.length || 0) / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="user-profile container my-5">
       <Row className="justify-content-center">
+        {/* Elementos fantásticos */}
+        <img
+          src="../assets/foto encima.png"
+          alt="Moon Fantasy Element"
+          className="fantasy-elements"
+        />
         <Col md={5} className="mb-4">
-          {/* Card del perfil del usuario (público) */}
-          <Card className="bg-dark text-light">
+          <Card>
             <Card.Body className="text-center">
-              <img 
-                src={user.profilePhoto || 'https://via.placeholder.com/150'} 
-                alt={`Imagen de perfil de ${user.username}`} 
+              <img
+                src={user.profilePhoto || 'https://via.placeholder.com/150'}
+                alt={`Imagen de perfil de ${user.username}`}
                 className="rounded-circle img-fluid mb-3"
                 style={{ width: '150px', height: '150px', objectFit: 'cover' }}
               />
               <h3 className="mb-2">{user.username}</h3>
               {user.roles && user.roles.length > 0 && (
-                <p><strong>Roles:</strong> {user.roles.join(', ')}</p>
+                <p>
+                  <strong>Roles:</strong> {user.roles.join(', ')}
+                </p>
               )}
               <p>{user.description || 'Sin descripción'}</p>
               {user.socialLinks && user.socialLinks.length > 0 && (
@@ -52,7 +73,14 @@ const PerfilUsuario = () => {
                   <h5>Redes Sociales:</h5>
                   {user.socialLinks.map((link, index) => (
                     <p key={index}>
-                      <a href={link} target="_blank" rel="noopener noreferrer" className="text-light">{link}</a>
+                      <a
+                        href={link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-light"
+                      >
+                        {link}
+                      </a>
                     </p>
                   ))}
                 </div>
@@ -62,31 +90,51 @@ const PerfilUsuario = () => {
         </Col>
 
         <Col md={7} className="mb-4">
-          {/* Card para las traducciones si es Traductor */}
-          <Card className="bg-dark text-light">
+          <Card>
             <Card.Body>
               <h4 className="mb-4">Traducciones</h4>
               {isTranslator && user.translatedWorks && user.translatedWorks.length > 0 ? (
-                <Row>
-                  {user.translatedWorks.map((work) => (
-                    <Col md={6} lg={4} key={work.id} className="mb-4">
-                      <Card className="bg-dark text-light h-100">
-                        <Card.Img variant="top" src={work.coverImage} alt={`Portada de ${work.title}`} />
-                        <Card.Body>
-                          <Card.Title>{work.title}</Card.Title>
-                          {/* Llevar a /story-detail/${work.id} */}
-                          <Button variant="outline-light" href={`/story-detail/${work.id}`}>
-                            Ver historia
-                          </Button>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  ))}
-                </Row>
+                <>
+                  <Row>
+                    {currentTranslatedWorks.map((work) => (
+                      <Col md={6} lg={4} key={work.id} className="mb-4">
+                        <Card className="translated-works">
+                          <Card.Img
+                            variant="top"
+                            src={work.coverImage}
+                            alt={`Portada de ${work.title}`}
+                          />
+                          <Card.Body>
+                            <Card.Title>{work.title}</Card.Title>
+                            <Button variant="outline-light" href={`/story-detail/${work.id}`}>
+                              Ver historia
+                            </Button>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    ))}
+                  </Row>
+
+                  {/* Paginación */}
+                  <div className="pagination-container text-center mt-4">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                      <Button
+                        key={page}
+                        className={`mx-1 ${page === currentPage ? 'active' : ''}`}
+                        variant="outline-light"
+                        onClick={() => paginate(page)}
+                      >
+                        {page}
+                      </Button>
+                    ))}
+                  </div>
+                </>
               ) : isTranslator ? (
                 <p className="text-light text-center">No hay traducciones disponibles.</p>
               ) : (
-                <p className="text-light text-center">Este usuario no es Traductor, no hay traducciones para mostrar.</p>
+                <p className="text-light text-center">
+                  Este usuario no es Traductor, no hay traducciones para mostrar.
+                </p>
               )}
             </Card.Body>
           </Card>

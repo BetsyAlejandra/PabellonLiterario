@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Modal, Button, Table } from 'react-bootstrap';
-import '../styles/global.css';
+import '../styles/NovelFormStyles.css';
 
 const GENRES = [
   'Fantasía', 'Acción', 'Supernatural', 'Xuanhuan', 'Transmigración',
@@ -209,93 +209,104 @@ const NovelForm = () => {
     }
   };
 
-  return (
-    <div className="novel-form-container">
-      <div className="novel-form-card">
-        <div className="container my-5">
-          {/* Modal */}
-          <Modal
-            show={showModal}
-            onHide={handleCloseModal}
-            centered
-            className={modalType === 'success' ? 'modal-success' : 'modal-error'}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>{modalType === 'success' ? '¡Éxito!' : 'Error'}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>{modalMessage}</Modal.Body>
-            <Modal.Footer>
-              <Button
-                variant={modalType === 'success' ? 'success' : 'danger'}
-                onClick={handleCloseModal}
-              >
-                Cerrar
-              </Button>
-            </Modal.Footer>
-          </Modal>
+  const isWriter = collaborators.some((collaborator) => collaborator.role === 'Escritor');
 
-          {/* Modal para subgéneros */}
-          <Modal show={showSubGenreModal} onHide={closeSubGenreModal} centered>
-            <Modal.Header closeButton>
-              <Modal.Title>Selecciona Subgéneros</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Table>
-                <tbody>
-                  {SUBGENRES.map((subGenre) => (
-                    <tr key={subGenre}>
-                      <td>
-                        <input
-                          type="checkbox"
-                          checked={subGenres.includes(subGenre)}
-                          onChange={() => toggleSubGenre(subGenre)}
-                        />
-                      </td>
-                      <td>{subGenre}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="primary" onClick={closeSubGenreModal}>Cerrar</Button>
-            </Modal.Footer>
-          </Modal>
+return(
+<div className="novel-form-container">
+    <div className="novel-form-card">
+      <div className="container my-5">
+        {/* Modal */}
+        <Modal
+          show={showModal}
+          onHide={handleCloseModal}
+          centered
+          className={modalType === 'success' ? 'modal-success' : 'modal-error'}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>{modalType === 'success' ? '¡Éxito!' : 'Error'}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{modalMessage}</Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant={modalType === 'success' ? 'success' : 'danger'}
+              onClick={handleCloseModal}
+            >
+              Cerrar
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
-          {/* Layout con dos columnas: izquierda (preview) y derecha (formulario) */}
-          <div className="row">
-            <div className="col-md-4">
-              {previewImage && (
-                <div className="novel-preview">
-                  <h5>Previsualización de la Portada</h5>
-                  <img src={previewImage} alt="Preview" className="novel-cover" />
-                </div>
-              )}
-            </div>
+        {/* Modal para subgéneros */}
+        <Modal show={showSubGenreModal} onHide={closeSubGenreModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Selecciona Subgéneros</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Table className="fantasy-table">
+              <tbody>
+                {SUBGENRES.map((subGenre) => (
+                  <tr key={subGenre}>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={subGenres.includes(subGenre)}
+                        onChange={() => toggleSubGenre(subGenre)}
+                        className="fantasy-checkbox"
+                      />
+                    </td>
+                    <td>{subGenre}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="outline-light" onClick={closeSubGenreModal}>Cerrar</Button>
+          </Modal.Footer>
+        </Modal>
 
-            <div className="col-md-8">
-              {/* Formulario */}
-              <form onSubmit={handleSubmit}>
-                <h2>Crear Nueva Novela</h2>
+        {/* Layout con dos columnas: izquierda (preview) y derecha (formulario) */}
+        <div className="row">
+          <div className="col-md-4">
+            {previewImage && (
+              <div className="novel-preview">
+                <h5 className="preview-title">Previsualización de la Portada</h5>
+                <img src={previewImage} alt="Preview" className="novel-cover-preview" />
+              </div>
+            )}
+          </div>
 
-                {/* Título */}
-                <label>Título</label>
+          <div className="col-md-8">
+            {/* Formulario */}
+            <form onSubmit={handleSubmit}>
+              <h2 className="form-title">Crear Nueva Novela</h2>
+
+              {/* Título */}
+              <div className="form-group">
+                <label>
+                  Título <span className="required">*</span>
+                </label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control fantasy-input"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
                 />
+              </div>
 
-                {/* Sinopsis */}
-                <label>Sinopsis</label>
+              {/* Sinopsis */}
+              <div className="form-group">
+                <label>
+                  Sinopsis <span className="required">*</span>
+                </label>
                 <textarea
-                  className="form-control"
+                  className="form-control fantasy-input"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   required
                 />
+              </div>
 
                 {/* Idioma de origen */}
                 <label>Idioma de Origen</label>
@@ -326,20 +337,27 @@ const NovelForm = () => {
                   </div>
                 )}
 
-                {/* Portada */}
-                <label>Portada</label>
+              {/* Portada */}
+              <div className="form-group">
+                <label>
+                  Portada <span className="required">*</span>
+                </label>
                 <input
                   type="file"
-                  className="form-control-file"
+                  className="form-control fantasy-input"
                   onChange={handleImageChange}
                   accept="image/*"
                   required
                 />
+              </div>
 
-                {/* Género */}
-                <label>Género</label>
+              {/* Género */}
+              <div className="form-group">
+                <label>
+                  Género <span className="required">*</span>
+                </label>
                 <select
-                  className="form-control custom-input"
+                  className="form-control fantasy-input"
                   value={selectedGenre}
                   onChange={(e) => setSelectedGenre(e.target.value)}
                   required
@@ -351,26 +369,32 @@ const NovelForm = () => {
                     </option>
                   ))}
                 </select>
+              </div>
 
-                {/* Subgéneros */}
+              {/* Subgéneros */}
+              <div className="form-group">
                 <label>Subgéneros (hasta 15)</label>
                 <Button variant="outline-light" onClick={() => setShowSubGenreModal(true)}>
                   Seleccionar Subgéneros
                 </Button>
+              </div>
 
+              {/* Etiquetas */}
+              <div className="form-group">
                 <label>Etiquetas (separadas por coma)</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control fantasy-input"
                   value={tags}
                   onChange={(e) => setTags(e.target.value)}
                   placeholder="ej: romance, acción, drama"
                 />
+              </div>
 
                 <label htmlFor="classification">Clasificación:</label>
                 <select
                   id="classification"
-                  className="form-control custom-input"
+                  className="form-control fantasy-input"
                   value={classification}
                   onChange={(e) => setClassification(e.target.value)}
                   required
@@ -388,7 +412,7 @@ const NovelForm = () => {
                       type="text"
                       placeholder="Usuario"
                       list={`user-suggestions-${index}`}
-                      className="form-control"
+                      className="form-control fantasy-input"
                       value={collaborator.username}
                       onChange={(e) => handleCollaboratorChange(index, 'username', e.target.value)}
                     />
@@ -399,7 +423,7 @@ const NovelForm = () => {
                     </datalist>
 
                     <select
-                      className="form-control"
+                      className="form-control fantasy-input"
                       value={collaborator.role}
                       onChange={(e) => handleCollaboratorChange(index, 'role', e.target.value)}
                     >
@@ -422,7 +446,7 @@ const NovelForm = () => {
                 ))}
                 <button
                   type="button"
-                  className="add-button"
+                  className="fantasy-button"
                   onClick={() => setCollaborators([...collaborators, { username: '', role: '' }])}
                 >
                   Añadir Colaborador
@@ -433,7 +457,7 @@ const NovelForm = () => {
                 {adaptations.map((adaptation, index) => (
                   <div key={index}>
                     <select
-                      className="form-control"
+                      className="form-control fantasy-input"
                       value={adaptation.type}
                       onChange={(e) =>
                         setAdaptations((prev) =>
@@ -450,7 +474,7 @@ const NovelForm = () => {
                     </select>
                     <input
                       type="url"
-                      className="form-control"
+                      className="form-control fantasy-input"
                       value={adaptation.link}
                       onChange={(e) =>
                         setAdaptations((prev) =>
@@ -470,7 +494,7 @@ const NovelForm = () => {
                 ))}
                 <button
                   type="button"
-                  className="add-button"
+                  className="fantasy-button"
                   onClick={() => setAdaptations([...adaptations, { type: '', link: '' }])}
                 >
                   Añadir Adaptación
@@ -480,23 +504,24 @@ const NovelForm = () => {
                 <label>Enlace a la Novela de Origen</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control fantasy-input"
                   value={rawOrigin.origin}
                   onChange={(e) => setRawOrigin((prev) => ({ ...prev, origin: e.target.value }))}
                   placeholder="Nombre de la novela original"
                 />
                 <input
                   type="url"
-                  className="form-control"
+                  className="form-control fantasy-input"
                   value={rawOrigin.link}
                   onChange={(e) => setRawOrigin((prev) => ({ ...prev, link: e.target.value }))}
                   placeholder="Enlace a la novela original"
                 />
 
-                {/* Estado */}
+              {/* Estado */}
+              <div className="form-group">
                 <label>Estado</label>
                 <select
-                  className="form-control"
+                  className="form-control fantasy-input"
                   value={progress}
                   onChange={(e) => setProgress(e.target.value)}
                   required
@@ -505,11 +530,12 @@ const NovelForm = () => {
                   <option value="Finalizada">Finalizada</option>
                   <option value="Pausada">Pausada</option>
                 </select>
+              </div>
 
-                {/* Botón de envío */}
-                <button type="submit" className="add-button" disabled={loading}>
-                  {loading ? 'Creando...' : 'Crear Novela'}
-                </button>
+              {/* Botón de envío */}
+              <button type="submit" className="fantasy-button" disabled={loading}>
+                {loading ? 'Creando...' : 'Crear Novela'}
+              </button>
               </form>
             </div>
           </div>

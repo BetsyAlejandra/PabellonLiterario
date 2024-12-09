@@ -1,26 +1,27 @@
-/* General */
+/* Fondo general */
 body {
     background-color: #000; /* Fondo negro */
-    color: #E0E0E0; /* Texto principal */
-    font-family: Arial, sans-serif;
+    color: #E0E0E0; /* Texto claro */
+    font-family: 'Arial', sans-serif;
   }
   
-  /* Contenedor principal del perfil */
+  /* Contenedor principal */
   .user-profile {
     padding: 2rem 0;
   }
   
   /* Card del perfil de usuario */
   .user-profile .card {
-    border: 1px solid #4CAF50; /* Borde verde */
-    border-radius: 10px;
+    background-color: #2C2C2C; /* Fondo gris oscuro */
+    border: 1px solid #FFD700; /* Borde dorado */
+    border-radius: 15px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   .user-profile .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px #FFD700; /* Sombra dorada */
+    transform: scale(1.03);
+    box-shadow: 0 0 20px #FFD700; /* Sombra dorada */
   }
   
   /* Imagen de perfil */
@@ -34,7 +35,6 @@ body {
   .user-profile h3 {
     color: #FFD700; /* Dorado */
     font-size: 1.8rem;
-    margin-bottom: 0.5rem;
   }
   
   /* Roles */
@@ -44,54 +44,65 @@ body {
   
   /* Redes sociales */
   .user-profile a {
-    color: #FFD700; /* Enlaces dorados */
+    color: #FFD700;
     text-decoration: none;
+    transition: color 0.3s ease;
   }
   
   .user-profile a:hover {
-    color: #4CAF50; /* Verde al hover */
-    text-decoration: underline;
+    color: #4CAF50;
   }
   
-  /* Contenedor de traducciones */
-  .user-profile .card-body h4 {
-    color: #FFD700; /* Títulos dorados */
-    border-bottom: 1px solid #4CAF50;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1.5rem;
-  }
-  
+  /* Card de traducciones */
   .user-profile .translated-works .card {
-    background-color: #2C2C2C; /* Fondo gris oscuro */
-    border: 1px solid #4CAF50; /* Bordes verdes */
-    border-radius: 8px;
+    background-color: #2C2C2C;
+    border: 1px solid #FFD700;
+    border-radius: 10px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   .user-profile .translated-works .card:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 10px #FFD700; /* Sombra dorada */
+    box-shadow: 0 0 15px #FFD700;
   }
   
-  /* Imagen de traducción */
+  /* Imagen de traducciones */
   .user-profile .translated-works .card img {
     height: 200px;
     object-fit: cover;
-    border-bottom: 1px solid #4CAF50; /* Línea separadora verde */
+    border-bottom: 1px solid #4CAF50; /* Verde */
   }
   
-  /* Botones */
+  /* Botón */
   .user-profile .translated-works .card .btn {
-    background-color: #FFD700; /* Botón dorado */
+    background-color: #FFD700;
     color: #000;
     border: none;
-    margin-top: 0.5rem;
-    padding: 0.5rem 1rem;
     transition: background-color 0.3s ease;
   }
   
   .user-profile .translated-works .card .btn:hover {
-    background-color: #4CAF50; /* Verde al hover */
+    background-color: #4CAF50;
     color: #E0E0E0;
-  }  
+  }
+  
+  /* Elementos fantásticos */
+  .user-profile .fantasy-elements {
+    position: absolute;
+    top: 10%;
+    right: -5%;
+    width: 150px;
+    z-index: -1;
+    opacity: 0.5;
+  }
+  
+  .user-profile .fantasy-dragon {
+    position: absolute;
+    bottom: -10%;
+    left: -5%;
+    width: 200px;
+    z-index: -1;
+    opacity: 0.7;
+  }
+  
