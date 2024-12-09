@@ -129,7 +129,7 @@ body {
   top: 20px; /* Ajusta esta distancia según el diseño */
   left: 50%;
   transform: translateX(-50%);
-  width: 180px; /* Tamaño del marco */
+  width: 200px; /* Tamaño del marco */
   height: auto;
   z-index: 2;
   background: none; /* Asegúrate de que no haya fondo adicional */
