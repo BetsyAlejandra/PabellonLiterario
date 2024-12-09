@@ -1,44 +1,13 @@
-/* Contenedor principal */
-.user-profile {
-  padding: 2rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
-
-/* Imagen decorativa y de perfil */
-.profile-img-container {
-  position: relative;
-  text-align: center;
-}
-
-.profile-moon-image {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: auto;
-  z-index: 2;
-}
-
-.profile-photo {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  border: 4px solid #ffd700;
-  object-fit: cover;
-  margin-top: 60px;
-  /* Espaciado para la imagen decorativa */
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
-  position: relative;
-  z-index: 1;
-}
-
-/* Información del usuario */
 .user-header {
-  text-align: center;
+  background: linear-gradient(120deg, #1e1e2f, #2c2c3d);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.user-info {
+  text-align: left;
+  color: #e0e0e0;
 }
 
 .user-name {
@@ -54,16 +23,47 @@
 
 .user-description {
   font-size: 1rem;
-  color: #e0e0e0;
+}
+
+/* Contenedor principal */
+.user-profile {
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Imagen decorativa y de perfil */
+.profile-img-container {
+  position: relative;
+  text-align: center;
+}
+
+
+.profile-moon-image {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  z-index: 1;
+}
+
+.profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 4px solid #ffd700;
+  object-fit: cover;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
 }
 
 /* Pestañas */
 .nav-tabs .nav-link {
   color: #e0e0e0;
-  background-color: transparent;
+  background: transparent;
   border: none;
-  font-size: 1rem;
-  transition: color 0.3s ease;
 }
 
 .nav-tabs .nav-link.active {

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Col, Card, Button, Nav } from 'react-bootstrap';
 import axios from 'axios';
-import decorativeImage from '../assets/decoracion.png'; // Imagen encima de la foto de perfil
-import '../styles/perfilUsuarioStyles.css'; // Importa el archivo CSS
+import decorativeImage from '../assets/decoracion.png'; // Imagen decorativa
+import '../styles/perfilUsuarioStyles.css'; // Archivo CSS
 
 const PerfilUsuario = () => {
   const { username } = useParams();
@@ -57,28 +57,32 @@ const PerfilUsuario = () => {
 
   return (
     <div className="user-profile container my-5">
-      {/* Sección de cabecera del perfil */}
-      <div className="user-header text-center">
-        <div className="profile-img-container">
-          <img
-            src={decorativeImage}
-            alt="Decoración"
-            className="profile-moon-image"
-          />
-          <img
-            src={user.profilePhoto || 'https://via.placeholder.com/150'}
-            alt={`Imagen de perfil de ${user.username}`}
-            className="profile-photo"
-          />
-        </div>
-        <h3 className="user-name">{user.username}</h3>
-        <p className="user-role">
-          <strong>Roles:</strong> {user.roles.join(', ')}
-        </p>
-        <p className="user-description">
-          {user.description || 'Sin descripción'}
-        </p>
-      </div>
+      {/* Sección principal con foto de perfil e información */}
+      <Row className="align-items-center user-header">
+        <Col md={4} className="text-center">
+          <div className="profile-img-container">
+            <img
+              src={decorativeImage}
+              alt="Decoración"
+              className="profile-moon-image"
+            />
+            <img
+              src={user.profilePhoto || 'https://via.placeholder.com/150'}
+              alt={`Imagen de perfil de ${user.username}`}
+              className="profile-photo"
+            />
+          </div>
+        </Col>
+        <Col md={8} className="user-info">
+          <h3 className="user-name">{user.username}</h3>
+          <p className="user-role">
+            <strong>Roles:</strong> {user.roles.join(', ')}
+          </p>
+          <p className="user-description">
+            {user.description || 'Sin descripción'}
+          </p>
+        </Col>
+      </Row>
 
       {/* Pestañas */}
       <Nav variant="tabs" className="justify-content-center my-4">
@@ -110,35 +114,13 @@ const PerfilUsuario = () => {
 
       {/* Contenido del Tab Activo */}
       <div className="translated-works-section">
-        <h4 className="section-title">{activeTab === 'translations' ? 'Traducciones' : activeTab === 'posts' ? 'Posts' : 'Recomendaciones'}</h4>
+        <h4 className="section-title">
+          {activeTab === 'translations' ? 'Traducciones' : activeTab === 'posts' ? 'Posts' : 'Recomendaciones'}
+        </h4>
         {currentItems.length > 0 ? (
           <>
             <Row className="translated-works-grid">
-              {currentItems.map((item, index) => (
-                <Col md={4} key={index} className="mb-4">
-                  <Card className="translated-work-card">
-                    <Card.Img
-                      variant="top"
-                      src={item.coverImage || 'https://via.placeholder.com/150'}
-                      alt={item.title || 'Sin título'}
-                      className="translated-work-img"
-                    />
-                    <Card.Body>
-                      <Card.Title>{item.title || 'Sin título'}</Card.Title>
-                      <Card.Text>{item.description || 'Sin descripción'}</Card.Text>
-                      <Button
-                        variant="outline-light"
-                        href={`/story-detail/${item.id || '#'}`}
-                      >
-                        Ver más
-                      </Button>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-
-            {/* Paginación */}
+              {/* Paginación */}
             <div className="pagination-container text-center mt-4">
               <Button
                 variant="outline-light"
@@ -167,6 +149,29 @@ const PerfilUsuario = () => {
                 &raquo;
               </Button>
             </div>
+
+              {currentItems.map((item, index) => (
+                <Col md={4} key={index} className="mb-4">
+                  <Card className="translated-work-card">
+                    <Card.Img
+                      variant="top"
+                      src={item.coverImage || 'https://via.placeholder.com/150'}
+                      alt={item.title || 'Sin título'}
+                      className="translated-work-img"
+                    />
+                    <Card.Body>
+                      <Card.Title>{item.title || 'Sin título'}</Card.Title>
+                      <Button
+                        variant="outline-light"
+                        href={`/story-detail/${item.id || '#'}`}
+                      >
+                        Ver más
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
           </>
         ) : (
           <p className="text-light text-center">No hay datos disponibles.</p>
