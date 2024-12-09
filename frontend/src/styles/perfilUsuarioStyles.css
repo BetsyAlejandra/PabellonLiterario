@@ -10,19 +10,20 @@ body {
     padding: 2rem 0;
   }
   
-  /* Card del perfil de usuario */
-  .user-profile .card {
-    background-color: #2C2C2C; /* Fondo gris oscuro */
-    border: 1px solid #FFD700; /* Borde dorado */
-    border-radius: 15px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .user-profile .card:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 20px #FFD700; /* Sombra dorada */
-  }
+/* Card del perfil */
+.user-profile .card {
+  background-color: #2C2C2C; /* Fondo gris oscuro */
+  border: 1px solid #FFD700; /* Borde dorado */
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 20px;
+}
+
+/* Hover de la card */
+.user-profile .card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px #FFD700; /* Sombra dorada */
+}
   
   /* Imagen de perfil */
   .user-profile img {
@@ -111,7 +112,8 @@ body {
   position: relative;
   text-align: center;
 }
-  
+
+/* Imagen de perfil */
 .profile-photo {
   width: 150px;
   height: 150px;
@@ -119,22 +121,27 @@ body {
   border: 4px solid #ffd700; /* Borde dorado */
   object-fit: cover;
   margin-top: 40px; /* Espaciado desde la imagen decorativa */
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); /* Efecto de luz */
+  box-shadow: none; /* Elimina cualquier sombra alrededor */
   position: relative;
   z-index: 1;
 }
 
+/* Imagen decorativa encima */
 .profile-moon-image {
   position: absolute;
-  top: 20px; /* Ajusta esta distancia según el diseño */
+  top: -30px; /* Ajusta esta distancia para que solape con la imagen */
   left: 50%;
   transform: translateX(-50%);
-  width: 200px; /* Tamaño del marco */
+  width: 200px; /* Tamaño del marco decorativo */
   height: auto;
   z-index: 2;
-  background: none; /* Asegúrate de que no haya fondo adicional */
-  border: none; /* Elimina bordes innecesarios */
+  pointer-events: none; /* Evita interacción */
+  background: none; /* Asegúrate de que no haya fondo */
+  border: none; /* Elimina bordes adicionales */
 }
+
+
+
 
   
 /* Diseño de las tarjetas de traducción */
