@@ -66,6 +66,17 @@ router.get('/all', isAdmin, async (req, res) => {
   }
 });
 
+router.get('/translators', async (req, res) => {
+  try {
+    // Filtra usuarios que tienen 'Traductor' en el array de roles
+    const translators = await User.find({ roles: 'Traductor' }).select('username roles email profilePhoto');
+    res.status(200).json(translators);
+  } catch (error) {
+    console.error('Error al obtener traductores:', error);
+    res.status(500).json({ message: 'Error al obtener traductores', error });
+  }
+});
+
 // Ruta para asignar el rol de Admin
 router.put('/assign-admin', isAdmin, async (req, res) => {
   const { userId } = req.body;

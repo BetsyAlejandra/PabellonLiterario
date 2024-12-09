@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
+import decorativeImage from '../assets/decoracion.png'; // Imagen encima de la foto de perfil
 import '../styles/perfilUsuarioStyles.css'; // Importa el archivo CSS
 
 const PerfilUsuario = () => {
@@ -51,8 +52,7 @@ const PerfilUsuario = () => {
         <Col md={5} className="mb-4 position-relative">
           <div className="profile-img-container">
             <img
-              src="../assets/decoracion.png"
-              alt="Decorative Moon Element"
+              src={decorativeImage} alt="Decoración"
               className="profile-moon-image"
             />
             <img

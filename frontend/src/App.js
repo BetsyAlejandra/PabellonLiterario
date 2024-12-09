@@ -26,6 +26,7 @@ import EditChapter from './pages/EditChapter';
 import SearchResults from './pages/SearchResults';
 import ReadChapter from './pages/ReadChapter';
 import NovelsPage from './pages/NovelsPage';
+import TranslatorsPage from './pages/TraductoresPage';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/library" element={<Library />} />
           <Route path='/Novelas' element={<NovelsPage />} />
+          <Route path='/traductores' element={<TranslatorsPage />} />
           <Route path="/story-detail/:id" element={<StoryDetail />} />
           <Route path="/read-chapter/:storyId/:chapterId" element={<ReadChapter />} />
           <Route path="/add-chapter/:id" element={<AddChapter />} />
