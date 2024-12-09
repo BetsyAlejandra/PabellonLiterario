@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Row, Col, Card, Button } from 'react-bootstrap';
+import { Row, Col, Card, Button, Nav } from 'react-bootstrap';
 import axios from 'axios';
 import decorativeImage from '../assets/decoracion.png'; // Imagen encima de la foto de perfil
 import '../styles/perfilUsuarioStyles.css'; // Importa el archivo CSS
@@ -11,7 +11,8 @@ const PerfilUsuario = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3; // Número de traducciones por página
+  const [activeTab, setActiveTab] = useState('translations'); // Tab activa
+  const itemsPerPage = 3; // Número de elementos por página
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -33,18 +34,26 @@ const PerfilUsuario = () => {
 
   const isTranslator = user.roles && user.roles.includes('Traductor');
 
-  // Cálculo de los elementos para la paginación
+  const data = {
+    translations: user.translatedWorks || [],
+    posts: user.posts || [],
+    recommendations: user.recommendations || [],
+  };
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentTranslatedWorks = isTranslator && user.translatedWorks
-    ? user.translatedWorks.slice(indexOfFirstItem, indexOfLastItem)
-    : [];
+  const currentItems = data[activeTab].slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil((user.translatedWorks?.length || 0) / itemsPerPage);
+  const totalPages = Math.ceil((data[activeTab]?.length || 0) / itemsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const nextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
   const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setCurrentPage(1); // Reinicia la paginación
+  };
 
   return (
     <div className="user-profile container my-5">
@@ -71,25 +80,57 @@ const PerfilUsuario = () => {
         </p>
       </div>
 
-      {/* Sección de traducciones */}
+      {/* Pestañas */}
+      <Nav variant="tabs" className="justify-content-center my-4">
+        <Nav.Item>
+          <Nav.Link
+            onClick={() => handleTabChange('translations')}
+            className={activeTab === 'translations' ? 'active' : ''}
+          >
+            Traducciones
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link
+            onClick={() => handleTabChange('posts')}
+            className={activeTab === 'posts' ? 'active' : ''}
+          >
+            Posts
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link
+            onClick={() => handleTabChange('recommendations')}
+            className={activeTab === 'recommendations' ? 'active' : ''}
+          >
+            Recomendaciones
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+
+      {/* Contenido del Tab Activo */}
       <div className="translated-works-section">
-        <h4 className="section-title">Traducciones</h4>
-        {isTranslator && user.translatedWorks && user.translatedWorks.length > 0 ? (
+        <h4 className="section-title">{activeTab === 'translations' ? 'Traducciones' : activeTab === 'posts' ? 'Posts' : 'Recomendaciones'}</h4>
+        {currentItems.length > 0 ? (
           <>
             <Row className="translated-works-grid">
-              {currentTranslatedWorks.map((work) => (
-                <Col md={4} key={work.id} className="mb-4">
+              {currentItems.map((item, index) => (
+                <Col md={4} key={index} className="mb-4">
                   <Card className="translated-work-card">
                     <Card.Img
                       variant="top"
-                      src={work.coverImage}
-                      alt={`Portada de ${work.title}`}
+                      src={item.coverImage || 'https://via.placeholder.com/150'}
+                      alt={item.title || 'Sin título'}
                       className="translated-work-img"
                     />
                     <Card.Body>
-                      <Card.Title>{work.title}</Card.Title>
-                      <Button variant="outline-light" href={`/story-detail/${work.id}`}>
-                        Ver historia
+                      <Card.Title>{item.title || 'Sin título'}</Card.Title>
+                      <Card.Text>{item.description || 'Sin descripción'}</Card.Text>
+                      <Button
+                        variant="outline-light"
+                        href={`/story-detail/${item.id || '#'}`}
+                      >
+                        Ver más
                       </Button>
                     </Card.Body>
                   </Card>
@@ -128,9 +169,7 @@ const PerfilUsuario = () => {
             </div>
           </>
         ) : (
-          <p className="text-light text-center">
-            No hay traducciones disponibles.
-          </p>
+          <p className="text-light text-center">No hay datos disponibles.</p>
         )}
       </div>
     </div>

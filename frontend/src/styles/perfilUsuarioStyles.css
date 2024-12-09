@@ -57,17 +57,25 @@
   color: #e0e0e0;
 }
 
-/* Traducciones */
-.translated-works-section {
-  width: 100%;
+/* Pestañas */
+.nav-tabs .nav-link {
+  color: #e0e0e0;
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
 }
 
-.section-title {
-  font-size: 1.8rem;
+.nav-tabs .nav-link.active {
   color: #ffd700;
-  margin-bottom: 20px;
+  border-bottom: 2px solid #ffd700;
 }
 
+.nav-tabs .nav-link:hover {
+  color: #ffd700;
+}
+
+/* Contenido general */
 .translated-works-grid {
   display: flex;
   flex-wrap: wrap;
