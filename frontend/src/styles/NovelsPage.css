@@ -1,18 +1,18 @@
 body {
     background-color: #000;
-    color: #B2BABB;
+    color: #E0E0E0;
   }
   
   .novels-container {
     padding: 2rem;
-    color: #B2BABB;
+    color: #E0E0E0;
   }
   
   .novels-title {
     text-align: center;
     margin-bottom: 2rem;
     font-size: 2rem;
-    color: #CDC3E3;
+    color: #FFD700;
   }
   
   .novels-grid {
@@ -22,10 +22,16 @@ body {
   }
   
   .novels-card {
-    background-color: #6C3483;
-    border: 2px solid #A9DFBF;
+    background-color: #2C2C2C;
+    border: 2px solid #4CAF50;
     border-radius: 10px;
     overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .novels-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #4CAF50;
   }
   
   .novels-cover {
@@ -40,12 +46,12 @@ body {
   
   .novels-card-title {
     font-size: 1.25rem;
-    color: #CDC3E3;
+    color: #FFD700;
   }
   
   .novels-card-text {
     font-size: 1rem;
-    color: #B2BABB;
+    color: #E0E0E0;
   }
   
   .novels-card-footer {
@@ -54,15 +60,16 @@ body {
   }
   
   .novels-button {
-    background-color: #A9DFBF;
-    color: #000;
+    background-color: #4CAF50;
+    color: #E0E0E0;
     border: none;
     padding: 0.5rem 1rem;
     transition: background-color 0.3s ease;
   }
   
   .novels-button:hover {
-    background-color: #CDC3E3;
+    background-color: #FFD700;
+    color: #000;
   }
   
   .novels-pagination {
@@ -75,10 +82,15 @@ body {
   .novels-pagination-arrow {
     background: none;
     border: none;
-    color: #A9DFBF;
+    color: #4CAF50;
     font-size: 1.5rem;
     margin: 0 1rem;
     cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .novels-pagination-arrow:hover {
+    color: #FFD700;
   }
   
   .novels-pagination-list {
@@ -92,22 +104,21 @@ body {
   }
   
   .novels-pagination-link {
-    background-color: #6C3483;
-    border: 1px solid #A9DFBF;
+    background-color: #2C2C2C;
+    border: 1px solid #4CAF50;
     border-radius: 5px;
     padding: 0.5rem 0.75rem;
-    color: #B2BABB;
+    color: #E0E0E0;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
   
   .novels-pagination-item.active .novels-pagination-link {
-    background-color: #A9DFBF;
-    color: #000;
+    background-color: #4CAF50;
+    color: #E0E0E0;
   }
   
   .novels-pagination-link:hover {
-    background-color: #CDC3E3;
+    background-color: #FFD700;
     color: #000;
-  }
-  
+  }  

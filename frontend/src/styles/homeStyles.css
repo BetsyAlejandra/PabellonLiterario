@@ -1,0 +1,183 @@
+/* General */
+body {
+    background-color: #000; /* Fondo negro */
+    color: #E0E0E0; /* Texto principal */
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Títulos generales */
+  .section-title,
+  .gallery-title,
+  .history-title {
+    color: #FFD700; /* Dorado */
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .loading-text,
+  .text-danger {
+    color: #FFD700; /* Mensajes de error o estado cargando */
+    text-align: center;
+  }
+  
+  /* Sección de Marca de Agua */
+  .watermark-section {
+    background-color: #2C2C2C; /* Gris oscuro */
+    padding: 4rem 0;
+    text-align: center;
+  }
+  
+  .watermark-logo {
+    max-width: 150px;
+    margin-bottom: 1rem;
+  }
+  
+  .join-button {
+    background-color: #4CAF50; /* Verde */
+    color: #000;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .join-button:hover {
+    background-color: #FFD700;
+    color: #000;
+  }
+  
+  .join-button-text {
+    color: #FFD700; /* Texto dorado */
+    margin-top: 1rem;
+  }
+  
+  /* Galería de Obras Traducidas */
+  .translated-works-gallery {
+    padding: 3rem 0;
+  }
+  
+  .gallery-card {
+    background-color: #2C2C2C; /* Fondo de tarjeta gris oscuro */
+    border: 1px solid #4CAF50; /* Verde */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .gallery-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #FFD700; /* Sombra dorada */
+  }
+  
+  .gallery-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #4CAF50;
+  }
+  
+  .gallery-button {
+    background-color: #FFD700; /* Botón dorado */
+    color: #000;
+    border: none;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .gallery-button:hover {
+    background-color: #4CAF50; /* Verde al hover */
+    color: #E0E0E0;
+  }
+  
+  /* Últimas Traducciones */
+  .latest-translations {
+    padding: 2rem 0;
+  }
+  
+  .latest-card {
+    background-color: #2C2C2C;
+    border: 1px solid #FFD700;
+  }
+  
+  .latest-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-bottom: 1px solid #FFD700;
+  }
+  
+  .latest-button {
+    background-color: #FFD700;
+    color: #000;
+    border: none;
+    margin-top: 0.5rem;
+  }
+  
+  .latest-button:hover {
+    background-color: #4CAF50;
+    color: #E0E0E0;
+  }
+  
+  /* Soporte y Discord */
+  .support-section {
+    padding: 2rem;
+    background-color: #2C2C2C;
+    border-radius: 10px;
+  }
+  
+  .support-button,
+  .discord-button {
+    background-color: #4CAF50;
+    color: #000;
+    border: none;
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .support-button:hover,
+  .discord-button:hover {
+    background-color: #FFD700;
+    color: #000;
+  }
+  
+  /* Historia y Logros */
+  .history-section {
+    background-color: #2C2C2C;
+    padding: 3rem 0;
+    margin-top: 2rem;
+  }
+  
+  .history-title {
+    color: #FFD700;
+  }
+  
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    border-left: 3px solid #FFD700; /* Línea vertical de la timeline */
+  }
+  
+  .timeline-item {
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  
+  .timeline-item:before {
+    content: "";
+    position: absolute;
+    left: -8px;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    background-color: #FFD700;
+    border-radius: 50%;
+    border: 2px solid #2C2C2C; /* Bordes oscuros */
+  }
+  
+  .timeline h5 {
+    color: #FFD700; /* Títulos dorados */
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .timeline p {
+    color: #E0E0E0; /* Texto principal */
+    margin: 0;
+  }  

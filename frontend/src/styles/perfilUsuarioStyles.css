@@ -1,0 +1,97 @@
+/* General */
+body {
+    background-color: #000; /* Fondo negro */
+    color: #E0E0E0; /* Texto principal */
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Contenedor principal del perfil */
+  .user-profile {
+    padding: 2rem 0;
+  }
+  
+  /* Card del perfil de usuario */
+  .user-profile .card {
+    border: 1px solid #4CAF50; /* Borde verde */
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .user-profile .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #FFD700; /* Sombra dorada */
+  }
+  
+  /* Imagen de perfil */
+  .user-profile img {
+    border: 3px solid #FFD700; /* Borde dorado */
+    box-shadow: 0 0 10px #4CAF50; /* Sombra verde */
+    margin-bottom: 1rem;
+  }
+  
+  /* Nombre del usuario */
+  .user-profile h3 {
+    color: #FFD700; /* Dorado */
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Roles */
+  .user-profile p strong {
+    color: #4CAF50; /* Verde */
+  }
+  
+  /* Redes sociales */
+  .user-profile a {
+    color: #FFD700; /* Enlaces dorados */
+    text-decoration: none;
+  }
+  
+  .user-profile a:hover {
+    color: #4CAF50; /* Verde al hover */
+    text-decoration: underline;
+  }
+  
+  /* Contenedor de traducciones */
+  .user-profile .card-body h4 {
+    color: #FFD700; /* Títulos dorados */
+    border-bottom: 1px solid #4CAF50;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .user-profile .translated-works .card {
+    background-color: #2C2C2C; /* Fondo gris oscuro */
+    border: 1px solid #4CAF50; /* Bordes verdes */
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .user-profile .translated-works .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #FFD700; /* Sombra dorada */
+  }
+  
+  /* Imagen de traducción */
+  .user-profile .translated-works .card img {
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #4CAF50; /* Línea separadora verde */
+  }
+  
+  /* Botones */
+  .user-profile .translated-works .card .btn {
+    background-color: #FFD700; /* Botón dorado */
+    color: #000;
+    border: none;
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .user-profile .translated-works .card .btn:hover {
+    background-color: #4CAF50; /* Verde al hover */
+    color: #E0E0E0;
+  }  

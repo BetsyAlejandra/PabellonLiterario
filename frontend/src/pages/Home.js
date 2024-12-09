@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Card, Carousel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import '../styles/global.css';
+import '../styles/homeStyles.css';
 import marcadeagua from '../assets/Marca de Agua2.png';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
