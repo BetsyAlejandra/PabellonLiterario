@@ -28,7 +28,7 @@
   position: absolute;
   top: 15px; /* Ajusta esta distancia según sea necesario */
   left: 50%;
-  width: 140px;
+  width: 130px;
   transform: translateX(-50%);
   z-index: 2;
 }
