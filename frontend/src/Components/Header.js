@@ -152,14 +152,14 @@ const Header = () => {
             <Nav.Link
               as="div"
               className="custom-link"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/traductores")}
             >
               Traductores
             </Nav.Link>
             <Nav.Link
               as="div"
               className="custom-link"
-              onClick={() => navigate("/traductores")}
+              onClick={() => navigate("")}
             >
               Géneros
             </Nav.Link>
