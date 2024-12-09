@@ -1,18 +1,21 @@
 /* Fondo general */
 body {
-    background-color: #000; /* Fondo negro */
-    color: #E0E0E0; /* Texto claro */
-    font-family: 'Arial', sans-serif;
-  }
-  
-  /* Contenedor principal */
-  .user-profile {
-    padding: 2rem 0;
-  }
-  
+  background-color: #000;
+  /* Fondo negro */
+  color: #E0E0E0;
+  /* Texto claro */
+  font-family: 'Arial', sans-serif;
+}
+
+/* Contenedor principal */
+.user-profile {
+  padding: 2rem 0;
+}
+
 /* Card del perfil */
 .user-profile .card {
-  background-color: #2C2C2C; /* Fondo gris oscuro */
+  background-color: #2C2C2C;
+  /* Fondo gris oscuro */
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   padding: 20px;
@@ -21,73 +24,79 @@ body {
 /* Hover de la card */
 .user-profile .card:hover {
   transform: scale(1.03);
-  box-shadow: 0 0 20px #FFD700; /* Sombra dorada */
+  box-shadow: 0 0 20px #FFD700;
+  /* Sombra dorada */
 }
-  
-  /* Imagen de perfil */
-  .user-profile img {
-    border: 3px solid #FFD700; /* Borde dorado */
-    box-shadow: 0 0 10px #4CAF50; /* Sombra verde */
-    margin-bottom: 1rem;
-  }
-  
-  /* Nombre del usuario */
-  .user-profile h3 {
-    color: #FFD700; /* Dorado */
-    font-size: 1.8rem;
-  }
-  
-  /* Roles */
-  .user-profile p strong {
-    color: #4CAF50; /* Verde */
-  }
-  
-  /* Redes sociales */
-  .user-profile a {
-    color: #FFD700;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  
-  .user-profile a:hover {
-    color: #4CAF50;
-  }
-  
-  /* Card de traducciones */
-  .user-profile .translated-works .card {
-    background-color: #2C2C2C;
-    border: 1px solid #FFD700;
-    border-radius: 10px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .user-profile .translated-works .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px #FFD700;
-  }
-  
-  /* Imagen de traducciones */
-  .user-profile .translated-works .card img {
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 1px solid #4CAF50; /* Verde */
-  }
-  
-  /* Botón */
-  .user-profile .translated-works .card .btn {
-    background-color: #FFD700;
-    color: #000;
-    border: none;
-    transition: background-color 0.3s ease;
-  }
-  
-  .user-profile .translated-works .card .btn:hover {
-    background-color: #4CAF50;
-    color: #E0E0E0;
-  }
-  
-  
+
+/* Imagen de perfil */
+.user-profile img {
+  border: 3px solid #FFD700;
+  /* Borde dorado */
+  box-shadow: 0 0 10px #4CAF50;
+  /* Sombra verde */
+  margin-bottom: 1rem;
+}
+
+/* Nombre del usuario */
+.user-profile h3 {
+  color: #FFD700;
+  /* Dorado */
+  font-size: 1.8rem;
+}
+
+/* Roles */
+.user-profile p strong {
+  color: #4CAF50;
+  /* Verde */
+}
+
+/* Redes sociales */
+.user-profile a {
+  color: #FFD700;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.user-profile a:hover {
+  color: #4CAF50;
+}
+
+/* Card de traducciones */
+.user-profile .translated-works .card {
+  background-color: #2C2C2C;
+  border: 1px solid #FFD700;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-profile .translated-works .card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #FFD700;
+}
+
+/* Imagen de traducciones */
+.user-profile .translated-works .card img {
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #4CAF50;
+  /* Verde */
+}
+
+/* Botón */
+.user-profile .translated-works .card .btn {
+  background-color: #FFD700;
+  color: #000;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.user-profile .translated-works .card .btn:hover {
+  background-color: #4CAF50;
+  color: #E0E0E0;
+}
+
+
 /* Contenedor de la imagen decorativa */
 .profile-img-container {
   position: relative;
@@ -100,29 +109,36 @@ body {
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  border: 4px solid #ffd700; /* Borde dorado */
+  border: 4px solid #ffd700;
+  /* Borde dorado */
   object-fit: cover;
-  margin-top: 40px; /* Espaciado desde la imagen decorativa */
-  box-shadow: none; /* Elimina cualquier sombra alrededor */
+  margin-top: 40px;
+  /* Espaciado desde la imagen decorativa */
+  box-shadow: none;
+  /* Elimina cualquier sombra alrededor */
   position: relative;
   z-index: 1;
 }
 
 /* Imagen decorativa encima */
 .profile-moon-image {
+  border: 0;
   position: absolute;
-  top: 20px; /* Ajusta esta distancia para que solape con la imagen */
+  top: 20px;
+  /* Ajusta esta distancia para que solape con la imagen */
   left: 50%;
   transform: translateX(-50%);
-  width: 180px; /* Tamaño del marco decorativo */
+  width: 195px;
+  /* Tamaño del marco decorativo */
   height: auto;
   z-index: 2;
-  pointer-events: none; /* Evita interacción */
-  background: none; /* Asegúrate de que no haya fondo */
-  border: none; /* Elimina bordes adicionales */
+  pointer-events: none;
+  /* Evita interacción */
+  background: none;
+  /* Asegúrate de que no haya fondo */
 }
 
-  
+
 /* Diseño de las tarjetas de traducción */
 .translated-work-card {
   background-color: #1e1e2f;
@@ -137,13 +153,13 @@ body {
   transform: translateY(-5px);
   box-shadow: 0px 8px 15px rgba(255, 215, 0, 0.8);
 }
-  
+
 .translated-work-img {
   height: 200px;
   object-fit: cover;
   border-bottom: 2px solid #ffd700;
 }
-  
+
 /* Estilo de la paginación */
 .pagination-container {
   display: flex;
