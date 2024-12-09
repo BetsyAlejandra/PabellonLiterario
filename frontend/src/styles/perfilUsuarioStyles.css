@@ -87,24 +87,6 @@ body {
     color: #E0E0E0;
   }
   
-  /* Elementos fantásticos */
-  .user-profile .fantasy-elements {
-    position: absolute;
-    top: 10%;
-    right: -5%;
-    width: 150px;
-    z-index: -1;
-    opacity: 0.5;
-  }
-  
-  .user-profile .fantasy-dragon {
-    position: absolute;
-    bottom: -10%;
-    left: -5%;
-    width: 200px;
-    z-index: -1;
-    opacity: 0.7;
-  }
   
 /* Contenedor de la imagen decorativa */
 .profile-img-container {
@@ -130,7 +112,7 @@ body {
   top: 20px; /* Ajusta esta distancia para que solape con la imagen */
   left: 50%;
   transform: translateX(-50%);
-  width: 200px; /* Tamaño del marco decorativo */
+  width: 180px; /* Tamaño del marco decorativo */
   height: auto;
   z-index: 2;
   pointer-events: none; /* Evita interacción */
