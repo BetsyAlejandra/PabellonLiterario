@@ -66,3 +66,12 @@ body {
     border: 2px solid #FF6347;
   }
   
+  .novel-cover-preview {
+    max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+    height: auto;    /* Mantén la proporción de la imagen */
+    border: 2px solid #FFD700; /* Estilo dorado para la previsualización */
+    border-radius: 5px;
+    display: block; /* Centra la imagen dentro de su contenedor */
+    margin: 0 auto;
+  }
+  

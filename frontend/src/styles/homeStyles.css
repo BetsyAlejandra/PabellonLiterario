@@ -175,4 +175,58 @@ body {
   .slick-arrow:hover {
     color: #4CAF50;
   }
+
+  
+  .header-section {
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFD700; /* Dorado */
+  }
+  
+  .header-content {
+    text-align: center;
+  }
+  
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: #FFD700;
+  }
+  
+  .header-button {
+    background-color: #FFD700;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+  }
+  
+  .translated-works-gallery {
+    background-color: #2A2A2E;
+    padding: 50px 0;
+  }
+  
+  .gallery-card {
+    background-color: #1F1F23;
+    border: 1px solid #FFD700;
+  }
+  
+  .gallery-card-btn {
+    background-color: #FFD700;
+    color: #000;
+  }
+  
+  .latest-translations {
+    background: linear-gradient(to bottom, #1F1F23, #2A2A2E);
+    padding: 50px 0;
+  }
+  
+  .section-title {
+    color: #FFD700;
+    text-align: center;
+    margin-bottom: 40px;
+  }
   

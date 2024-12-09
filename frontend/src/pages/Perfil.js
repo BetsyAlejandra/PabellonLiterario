@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/newProfile.css'; // Archivo CSS ajustado
 import { useNavigate } from 'react-router-dom';
+import decorativeImage from '../assets/decoracion.png'; // Imagen encima de la foto de perfil
 
 const ADMIN_ID = '674ceb9febf82a8ddeecbbea';
 
@@ -100,9 +101,13 @@ const Perfil = () => {
   if (loading) return <div className="loading-text">Cargando...</div>;
 
   return (
-    <div className="profile-container-new">
-      <div className="profile-card-new">
-        <div className="profile-header-new">
+    <div className="profile-container-fantasy">
+      <div className="profile-card-fantasy">
+        <div className="profile-header-fantasy">
+          {/* Imagen decorativa encima */}
+          <div className="decorative-wrapper">
+            <img src={decorativeImage} alt="Decoración" className="decorative-image" />
+          </div>
           <img
             src={
               selectedPhoto
@@ -110,16 +115,16 @@ const Perfil = () => {
                 : user.profilePhoto || 'https://via.placeholder.com/150'
             }
             alt="Foto de perfil"
-            className="profile-photo-new"
+            className="profile-photo-fantasy"
           />
-          <div className="profile-info-new">
+          <div className="profile-info-fantasy">
             <h1>{user.username}</h1>
             <h2>{user.roles && user.roles.length > 0 ? user.roles[0] : 'Lector'}</h2>
             <p>{user.description || 'No hay descripción disponible.'}</p>
           </div>
         </div>
         {isEditing && (
-          <div className="profile-edit-new">
+          <div className="profile-edit-fantasy">
             <label htmlFor="profilePhoto">Cambiar foto de perfil:</label>
             <input
               type="file"
@@ -150,29 +155,43 @@ const Perfil = () => {
             </div>
           </div>
         )}
+        {/* Redes Sociales */}
         {user.socialLinks.length > 0 && (
           <div className="social-links-new">
             {user.socialLinks.map((link, index) => (
-              <a key={index} href={link} target="_blank" rel="noopener noreferrer">
-                🌐
+              <a
+                key={index}
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-link-icon"
+              >
+                🌐 {/* Puedes reemplazar esto con íconos personalizados */}
               </a>
             ))}
           </div>
         )}
-
-        {/* Botón del Panel Admin */}
-        {user.id === ADMIN_ID && (
-          <button className="btn admin-btn" onClick={() => navigate('/admin-panel')}>
-            Ir al Panel Admin
+        <div className="buttons-fantasy">
+          <button onClick={() => navigate('/my-stories')} className="fantasy-btn">
+            Mis Traducciones
           </button>
-        )}
-        <div className="buttons-new">
-          <button onClick={() => navigate('/my-stories')}>Mis Traducciones</button>
-          <button onClick={handleEditToggle}>
+          <button onClick={handleEditToggle} className="fantasy-btn">
             {isEditing ? 'Cancelar' : 'Editar'}
           </button>
+
+          {/* Botón del Panel Admin */}
+          {user.id === ADMIN_ID && (
+            <div className="admin-panel-container">
+              <button className="admin-panel-button" onClick={() => navigate('/admin-panel')}>
+                ⚜ Ir al Panel de Administración ⚜
+              </button>
+            </div>
+          )}
+          
           {isEditing && (
-            <button onClick={handleSaveChanges}>Guardar Cambios</button>
+            <button onClick={handleSaveChanges} className="fantasy-btn-save">
+              Guardar Cambios
+            </button>
           )}
         </div>
       </div>

@@ -42,25 +42,27 @@ const PerfilUsuario = () => {
   const totalPages = Math.ceil((user.translatedWorks?.length || 0) / itemsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const nextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
+  const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
 
   return (
     <div className="user-profile container my-5">
       <Row className="justify-content-center">
-        {/* Elementos fantásticos */}
-        <img
-          src="../assets/foto encima.png"
-          alt="Moon Fantasy Element"
-          className="fantasy-elements"
-        />
-        <Col md={5} className="mb-4">
-          <Card>
-            <Card.Body className="text-center">
-              <img
-                src={user.profilePhoto || 'https://via.placeholder.com/150'}
-                alt={`Imagen de perfil de ${user.username}`}
-                className="rounded-circle img-fluid mb-3"
-                style={{ width: '150px', height: '150px', objectFit: 'cover' }}
-              />
+        <Col md={5} className="mb-4 position-relative">
+          <div className="profile-img-container">
+            <img
+              src="../assets/foto-encima.png"
+              alt="Decorative Moon Element"
+              className="profile-moon-image"
+            />
+            <img
+              src={user.profilePhoto || 'https://via.placeholder.com/150'}
+              alt={`Imagen de perfil de ${user.username}`}
+              className="rounded-circle img-fluid mb-3 profile-photo"
+            />
+          </div>
+          <Card className="text-center">
+            <Card.Body>
               <h3 className="mb-2">{user.username}</h3>
               {user.roles && user.roles.length > 0 && (
                 <p>
@@ -97,12 +99,13 @@ const PerfilUsuario = () => {
                 <>
                   <Row>
                     {currentTranslatedWorks.map((work) => (
-                      <Col md={6} lg={4} key={work.id} className="mb-4">
-                        <Card className="translated-works">
+                      <Col md={4} key={work.id} className="mb-4">
+                        <Card className="translated-work-card">
                           <Card.Img
                             variant="top"
                             src={work.coverImage}
                             alt={`Portada de ${work.title}`}
+                            className="translated-work-img"
                           />
                           <Card.Body>
                             <Card.Title>{work.title}</Card.Title>
@@ -117,6 +120,14 @@ const PerfilUsuario = () => {
 
                   {/* Paginación */}
                   <div className="pagination-container text-center mt-4">
+                    <Button
+                      variant="outline-light"
+                      onClick={prevPage}
+                      disabled={currentPage === 1}
+                      className="mx-1"
+                    >
+                      &laquo;
+                    </Button>
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                       <Button
                         key={page}
@@ -127,6 +138,14 @@ const PerfilUsuario = () => {
                         {page}
                       </Button>
                     ))}
+                    <Button
+                      variant="outline-light"
+                      onClick={nextPage}
+                      disabled={currentPage === totalPages}
+                      className="mx-1"
+                    >
+                      &raquo;
+                    </Button>
                   </div>
                 </>
               ) : isTranslator ? (

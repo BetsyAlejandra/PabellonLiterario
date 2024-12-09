@@ -311,7 +311,7 @@ return(
                 {/* Idioma de origen */}
                 <label>Idioma de Origen</label>
                 <select
-                  className="form-control"
+                  className="form-control fantasy-input"
                   value={languageOrigin}
                   onChange={(e) => setLanguageOrigin(e.target.value)}
                   required

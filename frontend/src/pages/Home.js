@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Card, Carousel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import '../styles/homeStyles.css';
-import marcadeagua from '../assets/Marca de Agua2.png';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import headerImage from '../assets/header.png'; // Imagen de encabezado
 
 import Slider from "react-slick";
 
@@ -59,15 +59,6 @@ const Home = () => {
     fetchLatestNovels(); // Llama a ambas funciones al montar el componente
   }, []);
 
-  // Función para dividir el array en grupos de 3
-  const chunkArray = (array, chunkSize) => {
-    const results = [];
-    for (let i = 0; i < array.length; i += chunkSize) {
-      results.push(array.slice(i, i + chunkSize));
-    }
-    return results;
-  };
-
   const settings = {
     dots: true,
     infinite: true,
@@ -92,44 +83,36 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      {/* Sección de Marca de Agua con el botón ¡Únete! */}
-      <section className="watermark-section">
-        <div className="watermark-overlay text-center">
-          <img src={marcadeagua} alt="Marca de agua" className="watermark-logo" />
-          <Button href="https://discord.gg/Np8prZDgwX" variant="primary" className="join-button">
+      {/* Encabezado */}
+      <header className="header-section" style={{ backgroundImage: `url(${headerImage})` }}>
+        <div className="header-content text-center">
+          <h1 className="header-title">Pabellón Literario</h1>
+          <p className="header-subtitle">Únete a nuestra comunidad para más sorpresas</p>
+          <Button href="https://discord.gg/Np8prZDgwX" variant="light" className="header-button">
             ¡ÚNETE!
           </Button>
-          <div className="join-button-text">
-            <p>Únete a nuestra comunidad para más sorpresas.</p>
-          </div>
         </div>
-      </section>
+      </header>
 
-      {/* Mostrar mensaje de error si existe */}
-      {error && <p className="text-center text-danger">{error}</p>}
-
-      {/* Galería de Portadas de Obras Traducidas */}
+      {/* Galería de Obras Traducidas */}
       <section className="translated-works-gallery">
         <Container>
-          <h2 className="text-center text-light">Galería de Obras Traducidas</h2>
+          <h2 className="section-title">Galería de Obras Traducidas</h2>
           {loading ? (
             <p className="text-center text-light">Cargando novelas...</p>
           ) : (
             <Slider {...settings}>
               {novels.map((novel) => (
-                <Card
-                  key={novel._id}
-                  className="text-center card1"
-                >
+                <Card key={novel._id} className="gallery-card">
                   <Card.Img
                     variant="top"
                     src={novel.coverImage}
-                    alt={`Cover image for ${novel.title}`}
-                    className="carousel-image"
+                    alt={`Portada de ${novel.title}`}
+                    className="gallery-card-img"
                   />
                   <Card.Body>
                     <Card.Title>{novel.title}</Card.Title>
-                    <Button as={Link} to={`/story-detail/${novel._id}`} className="btn1">
+                    <Button as={Link} to={`/story-detail/${novel._id}`} className="gallery-card-btn">
                       Ver más
                     </Button>
                   </Card.Body>
@@ -140,145 +123,131 @@ const Home = () => {
         </Container>
       </section>
 
-      {/* Últimas Traducciones y Soporte */}
-      <section className="latest-translations-and-support mt-5">
+      {/* Últimas Traducciones */}
+      <section className="latest-translations">
         <Container>
+          <h2 className="section-title">Últimas Traducciones</h2>
           <Row>
-            {/* Últimas Traducciones */}
-            <Col md={6} className="latest-translations">
-              <h2 className="text-light">Últimas Traducciones</h2>
-              <Row>
-                {latestNovels.length === 0 ? (
-                  <p className="text-light">No hay traducciones recientes.</p>
-                ) : (
-                  latestNovels.map((novel, index) => (
-                    <Col
-                      key={novel._id}
-                      className="mb-4 d-flex justify-content-center"
-                      md={index < 3 ? 4 : 6} // 3 en la primera fila (md=4), 2 en la segunda (md=6)
-                      sm={6}
-                      xs={12}
-                    >
-                      <Card className="bg-dark text-light border-light position-relative">
-                        <Card.Img
-                          variant="top"
-                          src={novel.coverImage}
-                          alt={`Cover image for ${novel.title}`}
-                          className="card-img latest-translation-image"
-                        />
-                        <div className="overlay">
-                          <Card.Body>
-                            <Card.Title>{novel.title}</Card.Title>
-                            <Card.Text>{novel.genre}</Card.Text>
-                            <Button as={Link} variant="outline-light" to={`/story-detail/${novel._id}`}>
-                              Ver más
-                            </Button>
-                          </Card.Body>
-                        </div>
-                      </Card>
-                    </Col>
-                  ))
-                )}
-              </Row>
-            </Col>
-
-            {/* Sección de Soporte y Discord */}
-            <Col md={6} className="support-section text-light">
-              <h2>¡Apóyanos!</h2>
-              <p>
-                Si te gustan nuestras traducciones y quieres ayudarnos a seguir, puedes hacerlo con una pequeña donación en
-                nuestro perfil de Ko-fi.
-              </p>
-              <Button
-                href="https://ko-fi.com/betsyalejandra"
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="outline-light"
-              >
-                ¡Apóyanos en Ko-fi!
-              </Button>
-
-              <h2 className="mt-4">¡Únete a Nuestro Discord!</h2>
-              <p>
-                Si eres amante de las letras, las historias cautivadoras y las traducciones literarias, Pabellón Literario es el
-                lugar perfecto para ti. ¡Únete y haz de nuestro servidor tu rincón literario favorito!
-                <br></br>En Pabellón Literario, las palabras tienen el poder de unirnos. ¡Te esperamos para que formes parte de esta
-                comunidad única! 💕
-              </p>
-              <Button
-                href="https://discord.gg/Np8prZDgwX"
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="outline-light"
-              >
-                ¡Únete al Discord!
-              </Button>
-            </Col>
+            {latestNovels.map((novel) => (
+              <Col key={novel._id} md={4} className="latest-translation-card">
+                <Card className="latest-card">
+                  <Card.Img
+                    variant="top"
+                    src={novel.coverImage}
+                    alt={`Portada de ${novel.title}`}
+                    className="latest-card-img"
+                  />
+                  <Card.Body>
+                    <Card.Title>{novel.title}</Card.Title>
+                    <Card.Text>{novel.genre}</Card.Text>
+                    <Button as={Link} to={`/story-detail/${novel._id}`} className="latest-card-btn">
+                      Leer más
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
           </Row>
         </Container>
-      </section>
+        <section />
 
-      {/* Historia y Logros */}
-      <section className="history-and-achievements py-5">
         <Container>
-          <h2 className="text-center text-white mb-5">Historia y Logros del Proyecto</h2>
-          <p className="text-center text-white mb-5">
-            Esta línea del tiempo resalta los hitos clave que marcaron el desarrollo de nuestro proyecto, desde su
-            conceptualización hasta su primera versión lanzada al público.
-          </p>
-          <Row>
-            <Col md={12}>
-              <div className="timeline">
-                {/* Timeline Items */}
-                <div className="timeline-item">
-                  <div className="timeline-icon">📅</div>
-                  <div className="timeline-content">
-                    <h5>21 de Noviembre del 2024</h5>
-                    <p>
-                      Creación del servidor: Este día marcó el nacimiento de nuestra comunidad. Creamos un espacio en Discord para
-                      unir a personas apasionadas por la literatura, con el objetivo de compartir ideas y colaborar en la creación del
-                      proyecto.
-                    </p>
-                  </div>
-                </div>
-                <div className="timeline-item">
-                  <div className="timeline-icon">💻</div>
-                  <div className="timeline-content">
-                    <h5>25 de Noviembre del 2024</h5>
-                    <p>
-                      Inicio de la programación: Después de días de planificación, comenzamos a trabajar en la estructura técnica del
-                      proyecto, incluyendo el diseño del frontend y backend con el stack MERN.
-                    </p>
-                  </div>
-                </div>
-                <div className="timeline-item">
-                  <div className="timeline-icon">🤝</div>
-                  <div className="timeline-content">
-                    <h5>24 de Noviembre del 2024</h5>
-                    <p>
-                      Primera reunión entre las 7 iniciadoras: Las mentes detrás del proyecto se reunieron por primera vez para alinear
-                      objetivos, discutir el alcance y definir roles clave. Esta colaboración sentó las bases para el éxito del
-                      proyecto.
-                    </p>
-                  </div>
-                </div>
-                <div className="timeline-item">
-                  <div className="timeline-icon">🎉</div>
-                  <div className="timeline-content">
-                    <h5>3 de Diciembre del 2024</h5>
-                    <p>
-                      Lanzamiento de la primera versión: Después de semanas intensas de trabajo, presentamos al público la primera
-                      versión de nuestra plataforma, que incluye funcionalidades básicas como subir traducciones, guardar progreso de
-                      lectura y dejar comentarios.
-                    </p>
-                  </div>
-                </div>
+          {/* Sección de Soporte y Discord */}
+          <Col md={6} className="support-section text-light">
+            <h2>¡Apóyanos!</h2>
+            <p>
+              Si te gustan nuestras traducciones y quieres ayudarnos a seguir, puedes hacerlo con una pequeña donación en
+              nuestro perfil de Ko-fi.
+            </p>
+            <Button
+              href="https://ko-fi.com/betsyalejandra"
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outline-light"
+            >
+              ¡Apóyanos en Ko-fi!
+            </Button>
+
+            <h2 className="mt-4">¡Únete a Nuestro Discord!</h2>
+            <p>
+              Si eres amante de las letras, las historias cautivadoras y las traducciones literarias, Pabellón Literario es el
+              lugar perfecto para ti. ¡Únete y haz de nuestro servidor tu rincón literario favorito!
+              <br></br>En Pabellón Literario, las palabras tienen el poder de unirnos. ¡Te esperamos para que formes parte de esta
+              comunidad única! 💕
+            </p>
+            <Button
+              href="https://discord.gg/Np8prZDgwX"
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outline-light"
+            >
+              ¡Únete al Discord!
+            </Button>
+          </Col>
+      </Container >
+    </section >
+
+  {/* Historia y Logros */ }
+  < section className="history-and-achievements py-5" >
+    <Container>
+      <h2 className="text-center text-white mb-5">Historia y Logros del Proyecto</h2>
+      <p className="text-center text-white mb-5">
+        Esta línea del tiempo resalta los hitos clave que marcaron el desarrollo de nuestro proyecto, desde su
+        conceptualización hasta su primera versión lanzada al público.
+      </p>
+      <Row>
+        <Col md={12}>
+          <div className="timeline">
+            {/* Timeline Items */}
+            <div className="timeline-item">
+              <div className="timeline-icon">📅</div>
+              <div className="timeline-content">
+                <h5>21 de Noviembre del 2024</h5>
+                <p>
+                  Creación del servidor: Este día marcó el nacimiento de nuestra comunidad. Creamos un espacio en Discord para
+                  unir a personas apasionadas por la literatura, con el objetivo de compartir ideas y colaborar en la creación del
+                  proyecto.
+                </p>
               </div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-    </div>
+            </div>
+            <div className="timeline-item">
+              <div className="timeline-icon">💻</div>
+              <div className="timeline-content">
+                <h5>25 de Noviembre del 2024</h5>
+                <p>
+                  Inicio de la programación: Después de días de planificación, comenzamos a trabajar en la estructura técnica del
+                  proyecto, incluyendo el diseño del frontend y backend con el stack MERN.
+                </p>
+              </div>
+            </div>
+            <div className="timeline-item">
+              <div className="timeline-icon">🤝</div>
+              <div className="timeline-content">
+                <h5>24 de Noviembre del 2024</h5>
+                <p>
+                  Primera reunión entre las 7 iniciadoras: Las mentes detrás del proyecto se reunieron por primera vez para alinear
+                  objetivos, discutir el alcance y definir roles clave. Esta colaboración sentó las bases para el éxito del
+                  proyecto.
+                </p>
+              </div>
+            </div>
+            <div className="timeline-item">
+              <div className="timeline-icon">🎉</div>
+              <div className="timeline-content">
+                <h5>3 de Diciembre del 2024</h5>
+                <p>
+                  Lanzamiento de la primera versión: Después de semanas intensas de trabajo, presentamos al público la primera
+                  versión de nuestra plataforma, que incluye funcionalidades básicas como subir traducciones, guardar progreso de
+                  lectura y dejar comentarios.
+                </p>
+              </div>
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </Container>
+  </section >
+    </div >
   );
 };
 

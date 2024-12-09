@@ -106,3 +106,42 @@ body {
     opacity: 0.7;
   }
   
+  .profile-img-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+  }
+  
+  .profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+    object-fit: cover;
+  }
+  
+  .profile-moon-image {
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    z-index: 1;
+    width: 200px;
+  }
+  
+  .translated-work-card {
+    background: #1e1e2f;
+    color: #fff;
+    border: 1px solid #444;
+  }
+  
+  .translated-work-img {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .pagination-container button.active {
+    background: #ffd700;
+    color: #000;
+  }  
