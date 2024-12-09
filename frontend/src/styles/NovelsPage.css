@@ -3,122 +3,148 @@ body {
     color: #E0E0E0;
   }
   
-  .novels-container {
-    padding: 2rem;
-    color: #E0E0E0;
-  }
-  
-  .novels-title {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 2rem;
-    color: #FFD700;
-  }
-  
-  .novels-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-  }
-  
-  .novels-card {
-    background-color: #2C2C2C;
-    border: 2px solid #4CAF50;
-    border-radius: 10px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .novels-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px #4CAF50;
-  }
-  
-  .novels-cover {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .novels-card-body {
-    padding: 1rem;
-  }
-  
-  .novels-card-title {
-    font-size: 1.25rem;
-    color: #FFD700;
-  }
-  
-  .novels-card-text {
-    font-size: 1rem;
-    color: #E0E0E0;
-  }
-  
-  .novels-card-footer {
-    text-align: center;
-    padding: 1rem;
-  }
-  
-  .novels-button {
-    background-color: #4CAF50;
-    color: #E0E0E0;
-    border: none;
-    padding: 0.5rem 1rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .novels-button:hover {
-    background-color: #FFD700;
-    color: #000;
-  }
-  
-  .novels-pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2rem;
-  }
-  
-  .novels-pagination-arrow {
-    background: none;
-    border: none;
-    color: #4CAF50;
-    font-size: 1.5rem;
-    margin: 0 1rem;
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
-  
-  .novels-pagination-arrow:hover {
-    color: #FFD700;
-  }
-  
-  .novels-pagination-list {
-    display: flex;
-    gap: 0.5rem;
-    list-style: none;
-  }
-  
-  .novels-pagination-item {
-    margin: 0;
-  }
-  
-  .novels-pagination-link {
-    background-color: #2C2C2C;
-    border: 1px solid #4CAF50;
-    border-radius: 5px;
-    padding: 0.5rem 0.75rem;
-    color: #E0E0E0;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .novels-pagination-item.active .novels-pagination-link {
-    background-color: #4CAF50;
-    color: #E0E0E0;
-  }
-  
-  .novels-pagination-link:hover {
-    background-color: #FFD700;
-    color: #000;
-  }  
+/* Estilo principal de la página de novelas */
+.novels-container {
+  background: linear-gradient(145deg, #1e1e2f, #282845);
+  color: #ffd700;
+  padding: 20px;
+  min-height: 100vh;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+}
+
+/* Título principal */
+.novels-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+  margin-bottom: 20px;
+}
+
+/* Grid de las novelas */
+.novels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+/* Tarjeta de novela */
+.novels-card {
+  background: #1e1e2f;
+  border: 2px solid #ffd700;
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.novels-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 15px rgba(255, 215, 0, 0.8);
+}
+
+/* Imagen de portada */
+.novels-cover {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 15px 15px 0 0;
+  border-bottom: 2px solid #ffd700;
+}
+
+/* Contenido de la tarjeta */
+.novels-card-body {
+  padding: 15px;
+}
+
+.novels-card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffd700;
+  margin-bottom: 10px;
+}
+
+.novels-card-text {
+  color: #ffffff;
+  font-size: 0.9rem;
+}
+
+/* Footer de la tarjeta */
+.novels-card-footer {
+  padding: 10px;
+  background: #282845;
+  border-radius: 0 0 15px 15px;
+}
+
+/* Botón de "Ver más" */
+.novels-button {
+  background: #ffd700;
+  color: #1e1e2f;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.novels-button:hover {
+  background: #fff4b3;
+  transform: scale(1.05);
+  color: #1e1e2f;
+}
+
+/* Paginación */
+.novels-pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.novels-pagination-list {
+  display: flex;
+  gap: 5px;
+  list-style: none;
+  padding: 0;
+}
+
+.novels-pagination-item {
+  transition: transform 0.3s ease;
+}
+
+.novels-pagination-item.active button {
+  background: #ffd700;
+  color: #1e1e2f;
+}
+
+.novels-pagination-link {
+  background: #282845;
+  color: #ffd700;
+  border: 1px solid #ffd700;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.novels-pagination-link:hover {
+  background: #ffd700;
+  color: #1e1e2f;
+  transform: translateY(-2px);
+}
+
+.novels-pagination-arrow {
+  background: none;
+  color: #ffd700;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.novels-pagination-arrow:hover {
+  color: #fff4b3;
+}

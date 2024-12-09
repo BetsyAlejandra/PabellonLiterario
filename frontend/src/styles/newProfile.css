@@ -1,35 +1,39 @@
 .profile-container-fantasy {
-  background: linear-gradient(to bottom, #1F1F23, #2A2A2E);
-  padding: 50px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background: linear-gradient(180deg, #1a1a2e, #16213e);
+  min-height: 100vh;
 }
 
 .profile-card-fantasy {
-  max-width: 800px;
-  margin: 0 auto;
-  background: #2A2A2E;
-  border: 2px solid #FFD700; /* Bordes dorados */
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  padding: 30px;
-  position: relative;
+  background: #1e1e2f;
+  border: 2px solid #ffd700;
+  border-radius: 20px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  color: #ffffff;
 }
 
 .profile-header-fantasy {
-  text-align: center;
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .decorative-wrapper {
   position: absolute;
-  top: -80px;
+  top: -30px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
+  z-index: 2;
 }
 
 .decorative-image {
-  width: 200px;
+  width: 120px;
   height: auto;
 }
 
@@ -37,107 +41,105 @@
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  border: 3px solid #FFD700;
-  margin: 0 auto;
-  display: block;
+  border: 4px solid #ffd700;
   object-fit: cover;
+  margin: 20px auto;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+  position: relative;
+  z-index: 1;
 }
 
 .profile-info-fantasy h1 {
-  font-family: 'Playfair Display', serif;
-  color: #FFD700;
-  font-size: 2rem;
-  margin: 15px 0;
+  font-size: 1.8rem;
+  color: #ffd700;
+  margin: 10px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .profile-info-fantasy h2 {
-  color: #E0E0E0;
   font-size: 1.2rem;
-  margin-bottom: 15px;
+  color: #b0c4de;
+  margin: 5px 0;
 }
 
-.fantasy-btn {
-  background: #FFD700;
-  color: #000;
-  border: none;
-  padding: 10px 20px;
-  margin: 5px;
-  border-radius: 5px;
-  transition: background 0.3s ease;
-}
-
-.fantasy-btn:hover {
-  background: #E6BE8A;
-  color: #000;
-}
-
-.fantasy-btn-save {
-  background: #E6BE8A;
-  color: #000;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-}
-
-.buttons-fantasy {
-  text-align: center;
-  margin-top: 20px;
+.profile-info-fantasy p {
+  font-size: 1rem;
+  color: #dcdcdc;
 }
 
 .social-links-new {
   display: flex;
   justify-content: center;
+  gap: 15px;
   margin-top: 20px;
 }
 
 .social-link-icon {
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid #FFD700;
-  border-radius: 50%;
-  color: #FFD700;
+  display: inline-block;
   font-size: 1.5rem;
-  margin: 0 10px;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-  text-decoration: none;
+  color: #ffd700;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .social-link-icon:hover {
+  color: #ffffff;
   transform: scale(1.2);
-  background-color: #FFD700;
-  color: #2A2A2E;
+}
+
+.buttons-fantasy {
+  margin-top: 20px;
+}
+
+.fantasy-btn {
+  background: #16213e;
+  color: #ffd700;
+  border: 2px solid #ffd700;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.fantasy-btn:hover {
+  background: #ffd700;
+  color: #16213e;
 }
 
 .admin-panel-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .admin-panel-button {
-  background: linear-gradient(90deg, #FFD700, #FF8C00, #FFD700);
+  background: #ffd700;
+  color: #16213e;
+  padding: 10px 20px;
   border: none;
-  border-radius: 30px;
-  color: #2A2A2E;
-  font-size: 1.2rem;
+  border-radius: 10px;
   font-weight: bold;
-  padding: 12px 30px;
-  text-transform: uppercase;
-  text-align: center;
   cursor: pointer;
-  box-shadow: 0px 5px 15px rgba(255, 215, 0, 0.6);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .admin-panel-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0px 8px 20px rgba(255, 140, 0, 0.8);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
 }
 
-.admin-panel-button:active {
-  transform: scale(0.95);
-  box-shadow: 0px 4px 10px rgba(255, 215, 0, 0.5);
+.fantasy-btn-save {
+  background: #04aa6d;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.fantasy-btn-save:hover {
+  background: #038e5a;
+  transform: scale(1.1);
 }

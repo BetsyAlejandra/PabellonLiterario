@@ -51,7 +51,7 @@ const PerfilUsuario = () => {
         <Col md={5} className="mb-4 position-relative">
           <div className="profile-img-container">
             <img
-              src="../assets/foto-encima.png"
+              src="../assets/decoracion.png"
               alt="Decorative Moon Element"
               className="profile-moon-image"
             />

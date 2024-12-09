@@ -149,6 +149,27 @@ const Header = () => {
             >
               Novelas
             </Nav.Link>
+            <Nav.Link
+              as="div"
+              className="custom-link"
+              onClick={() => navigate("/")}
+            >
+              Traductores
+            </Nav.Link>
+            <Nav.Link
+              as="div"
+              className="custom-link"
+              onClick={() => navigate("/")}
+            >
+              Géneros
+            </Nav.Link>
+            <Nav.Link
+              as="div"
+              className="custom-link"
+              onClick={() => navigate("/")}
+            >
+              Postularme
+            </Nav.Link>
           </Nav>
           <Nav className="ms-auto align-items-center">
             <Button
