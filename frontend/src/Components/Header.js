@@ -159,7 +159,7 @@ const Header = () => {
             <Nav.Link
               as="div"
               className="custom-link"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/traductores")}
             >
               Géneros
             </Nav.Link>

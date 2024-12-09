@@ -26,15 +26,15 @@
 
 .decorative-wrapper {
   position: absolute;
-  top: -40px; /* Ajusta esta distancia según sea necesario */
+  top: -100px; /* Ajusta esta distancia según sea necesario */
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
 }
 
 .decorative-image {
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   object-fit: contain;
 }
 
