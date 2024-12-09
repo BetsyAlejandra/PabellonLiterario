@@ -26,8 +26,9 @@
 
 .decorative-wrapper {
   position: absolute;
-  top: 20px; /* Ajusta esta distancia según sea necesario */
+  top: 30px; /* Ajusta esta distancia según sea necesario */
   left: 50%;
+  width: 140px;
   transform: translateX(-50%);
   z-index: 2;
 }
