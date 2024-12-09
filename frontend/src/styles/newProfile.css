@@ -26,7 +26,7 @@
 
 .decorative-wrapper {
   position: absolute;
-  top: 30px; /* Ajusta esta distancia según sea necesario */
+  top: 15px; /* Ajusta esta distancia según sea necesario */
   left: 50%;
   width: 140px;
   transform: translateX(-50%);
