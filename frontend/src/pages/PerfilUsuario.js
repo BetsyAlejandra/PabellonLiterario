@@ -48,117 +48,91 @@ const PerfilUsuario = () => {
 
   return (
     <div className="user-profile container my-5">
-      <Row className="justify-content-center">
-        <Col md={5} className="mb-4 position-relative">
-          <div className="profile-img-container">
-            <img
-              src={decorativeImage} alt="Decoración"
-              className="profile-moon-image"
-            />
-            <img
-              src={user.profilePhoto || 'https://via.placeholder.com/150'}
-              alt={`Imagen de perfil de ${user.username}`}
-              className="rounded-circle img-fluid mb-3 profile-photo"
-            />
-          </div>
-          <Card className="text-center">
-            <Card.Body>
-              <h3 className="mb-2">{user.username}</h3>
-              {user.roles && user.roles.length > 0 && (
-                <p>
-                  <strong>Roles:</strong> {user.roles.join(', ')}
-                </p>
-              )}
-              <p>{user.description || 'Sin descripción'}</p>
-              {user.socialLinks && user.socialLinks.length > 0 && (
-                <div className="my-3">
-                  <h5>Redes Sociales:</h5>
-                  {user.socialLinks.map((link, index) => (
-                    <p key={index}>
-                      <a
-                        href={link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-light"
-                      >
-                        {link}
-                      </a>
-                    </p>
-                  ))}
-                </div>
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
+      {/* Sección de cabecera del perfil */}
+      <div className="user-header text-center">
+        <div className="profile-img-container">
+          <img
+            src={decorativeImage}
+            alt="Decoración"
+            className="profile-moon-image"
+          />
+          <img
+            src={user.profilePhoto || 'https://via.placeholder.com/150'}
+            alt={`Imagen de perfil de ${user.username}`}
+            className="profile-photo"
+          />
+        </div>
+        <h3 className="user-name">{user.username}</h3>
+        <p className="user-role">
+          <strong>Roles:</strong> {user.roles.join(', ')}
+        </p>
+        <p className="user-description">
+          {user.description || 'Sin descripción'}
+        </p>
+      </div>
 
-        <Col md={7} className="mb-4">
-          <Card>
-            <Card.Body>
-              <h4 className="mb-4">Traducciones</h4>
-              {isTranslator && user.translatedWorks && user.translatedWorks.length > 0 ? (
-                <>
-                  <Row>
-                    {currentTranslatedWorks.map((work) => (
-                      <Col md={4} key={work.id} className="mb-4">
-                        <Card className="translated-work-card">
-                          <Card.Img
-                            variant="top"
-                            src={work.coverImage}
-                            alt={`Portada de ${work.title}`}
-                            className="translated-work-img"
-                          />
-                          <Card.Body>
-                            <Card.Title>{work.title}</Card.Title>
-                            <Button variant="outline-light" href={`/story-detail/${work.id}`}>
-                              Ver historia
-                            </Button>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-                    ))}
-                  </Row>
-
-                  {/* Paginación */}
-                  <div className="pagination-container text-center mt-4">
-                    <Button
-                      variant="outline-light"
-                      onClick={prevPage}
-                      disabled={currentPage === 1}
-                      className="mx-1"
-                    >
-                      &laquo;
-                    </Button>
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                      <Button
-                        key={page}
-                        className={`mx-1 ${page === currentPage ? 'active' : ''}`}
-                        variant="outline-light"
-                        onClick={() => paginate(page)}
-                      >
-                        {page}
+      {/* Sección de traducciones */}
+      <div className="translated-works-section">
+        <h4 className="section-title">Traducciones</h4>
+        {isTranslator && user.translatedWorks && user.translatedWorks.length > 0 ? (
+          <>
+            <Row className="translated-works-grid">
+              {currentTranslatedWorks.map((work) => (
+                <Col md={4} key={work.id} className="mb-4">
+                  <Card className="translated-work-card">
+                    <Card.Img
+                      variant="top"
+                      src={work.coverImage}
+                      alt={`Portada de ${work.title}`}
+                      className="translated-work-img"
+                    />
+                    <Card.Body>
+                      <Card.Title>{work.title}</Card.Title>
+                      <Button variant="outline-light" href={`/story-detail/${work.id}`}>
+                        Ver historia
                       </Button>
-                    ))}
-                    <Button
-                      variant="outline-light"
-                      onClick={nextPage}
-                      disabled={currentPage === totalPages}
-                      className="mx-1"
-                    >
-                      &raquo;
-                    </Button>
-                  </div>
-                </>
-              ) : isTranslator ? (
-                <p className="text-light text-center">No hay traducciones disponibles.</p>
-              ) : (
-                <p className="text-light text-center">
-                  Este usuario no es Traductor, no hay traducciones para mostrar.
-                </p>
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+
+            {/* Paginación */}
+            <div className="pagination-container text-center mt-4">
+              <Button
+                variant="outline-light"
+                onClick={prevPage}
+                disabled={currentPage === 1}
+                className="mx-1"
+              >
+                &laquo;
+              </Button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <Button
+                  key={page}
+                  className={`mx-1 ${page === currentPage ? 'active' : ''}`}
+                  variant="outline-light"
+                  onClick={() => paginate(page)}
+                >
+                  {page}
+                </Button>
+              ))}
+              <Button
+                variant="outline-light"
+                onClick={nextPage}
+                disabled={currentPage === totalPages}
+                className="mx-1"
+              >
+                &raquo;
+              </Button>
+            </div>
+          </>
+        ) : (
+          <p className="text-light text-center">
+            No hay traducciones disponibles.
+          </p>
+        )}
+      </div>
     </div>
   );
 };
