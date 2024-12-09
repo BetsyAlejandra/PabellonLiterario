@@ -92,6 +92,7 @@ body {
 .profile-img-container {
   position: relative;
   text-align: center;
+  border: none;
 }
 
 /* Imagen de perfil */
@@ -99,6 +100,7 @@ body {
   width: 150px;
   height: 150px;
   border-radius: 50%;
+  border: 4px solid #ffd700; /* Borde dorado */
   object-fit: cover;
   margin-top: 40px; /* Espaciado desde la imagen decorativa */
   box-shadow: none; /* Elimina cualquier sombra alrededor */
