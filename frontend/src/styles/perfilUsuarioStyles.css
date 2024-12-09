@@ -116,22 +116,26 @@ body {
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  border: 4px solid #ffd700;
+  border: 4px solid #ffd700; /* Borde dorado */
   object-fit: cover;
-  margin-top: 30px;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+  margin-top: 40px; /* Espaciado desde la imagen decorativa */
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); /* Efecto de luz */
   position: relative;
   z-index: 1;
 }
-  
-  .profile-moon-image {
-    position: absolute;
-    top: 0px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 150px;
-    z-index: 2;
-  }
+
+.profile-moon-image {
+  position: absolute;
+  top: 20px; /* Ajusta esta distancia según el diseño */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px; /* Tamaño del marco */
+  height: auto;
+  z-index: 2;
+  background: none; /* Asegúrate de que no haya fondo adicional */
+  border: none; /* Elimina bordes innecesarios */
+}
+
   
 /* Diseño de las tarjetas de traducción */
 .translated-work-card {
