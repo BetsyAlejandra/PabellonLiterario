@@ -1,0 +1,49 @@
+.search-page {
+    background: linear-gradient(to bottom, #1a1a2e, #16213e);
+    color: #e0e0e0;
+    min-height: 100vh;
+    padding: 40px 0;
+  }
+  
+  .search-title {
+    text-align: center;
+    color: #ffd700;
+    margin-bottom: 20px;
+    font-size: 2rem;
+  }
+  
+  .filter-form .form-label {
+    color: #ffd700;
+    font-weight: bold;
+  }
+  
+  .filter-form .form-control {
+    background: #1e1e2f;
+    color: #e0e0e0;
+    border: 1px solid #ffd700;
+  }
+  
+  .filter-form .form-control:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+  }
+  
+  .novel-card {
+    background: #1e1e2f;
+    color: #ffffff;
+    border: 2px solid #ffd700;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .novel-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 15px rgba(255, 215, 0, 0.8);
+  }
+  
+  .novel-card-img {
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid #ffd700;
+  }  

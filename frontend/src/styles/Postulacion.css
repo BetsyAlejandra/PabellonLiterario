@@ -1,0 +1,126 @@
+/* Fondo general */
+.postulacion-page {
+    background: linear-gradient(180deg, #1a1a2e, #16213e);
+    color: #e0e0e0;
+    font-family: 'Playfair Display', serif;
+    min-height: 100vh;
+    padding: 50px 0;
+  }
+  
+  /* Encabezado */
+  .postulacion-header {
+    text-align: center;
+    padding: 30px 20px;
+    background: radial-gradient(circle, #ffd700, #ff9800);
+    color: #1a1a2e;
+    border-radius: 10px;
+    margin-bottom: 50px;
+  }
+  
+  .postulacion-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+  
+  .postulacion-subtitle {
+    font-size: 1.2rem;
+    margin-top: 10px;
+  }
+  
+  /* Contenido principal */
+  .postulacion-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .postulacion-info h2 {
+    font-size: 1.8rem;
+    color: #ffd700;
+    margin-bottom: 20px;
+  }
+  
+  .postulacion-info p {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+  }
+  
+  .postulacion-steps {
+    list-style: none;
+    padding: 0;
+    color: #ffd700;
+  }
+  
+  .postulacion-steps li {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    position: relative;
+    padding-left: 20px;
+  }
+  
+  .postulacion-steps li::before {
+    content: '⭐';
+    position: absolute;
+    left: 0;
+    color: #ffd700;
+    font-size: 1.2rem;
+  }
+  
+  /* Tarjetas de roles */
+  .postulacion-roles {
+    margin-top: 30px;
+  }
+  
+  .postulacion-card {
+    background: #1e1e2f;
+    border: 2px solid #ffd700;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .postulacion-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 20px rgba(255, 215, 0, 0.8);
+  }
+  
+  .postulacion-card h3 {
+    font-size: 1.5rem;
+    color: #ffd700;
+    margin-bottom: 15px;
+  }
+  
+  .postulacion-card p {
+    font-size: 1rem;
+    color: #e0e0e0;
+    margin-bottom: 20px;
+  }
+  
+  .postulacion-btn {
+    background: #ffd700;
+    color: #16213e;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  
+  .postulacion-btn:hover {
+    background: #ff9800;
+    transform: scale(1.1);
+  }
+  
+  /* Mensaje final */
+  .postulacion-final p {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+  }
+  
+  .postulacion-discord {
+    font-size: 1rem;
+    color: #4caf50;
+    font-style: italic;
+  }  

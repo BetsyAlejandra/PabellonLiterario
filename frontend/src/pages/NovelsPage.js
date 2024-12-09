@@ -6,7 +6,7 @@ import '../styles/NovelsPage.css';
 const NovelsPage = () => {
   const [novels, setNovels] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [novelsPerPage] = useState(6);
+  const [novelsPerPage] = useState(8);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 

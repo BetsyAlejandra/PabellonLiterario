@@ -1,237 +1,301 @@
 /* General */
 body {
-    background-color: #000; /* Fondo negro */
-    color: #E0E0E0; /* Texto principal */
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Encabezado Fantástico */
-  .watermark-section {
-    position: relative;
-    background: linear-gradient(to bottom, #4CAF50, #000); /* Transición de verde a negro */
-    padding: 4rem 0;
-    text-align: center;
-    color: #FFD700;
-  }
-  
-  .watermark-overlay .watermark-logo {
-    max-width: 150px;
-    border-radius: 50%;
-    border: 3px solid #FFD700; /* Borde dorado */
-    margin-bottom: 1rem;
-  }
-  
-  .watermark-overlay .join-button {
-    background-color: #FFD700;
-    color: #000;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    font-size: 1.2rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .watermark-overlay .join-button:hover {
-    background-color: #4CAF50;
-    color: #E0E0E0;
-  }
-  
-  .watermark-overlay .join-button-text {
-    margin-top: 1rem;
-    font-size: 1rem;
-    color: #FFD700;
-  }
-  
-  /* Galería de Obras Traducidas */
-  .translated-works-gallery {
-    padding: 3rem 0;
-  }
-  
-  .translated-works-gallery .gallery-card {
-    background-color: #2C2C2C;
-    border: 1px solid #FFD700; /* Dorado */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .translated-works-gallery .gallery-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px #FFD700;
-  }
-  
-  .translated-works-gallery .gallery-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 1px solid #4CAF50; /* Verde */
-  }
-  
-  .translated-works-gallery .gallery-button {
-    background-color: #FFD700;
-    color: #000;
-    border: none;
-    margin-top: 0.5rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .translated-works-gallery .gallery-button:hover {
-    background-color: #4CAF50;
-    color: #E0E0E0;
-  }
-  
-  /* Últimas Traducciones */
-  .latest-translations .card {
-    background-color: #2C2C2C;
-    border: 1px solid #FFD700;
-  }
-  
-  .latest-translations .card img {
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 1px solid #4CAF50;
-  }
-  
-  .latest-translations .card .btn {
-    background-color: #FFD700;
-    color: #000;
-    border: none;
-  }
-  
-  .latest-translations .card .btn:hover {
-    background-color: #4CAF50;
-    color: #E0E0E0;
-  }
-  
-  /* Sección de Apoyo */
-  .support-section {
-    padding: 2rem;
-    background-color: #2C2C2C;
-    border-radius: 10px;
-  }
-  
-  .support-section .btn {
-    background-color: #FFD700;
-    color: #000;
-    border: none;
-    margin-top: 1rem;
-    padding: 0.75rem 1.5rem;
-  }
-  
-  .support-section .btn:hover {
-    background-color: #4CAF50;
-    color: #E0E0E0;
-  }
-  
-  /* Historia y Logros */
-  .history-and-achievements {
-    background-color: #2C2C2C;
-    padding: 3rem 0;
-    margin-top: 2rem;
-  }
-  
-  .history-and-achievements h2 {
-    color: #FFD700;
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-  
-  .timeline {
-    position: relative;
-    padding-left: 2rem;
-    border-left: 3px solid #FFD700; /* Línea vertical */
-  }
-  
-  .timeline .timeline-item {
-    margin-bottom: 2rem;
-    position: relative;
-  }
-  
-  .timeline .timeline-item:before {
-    content: "";
-    position: absolute;
-    left: -8px;
-    top: 0;
-    width: 16px;
-    height: 16px;
-    background-color: #FFD700;
-    border-radius: 50%;
-    border: 2px solid #2C2C2C;
-  }
-  
-  .timeline .timeline-content h5 {
-    color: #FFD700;
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .timeline .timeline-content p {
-    color: #E0E0E0;
-  }
-  
-  /* Slider */
-  .slick-arrow {
-    color: #FFD700;
-    font-size: 2rem;
-  }
-  
-  .slick-arrow:hover {
-    color: #4CAF50;
-  }
+  background-color: #000;
+  /* Fondo negro */
+  color: #E0E0E0;
+  /* Texto principal */
+  font-family: Arial, sans-serif;
+}
 
-  
-  .header-section {
-    color: white;
-    padding: 100px 20px;
-    text-align: center;
-    position: relative;
-  }
-  
-  .header-title {
-    font-size: 3rem;
-    font-weight: bold;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-  }
-  
-  .header-subtitle {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-  }
-  
-  .header-button {
-    font-size: 1.2rem;
-    background-color: #ffd700;
-    color: black;
-    border: none;
-  }
-  
-  .header-button:hover {
-    background-color: #e6b800;
-    color: black;
-  }
-  
-  
-  .translated-works-gallery {
-    background-color: #2A2A2E;
-    padding: 50px 0;
-  }
-  
-  .gallery-card {
-    background-color: #1F1F23;
-    border: 1px solid #FFD700;
-  }
-  
-  .gallery-card-btn {
-    background-color: #FFD700;
-    color: #000;
-  }
-  
-  .latest-translations {
-    background: linear-gradient(to bottom, #1F1F23, #2A2A2E);
-    padding: 50px 0;
-  }
-  
-  .section-title {
-    color: #FFD700;
-    text-align: center;
-    margin-bottom: 40px;
-  }
-  
+/* Encabezado Fantástico */
+.watermark-section {
+  position: relative;
+  background: linear-gradient(to bottom, #4CAF50, #000);
+  /* Transición de verde a negro */
+  padding: 4rem 0;
+  text-align: center;
+  color: #FFD700;
+}
+
+.watermark-overlay .watermark-logo {
+  max-width: 150px;
+  border-radius: 50%;
+  border: 3px solid #FFD700;
+  /* Borde dorado */
+  margin-bottom: 1rem;
+}
+
+.watermark-overlay .join-button {
+  background-color: #FFD700;
+  color: #000;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease;
+}
+
+.watermark-overlay .join-button:hover {
+  background-color: #4CAF50;
+  color: #E0E0E0;
+}
+
+.watermark-overlay .join-button-text {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #FFD700;
+}
+
+/* Galería de Obras Traducidas */
+.translated-works-gallery {
+  padding: 3rem 0;
+}
+
+.translated-works-gallery .gallery-card {
+  background-color: #2C2C2C;
+  border: 1px solid #FFD700;
+  /* Dorado */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.translated-works-gallery .gallery-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #FFD700;
+}
+
+.translated-works-gallery .gallery-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #4CAF50;
+  /* Verde */
+}
+
+.translated-works-gallery .gallery-button {
+  background-color: #FFD700;
+  color: #000;
+  border: none;
+  margin-top: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.translated-works-gallery .gallery-button:hover {
+  background-color: #4CAF50;
+  color: #E0E0E0;
+}
+
+/* Últimas Traducciones */
+.latest-translations .card {
+  background-color: #2C2C2C;
+  border: 1px solid #FFD700;
+}
+
+.latest-translations .card img {
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #4CAF50;
+}
+
+.latest-translations .card .btn {
+  background-color: #FFD700;
+  color: #000;
+  border: none;
+}
+
+.latest-translations .card .btn:hover {
+  background-color: #4CAF50;
+  color: #E0E0E0;
+}
+
+/* Sección de Apoyo */
+.support-section {
+  padding: 2rem;
+  background-color: #2C2C2C;
+  border-radius: 10px;
+}
+
+.support-section .btn {
+  background-color: #FFD700;
+  color: #000;
+  border: none;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.support-section .btn:hover {
+  background-color: #4CAF50;
+  color: #E0E0E0;
+}
+
+/* Historia y Logros */
+.history-and-achievements {
+  background-color: #2C2C2C;
+  padding: 3rem 0;
+  margin-top: 2rem;
+}
+
+.history-and-achievements h2 {
+  color: #FFD700;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  border-left: 3px solid #FFD700;
+  /* Línea vertical */
+}
+
+.timeline .timeline-item {
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.timeline .timeline-item:before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  background-color: #FFD700;
+  border-radius: 50%;
+  border: 2px solid #2C2C2C;
+}
+
+.timeline .timeline-content h5 {
+  color: #FFD700;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.timeline .timeline-content p {
+  color: #E0E0E0;
+}
+
+/* Slider */
+.slick-arrow {
+  color: #FFD700;
+  font-size: 2rem;
+}
+
+.slick-arrow:hover {
+  color: #4CAF50;
+}
+
+/* Personalización de los puntos del slider */
+.slick-dots {
+  bottom: -25px;
+  /* Ajusta la posición vertical si es necesario */
+}
+
+.slick-dots li button:before {
+  font-size: 8px;
+  /* Tamaño más pequeño */
+  color: rgba(255, 255, 255, 0.5);
+  /* Color más tenue */
+}
+
+.slick-dots li.slick-active button:before {
+  color: rgba(255, 215, 0, 0.8);
+  /* Color más visible para el punto activo */
+}
+
+
+
+.header-section {
+  color: white;
+  padding: 100px 20px;
+  text-align: center;
+  position: relative;
+}
+
+.header-title {
+  font-size: 3rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.header-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.header-button {
+  font-size: 1.2rem;
+  background-color: #ffd700;
+  color: black;
+  border: none;
+}
+
+.header-button:hover {
+  background-color: #e6b800;
+  color: black;
+}
+
+
+.translated-works-gallery {
+  background-color: #2A2A2E;
+  padding: 50px 0;
+}
+
+.gallery-card {
+  height: 350px;
+  /* Ajusta la altura según tu diseño */
+  display: flex;
+  flex-direction: column;
+  background-color: #1e1e2f;
+  /* Opcional: fondo para las tarjetas */
+  border: 2px solid #ffd700;
+  /* Opcional: borde dorado */
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.gallery-card-img {
+  height: 200px;
+  /* Altura fija para las imágenes */
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.gallery-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.gallery-card-title {
+  font-size: 1.1rem;
+  color: #ffd700;
+  margin-bottom: 10px;
+}
+
+.gallery-card-btn {
+  align-self: center;
+  background-color: #16213e;
+  color: #ffd700;
+  border: 2px solid #ffd700;
+  border-radius: 5px;
+  padding: 8px 16px;
+  transition: background 0.3s ease;
+}
+
+.gallery-card-btn:hover {
+  background-color: #ffd700;
+  color: #16213e;
+}
+
+.latest-translations {
+  background: linear-gradient(to bottom, #1F1F23, #2A2A2E);
+  padding: 50px 0;
+}
+
+.section-title {
+  color: #FFD700;
+  text-align: center;
+  margin-bottom: 40px;
+}

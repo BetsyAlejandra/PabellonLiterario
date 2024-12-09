@@ -12,7 +12,7 @@ const PerfilUsuario = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState('translations'); // Tab activa
-  const itemsPerPage = 3; // Número de elementos por página
+  const itemsPerPage = 2; // Número de elementos por página
 
   useEffect(() => {
     const fetchProfile = async () => {

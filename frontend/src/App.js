@@ -27,6 +27,8 @@ import SearchResults from './pages/SearchResults';
 import ReadChapter from './pages/ReadChapter';
 import NovelsPage from './pages/NovelsPage';
 import TranslatorsPage from './pages/TraductoresPage';
+import Postulacion from './pages/Postulacion';
+import BuscarPorFiltros from './pages/BuscarPorFiltros';
 
 function App() {
   return (
@@ -43,6 +45,8 @@ function App() {
           <Route path="/library" element={<Library />} />
           <Route path='/Novelas' element={<NovelsPage />} />
           <Route path='/traductores' element={<TranslatorsPage />} />
+          <Route path='/postular' element={<Postulacion />} />
+          <Route path='/generos' element={<BuscarPorFiltros />} />
           <Route path="/story-detail/:id" element={<StoryDetail />} />
           <Route path="/read-chapter/:storyId/:chapterId" element={<ReadChapter />} />
           <Route path="/add-chapter/:id" element={<AddChapter />} />

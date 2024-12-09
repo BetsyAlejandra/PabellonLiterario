@@ -80,7 +80,7 @@ const Home = () => {
     ],
   };
 
-  return  (
+  return (
     <div className="home-page">
       {/* Encabezado */}
       <header
@@ -115,17 +115,22 @@ const Home = () => {
                     src={novel.coverImage}
                     alt={`Portada de ${novel.title}`}
                     className="gallery-card-img"
-                    style={{ height: '200px', objectFit: 'cover' }} // Limitar la altura
                   />
-                  <Card.Body>
-                    <Card.Title>{novel.title}</Card.Title>
-                    <Button as={Link} to={`/story-detail/${novel._id}`} className="gallery-card-btn">
+                  <Card.Body className="gallery-card-body">
+                    <Card.Title className="gallery-card-title">{novel.title}</Card.Title>
+                    <Button
+                      as={Link}
+                      to={`/story-detail/${novel._id}`}
+                      className="gallery-card-btn"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       Ver más
                     </Button>
                   </Card.Body>
                 </Card>
               ))}
             </Slider>
+
           )}
         </Container>
       </section>
@@ -160,100 +165,118 @@ const Home = () => {
 
         <Container>
           {/* Sección de Soporte y Discord */}
-          <Col md={6} className="support-section text-light">
-            <h2>¡Apóyanos!</h2>
-            <p>
-              Si te gustan nuestras traducciones y quieres ayudarnos a seguir, puedes hacerlo con una pequeña donación en
-              nuestro perfil de Ko-fi.
-            </p>
-            <Button
-              href="https://ko-fi.com/betsyalejandra"
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="outline-light"
-            >
-              ¡Apóyanos en Ko-fi!
-            </Button>
+          <Row className="support-and-apply-section">
+            <Col md={6} className="support-section text-light">
+              <h2>¡Apóyanos!</h2>
+              <p>
+                Si te gustan nuestras traducciones y quieres ayudarnos a seguir, puedes hacerlo con una pequeña donación en
+                nuestro perfil de Ko-fi.
+              </p>
+              <Button
+                href="https://ko-fi.com/betsyalejandra"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="outline-light"
+              >
+                ¡Apóyanos en Ko-fi!
+              </Button>
 
-            <h2 className="mt-4">¡Únete a Nuestro Discord!</h2>
-            <p>
-              Si eres amante de las letras, las historias cautivadoras y las traducciones literarias, Pabellón Literario es el
-              lugar perfecto para ti. ¡Únete y haz de nuestro servidor tu rincón literario favorito!
-              <br></br>En Pabellón Literario, las palabras tienen el poder de unirnos. ¡Te esperamos para que formes parte de esta
-              comunidad única! 💕
-            </p>
-            <Button
-              href="https://discord.gg/Np8prZDgwX"
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="outline-light"
-            >
-              ¡Únete al Discord!
-            </Button>
-          </Col>
-      </Container >
-    </section >
+              <h2 className="mt-4">¡Únete a Nuestro Discord!</h2>
+              <p>
+                Si eres amante de las letras, las historias cautivadoras y las traducciones literarias, Pabellón Literario es el
+                lugar perfecto para ti. ¡Únete y haz de nuestro servidor tu rincón literario favorito!
+                <br></br>En Pabellón Literario, las palabras tienen el poder de unirnos. ¡Te esperamos para que formes parte de esta
+                comunidad única! 💕
+              </p>
+              <Button
+                href="https://discord.gg/Np8prZDgwX"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="outline-light"
+              >
+                ¡Únete al Discord!
+              </Button>
 
-  {/* Historia y Logros */ }
-  < section className="history-and-achievements py-5" >
-    <Container>
-      <h2 className="text-center text-white mb-5">Historia y Logros del Proyecto</h2>
-      <p className="text-center text-white mb-5">
-        Esta línea del tiempo resalta los hitos clave que marcaron el desarrollo de nuestro proyecto, desde su
-        conceptualización hasta su primera versión lanzada al público.
-      </p>
-      <Row>
-        <Col md={12}>
-          <div className="timeline">
-            {/* Timeline Items */}
-            <div className="timeline-item">
-              <div className="timeline-icon">📅</div>
-              <div className="timeline-content">
-                <h5>21 de Noviembre del 2024</h5>
+              {/* Anuncio de Postulación */}
+              <Col md={6} className="apply-section text-light">
+                <h2>¡Únete a Nuestro Equipo!</h2>
                 <p>
-                  Creación del servidor: Este día marcó el nacimiento de nuestra comunidad. Creamos un espacio en Discord para
-                  unir a personas apasionadas por la literatura, con el objetivo de compartir ideas y colaborar en la creación del
-                  proyecto.
+                  ¿Te apasionan las letras? Buscamos traductores (de cualquier idioma), escritores y editores.
+                  Forma parte de nuestro equipo y comparte tu talento con la comunidad.
                 </p>
+                <Button
+                  as={Link}
+                  to="/postular"
+                  variant="outline-light"
+                >
+                  Postúlate Aquí
+                </Button>
+              </Col>
+            </Col>
+          </Row>
+        </Container >
+      </section >
+
+      {/* Historia y Logros */}
+      < section className="history-and-achievements py-5" >
+        <Container>
+          <h2 className="text-center text-white mb-5">Historia y Logros del Proyecto</h2>
+          <p className="text-center text-white mb-5">
+            Esta línea del tiempo resalta los hitos clave que marcaron el desarrollo de nuestro proyecto, desde su
+            conceptualización hasta su primera versión lanzada al público.
+          </p>
+          <Row>
+            <Col md={12}>
+              <div className="timeline">
+                {/* Timeline Items */}
+                <div className="timeline-item">
+                  <div className="timeline-icon">📅</div>
+                  <div className="timeline-content">
+                    <h5>21 de Noviembre del 2024</h5>
+                    <p>
+                      Creación del servidor: Este día marcó el nacimiento de nuestra comunidad. Creamos un espacio en Discord para
+                      unir a personas apasionadas por la literatura, con el objetivo de compartir ideas y colaborar en la creación del
+                      proyecto.
+                    </p>
+                  </div>
+                </div>
+                <div className="timeline-item">
+                  <div className="timeline-icon">💻</div>
+                  <div className="timeline-content">
+                    <h5>25 de Noviembre del 2024</h5>
+                    <p>
+                      Inicio de la programación: Después de días de planificación, comenzamos a trabajar en la estructura técnica del
+                      proyecto, incluyendo el diseño del frontend y backend con el stack MERN.
+                    </p>
+                  </div>
+                </div>
+                <div className="timeline-item">
+                  <div className="timeline-icon">🤝</div>
+                  <div className="timeline-content">
+                    <h5>24 de Noviembre del 2024</h5>
+                    <p>
+                      Primera reunión entre las 7 iniciadoras: Las mentes detrás del proyecto se reunieron por primera vez para alinear
+                      objetivos, discutir el alcance y definir roles clave. Esta colaboración sentó las bases para el éxito del
+                      proyecto.
+                    </p>
+                  </div>
+                </div>
+                <div className="timeline-item">
+                  <div className="timeline-icon">🎉</div>
+                  <div className="timeline-content">
+                    <h5>3 de Diciembre del 2024</h5>
+                    <p>
+                      Lanzamiento de la primera versión: Después de semanas intensas de trabajo, presentamos al público la primera
+                      versión de nuestra plataforma, que incluye funcionalidades básicas como subir traducciones, guardar progreso de
+                      lectura y dejar comentarios.
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="timeline-item">
-              <div className="timeline-icon">💻</div>
-              <div className="timeline-content">
-                <h5>25 de Noviembre del 2024</h5>
-                <p>
-                  Inicio de la programación: Después de días de planificación, comenzamos a trabajar en la estructura técnica del
-                  proyecto, incluyendo el diseño del frontend y backend con el stack MERN.
-                </p>
-              </div>
-            </div>
-            <div className="timeline-item">
-              <div className="timeline-icon">🤝</div>
-              <div className="timeline-content">
-                <h5>24 de Noviembre del 2024</h5>
-                <p>
-                  Primera reunión entre las 7 iniciadoras: Las mentes detrás del proyecto se reunieron por primera vez para alinear
-                  objetivos, discutir el alcance y definir roles clave. Esta colaboración sentó las bases para el éxito del
-                  proyecto.
-                </p>
-              </div>
-            </div>
-            <div className="timeline-item">
-              <div className="timeline-icon">🎉</div>
-              <div className="timeline-content">
-                <h5>3 de Diciembre del 2024</h5>
-                <p>
-                  Lanzamiento de la primera versión: Después de semanas intensas de trabajo, presentamos al público la primera
-                  versión de nuestra plataforma, que incluye funcionalidades básicas como subir traducciones, guardar progreso de
-                  lectura y dejar comentarios.
-                </p>
-              </div>
-            </div>
-          </div>
-        </Col>
-      </Row>
-    </Container>
-  </section >
+            </Col>
+          </Row>
+        </Container>
+      </section >
     </div >
   );
 };
