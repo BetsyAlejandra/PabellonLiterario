@@ -1,110 +1,66 @@
-/* Asegura que el contenedor principal del Navbar ocupe todo el ancho disponible */
 .custom-navbar {
-  background: #B2BABB;
-  width: 100%;
+  background: linear-gradient(90deg, #1f1d36, #3b3c5b);
+  padding: 10px 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* Estilo para el logotipo */
-.logo-img {
-  height: 50px;
-  width: auto;
-}
-
-/* Elimina el espacio extra alrededor de los elementos del Navbar */
-.custom-navbar .navbar-nav {
-  margin: 0 auto;
-}
-
-/* Alineación del logo y el menú hamburguesa */
-.custom-navbar .navbar-toggler {
-  margin-left: 10px;
-}
-
-/* Alinea el logo correctamente */
-.custom-navbar .logo-img {
-  width: 50px;
-  /* Ajusta según el tamaño del logo */
-}
-
-/* Asegura que el perfil esté siempre alineado correctamente */
-.custom-navbar .ms-auto {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-/* Estilos para el perfil en el menú */
-/* Alineación del nombre y el perfil */
-.profile-nav span {
-  margin-top: 5px;
-  font-size: 0.9rem;
-  color: #343a40;
-}
-
-/* Alineación de la imagen de perfil */
-.profile-nav img {
-  border-radius: 50%;
-  width: 40px;
-  /* Ajusta el tamaño de la imagen */
-  height: 40px;
-  /* Ajusta el tamaño de la imagen */
-  margin-bottom: 5px;
-  /* Espacio entre la imagen y el nombre */
-}
-
-/* Alineación del nombre debajo de la imagen */
-.profile-nav span {
-  color: rgb(0, 0, 0);
+.custom-link {
+  color: #ffffff;
   font-weight: bold;
-  /* Hacer el nombre más destacado */
-  font-size: 14px;
-  /* Tamaño de la fuente del nombre */
-  text-align: center;
-  /* Asegura que el nombre esté centrado */
-}
-
-/* Estilo para el botón de búsqueda */
-.search-icon {
-  background-color: transparent;
-  border: none;
-  color: #343a40;
-  font-size: 1.2rem;
-  cursor: pointer;
+  text-transform: uppercase;
   transition: color 0.3s ease;
 }
 
-.search-icon:hover {
-  color: #ffc107;
+.custom-link:hover {
+  color: #ffd700;
 }
 
-/* Estilo para el modal de búsqueda */
-.search-modal {
-  padding: 20px;
-  background-color: #343a40;
-  color: #ffffff;
+.logo-img {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  transition: transform 0.3s ease;
 }
 
-.search-modal .form-control {
-  background-color: #495057;
+.logo-img:hover {
+  transform: rotate(360deg);
+}
+
+.search-icon {
+  background-color: #ffd700;
   border: none;
-  color: #ffffff;
+  color: #1f1d36;
 }
 
-.search-modal .form-control::placeholder {
-  color: #ced4da;
+.upload-btn {
+  background: #4c4177;
+  color: #ffd700;
+  border: none;
+  transition: all 0.3s ease;
 }
 
-.search-modal .btn-outline-secondary {
-  color: #ffc107;
-  border-color: #ffc107;
-  margin-left: 10px;
-  transition: background-color 0.3s, color 0.3s;
+.upload-btn:hover {
+  background: #ffd700;
+  color: #4c4177;
 }
 
-.search-modal .btn-outline-secondary:hover {
-  background-color: #ffc107;
-  color: #343a40;
+.logout-btn {
+  border: 1px solid #ffd700;
+  color: #ffd700;
+  background: transparent;
+  transition: all 0.3s ease;
 }
+
+.logout-btn:hover {
+  background: #ffd700;
+  color: #1f1d36;
+}
+
+.search-modal {
+  background-color: #1f1d36;
+  color: #ffd700;
+}
+
 
 /* Estilo para los enlaces de navegación */
 .custom-link {

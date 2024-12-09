@@ -1,38 +1,51 @@
-// Header.jsx
-import React, { useState, useEffect } from 'react';
-import '../styles/components.css';
-import axios from 'axios';
-import { Navbar, Nav, Container, Form, FormControl, Button, Modal, Spinner } from 'react-bootstrap';
-import logo from '../assets/Logo1.png';
-import { FaSearch } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import "../styles/components.css";
+import axios from "axios";
+import {
+  Navbar,
+  Nav,
+  Container,
+  Form,
+  FormControl,
+  Button,
+  Modal,
+  Spinner,
+} from "react-bootstrap";
+import logo from "../assets/logo.png"; // Logo de fantasía
+import { FaSearch } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-  const [userName, setUserName] = useState('Usuario');
-  const [profilePic, setProfilePic] = useState('');
-  const [userRoles, setUserRoles] = useState([]); // Renombrado a userRoles para claridad
+  const [userName, setUserName] = useState("Usuario");
+  const [profilePic, setProfilePic] = useState("");
+  const [userRoles, setUserRoles] = useState([]);
   const [showSearchModal, setShowSearchModal] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(null); // Estado de carga
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('/api/users/profile', {
+        const response = await axios.get("/api/users/profile", {
           withCredentials: true,
         });
 
         if (response.data) {
           const user = response.data;
-          setProfilePic(user.profilePhoto || 'https://via.placeholder.com/150');
-          setUserName(user.username || 'Usuario');
-          setUserRoles(user.roles || []); // manejar roles como un array
+          setProfilePic(
+            user.profilePhoto || "https://via.placeholder.com/150"
+          );
+          setUserName(user.username || "Usuario");
+          setUserRoles(user.roles || []);
           setIsLoggedIn(true);
         } else {
           setIsLoggedIn(false);
         }
       } catch (error) {
-        console.error('Error al obtener los datos del usuario:', error.response?.data || error.message);
+        console.error(
+          "Error al obtener los datos del usuario:",
+          error.response?.data || error.message
+        );
         setIsLoggedIn(false);
       }
     };
@@ -42,83 +55,106 @@ const Header = () => {
 
   const handleProfileClick = () => {
     if (isLoggedIn) {
-      navigate('/profile');
+      navigate("/profile");
     } else {
-      navigate('/login');
+      navigate("/login");
     }
   };
 
   const handleSearchClick = async () => {
-    const searchQuery = document.querySelector('.search-input').value.trim();
+    const searchQuery = document.querySelector(".search-input").value.trim();
 
-    if (searchQuery === '') {
-      alert('Por favor, ingresa un término de búsqueda.');
+    if (searchQuery === "") {
+      alert("Por favor, ingresa un término de búsqueda.");
       return;
     }
 
     try {
       const response = await axios.get(`/api/novels/search`, {
-        params: { query: searchQuery }, // Forma segura de pasar parámetros
-        withCredentials: true, // Si estás usando cookies para la sesión
+        params: { query: searchQuery },
+        withCredentials: true,
       });
       const results = response.data;
 
       if (results.length === 0) {
-        alert('No se encontraron resultados para tu búsqueda.');
+        alert("No se encontraron resultados para tu búsqueda.");
       } else {
-        navigate('/search-results', { state: { results } });
+        navigate("/search-results", { state: { results } });
       }
     } catch (error) {
-      console.error('Error al buscar novelas:', error.response?.data || error.message);
-      alert('Error al realizar la búsqueda.');
+      console.error(
+        "Error al buscar novelas:",
+        error.response?.data || error.message
+      );
+      alert("Error al realizar la búsqueda.");
     }
 
     setShowSearchModal(false);
   };
 
   const handleUploadClick = () => {
-    navigate('/upload');
+    navigate("/upload");
   };
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('/api/users/logout', {
-        method: 'POST',
-        credentials: 'include', // Asegura que las cookies sean enviadas
+      const response = await fetch("/api/users/logout", {
+        method: "POST",
+        credentials: "include",
       });
       if (response.ok) {
-        setIsLoggedIn(false); // Cambia el estado a falso cuando el usuario cierre sesión
-        setUserName('Inicia Sesión');
+        setIsLoggedIn(false);
+        setUserName("Inicia Sesión");
         setUserRoles([]);
-        navigate('/');
+        navigate("/");
         window.location.reload();
       } else {
-        console.error('Error al cerrar sesión');
+        console.error("Error al cerrar sesión");
       }
     } catch (error) {
-      console.error('Error al realizar el logout:', error);
+      console.error("Error al realizar el logout:", error);
     }
   };
 
-  // Función para determinar si el usuario tiene al menos uno de los roles permitidos
   const hasRole = (roles) => {
-    return roles.some(role => ['Traductor', 'Escritor'].includes(role));
+    return roles.some((role) =>
+      ["Traductor", "Escritor"].includes(role)
+    );
   };
 
   return (
-    <Navbar expand="lg" className="custom-navbar" style={{ backgroundColor: '#B2BABB' }}>
+    <Navbar expand="lg" className="custom-navbar">
       <Container className="d-flex justify-content-between align-items-center">
-        <Navbar.Brand onClick={() => navigate('/')} className="logo" style={{ cursor: 'pointer' }}>
-          <img src={logo} alt="MiLogo" className="logo-img" />
+        <Navbar.Brand
+          onClick={() => navigate("/")}
+          className="logo"
+          style={{ cursor: "pointer" }}
+        >
+          <img src={logo} alt="Logo" className="logo-img" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" className="custom-toggler" />
         <Navbar.Collapse id="navbarScroll">
           <Nav className="me-auto">
-            <Nav.Link as="div" className="custom-link" onClick={() => navigate('/')}>Home</Nav.Link>
-            <Nav.Link as="div" className="custom-link" onClick={() => navigate('/Novelas')}>Novelas</Nav.Link>
+            <Nav.Link
+              as="div"
+              className="custom-link"
+              onClick={() => navigate("/")}
+            >
+              Home
+            </Nav.Link>
+            <Nav.Link
+              as="div"
+              className="custom-link"
+              onClick={() => navigate("/Novelas")}
+            >
+              Novelas
+            </Nav.Link>
           </Nav>
           <Nav className="ms-auto align-items-center">
-            <Button className="search-icon me-2" onClick={() => setShowSearchModal(true)}>
+            <Button
+              className="search-icon me-2"
+              onClick={() => setShowSearchModal(true)}
+            >
               <FaSearch />
             </Button>
             {isLoggedIn === null ? (
@@ -126,33 +162,52 @@ const Header = () => {
             ) : (
               <>
                 {isLoggedIn && hasRole(userRoles) && (
-                  <Button className="upload-btn me-2" onClick={handleUploadClick}>
+                  <Button
+                    className="upload-btn me-2"
+                    onClick={handleUploadClick}
+                  >
                     Subir Novela
                   </Button>
                 )}
                 {isLoggedIn ? (
                   <>
-                    <Nav.Link as="div" className="custom-link d-flex flex-column align-items-center me-2" onClick={handleProfileClick}>
+                    <Nav.Link
+                      as="div"
+                      className="custom-link d-flex flex-column align-items-center me-2"
+                      onClick={handleProfileClick}
+                    >
                       <img
                         src={profilePic}
                         alt="Foto de perfil"
                         className="rounded-circle"
                         width="40"
                         height="40"
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: "pointer" }}
                       />
                       <span className="ms-2">{userName}</span>
                     </Nav.Link>
-                    <Button className="logout-btn" variant="outline-danger" onClick={handleLogout}>
+                    <Button
+                      className="logout-btn"
+                      variant="outline-danger"
+                      onClick={handleLogout}
+                    >
                       Cerrar Sesión
                     </Button>
                   </>
                 ) : (
                   <>
-                    <Button className="register-btn me-2" variant="outline-primary" onClick={() => navigate('/register')}>
+                    <Button
+                      className="register-btn me-2"
+                      variant="outline-primary"
+                      onClick={() => navigate("/register")}
+                    >
                       Registrarse
                     </Button>
-                    <Button className="login-btn" variant="primary" onClick={() => navigate('/login')}>
+                    <Button
+                      className="login-btn"
+                      variant="primary"
+                      onClick={() => navigate("/login")}
+                    >
                       Iniciar Sesión
                     </Button>
                   </>
@@ -164,12 +219,34 @@ const Header = () => {
       </Container>
 
       {/* Modal de Búsqueda */}
-      <Modal show={showSearchModal} onHide={() => setShowSearchModal(false)} centered backdrop="static" keyboard={false}>
+      <Modal
+        show={showSearchModal}
+        onHide={() => setShowSearchModal(false)}
+        centered
+        backdrop="static"
+        keyboard={false}
+      >
         <Modal.Body className="search-modal">
           <Form className="d-flex justify-content-center">
-            <FormControl type="search" placeholder="Buscar" className="me-2 search-input" aria-label="Buscar" />
-            <Button variant="outline-secondary" onClick={handleSearchClick}>Buscar</Button>
-            <Button variant="outline-secondary" onClick={() => setShowSearchModal(false)} className="ms-2">Cerrar</Button>
+            <FormControl
+              type="search"
+              placeholder="Buscar"
+              className="me-2 search-input"
+              aria-label="Buscar"
+            />
+            <Button
+              variant="outline-secondary"
+              onClick={handleSearchClick}
+            >
+              Buscar
+            </Button>
+            <Button
+              variant="outline-secondary"
+              onClick={() => setShowSearchModal(false)}
+              className="ms-2"
+            >
+              Cerrar
+            </Button>
           </Form>
         </Modal.Body>
       </Modal>

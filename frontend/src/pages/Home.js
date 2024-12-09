@@ -1,4 +1,3 @@
-// src/components/Home.jsx
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Card, Carousel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -81,10 +80,17 @@ const Home = () => {
     ],
   };
 
-  return (
+  return  (
     <div className="home-page">
       {/* Encabezado */}
-      <header className="header-section" style={{ backgroundImage: `url(${headerImage})` }}>
+      <header
+        className="header-section"
+        style={{
+          backgroundImage: `url(${headerImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <div className="header-content text-center">
           <h1 className="header-title">Pabellón Literario</h1>
           <p className="header-subtitle">Únete a nuestra comunidad para más sorpresas</p>
@@ -109,6 +115,7 @@ const Home = () => {
                     src={novel.coverImage}
                     alt={`Portada de ${novel.title}`}
                     className="gallery-card-img"
+                    style={{ height: '200px', objectFit: 'cover' }} // Limitar la altura
                   />
                   <Card.Body>
                     <Card.Title>{novel.title}</Card.Title>

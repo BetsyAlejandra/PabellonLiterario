@@ -178,31 +178,36 @@ body {
 
   
   .header-section {
-    background-size: cover;
-    background-position: center;
-    height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #FFD700; /* Dorado */
-  }
-  
-  .header-content {
+    color: white;
+    padding: 100px 20px;
     text-align: center;
+    position: relative;
   }
   
   .header-title {
-    font-family: 'Playfair Display', serif;
     font-size: 3rem;
-    color: #FFD700;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  }
+  
+  .header-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
   }
   
   .header-button {
-    background-color: #FFD700;
-    color: #000;
+    font-size: 1.2rem;
+    background-color: #ffd700;
+    color: black;
     border: none;
-    padding: 10px 20px;
   }
+  
+  .header-button:hover {
+    background-color: #e6b800;
+    color: black;
+  }
+  
   
   .translated-works-gallery {
     background-color: #2A2A2E;
