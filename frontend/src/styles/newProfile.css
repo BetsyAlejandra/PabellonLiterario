@@ -28,14 +28,13 @@
   position: absolute;
   top: 20px; /* Ajusta esta distancia según sea necesario */
   left: 50%;
-  width: 100px;
   transform: translateX(-50%);
   z-index: 2;
 }
 
 .decorative-image {
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   object-fit: contain;
 }
 
