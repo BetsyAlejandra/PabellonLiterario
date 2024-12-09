@@ -119,7 +119,7 @@ const Home = () => {
               {novels.map((novel) => (
                 <Card
                   key={novel._id}
-                  className="text-center card"
+                  className="text-center card1"
                 >
                   <Card.Img
                     variant="top"

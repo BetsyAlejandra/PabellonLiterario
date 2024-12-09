@@ -119,7 +119,7 @@ h2 {
 
 /* Imagen de la tarjeta */
 .card1 .carousel-image {
-  height: 350px;
+  height: 150px;
   object-fit: cover;
   border-radius: 10px 10px 0 0; /* Bordes superiores redondeados */
   border-bottom: 3px solid #A9DFBF; /* Línea verde claro como detalle */
