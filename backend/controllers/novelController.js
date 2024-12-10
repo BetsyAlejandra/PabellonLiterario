@@ -158,10 +158,10 @@ const addChapter = async (req, res) => {
     novel.chapters.push(newChapter);
 
     // Guardar los cambios en la novela
-    await novel.save();
+    const savedNovel = await novel.save();
 
-     // Obtener el último capítulo agregado (el recién creado)
-     const newChapterSaved = savedNovel.chapters[savedNovel.chapters.length - 1];
+    // Obtener el último capítulo agregado (el recién creado)
+    const newChapterSaved = savedNovel.chapters[savedNovel.chapters.length - 1];
 
     // Preparar los detalles para Discord
     const updateDetails = {
