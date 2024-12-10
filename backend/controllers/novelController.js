@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Novel = require('../models/Novel');
 const User = require('../models/User');
+const { sendDiscordNotification } = require('../services/discordService');
 const bcrypt = require('bcryptjs');
 
 const createNovel = async (req, res) => {
@@ -158,6 +159,16 @@ const addChapter = async (req, res) => {
 
     // Guardar los cambios en la novela
     await novel.save();
+
+    // Preparar los detalles para Discord
+    const updateDetails = {
+      titulo: `Nuevo Capítulo: ${title}`,
+      descripcion: `Se ha agregado un nuevo capítulo a la novela **${novel.title}**.`,
+      link: `https://pabellonliterario.com/novel/${novelId}/chapter/${novel.chapters.length}`, // Ajusta el enlace según tu ruta
+    };
+
+    // Enviar la notificación a Discord
+    await sendDiscordNotification(updateDetails);
 
     res.status(201).json({ message: 'Capítulo agregado con éxito', chapter: newChapter });
   } catch (error) {

@@ -2,7 +2,8 @@ const express = require('express');
 const Novel = require('../models/Novel');
 const { createNovel, getNovels, getLatestNovels,
   getNovelById, addChapter, addReview, searchNovels,
-  getChapterById, deleteNovel, verifyPassword  } = require('../controllers/novelController');
+  getChapterById, deleteNovel, verifyPassword } = require('../controllers/novelController');
+const { sendDiscordNotification } = require('../services/discordService');
 const { upload, handleMulterError } = require('../middlewares/upload');
 const bcrypt = require('bcryptjs');
 

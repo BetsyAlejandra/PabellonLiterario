@@ -22,7 +22,7 @@ const sendDiscordNotification = async (update) => {
     title: '¡Nueva Actualización en Pabellón Literario!',
     url: update.link,
     description: `**Título:** ${update.titulo}\n**Descripción:** ${update.descripcion}`,
-    color: ffd700, // Puedes cambiar el color según tu preferencia
+    color: 0xffd700, // Asegúrate de usar un número válido para el color
     timestamp: new Date(),
     footer: {
       text: 'Pabellón Literario',
