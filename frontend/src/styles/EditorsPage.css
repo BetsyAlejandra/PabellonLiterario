@@ -1,46 +1,131 @@
+/* EditorsPage.css */
+
 .editors-page-container {
-    padding: 20px;
+    background: linear-gradient(180deg, #1a1a2e, #16213e);
+    padding: 50px 0;
+    color: #fff;
+    min-height: 100vh;
   }
   
   .editors-header {
     text-align: center;
     margin-bottom: 40px;
+    position: relative;
+  }
+  
+  .decorative-header-image {
+    width: 200px;
+    height: auto;
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
   }
   
   .editors-title {
     font-size: 2.5rem;
-    margin-bottom: 10px;
+    color: #28a745; /* Verde esmeralda */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
   }
   
   .editors-subtitle {
     font-size: 1.2rem;
-    color: #666;
+    color: #b0c4de;
   }
   
   .editor-card {
-    transition: transform 0.2s;
+    background: #1e1e2f;
+    border: 2px solid #28a745; /* Verde esmeralda */
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   .editor-card:hover {
-    transform: scale(1.05);
+    transform: translateY(-10px);
+    box-shadow: 0px 15px 20px rgba(40, 167, 69, 0.7); /* Verde esmeralda con opacidad */
   }
   
   .editor-profile-photo {
-    height: 200px;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
     object-fit: cover;
+    border: 3px solid #28a745; /* Verde esmeralda */
+    box-shadow: 0px 4px 8px rgba(40, 167, 69, 0.8); /* Verde esmeralda con opacidad */
   }
   
   .editor-name {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #28a745; /* Verde esmeralda */
+    margin: 10px 0;
   }
   
   .editor-roles {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    color: #b0c4de;
     margin-bottom: 15px;
   }
   
   .editor-profile-button {
-    width: 100%;
+    background: #16213e;
+    color: #28a745; /* Verde esmeralda */
+    border: 2px solid #28a745; /* Verde esmeralda */
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
   }
   
+  .editor-profile-button:hover {
+    background: #28a745; /* Verde esmeralda */
+    color: #16213e;
+    transform: scale(1.1);
+  }
+  
+  /* Estilo para la paginación */
+  .pagination {
+    background-color: transparent;
+  }
+  
+  .pagination .page-link {
+    color: #28a745; /* Verde esmeralda */
+    border: 1px solid #28a745; /* Verde esmeralda */
+    border-radius: 50%;
+    margin: 0 5px;
+  }
+  
+  .pagination .page-link:hover {
+    background-color: #28a745; /* Verde esmeralda */
+    color: white;
+  }
+  
+  .pagination .active .page-link {
+    background-color: #28a745; /* Verde esmeralda */
+    border-color: #28a745; /* Verde esmeralda */
+    color: white;
+  }
+  
+  .pagination .disabled .page-link {
+    color: #ccc;
+    border-color: #ccc;
+  }
+  
+  /* Estilos adicionales para mensajes de carga y error */
+  .loading-text,
+  .error-text {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 50px;
+  }
+  
+  .loading-text {
+    color: #28a745; /* Verde esmeralda */
+  }
+  
+  .error-text {
+    color: #dc3545; /* Rojo para errores */
+  }  

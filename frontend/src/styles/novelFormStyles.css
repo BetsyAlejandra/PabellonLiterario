@@ -75,3 +75,27 @@ body {
     margin: 0 auto;
   }
   
+  /* Contenedor de colaboradores */
+.collaborator-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.collaborator-input {
+  flex: 2;
+  margin-right: 10px;
+}
+
+.collaborator-select {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.collaborator-remove-btn {
+  flex: 0.5;
+}
+
+.add-collaborator-btn {
+  margin-top: 10px;
+}

@@ -194,7 +194,7 @@ const StoryDetail = () => {
                             </Button>
                             {/* Mostrar autor (usuario encargado) */}
                             <div className="mt-3">
-                                <strong>Autor:</strong>{' '}
+                                <strong>usuario:</strong>{' '}
                                 <Button variant="link" onClick={() => navigate(`/profileperson/${story.author}`)}>
                                     {story.author}
                                 </Button>

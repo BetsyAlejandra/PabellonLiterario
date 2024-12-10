@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Button, Container, Row, Col, Pagination } from 'react-bootstrap';
-import '../styles/EditorsPage.css';
+import '../styles/EditorsPage.css'; // Asegúrate de que la ruta es correcta
 
 const EditorsPage = () => {
   const [editors, setEditors] = useState([]);
