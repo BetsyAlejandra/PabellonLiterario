@@ -14,6 +14,7 @@ const StoryDetail = () => {
     const [saved, setSaved] = useState(false);
     const [review, setReview] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [collaborators, setCollaborators] = useState([]);
     const [selectedReview, setSelectedReview] = useState(null); // Reseña seleccionada para responder
     const [reply, setReply] = useState(''); // Respuesta a la reseña
 
@@ -31,9 +32,21 @@ const StoryDetail = () => {
             try {
                 const res = await axios.get(`/api/novels/${id}`);
                 setStory(res.data);
+
+                // Cargar los colaboradores con sus detalles
+                if (res.data.collaborators?.length) {
+                    const collaboratorsData = await Promise.all(
+                        res.data.collaborators.map(async (collab) => {
+                            const userRes = await axios.get(`/api/users/${collab._id}`);
+                            return { ...collab, name: userRes.data.username }; // Combina datos
+                        })
+                    );
+                    setCollaborators(collaboratorsData);
+                }
+
                 setLoading(false);
             } catch (err) {
-                setError('Error al cargar la historia.');
+                console.error('Error al cargar la historia:', err);
                 setLoading(false);
             }
         };
@@ -196,17 +209,14 @@ const StoryDetail = () => {
                             {/* Mostrar colaboradores con link a profileperson */}
                             <div className="mt-3">
                                 <strong>Colaboradores:</strong>{' '}
-                                {story.collaborators && story.collaborators.length > 0 ? (
-                                    story.collaborators.map((col, i) => (
-                                        <span key={i}>
-                                            <Button
-                                                variant="link"
-                                                onClick={() => navigate(`/profileperson/${col.name}`)}
-                                            >
-                                                {col.name} ({col.role})
-                                            </Button>
-                                            {i < story.collaborators.length - 1 && ', '}
-                                        </span>
+                                {collaborators.length > 0 ? (
+                                    collaborators.map((col, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => navigate(`/profileperson/${col._id}`)}
+                                        >
+                                            {col.name} ({col.role})
+                                        </button>
                                     ))
                                 ) : (
                                     'No hay colaboradores'

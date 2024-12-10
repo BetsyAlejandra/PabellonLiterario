@@ -29,6 +29,7 @@ import NovelsPage from './pages/NovelsPage';
 import TranslatorsPage from './pages/TraductoresPage';
 import Postulacion from './pages/Postulacion';
 import BuscarPorFiltros from './pages/BuscarPorFiltros';
+import PerfilID from './pages/PerfilID';
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
           <Route path="/upload" element={<NovelForm />} />
           <Route path="/profile" element={<Perfil />} />
           <Route path="/profileperson/:username" element={<PerfilUsuario />} />
+          <Route path="/profileperson/:id" element={<PerfilID />} />
           <Route path="/admin-panel" element={<AdminPanel />} />
         </Routes>
 
