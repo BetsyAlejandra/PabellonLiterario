@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Button, Container, Row, Col } from 'react-bootstrap';
+import { Card, Button, Container, Row, Col, Pagination } from 'react-bootstrap';
 import '../styles/TranslatorsPage.css';
-import decorativeImage from '../assets/decoracion.png'; // Decoración fantasiosa
 
 const TranslatorsPage = () => {
   const [translators, setTranslators] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  // Estados de paginación
+  const [currentPage, setCurrentPage] = useState(1);
+  const translatorsPerPage = 6;
 
   useEffect(() => {
     const fetchTranslators = async () => {
@@ -29,19 +32,49 @@ const TranslatorsPage = () => {
     fetchTranslators();
   }, []);
 
+  const indexOfLastTranslator = currentPage * translatorsPerPage;
+  const indexOfFirstTranslator = indexOfLastTranslator - translatorsPerPage;
+  const currentTranslators = translators.slice(indexOfFirstTranslator, indexOfLastTranslator);
+
+  // Calcular el número total de páginas
+  const totalPages = Math.ceil(translators.length / translatorsPerPage);
+
+  // Crear los elementos de paginación
+  const paginationItems = [];
+  for (let number = 1; number <= totalPages; number++) {
+    paginationItems.push(
+      <Pagination.Item
+        key={number}
+        active={number === currentPage}
+        onClick={() => setCurrentPage(number)}
+      >
+        {number}
+      </Pagination.Item>,
+    );
+  }
+
   if (loading) return <div className="loading-text">Cargando traductores...</div>;
   if (error) return <div className="error-text">{error}</div>;
 
   return (
     <div className="translators-page-container">
       <header className="translators-header">
-        <img src={decorativeImage} alt="Decoración" className="decorative-header-image" />
         <h1 className="translators-title">Nuestros Traductores</h1>
         <p className="translators-subtitle">Explora los perfiles de nuestros talentosos traductores</p>
       </header>
       <Container>
+        {/* Controles de Paginación en la parte superior */}
+        <Pagination className="justify-content-center mb-4">
+          <Pagination.First onClick={() => setCurrentPage(1)} disabled={currentPage === 1} />
+          <Pagination.Prev onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} />
+          {paginationItems}
+          <Pagination.Next onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} />
+          <Pagination.Last onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} />
+        </Pagination>
+
+
         <Row className="g-4">
-          {translators.map((translator) => (
+          {currentTranslators.map((translator) => (
             <Col key={translator._id} sm={6} md={4} lg={3}>
               <Card className="translator-card">
                 <Card.Img

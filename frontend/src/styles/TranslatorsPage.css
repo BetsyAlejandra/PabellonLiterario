@@ -83,3 +83,31 @@
     color: #16213e;
     transform: scale(1.1);
   }  
+
+  /* Estilo para la paginación */
+.pagination {
+  background-color: transparent;
+}
+
+.pagination .page-link {
+  color: #4caf50; /* Color verde */
+  border: 1px solid #4caf50;
+  border-radius: 50%;
+  margin: 0 5px;
+}
+
+.pagination .page-link:hover {
+  background-color: #4caf50;
+  color: white;
+}
+
+.pagination .active .page-link {
+  background-color: #4caf50;
+  border-color: #4caf50;
+  color: white;
+}
+
+.pagination .disabled .page-link {
+  color: #ccc;
+  border-color: #ccc;
+}
