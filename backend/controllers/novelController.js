@@ -180,7 +180,7 @@ const addChapter = async (req, res) => {
 const deleteChapter = async (req, res) => {
   try {
     const { id, chapterId } = req.params; // id: ID de la novela, chapterId: ID del capítulo
-    const username = req.session.user.username; // Asumiendo que estás almacenando el username en la sesión
+    const username = req.session.user.username; // Asumiendo que el username está en la sesión
 
     console.log(`Intentando eliminar capítulo: ${chapterId} de la novela: ${id} por el usuario: ${username}`);
 
@@ -203,16 +203,16 @@ const deleteChapter = async (req, res) => {
       return res.status(403).json({ message: 'No tienes permiso para eliminar capítulos de esta novela.' });
     }
 
-    // Encontrar el capítulo por chapterId
+    // Verificar que el capítulo existe
     const chapter = novel.chapters.id(chapterId);
     if (!chapter) {
       console.log('Capítulo no encontrado.');
       return res.status(404).json({ message: 'Capítulo no encontrado.' });
     }
 
-    // Eliminar el capítulo
-    chapter.remove();
-    console.log(`Capítulo ${chapterId} eliminado.`);
+    // Eliminar el capítulo usando `pull`
+    novel.chapters.pull(chapterId);
+    console.log(`Capítulo ${chapterId} eliminado usando pull.`);
 
     // Guardar los cambios en la base de datos
     await novel.save();
