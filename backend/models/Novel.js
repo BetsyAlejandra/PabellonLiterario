@@ -57,8 +57,8 @@ const novelSchema = new mongoose.Schema(
     },       
     collaborators: [
       {
-        name: String,
-        role: String, // Roles libres
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Relación con el modelo User
+        role: String, // Rol libre
       },
     ],
 

@@ -124,45 +124,6 @@ router.post('/api/novels/:id/reviews/:reviewId/reply', isAuthenticated, async (r
   }
 });
 
-router.get('/:id', async (req, res) => {
-  try {
-      const novel = await Novel.findById(req.params.id);
-
-      if (!novel) {
-          return res.status(404).json({ message: 'Novela no encontrada' });
-      }
-
-      // Extrae los IDs de los colaboradores
-      const collaboratorIds = novel.collaborators.map(collab => collab._id);
-
-      // Obtén los datos de los usuarios colaboradores
-      const users = await User.find({ _id: { $in: collaboratorIds } })
-                              .select('username profilePhoto roles description');
-
-      // Combina los datos de los usuarios con los colaboradores
-      const populatedCollaborators = novel.collaborators.map(collab => {
-          const user = users.find(u => u._id.toString() === collab._id.toString());
-          return {
-              _id: collab._id,
-              role: collab.role,
-              username: user ? user.username : 'Usuario Desconocido',
-              profilePhoto: user ? user.profilePhoto : null,
-              roles: user ? user.roles : [],
-              description: user ? user.description : ''
-          };
-      });
-
-      // Convierte la novela a un objeto y reemplaza los colaboradores
-      const novelObject = novel.toObject();
-      novelObject.collaborators = populatedCollaborators;
-
-      res.status(200).json(novelObject);
-  } catch (error) {
-      console.error('Error al obtener la novela:', error);
-      res.status(500).json({ message: 'Error interno del servidor' });
-  }
-});
-
 // Ruta para actualizar una novela
 router.put('/update/:id', upload, handleMulterError, async (req, res) => {
   try {
@@ -349,6 +310,40 @@ router.put('/update/:id', upload, handleMulterError, async (req, res) => {
 // Ruta para eliminar un capítulo
 router.delete('/:id/chapters/:chapterId', isAuthenticated, deleteChapter);
 router.post('/add-chapter/:id', addChapter);
+
+router.get('/:id', async (req, res) => {
+  try {
+    const novel = await Novel.findById(req.params.id)
+      .populate({
+        path: 'collaborators.user', // Poblamos el campo `user` en `collaborators`
+        select: 'username profilePhoto roles description', // Seleccionamos los campos necesarios
+      });
+
+    if (!novel) {
+      return res.status(404).json({ message: 'Novela no encontrada' });
+    }
+
+    // Transformamos los colaboradores para incluir la información del usuario poblado
+    const populatedCollaborators = novel.collaborators.map(collab => ({
+      _id: collab.user?._id || null,
+      role: collab.role,
+      username: collab.user?.username || 'Usuario Desconocido',
+      profilePhoto: collab.user?.profilePhoto || null,
+      roles: collab.user?.roles || [],
+      description: collab.user?.description || '',
+    }));
+
+    // Creamos el objeto de la novela incluyendo los colaboradores procesados
+    const novelObject = novel.toObject();
+    novelObject.collaborators = populatedCollaborators;
+
+    res.status(200).json(novelObject);
+  } catch (error) {
+    console.error('Error al obtener la novela:', error);
+    res.status(500).json({ message: 'Error interno del servidor' });
+  }
+});
+
 router.delete('/:id', isAuthenticated, deleteNovel);
 
 module.exports = router;

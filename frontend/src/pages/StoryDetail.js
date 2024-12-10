@@ -206,7 +206,8 @@ const StoryDetail = () => {
                                 <strong>Colaboradores:</strong>{' '}
                                 {story.collaborators.length > 0 ? (
                                     story.collaborators.map((col, index) => (
-                                        <div key={index} className="collaborator">
+                                        <div key={index} className="collaborator d-flex align-items-center mb-2">
+                                            {/* Mostrar el nombre del colaborador como un enlace */}
                                             {col.username !== 'Usuario Desconocido' ? (
                                                 <button
                                                     onClick={() => navigate(`/profileperson/${col.username}`)}
@@ -223,8 +224,6 @@ const StoryDetail = () => {
                                     'No hay colaboradores'
                                 )}
                             </div>
-
-
 
                             {/* Mostrar adaptaciones */}
                             <div className="mt-3">
