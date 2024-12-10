@@ -14,7 +14,6 @@ const StoryDetail = () => {
     const [saved, setSaved] = useState(false);
     const [review, setReview] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const [collaborators, setCollaborators] = useState([]);
     const [selectedReview, setSelectedReview] = useState(null); // Reseña seleccionada para responder
     const [reply, setReply] = useState(''); // Respuesta a la reseña
 
@@ -32,15 +31,13 @@ const StoryDetail = () => {
             try {
                 const res = await axios.get(`/api/novels/${id}`);
                 const storyData = res.data;
-    
-                // Asegúrate de manejar los colaboradores correctamente
-                const formattedCollaborators = storyData.collaborators.map((collab) => ({
-                    ...collab,
-                    username: collab.username, // Nombre del usuario poblado
-                    profilePhoto: collab.profilePhoto,
-                }));
-    
-                setStory({ ...storyData, collaborators: formattedCollaborators });
+
+                // Verificar si los colaboradores están correctamente poblados
+                if (!storyData.collaborators || !Array.isArray(storyData.collaborators)) {
+                    throw new Error('Datos de colaboradores inválidos.');
+                }
+
+                setStory(storyData);
                 setLoading(false);
             } catch (err) {
                 console.error('Error al cargar la historia:', err);
@@ -50,7 +47,7 @@ const StoryDetail = () => {
         };
         fetchStory();
     }, [id]);
-    
+
 
     const handleSaveStory = async () => {
         try {
@@ -205,24 +202,28 @@ const StoryDetail = () => {
 
                             </div>
 
-                            // Mostrar colaboradores con link a profileperson
                             <div className="mt-3">
                                 <strong>Colaboradores:</strong>{' '}
                                 {story.collaborators.length > 0 ? (
                                     story.collaborators.map((col, index) => (
                                         <div key={index} className="collaborator">
-                                            <button
-                                                onClick={() => navigate(`/profileperson/${col.username}`)}
-                                                className="collaborator-link btn btn-link p-0"
-                                            >
-                                                {col.username} ({col.role})
-                                            </button>
+                                            {col.username !== 'Usuario Desconocido' ? (
+                                                <button
+                                                    onClick={() => navigate(`/profileperson/${col.username}`)}
+                                                    className="collaborator-link btn btn-link p-0"
+                                                >
+                                                    {col.username} ({col.role})
+                                                </button>
+                                            ) : (
+                                                <span>{col.username} ({col.role})</span>
+                                            )}
                                         </div>
                                     ))
                                 ) : (
                                     'No hay colaboradores'
                                 )}
                             </div>
+
 
 
                             {/* Mostrar adaptaciones */}

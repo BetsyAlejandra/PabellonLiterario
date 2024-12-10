@@ -285,38 +285,5 @@ router.get('/profileperson/:username', async (req, res) => {
   }
 });
 
-router.get('/profileperson/:id', async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id).select('username profilePhoto description roles translatedWorks');
-    if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado.' });
-    }
-    res.status(200).json(user);
-  } catch (error) {
-    console.error('Error al obtener perfil de usuario:', error);
-    res.status(500).json({ message: 'Error interno del servidor' });
-  }
-});
-
-router.get('/:id', async (req, res) => {
-  try {
-      const novel = await Novel.findById(req.params.id).populate({
-          path: 'collaborators._id',
-          select: 'username profilePhoto roles description',
-          model: 'User'
-      });
-
-      if (!novel) {
-          return res.status(404).json({ message: 'Novela no encontrada' });
-      }
-
-      res.status(200).json(novel);
-  } catch (error) {
-      console.error('Error al obtener la novela:', error);
-      res.status(500).json({ message: 'Error interno del servidor' });
-  }
-});
-
-
 
 module.exports = router;
