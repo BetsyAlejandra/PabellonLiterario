@@ -160,11 +160,14 @@ const addChapter = async (req, res) => {
     // Guardar los cambios en la novela
     await novel.save();
 
+     // Obtener el último capítulo agregado (el recién creado)
+     const newChapterSaved = savedNovel.chapters[savedNovel.chapters.length - 1];
+
     // Preparar los detalles para Discord
     const updateDetails = {
       titulo: `Nuevo Capítulo: ${title}`,
       descripcion: `Se ha agregado un nuevo capítulo a la novela **${novel.title}**.`,
-      link: `https://pabellonliterario.com/novel/${id}/chapter/${novel.chapters.length}`, // Ajusta el enlace según tu ruta
+      link: `https://pabellonliterario.com/read-chapter/${id}/${newChapterSaved._id}`, // Ajusta el enlace según tu ruta
     };
 
     // Enviar la notificación a Discord
