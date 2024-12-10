@@ -4,6 +4,7 @@ const { createNovel, getNovels, getLatestNovels,
   getNovelById, addChapter, addReview, searchNovels,
   getChapterById, deleteNovel, verifyPassword, deleteChapter } = require('../controllers/novelController');
 const { upload, handleMulterError } = require('../middlewares/upload');
+const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
 const router = express.Router();
@@ -123,21 +124,43 @@ router.post('/api/novels/:id/reviews/:reviewId/reply', isAuthenticated, async (r
   }
 });
 
-router.get('/:id', (req, res, next) => {
-  const { id } = req.params;
+router.get('/:id', async (req, res) => {
+  try {
+      const novel = await Novel.findById(req.params.id);
 
-  // Si el ID es "genres", delega el control al siguiente middleware (que será la ruta específica)
-  if (id === 'genres') {
-    return next();
+      if (!novel) {
+          return res.status(404).json({ message: 'Novela no encontrada' });
+      }
+
+      // Extrae los IDs de los colaboradores
+      const collaboratorIds = novel.collaborators.map(collab => collab._id);
+
+      // Obtén los datos de los usuarios colaboradores
+      const users = await User.find({ _id: { $in: collaboratorIds } })
+                              .select('username profilePhoto roles description');
+
+      // Combina los datos de los usuarios con los colaboradores
+      const populatedCollaborators = novel.collaborators.map(collab => {
+          const user = users.find(u => u._id.toString() === collab._id.toString());
+          return {
+              _id: collab._id,
+              role: collab.role,
+              username: user ? user.username : 'Usuario Desconocido',
+              profilePhoto: user ? user.profilePhoto : null,
+              roles: user ? user.roles : [],
+              description: user ? user.description : ''
+          };
+      });
+
+      // Convierte la novela a un objeto y reemplaza los colaboradores
+      const novelObject = novel.toObject();
+      novelObject.collaborators = populatedCollaborators;
+
+      res.status(200).json(novelObject);
+  } catch (error) {
+      console.error('Error al obtener la novela:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
   }
-
-  // Validar si el ID es un ObjectId válido
-  if (!/^[0-9a-fA-F]{24}$/.test(id)) {
-    return res.status(400).json({ message: 'ID no válido' });
-  }
-
-  // Llama al controlador para manejar la solicitud
-  getNovelById(req, res);
 });
 
 // Ruta para actualizar una novela

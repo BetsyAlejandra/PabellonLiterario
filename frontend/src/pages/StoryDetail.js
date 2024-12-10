@@ -31,27 +31,26 @@ const StoryDetail = () => {
         const fetchStory = async () => {
             try {
                 const res = await axios.get(`/api/novels/${id}`);
-                setStory(res.data);
-
-                // Cargar los colaboradores con sus detalles
-                if (res.data.collaborators?.length) {
-                    const collaboratorsData = await Promise.all(
-                        res.data.collaborators.map(async (collab) => {
-                            const userRes = await axios.get(`/api/users/${collab._id}`);
-                            return { ...collab, name: userRes.data.username }; // Combina datos
-                        })
-                    );
-                    setCollaborators(collaboratorsData);
-                }
-
+                const storyData = res.data;
+    
+                // Asegúrate de manejar los colaboradores correctamente
+                const formattedCollaborators = storyData.collaborators.map((collab) => ({
+                    ...collab,
+                    username: collab.username, // Nombre del usuario poblado
+                    profilePhoto: collab.profilePhoto,
+                }));
+    
+                setStory({ ...storyData, collaborators: formattedCollaborators });
                 setLoading(false);
             } catch (err) {
                 console.error('Error al cargar la historia:', err);
+                setError('Error al cargar la historia.');
                 setLoading(false);
             }
         };
         fetchStory();
     }, [id]);
+    
 
     const handleSaveStory = async () => {
         try {
@@ -206,17 +205,19 @@ const StoryDetail = () => {
 
                             </div>
 
-                            {/* Mostrar colaboradores con link a profileperson */}
+                            // Mostrar colaboradores con link a profileperson
                             <div className="mt-3">
                                 <strong>Colaboradores:</strong>{' '}
-                                {collaborators.length > 0 ? (
-                                    collaborators.map((col, index) => (
-                                        <button
-                                            key={index}
-                                            onClick={() => navigate(`/profileperson/${col._id}`)}
-                                        >
-                                            {col.name} ({col.role})
-                                        </button>
+                                {story.collaborators.length > 0 ? (
+                                    story.collaborators.map((col, index) => (
+                                        <div key={index} className="collaborator">
+                                            <button
+                                                onClick={() => navigate(`/profileperson/${col.username}`)}
+                                                className="collaborator-link btn btn-link p-0"
+                                            >
+                                                {col.username} ({col.role})
+                                            </button>
+                                        </div>
                                     ))
                                 ) : (
                                     'No hay colaboradores'

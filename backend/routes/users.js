@@ -300,16 +300,23 @@ router.get('/profileperson/:id', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-      const user = await User.findById(req.params.id).select('username profilePhoto roles description');
-      if (!user) {
-          return res.status(404).json({ message: 'Usuario no encontrado' });
+      const novel = await Novel.findById(req.params.id).populate({
+          path: 'collaborators._id',
+          select: 'username profilePhoto roles description',
+          model: 'User'
+      });
+
+      if (!novel) {
+          return res.status(404).json({ message: 'Novela no encontrada' });
       }
-      res.status(200).json(user);
+
+      res.status(200).json(novel);
   } catch (error) {
-      console.error('Error al obtener el usuario:', error);
+      console.error('Error al obtener la novela:', error);
       res.status(500).json({ message: 'Error interno del servidor' });
   }
 });
+
 
 
 module.exports = router;
