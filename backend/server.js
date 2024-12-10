@@ -67,7 +67,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Rutas API
 app.use('/api/users', userRoutes);
 app.use('/api/novels', novelRoutes);
-app.use('/api/actualizaciones', actualizacionRoutes);
 
 
 // Servir en producción

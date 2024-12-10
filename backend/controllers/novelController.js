@@ -164,7 +164,7 @@ const addChapter = async (req, res) => {
     const updateDetails = {
       titulo: `Nuevo Capítulo: ${title}`,
       descripcion: `Se ha agregado un nuevo capítulo a la novela **${novel.title}**.`,
-      link: `https://pabellonliterario.com/novel/${novelId}/chapter/${novel.chapters.length}`, // Ajusta el enlace según tu ruta
+      link: `https://pabellonliterario.com/novel/${id}/chapter/${novel.chapters.length}`, // Ajusta el enlace según tu ruta
     };
 
     // Enviar la notificación a Discord
@@ -174,6 +174,41 @@ const addChapter = async (req, res) => {
   } catch (error) {
     console.error('Error al agregar el capítulo:', error.message);
     res.status(500).json({ message: 'Error al agregar el capítulo', error });
+  }
+};
+
+const deleteChapter = async (req, res) => {
+  try {
+    const { id, chapterId } = req.params; // id: ID de la novela, chapterId: ID del capítulo
+
+    // Validar que ambos IDs estén presentes
+    if (!id || !chapterId) {
+      return res.status(400).json({ message: 'ID de la novela y del capítulo son obligatorios.' });
+    }
+
+    // Buscar la novela por ID
+    const novel = await Novel.findById(id);
+    if (!novel) {
+      return res.status(404).json({ message: 'Novela no encontrada.' });
+    }
+
+    // Encontrar el capítulo por chapterId
+    const chapter = novel.chapters.id(chapterId);
+    if (!chapter) {
+      return res.status(404).json({ message: 'Capítulo no encontrado.' });
+    }
+
+    // Eliminar el capítulo
+    chapter.remove();
+
+    // Guardar los cambios en la base de datos
+    await novel.save();
+
+    // Responder al cliente
+    res.status(200).json({ message: 'Capítulo eliminado con éxito.' });
+  } catch (error) {
+    console.error('Error al eliminar el capítulo:', error.message);
+    res.status(500).json({ message: 'Error interno al eliminar el capítulo.', error: error.message });
   }
 };
 
@@ -343,5 +378,5 @@ const verifyPassword = async (req, res) => {
 module.exports = {
   createNovel, getNovels, getLatestNovels,
   getNovelById, addChapter, addReview, searchNovels, getChapterById,
-  deleteNovel, verifyPassword
+  deleteNovel, verifyPassword, deleteChapter
 };

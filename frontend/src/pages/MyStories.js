@@ -14,6 +14,8 @@ const MyStories = () => {
     const [selectedStory, setSelectedStory] = useState(null); // Historia seleccionada
     const [selectedDescription, setSelectedDescription] = useState(''); // Descripción seleccionada
     const [storyToDelete, setStoryToDelete] = useState(null); // Historia a eliminar
+    const [confirmDeleteModalShow, setConfirmDeleteModalShow] = useState(false); // Modal de confirmación de eliminación
+    const [chapterToDelete, setChapterToDelete] = useState(null); // Capítulo a eliminar
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -77,6 +79,45 @@ const MyStories = () => {
 
     const handleAddNovel = () => {
         navigate('/upload');
+    };
+
+
+    // Función para manejar el clic en el botón de eliminar capítulo
+    const handleDeleteChapter = (storyId, chapterId, chapterTitle) => {
+        setChapterToDelete({ id: chapterId, title: chapterTitle, storyId }); // Establece el capítulo a eliminar
+        setConfirmDeleteModalShow(true); // Muestra el modal de confirmación
+    };
+
+    // Función para confirmar la eliminación del capítulo
+    const confirmDeleteChapter = async () => {
+        if (!chapterToDelete) return;
+
+        try {
+            await axios.delete(`/api/novels/${chapterToDelete.storyId}/chapters/${chapterToDelete.id}`, {
+                withCredentials: true,
+            });
+            // Actualiza el estado de las historias eliminando el capítulo
+            setStories((prevStories) =>
+                prevStories.map((story) => {
+                    if (story._id === chapterToDelete.storyId) {
+                        return {
+                            ...story,
+                            chapters: story.chapters.filter(
+                                (chapter) => chapter._id !== chapterToDelete.id
+                            ),
+                        };
+                    }
+                    return story;
+                })
+            );
+
+            setConfirmDeleteModalShow(false); // Cierra el modal de confirmación
+            setChapterToDelete(null); // Resetea el capítulo a eliminar
+        } catch (err) {
+            alert('Error al eliminar el capítulo. Intenta nuevamente.');
+            console.error(err);
+            setConfirmDeleteModalShow(false); // Cierra el modal de confirmación
+        }
     };
 
     if (loading) return <p className="text-center">Cargando historias...</p>;
@@ -162,7 +203,7 @@ const MyStories = () => {
                             <ul className="list-group">
                                 {selectedStory.chapters.map((chapter, idx) => (
                                     <li
-                                        key={idx}
+                                        key={chapter._id} // Usar _id como key para mayor unicidad
                                         className="list-group-item d-flex justify-content-between align-items-center"
                                         style={{
                                             backgroundColor: '#1a1a1a',
@@ -172,14 +213,24 @@ const MyStories = () => {
                                         }}
                                     >
                                         {chapter.title}
-                                        <button
-                                            className="btn btn-outline-primary btn-sm"
-                                            onClick={() =>
-                                                handleEditChapter(selectedStory._id, chapter._id)
-                                            }
-                                        >
-                                            Editar
-                                        </button>
+                                        <div>
+                                            <button
+                                                className="btn btn-outline-primary btn-sm me-2"
+                                                onClick={() =>
+                                                    handleEditChapter(selectedStory._id, chapter._id)
+                                                }
+                                            >
+                                                Editar
+                                            </button>
+                                            <button
+                                                className="btn btn-outline-danger btn-sm"
+                                                onClick={() =>
+                                                    handleDeleteChapter(selectedStory._id, chapter._id, chapter.title)
+                                                }
+                                            >
+                                                Eliminar
+                                            </button>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>
@@ -197,6 +248,7 @@ const MyStories = () => {
                     </Modal.Footer>
                 </Modal>
             )}
+
 
             {/* Modal para mostrar descripción completa */}
             <Modal
@@ -234,6 +286,36 @@ const MyStories = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            {/* Modal de confirmación para eliminar capítulo */}
+            <Modal
+                show={confirmDeleteModalShow}
+                onHide={() => setConfirmDeleteModalShow(false)}
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirmar Eliminación</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {chapterToDelete ? (
+                        <p>
+                            ¿Estás seguro de que deseas eliminar el capítulo <strong>{chapterToDelete.title}</strong>?
+                            Esta acción no se puede deshacer.
+                        </p>
+                    ) : (
+                        <p>¿Estás seguro de que deseas eliminar este capítulo?</p>
+                    )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setConfirmDeleteModalShow(false)}>
+                        Cancelar
+                    </Button>
+                    <Button variant="danger" onClick={confirmDeleteChapter}>
+                        Eliminar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
         </div>
     );
 };

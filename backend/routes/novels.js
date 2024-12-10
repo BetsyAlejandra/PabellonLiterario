@@ -2,8 +2,7 @@ const express = require('express');
 const Novel = require('../models/Novel');
 const { createNovel, getNovels, getLatestNovels,
   getNovelById, addChapter, addReview, searchNovels,
-  getChapterById, deleteNovel, verifyPassword } = require('../controllers/novelController');
-const { sendDiscordNotification } = require('../services/discordService');
+  getChapterById, deleteNovel, verifyPassword, deleteChapter } = require('../controllers/novelController');
 const { upload, handleMulterError } = require('../middlewares/upload');
 const bcrypt = require('bcryptjs');
 
@@ -324,6 +323,8 @@ router.put('/update/:id', upload, handleMulterError, async (req, res) => {
 });
 
 
+// Ruta para eliminar un capítulo
+router.delete('/:id/chapters/:chapterId', isAuthenticated, deleteChapter);
 router.post('/add-chapter/:id', addChapter);
 router.delete('/:id', isAuthenticated, deleteNovel);
 
