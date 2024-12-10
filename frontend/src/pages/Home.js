@@ -12,6 +12,7 @@ const Home = () => {
   const [novels, setNovels] = useState([]); // Estado para almacenar las novelas
   const [loading, setLoading] = useState(true); // Estado para indicar si los datos están cargando
   const [latestNovels, setLatestNovels] = useState([]); // Estado para las últimas traducciones
+  const [updatedChapters, setUpdatedChapters] = useState([]);
   const [error, setError] = useState(null); // Estado para manejar errores
 
   useEffect(() => {
@@ -54,8 +55,23 @@ const Home = () => {
       }
     };
 
+    const fetchUpdatedChapters = async () => {
+      try {
+        const response = await fetch(`/api/novels/:id/updated-chapters`);
+        if (!response.ok) throw new Error('Error al obtener capítulos actualizados.');
+        const data = await response.json();
+        setUpdatedChapters(data.updatedChapters);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error en fetchUpdatedChapters:', error.message);
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
     fetchNovels();
-    fetchLatestNovels(); // Llama a ambas funciones al montar el componente
+    fetchLatestNovels();
+    fetchUpdatedChapters();
   }, []);
 
   const settings = {
@@ -135,33 +151,68 @@ const Home = () => {
         </Container>
       </section>
 
-      {/* Últimas Traducciones */}
-      <section className="latest-translations">
+      {/* Últimas Traducciones y Últimos Capítulos */}
+      <section className="latest-section">
         <Container>
-          <h2 className="section-title">Últimas Traducciones</h2>
           <Row>
-            {latestNovels.map((novel) => (
-              <Col key={novel._id} md={4} className="latest-translation-card">
-                <Card className="latest-card">
-                  <Card.Img
-                    variant="top"
-                    src={novel.coverImage}
-                    alt={`Portada de ${novel.title}`}
-                    className="latest-card-img"
-                  />
-                  <Card.Body>
-                    <Card.Title>{novel.title}</Card.Title>
-                    <Card.Text>{novel.genre}</Card.Text>
-                    <Button as={Link} to={`/story-detail/${novel._id}`} className="latest-card-btn">
-                      Leer más
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
+            {/* Últimas Traducciones */}
+            <Col md={6}>
+              <h2 className="section-title">Últimas Traducciones</h2>
+              <Row>
+                {latestNovels.map((novel) => (
+                  <Col key={novel._id} md={12} className="latest-item">
+                    <Card className="latest-card">
+                      <Card.Img
+                        variant="top"
+                        src={novel.coverImage}
+                        alt={`Portada de ${novel.title}`}
+                        className="latest-card-img"
+                      />
+                      <Card.Body>
+                        <Card.Title>{novel.title}</Card.Title>
+                        <Card.Text>{novel.genre}</Card.Text>
+                        <Button as={Link} to={`/story-detail/${novel._id}`} className="latest-card-btn">
+                          Leer más
+                        </Button>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </Col>
+
+            <section className="latest-chapters">
+              <Container>
+                <h2 className="section-title">Últimos Capítulos Actualizados</h2>
+                {loading ? (
+                  <p className="text-center text-light">Cargando capítulos...</p>
+                ) : error ? (
+                  <p className="text-center text-danger">{error}</p>
+                ) : updatedChapters.length > 0 ? (
+                  <Row>
+                    {updatedChapters.map((chapter, index) => (
+                      <Col key={index} md={6} className="mb-4">
+                        <Card className="chapter-card">
+                          <Card.Body>
+                            <Card.Title>{chapter.title}</Card.Title>
+                            <Card.Text>
+                              Actualizado: {new Date(chapter.updatedAt).toLocaleDateString()}
+                            </Card.Text>
+                            <Button as={Link} to={`/chapter-detail/${chapter._id}`} variant="outline-light">
+                              Leer capítulo
+                            </Button>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    ))}
+                  </Row>
+                ) : (
+                  <p className="text-center text-light">No hay capítulos actualizados recientemente.</p>
+                )}
+              </Container>
+            </section>
           </Row>
         </Container>
-        <section />
 
         <Container>
           {/* Sección de Soporte y Discord */}
