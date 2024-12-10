@@ -28,26 +28,62 @@ const StoryDetail = () => {
 
     useEffect(() => {
         const fetchStory = async () => {
-            try {
-                const res = await axios.get(`/api/novels/${id}`);
-                const storyData = res.data;
-
-                // Verificar si los colaboradores están correctamente poblados
-                if (!storyData.collaborators || !Array.isArray(storyData.collaborators)) {
-                    throw new Error('Datos de colaboradores inválidos.');
-                }
-
-                setStory(storyData);
-                setLoading(false);
-            } catch (err) {
-                console.error('Error al cargar la historia:', err);
-                setError('Error al cargar la historia.');
-                setLoading(false);
+          try {
+            const res = await axios.get(`/api/novels/${id}`);
+            const storyData = res.data;
+      
+            // Verificar si los colaboradores están correctamente poblados
+            if (!storyData.collaborators || !Array.isArray(storyData.collaborators)) {
+              throw new Error('Datos de colaboradores inválidos.');
             }
+      
+            // Identificar colaboradores con 'Usuario Desconocido'
+            const invalidCollaborators = storyData.collaborators.filter(col => !col.user || !col.user.username);
+      
+            if (invalidCollaborators.length > 0) {
+              // Obtener los IDs de los colaboradores inválidos
+              const invalidIds = invalidCollaborators.map(col => col._id);
+      
+              // Hacer solicitudes para obtener los datos de estos usuarios
+              const userPromises = invalidIds.map(id => axios.get(`/api/users/${id}`));
+      
+              try {
+                const userResponses = await Promise.all(userPromises);
+                const usersData = userResponses.map(response => response.data);
+      
+                // Actualizar los colaboradores con los datos obtenidos
+                const updatedCollaborators = storyData.collaborators.map(col => {
+                  if (!col.user || !col.user.username) {
+                    const fetchedUser = usersData.find(user => user.username === col.username);
+                    if (fetchedUser) {
+                      return {
+                        ...col,
+                        user: fetchedUser,
+                      };
+                    }
+                  }
+                  return col;
+                });
+      
+                setStory({ ...storyData, collaborators: updatedCollaborators });
+              } catch (err) {
+                console.error('Error al obtener datos de colaboradores inválidos:', err);
+                // Opcional: manejar errores específicos
+              }
+            } else {
+              setStory(storyData);
+            }
+      
+            setLoading(false);
+          } catch (err) {
+            console.error('Error al cargar la historia:', err);
+            setError('Error al cargar la historia.');
+            setLoading(false);
+          }
         };
         fetchStory();
-    }, [id]);
-
+      }, [id]);
+      
 
     const handleSaveStory = async () => {
         try {

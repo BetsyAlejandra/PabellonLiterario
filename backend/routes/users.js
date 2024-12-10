@@ -226,27 +226,7 @@ router.put('/profile', isAuthenticated, upload.single('profilePhoto'), async (re
   }
 });
 
-// Ruta para obtener una sola sugerencia de usuario
-router.get('/api/users/suggestions', async (req, res) => {
-  const { name } = req.query;
 
-  if (!name) {
-    return res.status(400).json({ error: 'El parámetro "name" es requerido.' });
-  }
-
-  try {
-    const regex = new RegExp(name, 'i');
-    const user = await User.findOne({ username: regex }).select('username _id');
-    // Si no encuentras ningún usuario, puedes devolver null o un error
-    if (!user) {
-      return res.json(null);
-    }
-    return res.json(user);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Error en el servidor' });
-  }
-});
 
 router.get('/profileperson/:username', async (req, res) => {
   try {
@@ -281,6 +261,34 @@ router.get('/profileperson/:username', async (req, res) => {
     });
   } catch (error) {
     console.error('Error al obtener perfil de usuario:', error);
+    res.status(500).json({ message: 'Error interno del servidor', error: error.message });
+  }
+});
+
+// En el archivo de rutas de usuarios
+router.get('/users/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'ID de usuario inválido.' });
+    }
+    const user = await User.findById(id).select('username profilePhoto roles description socialLinks');
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado.' });
+    }
+    const profilePhotoUrl = user.profilePhoto.startsWith('http') 
+      ? user.profilePhoto
+      : `${req.protocol}://${req.get('host')}${user.profilePhoto}`;
+    
+    res.status(200).json({
+      username: user.username,
+      profilePhoto: profilePhotoUrl,
+      roles: user.roles || [],
+      description: user.description || 'Sin descripción',
+      socialLinks: user.socialLinks || [],
+    });
+  } catch (error) {
+    console.error('Error al obtener usuario por ID:', error);
     res.status(500).json({ message: 'Error interno del servidor', error: error.message });
   }
 });

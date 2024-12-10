@@ -311,36 +311,30 @@ router.put('/update/:id', upload, handleMulterError, async (req, res) => {
 router.delete('/:id/chapters/:chapterId', isAuthenticated, deleteChapter);
 router.post('/add-chapter/:id', addChapter);
 
+// Ruta para obtener una novela por ID con colaboradores poblados correctamente
 router.get('/:id', async (req, res) => {
   try {
-    const novel = await Novel.findById(req.params.id)
-      .populate({
-        path: 'collaborators.user', // Poblamos el campo `user` en `collaborators`
-        select: 'username profilePhoto roles description', // Seleccionamos los campos necesarios
-      });
+    const { id } = req.params;
 
-    if (!novel) {
-      return res.status(404).json({ message: 'Novela no encontrada' });
+    // Validar si el ID es un ObjectId válido
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'ID de novela inválido.' });
     }
 
-    // Transformamos los colaboradores para incluir la información del usuario poblado
-    const populatedCollaborators = novel.collaborators.map(collab => ({
-      _id: collab.user?._id || null,
-      role: collab.role,
-      username: collab.user?.username || 'Usuario Desconocido',
-      profilePhoto: collab.user?.profilePhoto || null,
-      roles: collab.user?.roles || [],
-      description: collab.user?.description || '',
-    }));
+    const novel = await Novel.findById(id).populate({
+      path: 'collaborators.user', // Asumiendo que 'user' es el campo de referencia en el esquema
+      select: 'username profilePhoto roles description',
+      model: 'User',
+    });
 
-    // Creamos el objeto de la novela incluyendo los colaboradores procesados
-    const novelObject = novel.toObject();
-    novelObject.collaborators = populatedCollaborators;
+    if (!novel) {
+      return res.status(404).json({ message: 'Novela no encontrada.' });
+    }
 
-    res.status(200).json(novelObject);
+    res.status(200).json(novel);
   } catch (error) {
     console.error('Error al obtener la novela:', error);
-    res.status(500).json({ message: 'Error interno del servidor' });
+    res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
 
