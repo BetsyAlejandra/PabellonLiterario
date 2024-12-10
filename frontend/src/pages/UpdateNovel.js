@@ -44,7 +44,7 @@ const UpdateNovel = () => {
     const [coverImage, setCoverImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
     const [collaborators, setCollaborators] = useState([{ username: '', role: '' }]);
-    const [userSuggestions, setUserSuggestions] = useState(null);
+    const [userSuggestions, setUserSuggestions] = useState([]);
     const [adaptations, setAdaptations] = useState([{ type: '', link: '' }]);
     const [rawOrigin, setRawOrigin] = useState({ origin: '', link: '' });
     const [languageOrigin, setLanguageOrigin] = useState('');
@@ -68,17 +68,17 @@ const UpdateNovel = () => {
 
         if (key === 'role') {
             try {
+                let data = [];
                 if (value === 'Editor') {
-                    const { data } = await axios.get('/api/users/editors');
-                    setUserSuggestions(data); // Sugerencias para editores
+                    const response = await axios.get('/api/users/editors');
+                    data = response.data;
                 } else if (value === 'Co-Traductor') {
-                    const { data } = await axios.get('/api/users/translators');
-                    setUserSuggestions(data); // Sugerencias para traductores
-                } else {
-                    setUserSuggestions([]); // Limpia sugerencias si no es un rol relevante
+                    const response = await axios.get('/api/users/translators');
+                    data = response.data;
                 }
+                setUserSuggestions(Array.isArray(data) ? data : []);
             } catch (error) {
-                console.error('Error al obtener usuarios para el rol:', error);
+                console.error('Error al obtener usuarios:', error);
                 setUserSuggestions([]);
             }
         }
@@ -86,7 +86,7 @@ const UpdateNovel = () => {
         if (key === 'username' && value.length > 2) {
             try {
                 const { data } = await axios.get(`/api/users/suggestions?name=${value}`);
-                setUserSuggestions(data); // Sugerencias de búsqueda por nombre
+                setUserSuggestions(Array.isArray(data) ? data : []);
             } catch (error) {
                 console.error('Error al buscar usuario:', error);
                 setUserSuggestions([]);
@@ -95,6 +95,7 @@ const UpdateNovel = () => {
 
         setCollaborators(updatedCollaborators);
     };
+
 
 
     const removeCollaborator = (index) => {
@@ -443,11 +444,13 @@ const UpdateNovel = () => {
                                             onChange={(e) => handleCollaboratorChange(index, 'username', e.target.value)}
                                         />
                                         <datalist id={`user-suggestions-${index}`}>
-                                            {userSuggestions &&
+                                            {Array.isArray(userSuggestions) &&
                                                 userSuggestions.map((suggestion) => (
                                                     <option key={suggestion._id} value={suggestion.username} />
                                                 ))}
                                         </datalist>
+
+
 
                                         <select
                                             className="form-control mt-2"

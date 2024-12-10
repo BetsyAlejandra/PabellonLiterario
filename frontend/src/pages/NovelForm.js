@@ -17,10 +17,10 @@ const SUBGENRES = [
   'Cambios de Apariencia', 'Buddhismo', 'Cultivación', 'Protagonista Inteligente',
   'Intereses Amorosos Fuertes', 'Dragones', 'Fantasmas', 'Animales Mágicos',
   'Formaciones Mágicas', 'Feng Shui', 'Relaciones No-Humanas', 'Toque Cómico', '',
-  'Viaje en el Tiempo','Transmigración','Mitología','Venganza','Tsundere','Shounen Ai',
-  'Época Moderna','Reencarnación','Protagonista Desinteresado','Inmortales','Oscuro',  
-  'Demonios','Demoniaco','Diablos','Gore','Multiples Identidades','Pareja Poderosa',
-  'Romance lento','Detectives','Espias','Pasado Traumatico',
+  'Viaje en el Tiempo', 'Transmigración', 'Mitología', 'Venganza', 'Tsundere', 'Shounen Ai',
+  'Época Moderna', 'Reencarnación', 'Protagonista Desinteresado', 'Inmortales', 'Oscuro',
+  'Demonios', 'Demoniaco', 'Diablos', 'Gore', 'Multiples Identidades', 'Pareja Poderosa',
+  'Romance lento', 'Detectives', 'Espias', 'Pasado Traumatico',
 ];
 
 const ADAPTATION_TYPES = [
@@ -166,34 +166,34 @@ const NovelForm = () => {
     updatedCollaborators[index][key] = value;
 
     if (key === 'role') {
-      try {
-        if (value === 'Editor') {
-          const { data } = await axios.get('/api/users/editors');
-          setUserSuggestions(data); // Actualiza sugerencias con los editores
-        } else if (value === 'Co-Traductor') {
-          const { data } = await axios.get('/api/users/translators');
-          setUserSuggestions(data); // Actualiza sugerencias con los traductores
-        } else {
-          setUserSuggestions([]); // Limpia las sugerencias si no es un rol relevante
+        try {
+            let data = [];
+            if (value === 'Editor') {
+                const response = await axios.get('/api/users/editors');
+                data = response.data; // Asegúrate de que sea un arreglo
+            } else if (value === 'Co-Traductor') {
+                const response = await axios.get('/api/users/translators');
+                data = response.data; // Asegúrate de que sea un arreglo
+            }
+            setUserSuggestions(Array.isArray(data) ? data : []); // Valida que sea un arreglo
+        } catch (error) {
+            console.error('Error al obtener usuarios:', error);
+            setUserSuggestions([]); // Limpia sugerencias en caso de error
         }
-      } catch (error) {
-        console.error('Error al obtener usuarios para el rol:', error);
-        setUserSuggestions([]);
-      }
     }
 
     if (key === 'username' && value.length > 2) {
-      try {
-        const { data } = await axios.get(`/api/users/suggestions?name=${value}`);
-        setUserSuggestions(data); // Sugerencias de búsqueda por nombre
-      } catch (error) {
-        console.error('Error al buscar usuario:', error);
-        setUserSuggestions([]);
-      }
+        try {
+            const { data } = await axios.get(`/api/users/suggestions?name=${value}`);
+            setUserSuggestions(Array.isArray(data) ? data : []); // Valida que sea un arreglo
+        } catch (error) {
+            console.error('Error al buscar usuario:', error);
+            setUserSuggestions([]);
+        }
     }
 
     setCollaborators(updatedCollaborators);
-  };
+};
 
 
   const removeCollaborator = (index) => {
@@ -439,7 +439,7 @@ const NovelForm = () => {
                       onChange={(e) => handleCollaboratorChange(index, 'username', e.target.value)}
                     />
                     <datalist id={`user-suggestions-${index}`}>
-                      {userSuggestions &&
+                      {Array.isArray(userSuggestions) &&
                         userSuggestions.map((suggestion) => (
                           <option key={suggestion._id} value={suggestion.username} />
                         ))}
