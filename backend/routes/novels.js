@@ -323,40 +323,6 @@ router.put('/update/:id', upload, handleMulterError, async (req, res) => {
 });
 
 
-// Obtener capítulos actualizados de una novela
-router.get('/:id/updated-chapters', async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    // Validar si el ID es un ObjectId válido
-    if (!/^[0-9a-fA-F]{24}$/.test(id)) {
-      return res.status(400).json({ message: 'ID no válido' });
-    }
-
-    const novel = await Novel.findById(id);
-
-    if (!novel) {
-      return res.status(404).json({ message: 'Novela no encontrada' });
-    }
-
-    // Obtener capítulos actualizados en las últimas 7 días (puedes ajustar el rango)
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-    const updatedChapters = novel.chapters.filter(
-      (chapter) => chapter.updatedAt && new Date(chapter.updatedAt) >= oneWeekAgo
-    );
-
-    res.status(200).json({
-      message: 'Capítulos actualizados obtenidos exitosamente.',
-      updatedChapters,
-    });
-  } catch (error) {
-    console.error('Error al obtener capítulos actualizados:', error);
-    res.status(500).json({ message: 'Error al obtener capítulos actualizados.', error: error.message });
-  }
-});
-
 router.post('/add-chapter/:id', addChapter);
 router.delete('/:id', isAuthenticated, deleteNovel);
 

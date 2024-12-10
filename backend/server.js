@@ -12,6 +12,7 @@ const fs = require('fs');
 // Rutas
 const novelRoutes = require('./routes/novels');
 const userRoutes = require('./routes/users');
+const actualizacionRoutes = require('./routes/actualizaciones');
 
 // Configuración de Rate Limiting
 const limiter = rateLimit({
@@ -33,8 +34,6 @@ app.set('trust proxy', 1); // Si estás usando un solo proxy, como Nginx
 // Middleware de seguridad
 app.use(helmet());
 
-// Aplicar Rate Limiting a todas las solicitudes
-app.use(limiter);
 
 // Configuración de CORS
 app.use(cors({
@@ -68,6 +67,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Rutas API
 app.use('/api/users', userRoutes);
 app.use('/api/novels', novelRoutes);
+app.use('/api/actualizaciones', actualizacionRoutes);
+
 
 // Servir en producción
 if (process.env.NODE_ENV === 'production') {
