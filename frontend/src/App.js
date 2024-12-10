@@ -29,6 +29,7 @@ import NovelsPage from './pages/NovelsPage';
 import TranslatorsPage from './pages/TraductoresPage';
 import Postulacion from './pages/Postulacion';
 import BuscarPorFiltros from './pages/BuscarPorFiltros';
+import EditorsPage from './pages/EditorsPages';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="/library" element={<Library />} />
           <Route path='/Novelas' element={<NovelsPage />} />
           <Route path='/traductores' element={<TranslatorsPage />} />
+          <Route path='/editores' element={<EditorsPage />} />
           <Route path='/postular' element={<Postulacion />} />
           <Route path='/generos' element={<BuscarPorFiltros />} />
           <Route path="/story-detail/:id" element={<StoryDetail />} />

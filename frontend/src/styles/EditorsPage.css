@@ -1,0 +1,46 @@
+.editors-page-container {
+    padding: 20px;
+  }
+  
+  .editors-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .editors-title {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .editors-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  .editor-card {
+    transition: transform 0.2s;
+  }
+  
+  .editor-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .editor-profile-photo {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .editor-name {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .editor-roles {
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  .editor-profile-button {
+    width: 100%;
+  }
+  

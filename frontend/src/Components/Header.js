@@ -10,6 +10,7 @@ import {
   Button,
   Modal,
   Spinner,
+  NavDropdown,
 } from "react-bootstrap";
 import logo from "../assets/logo.png"; // Logo de fantasía
 import { FaSearch } from "react-icons/fa";
@@ -149,13 +150,19 @@ const Header = () => {
             >
               Novelas
             </Nav.Link>
-            <Nav.Link
-              as="div"
+            {/* Menú Desplegable para Traductores y Editores */}
+            <NavDropdown
+              title="Roles" // Título del desplegable
+              id="roles-dropdown"
               className="custom-link"
-              onClick={() => navigate("/traductores")}
             >
-              Traductores
-            </Nav.Link>
+              <NavDropdown.Item onClick={() => navigate("/traductores")}>
+                Traductores
+              </NavDropdown.Item>
+              <NavDropdown.Item onClick={() => navigate("/editores")}>
+                Editores
+              </NavDropdown.Item>
+            </NavDropdown>
             <Nav.Link
               as="div"
               className="custom-link"
