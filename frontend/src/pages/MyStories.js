@@ -82,15 +82,17 @@ const MyStories = () => {
     };
 
 
-    // Función para manejar el clic en el botón de eliminar capítulo
     const handleDeleteChapter = (storyId, chapterId, chapterTitle) => {
-        setChapterToDelete({ id: chapterId, title: chapterTitle, storyId }); // Establece el capítulo a eliminar
-        setConfirmDeleteModalShow(true); // Muestra el modal de confirmación
+        console.log('Eliminando capítulo:', { storyId, chapterId, chapterTitle });
+        setChapterToDelete({ id: chapterId, title: chapterTitle, storyId });
+        setConfirmDeleteModalShow(true);
     };
 
     // Función para confirmar la eliminación del capítulo
     const confirmDeleteChapter = async () => {
         if (!chapterToDelete) return;
+
+        console.log('Confirmando eliminación de capítulo:', chapterToDelete);
 
         try {
             await axios.delete(`/api/novels/${chapterToDelete.storyId}/chapters/${chapterToDelete.id}`, {
