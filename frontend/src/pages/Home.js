@@ -16,63 +16,56 @@ const Home = () => {
   const [error, setError] = useState(null); // Estado para manejar errores
 
   useEffect(() => {
-    const fetchNovels = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('/api/novels');
-        const contentType = response.headers.get('content-type');
-
-        if (!contentType || !contentType.includes('application/json')) {
-          throw new Error('Respuesta no es JSON');
+        // Cargar novelas
+        const novelsResponse = await fetch('/api/novels');
+        const novelsContentType = novelsResponse.headers.get('content-type');
+        if (!novelsContentType || !novelsContentType.includes('application/json')) {
+          throw new Error('La respuesta de novelas no es JSON');
         }
-
-        const data = await response.json();
-
-        if (Array.isArray(data)) {
-          setNovels(data); // Asegúrate de que sea un arreglo
-        } else {
-          throw new Error('Respuesta inesperada: no es un arreglo');
+        const novelsData = await novelsResponse.json();
+        if (!Array.isArray(novelsData)) {
+          throw new Error('Respuesta inesperada: novelas no es un arreglo');
         }
-
+        setNovels(novelsData);
+  
+        // Cargar últimas novelas
+        const latestNovelsResponse = await fetch('/api/novels/latest');
+        if (!latestNovelsResponse.ok) throw new Error('Error al obtener últimas novelas');
+        const latestNovelsData = await latestNovelsResponse.json();
+        setLatestNovels(latestNovelsData);
+  
+        // Cargar capítulos actualizados
+        const updatedChaptersList = [];
+        for (const novel of novelsData) {
+          const chaptersResponse = await fetch(`/api/novels/${novel._id}/updated-chapters`);
+          if (!chaptersResponse.ok) {
+            console.error(`Error al obtener capítulos para novela ${novel._id}`);
+            continue;
+          }
+          const chaptersData = await chaptersResponse.json();
+          updatedChaptersList.push(...chaptersData.updatedChapters);
+        }
+  
+        // Ordenar capítulos por fecha y limitar a los 10 más recientes
+        updatedChaptersList.sort(
+          (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+        );
+        setUpdatedChapters(updatedChaptersList.slice(0, 10));
+  
+        // Establecer el estado de carga como falso
         setLoading(false);
       } catch (error) {
-        console.error('Error en fetchNovels:', error.message);
-        setError(error.message);
-        setNovels([]); // Asegúrate de que novels siempre sea un arreglo
-        setLoading(false);
-      }
-    };
-
-    const fetchLatestNovels = async () => {
-      try {
-        const response = await fetch('/api/novels/latest');
-        if (!response.ok) throw new Error('Error al obtener últimas novelas');
-        const data = await response.json();
-        setLatestNovels(data); // Actualiza el estado
-      } catch (error) {
-        console.error('Error en fetchLatestNovels:', error.message);
-        setError(error.message);
-        setLatestNovels([]);
-      }
-    };
-
-    const fetchUpdatedChapters = async () => {
-      try {
-        const response = await fetch(`/api/novels/:id/updated-chapters`);
-        if (!response.ok) throw new Error('Error al obtener capítulos actualizados.');
-        const data = await response.json();
-        setUpdatedChapters(data.updatedChapters);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error en fetchUpdatedChapters:', error.message);
+        console.error('Error en fetchData:', error.message);
         setError(error.message);
         setLoading(false);
       }
     };
-
-    fetchNovels();
-    fetchLatestNovels();
-    fetchUpdatedChapters();
+  
+    fetchData();
   }, []);
+  
 
   const settings = {
     dots: true,
