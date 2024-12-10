@@ -1,6 +1,6 @@
 .user-header {
   background: linear-gradient(120deg, #1e1e2f, #2c2c3d);
-  padding: 20px;
+  padding: 45px;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
@@ -43,7 +43,7 @@
 
 .profile-moon-image {
   position: absolute;
-  top: -25px;
+  top: -22px;
   left: 50%;
   transform: translateX(-50%);
   width: 200px;

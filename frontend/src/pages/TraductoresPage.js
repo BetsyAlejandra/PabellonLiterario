@@ -10,7 +10,7 @@ const TranslatorsPage = () => {
 
   // Estados de paginación
   const [currentPage, setCurrentPage] = useState(1);
-  const translatorsPerPage = 6;
+  const translatorsPerPage = 8;
 
   useEffect(() => {
     const fetchTranslators = async () => {
