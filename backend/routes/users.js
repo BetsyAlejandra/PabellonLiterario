@@ -77,6 +77,17 @@ router.get('/translators', async (req, res) => {
   }
 });
 
+router.get('/editors', async (req, res) => {
+  try {
+    const editors = await User.find({ roles: 'Editor' }).select('username roles email profilePhoto');
+    res.status(200).json(editors);
+  } catch (error) {
+    console.error('Error al obtener editores:', error);
+    res.status(500).json({ message: 'Error al obtener editores', error });
+  }
+});
+
+
 // Ruta para asignar el rol de Admin
 router.put('/assign-admin', isAdmin, async (req, res) => {
   const { userId } = req.body;
@@ -273,10 +284,5 @@ router.get('/profileperson/:username', async (req, res) => {
     res.status(500).json({ message: 'Error interno del servidor', error: error.message });
   }
 });
-
-
-
-
-
 
 module.exports = router;

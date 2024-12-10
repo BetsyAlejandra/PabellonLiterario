@@ -18,10 +18,10 @@ const SUBGENRES = [
     'Cambios de Apariencia', 'Buddhismo', 'Cultivación', 'Protagonista Inteligente',
     'Intereses Amorosos Fuertes', 'Dragones', 'Fantasmas', 'Animales Mágicos',
     'Formaciones Mágicas', 'Feng Shui', 'Relaciones No-Humanas', 'Toque Cómico', '',
-    'Viaje en el Tiempo','Transmigración','Mitología','Venganza','Tsundere','Shounen Ai',
-    'Época Moderna','Reencarnación','Protagonista Desinteresado','Inmortales','Oscuro',  
-    'Demonios','Demoniaco','Diablos','Gore','Multiples Identidades','Pareja Poderosa',
-    'Romance lento','Detectives','Espias','Pasado Traumatico',
+    'Viaje en el Tiempo', 'Transmigración', 'Mitología', 'Venganza', 'Tsundere', 'Shounen Ai',
+    'Época Moderna', 'Reencarnación', 'Protagonista Desinteresado', 'Inmortales', 'Oscuro',
+    'Demonios', 'Demoniaco', 'Diablos', 'Gore', 'Multiples Identidades', 'Pareja Poderosa',
+    'Romance lento', 'Detectives', 'Espias', 'Pasado Traumatico',
 ];
 
 const ADAPTATION_TYPES = [
@@ -30,7 +30,7 @@ const ADAPTATION_TYPES = [
 ];
 
 const LANGUAGES = ['Japonés', 'Chino', 'Coreano', 'Inglés'];
-const ROLES = ['Traductor', 'Editor', 'Ilustrador', 'Corrector'];
+const ROLES = ['Co-Traductor', 'Editor', 'Ilustrador', 'Corrector'];
 
 const UpdateNovel = () => {
     const { id } = useParams(); // ID de la novela para editar
@@ -66,18 +66,36 @@ const UpdateNovel = () => {
         const updatedCollaborators = [...collaborators];
         updatedCollaborators[index][key] = value;
 
+        if (key === 'role') {
+            try {
+                if (value === 'Editor') {
+                    const { data } = await axios.get('/api/users/editors');
+                    setUserSuggestions(data); // Sugerencias para editores
+                } else if (value === 'Co-Traductor') {
+                    const { data } = await axios.get('/api/users/translators');
+                    setUserSuggestions(data); // Sugerencias para traductores
+                } else {
+                    setUserSuggestions([]); // Limpia sugerencias si no es un rol relevante
+                }
+            } catch (error) {
+                console.error('Error al obtener usuarios para el rol:', error);
+                setUserSuggestions([]);
+            }
+        }
+
         if (key === 'username' && value.length > 2) {
             try {
                 const { data } = await axios.get(`/api/users/suggestions?name=${value}`);
-                setUserSuggestions(data); // data es un objeto o null
+                setUserSuggestions(data); // Sugerencias de búsqueda por nombre
             } catch (error) {
-                console.error(error);
-                setUserSuggestions(null);
+                console.error('Error al buscar usuario:', error);
+                setUserSuggestions([]);
             }
         }
 
         setCollaborators(updatedCollaborators);
     };
+
 
     const removeCollaborator = (index) => {
         const updated = [...collaborators];
@@ -151,7 +169,7 @@ const UpdateNovel = () => {
             setShowModal(true);
             return;
         }
-        
+
 
 
         // Validar colaboradores si son obligatorios (en el create eran obligatorios solo si se llenaba algo)
@@ -415,7 +433,7 @@ const UpdateNovel = () => {
                             <div className="form-group mb-3">
                                 <label>Colaboradores</label>
                                 {collaborators.map((collaborator, index) => (
-                                    <div key={index}>
+                                    <div key={index} className="mb-2">
                                         <input
                                             type="text"
                                             placeholder="Usuario"
@@ -425,13 +443,14 @@ const UpdateNovel = () => {
                                             onChange={(e) => handleCollaboratorChange(index, 'username', e.target.value)}
                                         />
                                         <datalist id={`user-suggestions-${index}`}>
-                                            {userSuggestions && (
-                                                <option value={userSuggestions.username} />
-                                            )}
+                                            {userSuggestions &&
+                                                userSuggestions.map((suggestion) => (
+                                                    <option key={suggestion._id} value={suggestion.username} />
+                                                ))}
                                         </datalist>
 
                                         <select
-                                            className="form-control"
+                                            className="form-control mt-2"
                                             value={collaborator.role}
                                             onChange={(e) => handleCollaboratorChange(index, 'role', e.target.value)}
                                         >
@@ -445,7 +464,7 @@ const UpdateNovel = () => {
 
                                         <button
                                             type="button"
-                                            className="btn btn-danger btn-sm"
+                                            className="btn btn-danger btn-sm mt-2"
                                             onClick={() => removeCollaborator(index)}
                                         >
                                             Eliminar colaborador
@@ -454,12 +473,13 @@ const UpdateNovel = () => {
                                 ))}
                                 <button
                                     type="button"
-                                    className="add-button"
+                                    className="btn btn-primary mt-2"
                                     onClick={() => setCollaborators([...collaborators, { username: '', role: '' }])}
                                 >
                                     Añadir Colaborador
                                 </button>
                             </div>
+
 
                             <div className="form-group mb-3">
                                 <label>Adaptaciones</label>

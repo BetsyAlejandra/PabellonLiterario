@@ -16,7 +16,11 @@ const SUBGENRES = [
   'Adaptado a Drama CD', 'Adaptado a Manhua', 'Amnesia', 'China Antigua',
   'Cambios de Apariencia', 'Buddhismo', 'Cultivación', 'Protagonista Inteligente',
   'Intereses Amorosos Fuertes', 'Dragones', 'Fantasmas', 'Animales Mágicos',
-  'Formaciones Mágicas', 'Feng Shui', 'Relaciones No-Humanas',
+  'Formaciones Mágicas', 'Feng Shui', 'Relaciones No-Humanas', 'Toque Cómico', '',
+  'Viaje en el Tiempo','Transmigración','Mitología','Venganza','Tsundere','Shounen Ai',
+  'Época Moderna','Reencarnación','Protagonista Desinteresado','Inmortales','Oscuro',  
+  'Demonios','Demoniaco','Diablos','Gore','Multiples Identidades','Pareja Poderosa',
+  'Romance lento','Detectives','Espias','Pasado Traumatico',
 ];
 
 const ADAPTATION_TYPES = [
@@ -25,7 +29,7 @@ const ADAPTATION_TYPES = [
 ];
 
 const LANGUAGES = ['Japonés', 'Chino', 'Coreano', 'Inglés'];
-const ROLES = ['Traductor', 'Editor', 'Ilustrador', 'Corrector'];
+const ROLES = ['Co-Traductor', 'Editor', 'Ilustrador', 'Corrector'];
 
 const NovelForm = () => {
   const navigate = useNavigate();
@@ -37,8 +41,8 @@ const NovelForm = () => {
   const [tags, setTags] = useState('');
   const [coverImage, setCoverImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
-  const [collaborators, setCollaborators] = useState([{ username: '', role: '' }]);
-  const [userSuggestions, setUserSuggestions] = useState(null);
+  const [collaborators, setCollaborators] = useState([]);
+  const [userSuggestions, setUserSuggestions] = useState([]);
   const [adaptations, setAdaptations] = useState([{ type: '', link: '' }]);
   const [rawOrigin, setRawOrigin] = useState({ origin: '', link: '' });
   const [languageOrigin, setLanguageOrigin] = useState('');
@@ -161,18 +165,36 @@ const NovelForm = () => {
     const updatedCollaborators = [...collaborators];
     updatedCollaborators[index][key] = value;
 
+    if (key === 'role') {
+      try {
+        if (value === 'Editor') {
+          const { data } = await axios.get('/api/users/editors');
+          setUserSuggestions(data); // Actualiza sugerencias con los editores
+        } else if (value === 'Co-Traductor') {
+          const { data } = await axios.get('/api/users/translators');
+          setUserSuggestions(data); // Actualiza sugerencias con los traductores
+        } else {
+          setUserSuggestions([]); // Limpia las sugerencias si no es un rol relevante
+        }
+      } catch (error) {
+        console.error('Error al obtener usuarios para el rol:', error);
+        setUserSuggestions([]);
+      }
+    }
+
     if (key === 'username' && value.length > 2) {
       try {
         const { data } = await axios.get(`/api/users/suggestions?name=${value}`);
-        setUserSuggestions(data); // data es un objeto o null
+        setUserSuggestions(data); // Sugerencias de búsqueda por nombre
       } catch (error) {
-        console.error(error);
-        setUserSuggestions(null);
+        console.error('Error al buscar usuario:', error);
+        setUserSuggestions([]);
       }
     }
 
     setCollaborators(updatedCollaborators);
   };
+
 
   const removeCollaborator = (index) => {
     const updated = [...collaborators];
@@ -211,102 +233,102 @@ const NovelForm = () => {
 
   const isWriter = collaborators.some((collaborator) => collaborator.role === 'Escritor');
 
-return(
-<div className="novel-form-container">
-    <div className="novel-form-card">
-      <div className="container my-5">
-        {/* Modal */}
-        <Modal
-          show={showModal}
-          onHide={handleCloseModal}
-          centered
-          className={modalType === 'success' ? 'modal-success' : 'modal-error'}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>{modalType === 'success' ? '¡Éxito!' : 'Error'}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>{modalMessage}</Modal.Body>
-          <Modal.Footer>
-            <Button
-              variant={modalType === 'success' ? 'success' : 'danger'}
-              onClick={handleCloseModal}
-            >
-              Cerrar
-            </Button>
-          </Modal.Footer>
-        </Modal>
+  return (
+    <div className="novel-form-container">
+      <div className="novel-form-card">
+        <div className="container my-5">
+          {/* Modal */}
+          <Modal
+            show={showModal}
+            onHide={handleCloseModal}
+            centered
+            className={modalType === 'success' ? 'modal-success' : 'modal-error'}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>{modalType === 'success' ? '¡Éxito!' : 'Error'}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>{modalMessage}</Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant={modalType === 'success' ? 'success' : 'danger'}
+                onClick={handleCloseModal}
+              >
+                Cerrar
+              </Button>
+            </Modal.Footer>
+          </Modal>
 
-        {/* Modal para subgéneros */}
-        <Modal show={showSubGenreModal} onHide={closeSubGenreModal} centered>
-          <Modal.Header closeButton>
-            <Modal.Title>Selecciona Subgéneros</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Table className="fantasy-table">
-              <tbody>
-                {SUBGENRES.map((subGenre) => (
-                  <tr key={subGenre}>
-                    <td>
-                      <input
-                        type="checkbox"
-                        checked={subGenres.includes(subGenre)}
-                        onChange={() => toggleSubGenre(subGenre)}
-                        className="fantasy-checkbox"
-                      />
-                    </td>
-                    <td>{subGenre}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="outline-light" onClick={closeSubGenreModal}>Cerrar</Button>
-          </Modal.Footer>
-        </Modal>
+          {/* Modal para subgéneros */}
+          <Modal show={showSubGenreModal} onHide={closeSubGenreModal} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Selecciona Subgéneros</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Table className="fantasy-table">
+                <tbody>
+                  {SUBGENRES.map((subGenre) => (
+                    <tr key={subGenre}>
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={subGenres.includes(subGenre)}
+                          onChange={() => toggleSubGenre(subGenre)}
+                          className="fantasy-checkbox"
+                        />
+                      </td>
+                      <td>{subGenre}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="outline-light" onClick={closeSubGenreModal}>Cerrar</Button>
+            </Modal.Footer>
+          </Modal>
 
-        {/* Layout con dos columnas: izquierda (preview) y derecha (formulario) */}
-        <div className="row">
-          <div className="col-md-4">
-            {previewImage && (
-              <div className="novel-preview">
-                <h5 className="preview-title">Previsualización de la Portada</h5>
-                <img src={previewImage} alt="Preview" className="novel-cover-preview" />
-              </div>
-            )}
-          </div>
+          {/* Layout con dos columnas: izquierda (preview) y derecha (formulario) */}
+          <div className="row">
+            <div className="col-md-4">
+              {previewImage && (
+                <div className="novel-preview">
+                  <h5 className="preview-title">Previsualización de la Portada</h5>
+                  <img src={previewImage} alt="Preview" className="novel-cover-preview" />
+                </div>
+              )}
+            </div>
 
-          <div className="col-md-8">
-            {/* Formulario */}
-            <form onSubmit={handleSubmit}>
-              <h2 className="form-title">Crear Nueva Novela</h2>
+            <div className="col-md-8">
+              {/* Formulario */}
+              <form onSubmit={handleSubmit}>
+                <h2 className="form-title">Crear Nueva Novela</h2>
 
-              {/* Título */}
-              <div className="form-group">
-                <label>
-                  Título <span className="required">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control fantasy-input"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-                />
-              </div>
+                {/* Título */}
+                <div className="form-group">
+                  <label>
+                    Título <span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control fantasy-input"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                  />
+                </div>
 
-              {/* Sinopsis */}
-              <div className="form-group">
-                <label>
-                  Sinopsis <span className="required">*</span>
-                </label>
-                <textarea
-                  className="form-control fantasy-input"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                />
-              </div>
+                {/* Sinopsis */}
+                <div className="form-group">
+                  <label>
+                    Sinopsis <span className="required">*</span>
+                  </label>
+                  <textarea
+                    className="form-control fantasy-input"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    required
+                  />
+                </div>
 
                 {/* Idioma de origen */}
                 <label>Idioma de Origen</label>
@@ -337,59 +359,59 @@ return(
                   </div>
                 )}
 
-              {/* Portada */}
-              <div className="form-group">
-                <label>
-                  Portada <span className="required">*</span>
-                </label>
-                <input
-                  type="file"
-                  className="form-control fantasy-input"
-                  onChange={handleImageChange}
-                  accept="image/*"
-                  required
-                />
-              </div>
+                {/* Portada */}
+                <div className="form-group">
+                  <label>
+                    Portada <span className="required">*</span>
+                  </label>
+                  <input
+                    type="file"
+                    className="form-control fantasy-input"
+                    onChange={handleImageChange}
+                    accept="image/*"
+                    required
+                  />
+                </div>
 
-              {/* Género */}
-              <div className="form-group">
-                <label>
-                  Género <span className="required">*</span>
-                </label>
-                <select
-                  className="form-control fantasy-input"
-                  value={selectedGenre}
-                  onChange={(e) => setSelectedGenre(e.target.value)}
-                  required
-                >
-                  <option value="">Selecciona un género</option>
-                  {GENRES.map((genre) => (
-                    <option key={genre} value={genre}>
-                      {genre}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                {/* Género */}
+                <div className="form-group">
+                  <label>
+                    Género <span className="required">*</span>
+                  </label>
+                  <select
+                    className="form-control fantasy-input"
+                    value={selectedGenre}
+                    onChange={(e) => setSelectedGenre(e.target.value)}
+                    required
+                  >
+                    <option value="">Selecciona un género</option>
+                    {GENRES.map((genre) => (
+                      <option key={genre} value={genre}>
+                        {genre}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-              {/* Subgéneros */}
-              <div className="form-group">
-                <label>Subgéneros (hasta 15)</label>
-                <Button variant="outline-light" onClick={() => setShowSubGenreModal(true)}>
-                  Seleccionar Subgéneros
-                </Button>
-              </div>
+                {/* Subgéneros */}
+                <div className="form-group">
+                  <label>Subgéneros (hasta 15)</label>
+                  <Button variant="outline-light" onClick={() => setShowSubGenreModal(true)}>
+                    Seleccionar Subgéneros
+                  </Button>
+                </div>
 
-              {/* Etiquetas */}
-              <div className="form-group">
-                <label>Etiquetas (separadas por coma)</label>
-                <input
-                  type="text"
-                  className="form-control fantasy-input"
-                  value={tags}
-                  onChange={(e) => setTags(e.target.value)}
-                  placeholder="ej: romance, acción, drama"
-                />
-              </div>
+                {/* Etiquetas */}
+                <div className="form-group">
+                  <label>Etiquetas (separadas por coma)</label>
+                  <input
+                    type="text"
+                    className="form-control fantasy-input"
+                    value={tags}
+                    onChange={(e) => setTags(e.target.value)}
+                    placeholder="ej: romance, acción, drama"
+                  />
+                </div>
 
                 <label htmlFor="classification">Clasificación:</label>
                 <select
@@ -417,10 +439,12 @@ return(
                       onChange={(e) => handleCollaboratorChange(index, 'username', e.target.value)}
                     />
                     <datalist id={`user-suggestions-${index}`}>
-                      {userSuggestions && (
-                        <option value={userSuggestions.username} />
-                      )}
+                      {userSuggestions &&
+                        userSuggestions.map((suggestion) => (
+                          <option key={suggestion._id} value={suggestion.username} />
+                        ))}
                     </datalist>
+
 
                     <select
                       className="form-control fantasy-input"
@@ -434,6 +458,7 @@ return(
                         </option>
                       ))}
                     </select>
+
 
                     <button
                       type="button"
@@ -517,25 +542,25 @@ return(
                   placeholder="Enlace a la novela original"
                 />
 
-              {/* Estado */}
-              <div className="form-group">
-                <label>Estado</label>
-                <select
-                  className="form-control fantasy-input"
-                  value={progress}
-                  onChange={(e) => setProgress(e.target.value)}
-                  required
-                >
-                  <option value="En progreso">En progreso</option>
-                  <option value="Finalizada">Finalizada</option>
-                  <option value="Pausada">Pausada</option>
-                </select>
-              </div>
+                {/* Estado */}
+                <div className="form-group">
+                  <label>Estado</label>
+                  <select
+                    className="form-control fantasy-input"
+                    value={progress}
+                    onChange={(e) => setProgress(e.target.value)}
+                    required
+                  >
+                    <option value="En progreso">En progreso</option>
+                    <option value="Finalizada">Finalizada</option>
+                    <option value="Pausada">Pausada</option>
+                  </select>
+                </div>
 
-              {/* Botón de envío */}
-              <button type="submit" className="fantasy-button" disabled={loading}>
-                {loading ? 'Creando...' : 'Crear Novela'}
-              </button>
+                {/* Botón de envío */}
+                <button type="submit" className="fantasy-button" disabled={loading}>
+                  {loading ? 'Creando...' : 'Crear Novela'}
+                </button>
               </form>
             </div>
           </div>
