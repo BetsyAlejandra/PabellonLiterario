@@ -41,7 +41,7 @@ const NovelForm = () => {
   const [tags, setTags] = useState('');
   const [coverImage, setCoverImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
-  const [collaborators, setCollaborators] = useState([{ user: '', role: '' }]);
+  const [collaborators, setCollaborators] = useState([]);
   const [userSuggestions, setUserSuggestions] = useState([]);
   const [adaptations, setAdaptations] = useState([{ type: '', link: '' }]);
   const [rawOrigin, setRawOrigin] = useState({ origin: '', link: '' });
@@ -64,10 +64,9 @@ const NovelForm = () => {
 
   const validateCollaborators = () => {
     return collaborators.every(
-      (collaborator) => collaborator.user.trim() !== '' && collaborator.role.trim() !== ''
+      (collaborator) => collaborator.username.trim() !== '' && collaborator.role.trim() !== ''
     );
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,8 +78,7 @@ const NovelForm = () => {
       !selectedGenre ||
       !classification ||
       !languageOrigin ||
-      !rawOrigin.origin ||
-      !rawOrigin.link // Asegúrate de que rawOrigin tenga ambos campos
+      !rawOrigin
     ) {
       setModalMessage('Por favor, completa todos los campos obligatorios.');
       setModalType('error');
@@ -103,7 +101,7 @@ const NovelForm = () => {
     }
 
     if (!validateCollaborators()) {
-      setModalMessage('Todos los colaboradores deben tener un usuario y un rol.');
+      setModalMessage('Todos los colaboradores deben tener un nombre de usuario y un rol.');
       setModalType('error');
       setShowModal(true);
       return;
@@ -117,7 +115,7 @@ const NovelForm = () => {
     formData.append('classification', classification);
     formData.append('tags', JSON.stringify(tags.split(',').map((tag) => tag.trim())));
     formData.append('coverImage', coverImage);
-    formData.append('collaborators', JSON.stringify(collaborators)); // Ahora contiene 'user' y 'role'
+    formData.append('collaborators', JSON.stringify(collaborators));
     formData.append('adaptations', JSON.stringify(adaptations));
     formData.append('rawOrigin', JSON.stringify(rawOrigin));
     formData.append('languageOrigin', languageOrigin);
@@ -147,7 +145,6 @@ const NovelForm = () => {
     }
   };
 
-
   const resetForm = () => {
     setTitle('');
     setDescription('');
@@ -157,48 +154,46 @@ const NovelForm = () => {
     setTags('');
     setCoverImage(null);
     setPreviewImage(null);
-    setCollaborators([{ user: '', role: '' }]); // Cambiado de 'username' a 'user'
+    setCollaborators([{ username: '', role: '' }]);
     setAdaptations([{ type: '', link: '' }]);
     setRawOrigin({ origin: '', link: '' });
     setLanguageOrigin('');
     setProgress('En progreso');
   };
 
-
   const handleCollaboratorChange = async (index, key, value) => {
     const updatedCollaborators = [...collaborators];
     updatedCollaborators[index][key] = value;
 
     if (key === 'role') {
-      try {
-        let data = [];
-        if (value === 'Editor') {
-          const response = await axios.get('/api/users/editors');
-          data = response.data; // Asegúrate de que sea un arreglo
-        } else if (value === 'Co-Traductor') {
-          const response = await axios.get('/api/users/translators');
-          data = response.data; // Asegúrate de que sea un arreglo
+        try {
+            let data = [];
+            if (value === 'Editor') {
+                const response = await axios.get('/api/users/editors');
+                data = response.data; // Asegúrate de que sea un arreglo
+            } else if (value === 'Co-Traductor') {
+                const response = await axios.get('/api/users/translators');
+                data = response.data; // Asegúrate de que sea un arreglo
+            }
+            setUserSuggestions(Array.isArray(data) ? data : []); // Valida que sea un arreglo
+        } catch (error) {
+            console.error('Error al obtener usuarios:', error);
+            setUserSuggestions([]); // Limpia sugerencias en caso de error
         }
-        setUserSuggestions(Array.isArray(data) ? data : []); // Valida que sea un arreglo
-      } catch (error) {
-        console.error('Error al obtener usuarios:', error);
-        setUserSuggestions([]); // Limpia sugerencias en caso de error
-      }
     }
 
-    if (key === 'user' && value.length > 2) { // Cambiado de 'username' a 'user'
-      try {
-        const { data } = await axios.get(`/api/users/suggestions?name=${value}`);
-        setUserSuggestions(Array.isArray(data) ? data : []); // Valida que sea un arreglo
-      } catch (error) {
-        console.error('Error al buscar usuario:', error);
-        setUserSuggestions([]);
-      }
+    if (key === 'username' && value.length > 2) {
+        try {
+            const { data } = await axios.get(`/api/users/suggestions?name=${value}`);
+            setUserSuggestions(Array.isArray(data) ? data : []); // Valida que sea un arreglo
+        } catch (error) {
+            console.error('Error al buscar usuario:', error);
+            setUserSuggestions([]);
+        }
     }
 
     setCollaborators(updatedCollaborators);
-  };
-
+};
 
 
   const removeCollaborator = (index) => {
@@ -434,14 +429,14 @@ const NovelForm = () => {
                 {/* Colaboradores (opcionales) */}
                 <label>Colaboradores</label>
                 {collaborators.map((collaborator, index) => (
-                  <div key={index} className="collaborator-row">
+                  <div key={index}>
                     <input
                       type="text"
                       placeholder="Usuario"
                       list={`user-suggestions-${index}`}
-                      className="form-control fantasy-input collaborator-input"
-                      value={collaborator.user} // Cambiado de 'username' a 'user'
-                      onChange={(e) => handleCollaboratorChange(index, 'user', e.target.value)}
+                      className="form-control fantasy-input"
+                      value={collaborator.username}
+                      onChange={(e) => handleCollaboratorChange(index, 'username', e.target.value)}
                     />
                     <datalist id={`user-suggestions-${index}`}>
                       {Array.isArray(userSuggestions) &&
@@ -450,8 +445,9 @@ const NovelForm = () => {
                         ))}
                     </datalist>
 
+
                     <select
-                      className="form-control fantasy-input collaborator-select"
+                      className="form-control fantasy-input"
                       value={collaborator.role}
                       onChange={(e) => handleCollaboratorChange(index, 'role', e.target.value)}
                     >
@@ -463,19 +459,20 @@ const NovelForm = () => {
                       ))}
                     </select>
 
+
                     <button
                       type="button"
-                      className="btn btn-danger btn-sm collaborator-remove-btn"
+                      className="btn btn-danger btn-sm"
                       onClick={() => removeCollaborator(index)}
                     >
-                      Eliminar
+                      Eliminar colaborador
                     </button>
                   </div>
                 ))}
                 <button
                   type="button"
-                  className="fantasy-button add-collaborator-btn"
-                  onClick={() => setCollaborators([...collaborators, { user: '', role: '' }])}
+                  className="fantasy-button"
+                  onClick={() => setCollaborators([...collaborators, { username: '', role: '' }])}
                 >
                   Añadir Colaborador
                 </button>
