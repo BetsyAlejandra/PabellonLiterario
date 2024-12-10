@@ -12,60 +12,53 @@ const Home = () => {
   const [novels, setNovels] = useState([]); // Estado para almacenar las novelas
   const [loading, setLoading] = useState(true); // Estado para indicar si los datos están cargando
   const [latestNovels, setLatestNovels] = useState([]); // Estado para las últimas traducciones
-  const [updatedChapters, setUpdatedChapters] = useState([]);
+  const [latestChapters, setLatestChapters] = useState([]); // Estado para últimos capítulos
   const [error, setError] = useState(null); // Estado para manejar errores
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchNovels = async () => {
       try {
-        // Cargar novelas
-        const novelsResponse = await fetch('/api/novels');
-        const novelsContentType = novelsResponse.headers.get('content-type');
-        if (!novelsContentType || !novelsContentType.includes('application/json')) {
-          throw new Error('La respuesta de novelas no es JSON');
+        const response = await fetch('/api/novels');
+        const contentType = response.headers.get('content-type');
+
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Respuesta no es JSON');
         }
-        const novelsData = await novelsResponse.json();
-        if (!Array.isArray(novelsData)) {
-          throw new Error('Respuesta inesperada: novelas no es un arreglo');
+
+        const data = await response.json();
+
+        if (Array.isArray(data)) {
+          setNovels(data); // Asegúrate de que sea un arreglo
+        } else {
+          throw new Error('Respuesta inesperada: no es un arreglo');
         }
-        setNovels(novelsData);
-  
-        // Cargar últimas novelas
-        const latestNovelsResponse = await fetch('/api/novels/latest');
-        if (!latestNovelsResponse.ok) throw new Error('Error al obtener últimas novelas');
-        const latestNovelsData = await latestNovelsResponse.json();
-        setLatestNovels(latestNovelsData);
-  
-        // Cargar capítulos actualizados
-        const updatedChaptersList = [];
-        for (const novel of novelsData) {
-          const chaptersResponse = await fetch(`/api/novels/${novel._id}/updated-chapters`);
-          if (!chaptersResponse.ok) {
-            console.error(`Error al obtener capítulos para novela ${novel._id}`);
-            continue;
-          }
-          const chaptersData = await chaptersResponse.json();
-          updatedChaptersList.push(...chaptersData.updatedChapters);
-        }
-  
-        // Ordenar capítulos por fecha y limitar a los 10 más recientes
-        updatedChaptersList.sort(
-          (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-        );
-        setUpdatedChapters(updatedChaptersList.slice(0, 10));
-  
-        // Establecer el estado de carga como falso
+
         setLoading(false);
       } catch (error) {
-        console.error('Error en fetchData:', error.message);
+        console.error('Error en fetchNovels:', error.message);
         setError(error.message);
+        setNovels([]); // Asegúrate de que novels siempre sea un arreglo
         setLoading(false);
       }
     };
-  
-    fetchData();
+
+    const fetchLatestNovels = async () => {
+      try {
+        const response = await fetch('/api/novels/latest');
+        if (!response.ok) throw new Error('Error al obtener últimas novelas');
+        const data = await response.json();
+        setLatestNovels(data); // Actualiza el estado
+      } catch (error) {
+        console.error('Error en fetchLatestNovels:', error.message);
+        setError(error.message);
+        setLatestNovels([]);
+      }
+    };
+    
+
+    fetchNovels();
+    fetchLatestNovels(); // Llama a ambas funciones al montar el componente
   }, []);
-  
 
   const settings = {
     dots: true,
@@ -144,68 +137,33 @@ const Home = () => {
         </Container>
       </section>
 
-      {/* Últimas Traducciones y Últimos Capítulos */}
-      <section className="latest-section">
+      {/* Últimas Traducciones */}
+      <section className="latest-translations">
         <Container>
+          <h2 className="section-title">Últimas Traducciones</h2>
           <Row>
-            {/* Últimas Traducciones */}
-            <Col md={6}>
-              <h2 className="section-title">Últimas Traducciones</h2>
-              <Row>
-                {latestNovels.map((novel) => (
-                  <Col key={novel._id} md={12} className="latest-item">
-                    <Card className="latest-card">
-                      <Card.Img
-                        variant="top"
-                        src={novel.coverImage}
-                        alt={`Portada de ${novel.title}`}
-                        className="latest-card-img"
-                      />
-                      <Card.Body>
-                        <Card.Title>{novel.title}</Card.Title>
-                        <Card.Text>{novel.genre}</Card.Text>
-                        <Button as={Link} to={`/story-detail/${novel._id}`} className="latest-card-btn">
-                          Leer más
-                        </Button>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                ))}
-              </Row>
-            </Col>
-
-            <section className="latest-chapters">
-              <Container>
-                <h2 className="section-title">Últimos Capítulos Actualizados</h2>
-                {loading ? (
-                  <p className="text-center text-light">Cargando capítulos...</p>
-                ) : error ? (
-                  <p className="text-center text-danger">{error}</p>
-                ) : updatedChapters.length > 0 ? (
-                  <Row>
-                    {updatedChapters.map((chapter, index) => (
-                      <Col key={index} md={6} className="mb-4">
-                        <Card className="chapter-card">
-                          <Card.Body>
-                            <Card.Title>{chapter.title}</Card.Title>
-                            <Card.Text>
-                              Actualizado: {new Date(chapter.updatedAt).toLocaleDateString()}
-                            </Card.Text>
-                            <Button as={Link} to={`/chapter-detail/${chapter._id}`} variant="outline-light">
-                              Leer capítulo
-                            </Button>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-                    ))}
-                  </Row>
-                ) : (
-                  <p className="text-center text-light">No hay capítulos actualizados recientemente.</p>
-                )}
-              </Container>
-            </section>
+            {latestNovels.map((novel) => (
+              <Col key={novel._id} md={4} className="latest-translation-card">
+                <Card className="latest-card">
+                  <Card.Img
+                    variant="top"
+                    src={novel.coverImage}
+                    alt={`Portada de ${novel.title}`}
+                    className="latest-card-img"
+                  />
+                  <Card.Body>
+                    <Card.Title>{novel.title}</Card.Title>
+                    <Card.Text>{novel.genre}</Card.Text>
+                    <Button as={Link} to={`/story-detail/${novel._id}`} className="latest-card-btn">
+                      Leer más
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
           </Row>
         </Container>
+        <section />
 
         <Container>
           {/* Sección de Soporte y Discord */}
