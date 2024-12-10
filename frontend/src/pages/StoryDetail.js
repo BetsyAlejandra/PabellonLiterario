@@ -208,9 +208,11 @@ const StoryDetail = () => {
                                             {i < story.collaborators.length - 1 && ', '}
                                         </span>
                                     ))
-                                ) : 'No hay colaboradores'}
-
+                                ) : (
+                                    'No hay colaboradores'
+                                )}
                             </div>
+
 
                             {/* Mostrar adaptaciones */}
                             <div className="mt-3">

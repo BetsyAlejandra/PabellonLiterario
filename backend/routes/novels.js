@@ -15,7 +15,7 @@ const isAuthenticated = (req, res, next) => {
     return next();
   }
   return res.status(401).json({ message: 'No autorizado. Inicia sesión.' });
-};
+}; 
 
 const getGenres = (req, res) => {
   console.log('Ruta /genres alcanzada');
