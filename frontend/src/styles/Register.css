@@ -4,13 +4,14 @@ body {
 }
 /* Contenedor Principal */
 .register-container {
-    background: linear-gradient(135deg, #2c3e50, #4ca1af);
+  background: linear-gradient(180deg, #1a1a2e, #16213e);
     min-height: 100vh;
     padding: 50px;
   }
   
   /* Tarjeta de Registro */
   .register-card {
+    width: 400px;
     background: rgba(255, 215, 0, 0.1); /* Fondo semi-transparente dorado */
     border: 2px solid #ffd700; /* Borde dorado */
     border-radius: 15px;

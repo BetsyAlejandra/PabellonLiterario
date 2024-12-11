@@ -1,15 +1,11 @@
-body{
-    background-color: black;
-}
 
-/* Login.css */
 
 /* Importar fuente personalizada */
 @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
 
 /* Contenedor Principal */
 .login-container {
-  background: linear-gradient(135deg, #2c3e50, #4ca1af);
+  background: linear-gradient(180deg, #1a1a2e, #16213e);
   min-height: 100vh;
   padding: 50px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -81,14 +77,14 @@ body{
 .fantasy-input {
   background: rgba(255, 215, 0, 0.05); /* Fondo dorado muy claro */
   border: 1px solid #ffd700; /* Borde dorado */
-  color: #fff;
+  color: #000000;
   border-radius: 10px;
   padding: 10px;
   transition: border-color 0.3s ease, background 0.3s ease;
 }
 
 .fantasy-input::placeholder {
-  color: #ffec8b; /* Dorado claro para placeholders */
+  color: #000000; /* Dorado claro para placeholders */
 }
 
 .fantasy-input:focus {
