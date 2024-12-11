@@ -3,7 +3,7 @@
 /* Estilos Generales */
 body {
   /* Fondo con degradado lineal de púrpura a azul esmeralda */
-  background: linear-gradient(135deg, #4b0082, #2e8b57);
+  background: black;
   color: #f0f0f0; /* Texto claro global */
   font-family: 'Garamond', serif; /* Fuente con estilo clásico */
   min-height: 100vh; /* Asegura que el fondo cubra toda la altura */
@@ -127,9 +127,8 @@ body {
 /* Botón Cerrar Sesión */
 .logout-btn {
   background-color: #ff6347; /* Tomate */
-  color: black;
+  color: black !important; 
   border: none;
-  color: #1a1a1a;
 }
 
 .logout-btn:hover {
@@ -149,12 +148,13 @@ body {
 }
 
 .login-btn {
-  background-color: #50c878; /* Esmeralda */
+  background-color: #ffd700;
+  color: #000000;
   color: #1a1a1a;
 }
 
 .login-btn:hover {
-  background-color: #3a9d63;
+  background-color: #e6c200;
   transform: scale(1.05);
 }
 
