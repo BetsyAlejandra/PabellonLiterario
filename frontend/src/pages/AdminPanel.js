@@ -10,7 +10,7 @@ const AdminPanel = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 10; // Número de usuarios por página
+  const usersPerPage = 10;
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -36,14 +36,14 @@ const AdminPanel = () => {
         user.email?.toLowerCase().includes(lowercasedTerm)
     );
     setFilteredUsers(filtered);
-    setCurrentPage(1); // Reinicia a la primera página después de buscar
+    setCurrentPage(1);
   };
 
   const handleRoleChange = (role) => {
     if (selectedRoles.includes(role)) {
-      setSelectedRoles(selectedRoles.filter((r) => r !== role)); // Remueve el rol si ya está seleccionado
+      setSelectedRoles(selectedRoles.filter((r) => r !== role));
     } else {
-      setSelectedRoles([...selectedRoles, role]); // Agrega el rol
+      setSelectedRoles([...selectedRoles, role]);
     }
   };
 
@@ -60,7 +60,6 @@ const AdminPanel = () => {
         { withCredentials: true }
       );
       alert('Roles asignados correctamente');
-      // Opcional: actualizar la lista de usuarios para reflejar los cambios
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
           user._id === selectedUser ? { ...user, roles: selectedRoles } : user
@@ -71,18 +70,23 @@ const AdminPanel = () => {
           user._id === selectedUser ? { ...user, roles: selectedRoles } : user
         )
       );
-      setSelectedRoles([]); // Resetear roles seleccionados
+      setSelectedRoles([]);
     } catch (error) {
       console.error('Error al asignar roles:', error);
       alert('Error al asignar roles');
     }
   };
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const nextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
+  const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
+  const firstPage = () => setCurrentPage(1);
+  const lastPage = () => setCurrentPage(totalPages);
 
   if (loading) return <div className="admin-loading">Cargando...</div>;
 
@@ -137,9 +141,23 @@ const AdminPanel = () => {
         </button>
       </div>
 
-      {/* Paginación */}
+      {/* Paginación con flechas */}
       <div className="admin-pagination">
-        {[...Array(Math.ceil(filteredUsers.length / usersPerPage)).keys()].map((number) => (
+        <button
+          className="admin-page-btn"
+          onClick={firstPage}
+          disabled={currentPage === 1}
+        >
+          «
+        </button>
+        <button
+          className="admin-page-btn"
+          onClick={prevPage}
+          disabled={currentPage === 1}
+        >
+          ‹
+        </button>
+        {[...Array(totalPages).keys()].map((number) => (
           <button
             key={number + 1}
             className={`admin-page-btn ${currentPage === number + 1 ? 'active' : ''}`}
@@ -148,6 +166,20 @@ const AdminPanel = () => {
             {number + 1}
           </button>
         ))}
+        <button
+          className="admin-page-btn"
+          onClick={nextPage}
+          disabled={currentPage === totalPages}
+        >
+          ›
+        </button>
+        <button
+          className="admin-page-btn"
+          onClick={lastPage}
+          disabled={currentPage === totalPages}
+        >
+          »
+        </button>
       </div>
     </div>
   );
