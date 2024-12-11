@@ -1,0 +1,140 @@
+/* Register.css */
+body {
+    background-color: black;
+}
+/* Contenedor Principal */
+.register-container {
+    background: linear-gradient(135deg, #2c3e50, #4ca1af);
+    min-height: 100vh;
+    padding: 50px;
+  }
+  
+  /* Tarjeta de Registro */
+  .register-card {
+    background: rgba(255, 215, 0, 0.1); /* Fondo semi-transparente dorado */
+    border: 2px solid #ffd700; /* Borde dorado */
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .register-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(255, 215, 0, 0.6);
+  }
+  
+  /* Título */
+  .fantasy-title {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 2.5rem;
+    color: #ffd700; /* Dorado */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+  }
+  
+  .fantasy-title:hover {
+    color: #ffec8b; /* Dorado más claro */
+  }
+  
+  /* Alertas */
+  .fantasy-alert {
+    background-color: rgba(220, 53, 69, 0.1); /* Fondo rojo claro */
+    border-left: 5px solid #dc3545; /* Borde rojo */
+    color: #dc3545;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* Etiquetas de los Campos */
+  .fantasy-label {
+    color: #ffd700; /* Dorado */
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  /* Campos de Entrada */
+  .fantasy-input {
+    background: rgba(255, 215, 0, 0.05); /* Fondo dorado muy claro */
+    border: 1px solid #ffd700; /* Borde dorado */
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  
+  .fantasy-input:focus {
+    border-color: #ffec8b; /* Dorado claro */
+    background: rgba(255, 215, 0, 0.1);
+    box-shadow: none;
+  }
+  
+  /* Botón de Registro */
+  .fantasy-button {
+    background-color: #ffd700; /* Dorado */
+    color: #2c3e50; /* Texto oscuro */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: bold;
+  }
+  
+  .fantasy-button:hover {
+    background-color: #e5c100; /* Dorado más oscuro */
+    transform: scale(1.05);
+  }
+  
+  .fantasy-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  /* Pie de Página */
+  .fantasy-footer {
+    color: #ffd700;
+    transition: color 0.3s ease;
+  }
+  
+  .fantasy-footer .fantasy-link {
+    color: #ffd700;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .fantasy-footer .fantasy-link:hover {
+    color: #ffec8b;
+    text-decoration: underline;
+  }
+  
+  /* Animación de Fade In */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsividad */
+  @media (max-width: 576px) {
+    .register-container {
+      padding: 20px;
+    }
+  
+    .register-card {
+      padding: 20px;
+    }
+  
+    .fantasy-title {
+      font-size: 2rem;
+    }
+  }
+  

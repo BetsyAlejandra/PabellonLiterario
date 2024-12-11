@@ -1,3 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+
+.story-detail-container {
+    font-family: 'MedievalSharp', cursive;
+}
+
+/* Aplica la fuente a títulos y otros elementos */
+.story-title, .section-title {
+    font-family: 'MedievalSharp', cursive;
+}
+
 /* Fondo oscuro general */
 body {
     background-color: #000000; /* Fondo oscuro */
@@ -5,83 +16,285 @@ body {
     font-family: 'Arial', sans-serif;
   }
   
-  /* Estilo general de las tarjetas */
-  .card {
-    background-color: #6C3483; /* Fondo morado oscuro */
-    color: #FBFCFC; /* Texto claro */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    margin-bottom: 20px;
+/* StoryDetail.css */
+
+/* Contenedor Principal */
+.story-detail-container {
+  background: linear-gradient(135deg, #2c3e50, #4ca1af);
+  padding: 50px;
+  color: #fff;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Tarjeta de la Portada */
+.story-cover-card {
+  background: rgba(255, 215, 0, 0.1); /* Fondo semi-transparente dorado */
+  border: 2px solid #ffd700; /* Borde dorado */
+  border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.story-cover-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(255, 215, 0, 0.6);
+}
+
+.story-cover-image {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  height: auto;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Botones Fantasiosos */
+.fantasy-button {
+  background-color: #ffd700; /* Dorado */
+  color: #2c3e50; /* Texto oscuro */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-weight: bold;
+}
+
+.fantasy-button:hover {
+  background-color: #e5c100; /* Dorado más oscuro */
+  transform: scale(1.05);
+}
+
+/* Tarjeta de Información de la Historia */
+.story-info-card {
+  background: rgba(255, 215, 0, 0.05); /* Fondo muy ligero */
+  border: 2px solid #ffd700; /* Borde dorado */
+  border-radius: 15px;
+  transition: background 0.3s ease;
+}
+
+.story-info-card:hover {
+  background: rgba(255, 215, 0, 0.1);
+}
+
+/* Título de la Historia */
+.story-title {
+  font-size: 2.5rem;
+  color: #ffd700; /* Dorado */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  margin-bottom: 20px;
+  transition: color 0.3s ease;
+}
+
+.story-title:hover {
+  color: #ffec8b; /* Dorado claro */
+}
+
+/* Detalles de la Historia */
+.story-details {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.classification-badge {
+  background-color: #ffd700;
+  color: #2c3e50;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.original-link {
+  color: #ffd700;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.original-link:hover {
+  color: #ffec8b;
+  text-decoration: underline;
+}
+
+/* Lista de Colaboradores */
+.collaborators-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.collaborator {
+  margin-right: 15px;
+}
+
+.collaborator-link {
+  color: #ffd700;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.collaborator-link:hover {
+  color: #ffec8b;
+  text-decoration: underline;
+}
+
+/* Adaptaciones */
+.adaptation-item {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.adaptation-link {
+  color: #ffd700;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.adaptation-link:hover {
+  color: #ffec8b;
+  text-decoration: underline;
+}
+
+/* Descripción de la Historia */
+.story-description {
+  background: rgba(255, 215, 0, 0.05);
+  padding: 15px;
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.story-description:hover {
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.short-description {
+  font-size: 1.1rem;
+}
+
+/* Enlace para Ver Más */
+.read-more-link {
+  color: #ffd700;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.read-more-link:hover {
+  color: #ffec8b;
+  text-decoration: underline;
+}
+
+/* Capítulos */
+.section-title {
+  font-size: 2rem;
+  color: #ffd700;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  margin-bottom: 20px;
+}
+
+.chapter-card {
+  background: rgba(255, 215, 0, 0.05);
+  border: 2px solid #ffd700;
+  border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chapter-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(255, 215, 0, 0.6);
+}
+
+.chapter-title {
+  color: #ffd700;
+  transition: color 0.3s ease;
+}
+
+.chapter-title:hover {
+  color: #ffec8b;
+}
+
+/* Sección de Comentarios */
+.comment-section {
+  margin-top: 40px;
+}
+
+.review-label {
+  color: #ffd700;
+  font-weight: bold;
+}
+
+.review-textarea {
+  background: rgba(255, 215, 0, 0.05);
+  border: 1px solid #ffd700;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  transition: border-color 0.3s ease;
+}
+
+.review-textarea:focus {
+  border-color: #ffec8b;
+  box-shadow: none;
+}
+
+.review-header {
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.review-comment {
+  background: rgba(255, 215, 0, 0.05);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.reply-card {
+  background: rgba(255, 215, 0, 0.02);
+  border-left: 4px solid #ffd700;
+  margin-top: 10px;
+}
+
+.reply-text {
+  color: #fff;
+}
+
+/* Modal de Respuesta */
+.fantasy-link {
+  color: #ffd700;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.fantasy-link:hover {
+  color: #ffec8b;
+  text-decoration: underline;
+}
+
+/* Mensajes de Carga y Error */
+.loading-text,
+.error-text {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 50px;
+}
+
+.loading-text {
+  color: #ffd700;
+}
+
+.error-text {
+  color: #dc3545;
+}
+
+
+/* Añade animación de brillo al pasar el cursor sobre la portada */
+.story-cover-image:hover {
+  animation: glow 1s infinite alternate;
+}
+
+@keyframes glow {
+  from {
+      box-shadow: 0 0 10px #ffd700;
   }
-  
-  /* Botones */
-  .btn {
-    border: none;
-    font-weight: bold;
-    transition: background-color 0.3s, transform 0.2s;
+  to {
+      box-shadow: 0 0 20px #ffec8b;
   }
-  
-  .btn-primary {
-    background-color: #A9DFBF; /* Verde claro */
-    color: #000000;
-  }
-  
-  .btn-primary:hover {
-    background-color: #CDC3E3; /* Morado claro */
-    color: #000000;
-  }
-  
-  .btn-secondary {
-    background-color: #CDC3E3; /* Morado claro */
-    color: #000000;
-  }
-  
-  .btn-secondary:hover {
-    background-color: #A9DFBF; /* Verde claro */
-    color: #000000;
-  }
-  
-  /* Imagen de portada */
-  .card img {
-    border-radius: 10px 10px 0 0;
-    object-fit: cover;
-    max-height: 400px;
-  }
-  
-  /* Sección de capítulos */
-  .chapter-card {
-    background-color: #B2BABB; /* Gris claro */
-    color: #000000;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-  }
-  
-  .chapter-card:hover {
-    transform: translateY(-5px); /* Animación sutil al pasar el mouse */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  }
-  
-  /* Sección de comentarios */
-  .comment-card {
-    background-color: #CDC3E3; /* Morado claro */
-    color: #000000;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .comment-card textarea {
-    background-color: #FBFCFC; /* Blanco */
-    color: #000000;
-    border: 1px solid #B2BABB; /* Gris */
-    border-radius: 5px;
-  }
-  
-  .comment-reply {
-    background-color: #A9DFBF; /* Verde claro */
-    color: #000000;
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 10px;
-  }  
+}
+

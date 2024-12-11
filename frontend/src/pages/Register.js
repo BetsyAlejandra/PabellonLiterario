@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../styles/Register.css'; // Asegúrate de crear este archivo
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -31,49 +32,49 @@ const Register = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center mt-5">
-      <div className="card login-card">
+    <div className="register-container d-flex justify-content-center align-items-center">
+      <div className="card register-card shadow-lg">
         <div className="card-body">
-          <h2 className="card-title text-center">Registrar</h2>
-          {error && <div className="alert alert-danger">{error}</div>}
+          <h2 className="card-title text-center fantasy-title">Registrar</h2>
+          {error && <div className="alert alert-danger fantasy-alert">{error}</div>}
           <form onSubmit={handleSubmit}>
             <div className="form-group mb-3">
-              <label>Nombre de usuario</label>
+              <label className="fantasy-label">Nombre de usuario</label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control fantasy-input"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </div>
             <div className="form-group mb-3">
-              <label>Correo electrónico</label>
+              <label className="fantasy-label">Correo electrónico</label>
               <input
                 type="email"
-                className="form-control"
+                className="form-control fantasy-input"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
             <div className="form-group mb-3">
-              <label>Contraseña</label>
+              <label className="fantasy-label">Contraseña</label>
               <input
                 type="password"
-                className="form-control"
+                className="form-control fantasy-input"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength="6"
               />
             </div>
-            <button type="submit" className="btn btn-primary1 w-100" disabled={loading}>
+            <button type="submit" className="btn fantasy-button w-100" disabled={loading}>
               {loading ? 'Cargando...' : 'Registrar'}
             </button>
           </form>
-          <div className="mt-3 text-center">
-            <p>¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
+          <div className="mt-3 text-center fantasy-footer">
+            <p>¿Ya tienes cuenta? <a href="/login" className="fantasy-link">Inicia sesión</a></p>
           </div>
         </div>
       </div>
