@@ -1,3 +1,5 @@
+// src/components/StoryDetail.jsx
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -70,7 +72,7 @@ const StoryDetail = () => {
 
                 if (invalidCollaborators.length > 0) {
                     // Obtener los IDs de los colaboradores inválidos
-                    const invalidIds = invalidCollaborators.map(col => col._id);
+                    const invalidIds = invalidCollaborators.map(col => col.user); // Asegúrate de que 'user' contenga el ID
 
                     // Hacer solicitudes para obtener los datos de estos usuarios
                     const userPromises = invalidIds.map(id => axios.get(`/api/users/${id}`));
@@ -82,7 +84,7 @@ const StoryDetail = () => {
                         // Actualizar los colaboradores con los datos obtenidos
                         const updatedCollaborators = storyData.collaborators.map(col => {
                             if (!col.user || !col.user.username) {
-                                const fetchedUser = usersData.find(user => user.username === col.username);
+                                const fetchedUser = usersData.find(user => user._id === col.user);
                                 if (fetchedUser) {
                                     return {
                                         ...col,
@@ -236,6 +238,7 @@ const StoryDetail = () => {
     if (loading || userLoading) return <p className="loading-text">Cargando...</p>;
     if (error) return <p className="error-text">{error}</p>;
     if (userError) return <p className="error-text">{userError}</p>;
+    if (!story) return <p className="error-text">Historia no encontrada.</p>;
 
     return (
         <div className="story-detail-container">
@@ -259,12 +262,12 @@ const StoryDetail = () => {
                             {/* Mostrar autor (usuario encargado) */}
                             <div className="mt-3 author-info">
                                 <strong>Autor:</strong>{' '}
-                                <Button variant="link" onClick={() => navigate(`/profileperson/${story.author}`)} className="author-link fantasy-link">
-                                    {story.author}
+                                <Button variant="link" onClick={() => navigate(`/profileperson/${story.author?.username}`)} className="author-link fantasy-link">
+                                    {story.author?.username || 'Autor desconocido'}
                                 </Button>
                             </div>
                             {/* Botón para agregar capítulo si el usuario es el autor */}
-                            {currentUser && currentUser.username === story.author && (
+                            {currentUser && currentUser.username === story.author?.username && (
                                 <Button
                                     variant="success"
                                     className="btn mt-2 fantasy-button"
@@ -308,7 +311,6 @@ const StoryDetail = () => {
                                         {story.rawOrigin[0].origin}
                                     </a>
                                 ) : 'No disponible'}
-
                             </div>
 
                             <div className="story-details mt-3">
@@ -318,7 +320,7 @@ const StoryDetail = () => {
                                         {story.collaborators.map((col, index) => (
                                             <div key={index} className="collaborator d-flex align-items-center mb-2">
                                                 {/* Mostrar el nombre del colaborador como un enlace */}
-                                                {col.user.username !== 'Usuario Desconocido' ? (
+                                                {col.user?.username !== 'Usuario Desconocido' ? (
                                                     <button
                                                         onClick={() => navigate(`/profileperson/${col.user.username}`)}
                                                         className="collaborator-link btn btn-link p-0 fantasy-link"
@@ -326,7 +328,7 @@ const StoryDetail = () => {
                                                         {col.user.username} ({col.role})
                                                     </button>
                                                 ) : (
-                                                    <span>{col.user.username} ({col.role})</span>
+                                                    <span>{col.user?.username || 'Usuario Desconocido'} ({col.role})</span>
                                                 )}
                                             </div>
                                         ))}
@@ -347,7 +349,6 @@ const StoryDetail = () => {
                                         </span>
                                     ))
                                 ) : 'No hay adaptaciones'}
-
                             </div>
 
                             <div className="story-description mt-3">
@@ -417,7 +418,7 @@ const StoryDetail = () => {
                         <Card key={idx} className="shadow-sm mb-3 fantasy-card">
                             <Card.Body>
                                 <div className="review-header">
-                                    <strong>{rev.user.username}</strong>
+                                    <strong>{rev.user?.username || 'Usuario desconocido'}</strong>
                                 </div>
                                 <p className="review-comment">{rev.comment}</p>
                                 <Button variant="link" onClick={() => setSelectedReview(rev)} className="fantasy-link p-0">
@@ -441,7 +442,7 @@ const StoryDetail = () => {
             {/* Modal Responder Reseña */}
             <Modal show={!!selectedReview} onHide={() => setSelectedReview(null)} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Responder a {selectedReview?.user.username}</Modal.Title>
+                    <Modal.Title>Responder a {selectedReview?.user?.username || 'Usuario desconocido'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <textarea
