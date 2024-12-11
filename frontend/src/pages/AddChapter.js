@@ -94,7 +94,7 @@ const AddChapter = () => {
         try {
             await axios.post(`/api/novels/add-chapter/${id}`, newChapter);
             setLoading(false);
-            navigate(`/story-detail/${id}`);
+            navigate(`/my-stories`);
         } catch (err) {
             setError('Error al guardar el capítulo.');
             setLoading(false);

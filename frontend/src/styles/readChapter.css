@@ -1,20 +1,212 @@
+/* readChapter.css */
+
+/* Contenedor Principal */
 .read-chapter {
+  background: linear-gradient(135deg, #2c3e50, #4ca1af);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   position: relative;
-  height: 100vh;
-  overflow-y: scroll;
-  padding-bottom: 100px;
-  /* Espacio para los controles y navegación */
+  overflow-y: auto;
+  color: #FBFCFC; /* Blanco suave */
+  transition: filter 0.3s ease, font-size 0.3s ease, color 0.3s ease;
 }
 
-.read-chapter {
-  user-select: none;
-  /* Estándar */
-  -webkit-user-select: none;
-  /* Safari */
-  -moz-user-select: none;
-  /* Firefox */
-  -ms-user-select: none;
-  /* Internet Explorer/Edge */
+/* Barra de Progreso */
+.progress-bar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: rgba(255, 215, 0, 0.3); /* Dorado suave */
+  z-index: 1000;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #ffd700; /* Dorado */
+  width: 0%;
+  transition: width 0.2s ease;
+}
+
+/* Títulos y Textos */
+.chapter-title {
+  color: #ffd700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  margin-bottom: 10px;
+}
+
+.chapter-date {
+  color: #A9DFBF; /* Verde Claro */
+  margin-bottom: 20px;
+}
+
+/* Contenido del Capítulo */
+.chapter-content {
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+/* Controles Flotantes */
+.floating-controls {
+  position: absolute;
+  /* Las coordenadas serán manejadas por react-draggable */
+}
+
+/* Botón de Ajustes */
+.settings-toggle {
+  background-color: #ffd700; /* Dorado */
+  border: none;
+  color: #2c3e50;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  cursor: grab;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.settings-toggle:hover {
+  background-color: #e6c200;
+  transform: scale(1.05);
+}
+
+/* Panel de Ajustes */
+.settings-panel {
+  background: rgba(44, 62, 80, 0.9);
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 10px;
+  box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.settings-panel .form-group {
+  margin-bottom: 15px;
+}
+
+.settings-panel label {
+  color: #ffd700;
+}
+
+.settings-panel .form-control,
+.settings-panel .form-select {
+  background-color: rgba(255, 215, 0, 0.1);
+  border: 1px solid #ffd700;
+  color: #FBFCFC;
+  border-radius: 10px;
+  transition: border-color 0.3s ease;
+}
+
+.settings-panel .form-control:focus,
+.settings-panel .form-select:focus {
+  border-color: #e6c200;
+  box-shadow: none;
+  background-color: rgba(255, 215, 0, 0.2);
+}
+
+/* Navegación entre Capítulos */
+.chapter-navigation {
+  margin-top: 30px;
+}
+
+.nav-btn {
+  color: #ffd700;
+  font-size: 1.2rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-btn:hover {
+  color: #e6c200;
+  transform: scale(1.05);
+}
+
+/* Comentarios Generales */
+.general-comments {
+  margin-top: 40px;
+  background: rgba(44, 62, 80, 0.9);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+  color: #FBFCFC;
+}
+
+.general-comments h3 {
+  color: #ffd700;
+  margin-bottom: 20px;
+}
+
+.comment-list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.comment-item {
+  background: rgba(255, 215, 0, 0.1);
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  color: #FBFCFC;
+}
+
+/* Anotaciones */
+.annotations-list {
+  margin-top: 40px;
+  background: rgba(44, 62, 80, 0.9);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+  color: #FBFCFC;
+}
+
+.annotations-list h3 {
+  color: #ffd700;
+  margin-bottom: 20px;
+}
+
+.annotations-list ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.annotations-list li {
+  background: rgba(255, 215, 0, 0.1);
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* Popover */
+.popover {
+  background: #2c3e50;
+  color: #FBFCFC;
+  border: 2px solid #ffd700;
+  border-radius: 15px;
+}
+
+.popover-header {
+  background: #4ca1af;
+  color: #ffd700;
+  border-bottom: 1px solid #ffd700;
+}
+
+.popover-body {
+  color: #FBFCFC;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .floating-controls {
+      bottom: 10px;
+      right: 10px;
+  }
+
+  .settings-toggle {
+      width: 40px;
+      height: 40px;
+  }
 }
 
 /* Opcional: Deshabilitar la selección de texto en elementos específicos */
@@ -23,213 +215,4 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-}
-
-/* Estilo para las imágenes */
-.chapter-content img {
-  max-width: 100%;
-  height: auto;
-}
-
-/* Estilo para los separadores */
-.chapter-content hr {
-  border: none;
-  height: 1px;
-  background-color: #ccc;
-  margin: 20px 0;
-}
-
-.progress-bar-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 8px;
-  background-color: rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
-
-.progress-bar {
-  height: 100%;
-  background-color: #6C3483;
-  transition: width 0.2s ease-in-out;
-}
-
-
-.chapter-title {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.chapter-date {
-  color: #666;
-  font-size: 0.9rem;
-  margin-bottom: 20px;
-}
-
-.chapter-content {
-  line-height: 1.8;
-  margin-top: 20px;
-}
-
-.controls {
-  position: fixed;
-  bottom: 60px;
-  left: 0;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 10px;
-  z-index: 1000;
-  transition: transform 0.3s ease;
-  transform: translateY(100%);
-}
-
-.controls.show {
-  transform: translateY(0);
-}
-
-.chapter-navigation {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin: 20px 0;
-}
-
-.nav-btn {
-  color: #CDC3E3;
-  font-weight: bold;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.nav-btn:hover {
-  color: #000;
-}
-
-/* Ajustes flotantes */
-.floating-controls {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-}
-
-/* Botón de configuración flotante */
-.settings-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-  background-color: #6C3483; /* Morado claro */
-  color: #414141; /* Blanco */
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease;
-}
-
-.settings-toggle:hover {
-  transform: scale(1.1);
-  background-color: #A9DFBF; /* Verde claro */
-}
-
-/* Panel de ajustes */
-.settings-panel {
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  background-color: #1a1a1a;
-  border: 1px solid #B2BABB;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  width: 250px;
-}
-
-/* Ocultar flechas */
-.nav-btn {
-  display: inline-block;
-  margin: 0 5px;
-  color: #6C3483;
-}
-
-
-.settings-toggle:active {
-  transform: scale(0.9);
-  /* Efecto visual al presionar */
-}
-
-.settings-toggle svg {
-  color: #000;
-  font-size: 24px;
-}
-
-/* Media Queries */
-@media screen and (max-width: 768px) {
-
-  /* Ajustes para dispositivos móviles */
-  .progress-bar-container {
-    display: none;
-  }
-
-  .floating-controls {
-    bottom: 70px;
-    right: 12px;
-    /* Más cerca del borde */
-  }
-
-  .settings-toggle {
-    width: 48px;
-    height: 48px;
-  }
-
-  .settings-toggle svg {
-    font-size: 20px;
-  }
-}
-
-.chapter-navigation {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin: 20px 0;
-}
-
-.general-comments {
-  margin-top: 50px;
-}
-
-.comment-list {
-  margin-top: 20px;
-  border-top: 1px solid #ccc;
-  padding-top: 10px;
-}
-
-.comment-item {
-  padding: 5px 0;
-  border-bottom: 1px solid #ddd;
-}
-
-/* Estilo para las anotaciones */
-.annotation {
-  color: blue;
-  text-decoration: underline;
-  cursor: pointer;
-  position: relative;
-}
-
-.annotation:hover {
-  background-color: rgba(173, 216, 230, 0.4);
-}
-
-/* Estilo para el Popover de anotaciones */
-.popover {
-  max-width: 200px;
 }

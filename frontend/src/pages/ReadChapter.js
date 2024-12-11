@@ -6,6 +6,7 @@ import { FaArrowLeft, FaBook, FaArrowRight } from 'react-icons/fa';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import DOMPurify from 'dompurify';  
 import parse, { domToReact } from 'html-react-parser';
+import Draggable from 'react-draggable'; // Importar react-draggable
 import '../styles/readChapter.css';
 
 const ReadChapter = () => {
@@ -27,6 +28,17 @@ const ReadChapter = () => {
 
     // Ref para generar IDs únicos para los Popovers
     const popoverIdRef = useRef(0);
+
+    // Estado para almacenar la posición del botón de ajustes
+    const [dragPosition, setDragPosition] = useState({ x: 0, y: 0 });
+
+    useEffect(() => {
+        // Recuperar posición desde localStorage al montar el componente
+        const savedPosition = localStorage.getItem('settingsButtonPosition');
+        if (savedPosition) {
+            setDragPosition(JSON.parse(savedPosition));
+        }
+    }, []);
 
     useEffect(() => {
         const fetchChapter = async () => {
@@ -125,6 +137,12 @@ const ReadChapter = () => {
         }
     };
 
+    // Función para manejar el arrastre y guardar posición
+    const handleDrag = (e, data) => {
+        setDragPosition({ x: data.x, y: data.y });
+        localStorage.setItem('settingsButtonPosition', JSON.stringify({ x: data.x, y: data.y }));
+    };
+
     if (loading) return <p className="text-center">Cargando...</p>;
     if (error) return <p className="text-center text-danger">{error}</p>;
 
@@ -207,52 +225,59 @@ const ReadChapter = () => {
                 </div>
             </Container>
 
-            {/* Ajustes */}
-            <div className={`floating-controls`}>
-                <Button
-                    variant="primary"
-                    className="settings-toggle"
-                    onClick={() => setShowSettings((prev) => !prev)} // Cambia entre mostrar/ocultar
-                >
-                    {showSettings ? <FaArrowDown /> : <FaArrowUp />}
-                </Button>
+            {/* Ajustes Movibles */}
+            <Draggable
+                handle=".handle"
+                position={dragPosition}
+                onDrag={handleDrag}
+                bounds="parent"
+            >
+                <div className="floating-controls">
+                    <Button
+                        variant="primary"
+                        className="settings-toggle handle"
+                        onClick={() => setShowSettings((prev) => !prev)} // Cambia entre mostrar/ocultar
+                    >
+                        {showSettings ? <FaArrowDown /> : <FaArrowUp />}
+                    </Button>
 
-                {showSettings && (
-                    <div className="settings-panel">
-                        <Form.Group>
-                            <Form.Label>Tamaño de Letra</Form.Label>
-                            <Form.Range
-                                min="12"
-                                max="32"
-                                value={fontSize}
-                                onChange={(e) => handleFontSizeChange(e.target.value)}
-                            />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Color de Fuente</Form.Label>
-                            <Form.Select
-                                value={fontColor}
-                                onChange={(e) => setFontColor(e.target.value)}
-                            >
-                                <option value="#B2BABB">Gris Claro (#B2BABB)</option>
-                                <option value="#CDC3E3">Morado Claro (#CDC3E3)</option>
-                                <option value="#A9DFBF">Verde Claro (#A9DFBF)</option>
-                                <option value="#FBFCFC">Blanco (#FBFCFC)</option>
-                                <option value="#FDEDEC">Rosado Claro (#FDEDEC)</option>
-                            </Form.Select>
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Brillo</Form.Label>
-                            <Form.Range
-                                min="50"
-                                max="150"
-                                value={brightness}
-                                onChange={(e) => handleBrightnessChange(e.target.value)}
-                            />
-                        </Form.Group>
-                    </div>
-                )}
-            </div>
+                    {showSettings && (
+                        <div className="settings-panel">
+                            <Form.Group>
+                                <Form.Label>Tamaño de Letra</Form.Label>
+                                <Form.Range
+                                    min="12"
+                                    max="32"
+                                    value={fontSize}
+                                    onChange={(e) => handleFontSizeChange(e.target.value)}
+                                />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Color de Fuente</Form.Label>
+                                <Form.Select
+                                    value={fontColor}
+                                    onChange={(e) => setFontColor(e.target.value)}
+                                >
+                                    <option value="#B2BABB">Gris Claro (#B2BABB)</option>
+                                    <option value="#CDC3E3">Morado Claro (#CDC3E3)</option>
+                                    <option value="#A9DFBF">Verde Claro (#A9DFBF)</option>
+                                    <option value="#FBFCFC">Blanco (#FBFCFC)</option>
+                                    <option value="#FDEDEC">Rosado Claro (#FDEDEC)</option>
+                                </Form.Select>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Brillo</Form.Label>
+                                <Form.Range
+                                    min="50"
+                                    max="150"
+                                    value={brightness}
+                                    onChange={(e) => handleBrightnessChange(e.target.value)}
+                                />
+                            </Form.Group>
+                        </div>
+                    )}
+                </div>
+            </Draggable>
 
             {/* Navegación entre capítulos */}
             <div className="chapter-navigation text-center">

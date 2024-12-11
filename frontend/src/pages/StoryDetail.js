@@ -1,12 +1,8 @@
-// src/components/StoryDetail.jsx
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Modal, Button, Card, Form, Spinner } from 'react-bootstrap';
-import { FaMagic } from 'react-icons/fa';
-
-import '../styles/StoryDetail.css'; // Asegúrate de crear y personalizar este archivo
+import { Modal, Button, Card, Form } from 'react-bootstrap';
+import '../styles/global.css';
 
 const StoryDetail = () => {
     const { id } = useParams();
@@ -30,89 +26,64 @@ const StoryDetail = () => {
     // Estado para manejar la autorización de capítulos
     const [authorizedChapters, setAuthorizedChapters] = useState({});
 
-    // Estado y efecto para el usuario actual
-    const [currentUser, setCurrentUser] = useState(null);
-    const [userLoading, setUserLoading] = useState(true);
-    const [userError, setUserError] = useState(null);
-
-    useEffect(() => {
-        const fetchCurrentUser = async () => {
-            try {
-                const response = await axios.get("/api/users/profile", { withCredentials: true });
-                if (response.data) {
-                    setCurrentUser(response.data);
-                } else {
-                    setCurrentUser(null);
-                }
-            } catch (error) {
-                console.error("Error al obtener los datos del usuario:", error);
-                setUserError("Error al obtener los datos del usuario.");
-                setCurrentUser(null);
-            } finally {
-                setUserLoading(false);
-            }
-        };
-
-        fetchCurrentUser();
-    }, []);
-
     useEffect(() => {
         const fetchStory = async () => {
-            try {
-                const res = await axios.get(`/api/novels/${id}`);
-                const storyData = res.data;
-
-                // Verificar si los colaboradores están correctamente poblados
-                if (!storyData.collaborators || !Array.isArray(storyData.collaborators)) {
-                    throw new Error('Datos de colaboradores inválidos.');
-                }
-
-                // Identificar colaboradores con 'Usuario Desconocido'
-                const invalidCollaborators = storyData.collaborators.filter(col => !col.user || !col.user.username);
-
-                if (invalidCollaborators.length > 0) {
-                    // Obtener los IDs de los colaboradores inválidos
-                    const invalidIds = invalidCollaborators.map(col => col.user); // Asegúrate de que 'user' contenga el ID
-
-                    // Hacer solicitudes para obtener los datos de estos usuarios
-                    const userPromises = invalidIds.map(id => axios.get(`/api/users/${id}`));
-
-                    try {
-                        const userResponses = await Promise.all(userPromises);
-                        const usersData = userResponses.map(response => response.data);
-
-                        // Actualizar los colaboradores con los datos obtenidos
-                        const updatedCollaborators = storyData.collaborators.map(col => {
-                            if (!col.user || !col.user.username) {
-                                const fetchedUser = usersData.find(user => user._id === col.user);
-                                if (fetchedUser) {
-                                    return {
-                                        ...col,
-                                        user: fetchedUser,
-                                    };
-                                }
-                            }
-                            return col;
-                        });
-
-                        setStory({ ...storyData, collaborators: updatedCollaborators });
-                    } catch (err) {
-                        console.error('Error al obtener datos de colaboradores inválidos:', err);
-                        // Opcional: manejar errores específicos
-                    }
-                } else {
-                    setStory(storyData);
-                }
-
-                setLoading(false);
-            } catch (err) {
-                console.error('Error al cargar la historia:', err);
-                setError('Error al cargar la historia.');
-                setLoading(false);
+          try {
+            const res = await axios.get(`/api/novels/${id}`);
+            const storyData = res.data;
+      
+            // Verificar si los colaboradores están correctamente poblados
+            if (!storyData.collaborators || !Array.isArray(storyData.collaborators)) {
+              throw new Error('Datos de colaboradores inválidos.');
             }
+      
+            // Identificar colaboradores con 'Usuario Desconocido'
+            const invalidCollaborators = storyData.collaborators.filter(col => !col.user || !col.user.username);
+      
+            if (invalidCollaborators.length > 0) {
+              // Obtener los IDs de los colaboradores inválidos
+              const invalidIds = invalidCollaborators.map(col => col._id);
+      
+              // Hacer solicitudes para obtener los datos de estos usuarios
+              const userPromises = invalidIds.map(id => axios.get(`/api/users/${id}`));
+      
+              try {
+                const userResponses = await Promise.all(userPromises);
+                const usersData = userResponses.map(response => response.data);
+      
+                // Actualizar los colaboradores con los datos obtenidos
+                const updatedCollaborators = storyData.collaborators.map(col => {
+                  if (!col.user || !col.user.username) {
+                    const fetchedUser = usersData.find(user => user.username === col.username);
+                    if (fetchedUser) {
+                      return {
+                        ...col,
+                        user: fetchedUser,
+                      };
+                    }
+                  }
+                  return col;
+                });
+      
+                setStory({ ...storyData, collaborators: updatedCollaborators });
+              } catch (err) {
+                console.error('Error al obtener datos de colaboradores inválidos:', err);
+                // Opcional: manejar errores específicos
+              }
+            } else {
+              setStory(storyData);
+            }
+      
+            setLoading(false);
+          } catch (err) {
+            console.error('Error al cargar la historia:', err);
+            setError('Error al cargar la historia.');
+            setLoading(false);
+          }
         };
         fetchStory();
-    }, [id]);
+      }, [id]);
+      
 
     const handleSaveStory = async () => {
         try {
@@ -199,160 +170,113 @@ const StoryDetail = () => {
         }
     };
 
-    // Estado y Modal para agregar un capítulo
-    const [showAddChapterModal, setShowAddChapterModal] = useState(false);
-    const [newChapterTitle, setNewChapterTitle] = useState('');
-    const [newChapterContent, setNewChapterContent] = useState('');
-    const [addChapterError, setAddChapterError] = useState('');
-
-    const handleAddChapterSubmit = async (e) => {
-        e.preventDefault();
-        if (!newChapterTitle.trim() || !newChapterContent.trim()) {
-            setAddChapterError('Por favor, completa todos los campos.');
-            return;
-        }
-
-        try {
-            const res = await axios.post(`/api/novels/${id}/chapters`, {
-                title: newChapterTitle,
-                content: newChapterContent
-            }, { withCredentials: true });
-
-            // Actualizar la lista de capítulos en el estado
-            setStory(prevStory => ({
-                ...prevStory,
-                chapters: [...prevStory.chapters, res.data.chapter]
-            }));
-
-            alert('Capítulo agregado exitosamente.');
-            setShowAddChapterModal(false);
-            setNewChapterTitle('');
-            setNewChapterContent('');
-            setAddChapterError('');
-        } catch (err) {
-            console.error(err);
-            setAddChapterError('Error al agregar el capítulo.');
-        }
-    };
-
-    if (loading || userLoading) return <p className="loading-text">Cargando...</p>;
-    if (error) return <p className="error-text">{error}</p>;
-    if (userError) return <p className="error-text">{userError}</p>;
-    if (!story) return <p className="error-text">Historia no encontrada.</p>;
+    if (loading) return <p>Cargando...</p>;
+    if (error) return <p>{error}</p>;
 
     return (
-        <div className="story-detail-container">
+        <div className="container my-5">
             <div className="row">
                 <div className="col-md-4">
-                    <Card className="story-cover-card shadow-sm">
+                    <Card className="shadow-sm">
                         <Card.Img
                             variant="top"
                             src={story.coverImage}
                             alt={`Portada de ${story.title}`}
-                            className="story-cover-image"
+                            style={{ maxHeight: '400px', objectFit: 'cover' }}
                         />
-                        <Card.Body className="d-flex flex-column align-items-center">
+                        <Card.Body>
                             <Button
-                                className="btn btn-secondary mt-2 fantasy-button"
+                                className="btn btn-secondary mt-2"
                                 onClick={() => handleReadChapter(story.chapters[0]?._id)}
                                 disabled={!story.chapters.length}
                             >
                                 Leer
                             </Button>
                             {/* Mostrar autor (usuario encargado) */}
-                            <div className="mt-3 author-info">
-                                <strong>Autor:</strong>{' '}
-                                <Button variant="link" onClick={() => navigate(`/profileperson/${story.author?.username}`)} className="author-link fantasy-link">
-                                    {story.author?.username || 'Autor desconocido'}
+                            <div className="mt-3">
+                                <strong>usuario:</strong>{' '}
+                                <Button variant="link" onClick={() => navigate(`/profileperson/${story.author}`)}>
+                                    {story.author}
                                 </Button>
+
                             </div>
-                            {/* Botón para agregar capítulo si el usuario es el autor */}
-                            {currentUser && currentUser.username === story.author?.username && (
-                                <Button
-                                    variant="success"
-                                    className="btn mt-2 fantasy-button"
-                                    onClick={() => navigate(`/add-chapter/${id}`)}
-                                >
-                                    Agregar Capítulo
-                                </Button>
-                            )}
                         </Card.Body>
                     </Card>
                 </div>
                 <div className="col-md-8">
-                    <Card className="story-info-card shadow-sm">
+                    <Card className="shadow-sm">
                         <Card.Body>
-                            <h3 className="story-title"><FaMagic /> {story.title}</h3>
-                            <div className="story-details">
+                            <h3>{story.title}</h3>
+                            <div>
                                 <strong>Clasificación:</strong>{' '}
-                                <span className="badge classification-badge">{story.classification}</span>
+                                <span className="badge bg-secondary">{story.classification}</span>
                             </div>
-                            <div className="story-details">
+                            <div>
                                 <strong>Idioma de Origen:</strong> {story.languageOrigin}
                             </div>
-                            <div className="story-details">
+                            <div>
                                 <strong>Géneros:</strong> {story.genres.join(', ')}
                             </div>
-                            <div className="story-details">
+                            <div>
                                 <strong>Subgéneros:</strong>{' '}
                                 {story.subGenres.length > 0
                                     ? story.subGenres.join(', ')
                                     : 'No especificado'}
                             </div>
-                            <div className="story-details">
+                            <div>
                                 <strong>Etiquetas:</strong>{' '}
                                 {story.tags.length > 0 ? story.tags.join(', ') : 'Sin etiquetas'}
                             </div>
                             {/* Mostrar rawOrigin */}
-                            <div className="story-details mt-3">
+                            <div className="mt-3">
                                 <strong>Novela Original:</strong>{' '}
                                 {story.rawOrigin && story.rawOrigin.length > 0 ? (
-                                    <a href={story.rawOrigin[0].link} target="_blank" rel="noopener noreferrer" className="original-link fantasy-link">
+                                    <a href={story.rawOrigin[0].link} target="_blank" rel="noopener noreferrer">
                                         {story.rawOrigin[0].origin}
                                     </a>
                                 ) : 'No disponible'}
+
                             </div>
 
-                            <div className="story-details mt-3">
+                            <div className="mt-3">
                                 <strong>Colaboradores:</strong>{' '}
                                 {story.collaborators.length > 0 ? (
-                                    <div className="collaborators-list">
-                                        {story.collaborators.map((col, index) => (
-                                            <div key={index} className="collaborator d-flex align-items-center mb-2">
-                                                {/* Mostrar el nombre del colaborador como un enlace */}
-                                                {col.user?.username !== 'Usuario Desconocido' ? (
-                                                    <button
-                                                        onClick={() => navigate(`/profileperson/${col.user.username}`)}
-                                                        className="collaborator-link btn btn-link p-0 fantasy-link"
-                                                    >
-                                                        {col.user.username} ({col.role})
-                                                    </button>
-                                                ) : (
-                                                    <span>{col.user?.username || 'Usuario Desconocido'} ({col.role})</span>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
+                                    story.collaborators.map((col, index) => (
+                                        <div key={index} className="collaborator d-flex align-items-center mb-2">
+                                            {/* Mostrar el nombre del colaborador como un enlace */}
+                                            {col.username !== 'Usuario Desconocido' ? (
+                                                <button
+                                                    onClick={() => navigate(`/profileperson/${col.username}`)}
+                                                    className="collaborator-link btn btn-link p-0"
+                                                >
+                                                    {col.username} ({col.role})
+                                                </button>
+                                            ) : (
+                                                <span>{col.username} ({col.role})</span>
+                                            )}
+                                        </div>
+                                    ))
                                 ) : (
                                     'No hay colaboradores'
                                 )}
                             </div>
 
                             {/* Mostrar adaptaciones */}
-                            <div className="story-details mt-3">
+                            <div className="mt-3">
                                 <strong>Adaptaciones:</strong>{' '}
                                 {story.adaptations && story.adaptations.length > 0 ? (
                                     story.adaptations.map((adap, i) => (
-                                        <span key={i} className="adaptation-item">
-                                            {adap.type} - {adap.title}: <a href={adap.link} target="_blank" rel="noopener noreferrer" className="adaptation-link fantasy-link">{adap.link}</a>
+                                        <span key={i}>
+                                            {adap.type} - {adap.title}: <a href={adap.link} target="_blank" rel="noopener noreferrer">{adap.link}</a>
                                             {i < story.adaptations.length - 1 && ', '}
                                         </span>
                                     ))
                                 ) : 'No hay adaptaciones'}
+
                             </div>
 
-                            <div className="story-description mt-3">
-                                <p className="short-description">
+                            <div className="mt-3">
+                                <p>
                                     {story.description.length > 200
                                         ? `${story.description.substring(0, 200)}...`
                                         : story.description}
@@ -361,7 +285,7 @@ const StoryDetail = () => {
                                     <Button
                                         variant="link"
                                         onClick={() => setShowModal(true)}
-                                        className="read-more-link fantasy-link p-0"
+                                        className="p-0"
                                     >
                                         Ver más
                                     </Button>
@@ -373,17 +297,18 @@ const StoryDetail = () => {
             </div>
 
             <div className="mt-5">
-                <h4 className="section-title">Capítulos</h4>
+                <h4>Capítulos</h4>
                 {story.chapters.length ? (
                     story.chapters.map((chapter) => (
                         <Card
                             key={chapter._id}
-                            className="chapter-card shadow-sm mb-3 fantasy-card"
+                            className="shadow-sm mb-3"
                             onClick={() => handleReadChapter(chapter._id)}
+                            style={{ cursor: 'pointer' }}
                         >
                             <Card.Body>
-                                <h5 className="chapter-title">{chapter.title}</h5>
-                                <p className="chapter-date">
+                                <h5>{chapter.title}</h5>
+                                <p>
                                     Publicado el {new Date(chapter.publishedAt).toLocaleDateString()}
                                 </p>
                             </Card.Body>
@@ -395,39 +320,39 @@ const StoryDetail = () => {
             </div>
 
             <div className="mt-5">
-                <h4 className="section-title">Comentarios</h4>
+                <h4>Comentarios</h4>
                 <form onSubmit={handleReviewSubmit} className="mb-4">
                     <div className="form-group mt-2">
-                        <label htmlFor="review" className="review-label fantasy-label">Deja un comentario</label>
+                        <label htmlFor="review">Deja un comentario</label>
                         <textarea
                             id="review"
-                            className="form-control fantasy-input review-textarea"
+                            className="form-control"
                             rows="3"
                             value={review}
                             onChange={(e) => setReview(e.target.value)}
                             placeholder="Escribe tu reseña aquí..."
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary mt-2 fantasy-button" disabled={!review}>
+                    <button type="submit" className="btn btn-primary mt-2" disabled={!review}>
                         Enviar reseña
                     </button>
                 </form>
 
                 {story.reviews.length ? (
                     story.reviews.map((rev, idx) => (
-                        <Card key={idx} className="shadow-sm mb-3 fantasy-card">
+                        <Card key={idx} className="shadow-sm mb-3">
                             <Card.Body>
-                                <div className="review-header">
-                                    <strong>{rev.user?.username || 'Usuario desconocido'}</strong>
+                                <div>
+                                    <strong>{rev.user.username}</strong>
                                 </div>
-                                <p className="review-comment">{rev.comment}</p>
-                                <Button variant="link" onClick={() => setSelectedReview(rev)} className="fantasy-link p-0">
+                                <p>{rev.comment}</p>
+                                <Button variant="link" onClick={() => setSelectedReview(rev)}>
                                     Responder
                                 </Button>
                                 {rev.replies?.map((reply, index) => (
-                                    <Card key={index} className="mt-2 reply-card fantasy-card">
+                                    <Card key={index} className="mt-2">
                                         <Card.Body>
-                                            <p className="reply-text">{reply.text}</p>
+                                            <p>{reply.text}</p>
                                         </Card.Body>
                                     </Card>
                                 ))}
@@ -442,11 +367,11 @@ const StoryDetail = () => {
             {/* Modal Responder Reseña */}
             <Modal show={!!selectedReview} onHide={() => setSelectedReview(null)} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Responder a {selectedReview?.user?.username || 'Usuario desconocido'}</Modal.Title>
+                    <Modal.Title>Responder a {selectedReview?.user.username}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <textarea
-                        className="form-control fantasy-input"
+                        className="form-control"
                         rows="3"
                         value={reply}
                         onChange={(e) => setReply(e.target.value)}
@@ -458,11 +383,10 @@ const StoryDetail = () => {
                         variant="primary"
                         onClick={(e) => handleReplySubmit(e, selectedReview?._id)}
                         disabled={!reply.trim()}
-                        className="fantasy-button"
                     >
                         Responder
                     </Button>
-                    <Button variant="secondary" onClick={() => setSelectedReview(null)} className="fantasy-button">
+                    <Button variant="secondary" onClick={() => setSelectedReview(null)}>
                         Cancelar
                     </Button>
                 </Modal.Footer>
@@ -475,7 +399,7 @@ const StoryDetail = () => {
                 </Modal.Header>
                 <Modal.Body>{story.description}</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowModal(false)} className="fantasy-button">
+                    <Button variant="secondary" onClick={() => setShowModal(false)}>
                         Cerrar
                     </Button>
                 </Modal.Footer>
@@ -489,13 +413,12 @@ const StoryDetail = () => {
                 <Modal.Body>
                     <p>Para acceder a esta novela, ingresa la contraseña proporcionada.</p>
                     <Form.Group controlId="password">
-                        <Form.Label className="fantasy-label">Contraseña</Form.Label>
+                        <Form.Label>Contraseña</Form.Label>
                         <Form.Control
                             type="password"
                             placeholder="Ingresa la contraseña"
                             value={enteredPassword}
                             onChange={(e) => setEnteredPassword(e.target.value)}
-                            className="fantasy-input"
                         />
                         {passwordError && (
                             <Form.Text className="text-danger">
@@ -505,10 +428,10 @@ const StoryDetail = () => {
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={handlePasswordSubmit} className="fantasy-button">
+                    <Button variant="primary" onClick={handlePasswordSubmit}>
                         Leer
                     </Button>
-                    <Button variant="secondary" onClick={() => setShowPasswordModal(false)} className="fantasy-button">
+                    <Button variant="secondary" onClick={() => setShowPasswordModal(false)}>
                         Cancelar
                     </Button>
                 </Modal.Footer>
