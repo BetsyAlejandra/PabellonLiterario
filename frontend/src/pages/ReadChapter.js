@@ -6,7 +6,6 @@ import { FaArrowLeft, FaBook, FaArrowRight, FaCog } from 'react-icons/fa'; // Fa
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import DOMPurify from 'dompurify';  
 import parse, { domToReact } from 'html-react-parser';
-import Draggable from 'react-draggable'; // Importar react-draggable
 import '../styles/readChapter.css';
 
 const ReadChapter = () => {

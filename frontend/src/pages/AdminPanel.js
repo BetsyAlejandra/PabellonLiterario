@@ -141,7 +141,7 @@ const AdminPanel = () => {
         </button>
       </div>
 
-      {/* Paginación con flechas */}
+      {/* Paginación con rango dinámico */}
       <div className="admin-pagination">
         <button
           className="admin-page-btn"
@@ -157,15 +157,20 @@ const AdminPanel = () => {
         >
           ‹
         </button>
-        {[...Array(totalPages).keys()].map((number) => (
-          <button
-            key={number + 1}
-            className={`admin-page-btn ${currentPage === number + 1 ? 'active' : ''}`}
-            onClick={() => paginate(number + 1)}
-          >
-            {number + 1}
-          </button>
-        ))}
+        {[...Array(totalPages).keys()]
+          .slice(
+            Math.max(0, currentPage - 3),
+            Math.min(totalPages, currentPage + 2)
+          )
+          .map((number) => (
+            <button
+              key={number + 1}
+              className={`admin-page-btn ${currentPage === number + 1 ? 'active' : ''}`}
+              onClick={() => paginate(number + 1)}
+            >
+              {number + 1}
+            </button>
+          ))}
         <button
           className="admin-page-btn"
           onClick={nextPage}
@@ -181,6 +186,7 @@ const AdminPanel = () => {
           »
         </button>
       </div>
+
     </div>
   );
 };
