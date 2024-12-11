@@ -139,7 +139,7 @@ body {
 /* Botones Registrarse e Iniciar Sesión */
 .register-btn {
   background-color: #ffd700; /* Dorado */
-  color: #1a1a1a;
+  color: #000000 !important;
 }
 
 .register-btn:hover {
