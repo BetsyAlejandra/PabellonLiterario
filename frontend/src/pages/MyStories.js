@@ -1,8 +1,9 @@
+// src/components/MyStories.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Modal, Button } from 'react-bootstrap';
-import '../styles/global.css';
+import { Modal, Button, Card, Form } from 'react-bootstrap';
+import '../styles/MyStories.css'; // Importa el archivo CSS específico
 
 const MyStories = () => {
     const [stories, setStories] = useState([]);
@@ -81,7 +82,6 @@ const MyStories = () => {
         navigate('/upload');
     };
 
-
     const handleDeleteChapter = (storyId, chapterId, chapterTitle) => {
         console.log('Eliminando capítulo:', { storyId, chapterId, chapterTitle });
         setChapterToDelete({ id: chapterId, title: chapterTitle, storyId });
@@ -122,31 +122,34 @@ const MyStories = () => {
         }
     };
 
-    if (loading) return <p className="text-center">Cargando historias...</p>;
-    if (error) return <p className="text-center text-danger">{error}</p>;
+    if (loading) return <p className="my-stories-loading">Cargando historias...</p>;
+    if (error) return <p className="my-stories-error">{error}</p>;
 
     return (
-        <div className="container my-5">
-            <h2 className="text-center mb-4">Mis Historias</h2>
+        <div className="my-stories-container">
+            <div className="d-flex justify-content-between align-items-center mb-4">
+                <h2 className="my-stories-title">Mis Historias</h2>
+                <Button className="my-stories-add-button" onClick={handleAddNovel}>
+                    Agregar Nueva Novela
+                </Button>
+            </div>
             <div className="row">
                 {stories.map((story) => (
                     <div key={story._id} className="col-md-6 col-lg-4 mb-4">
-                        <div className="card shadow-sm h-100">
-                            <img
-                                src={story.coverImage}
-                                alt={`Portada de ${story.title}`}
-                                className="card-img-top"
-                                style={{
-                                    maxHeight: '200px',
-                                    objectFit: 'cover',
-                                }}
-                            />
-                            <div className="card-body">
-                                <h5 className="card-title">{story.title}</h5>
-                                <p className="card-text">
+                        <Card className="my-stories-card shadow-sm h-100">
+                            <div className="my-stories-card-image-container">
+                                <Card.Img
+                                    src={story.coverImage}
+                                    alt={`Portada de ${story.title}`}
+                                    className="my-stories-card-image"
+                                />
+                            </div>
+                            <Card.Body className="d-flex flex-column">
+                                <h5 className="my-stories-card-title">{story.title}</h5>
+                                <p className="my-stories-card-text">
                                     {story.description.substring(0, 100)}...
                                     <button
-                                        className="btn btn-link p-0"
+                                        className="my-stories-read-more-button btn btn-link p-0"
                                         onClick={() => handleViewDescription(story.description)}
                                     >
                                         Leer más
@@ -160,78 +163,82 @@ const MyStories = () => {
                                     <strong>Clasificación:</strong>{' '}
                                     <span className="badge bg-secondary">{story.classification}</span>
                                 </div>
-                                <div>
+                                <div className="mb-3">
                                     <strong>Etiquetas:</strong>{' '}
                                     <span className="text-info">
                                         {story.tags.length > 0 ? story.tags.join(', ') : 'Sin etiquetas'}
                                     </span>
                                 </div>
-                            </div>
-                            <div className="card-footer d-flex justify-content-center gap-3">
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={() => handleEditClick(story._id)}
-                                >
-                                    Editar
-                                </button>
-                                <button
-                                    className="btn btn-danger"
-                                    onClick={() => handleDeleteClick(story._id)}
-                                >
-                                    Eliminar
-                                </button>
-                                <button
-                                    className="btn btn-info"
-                                    onClick={() => handleViewChapters(story)}
-                                >
-                                    Ver Capítulos
-                                </button>
-                            </div>
-                        </div>
+                                {/* Botones de Acción */}
+                                <div className="mt-auto d-flex justify-content-center gap-3">
+                                    <Button
+                                        variant="primary"
+                                        onClick={() => handleEditClick(story._id)}
+                                        className="my-stories-action-button"
+                                    >
+                                        Editar
+                                    </Button>
+                                    <Button
+                                        variant="danger"
+                                        onClick={() => handleDeleteClick(story._id)}
+                                        className="my-stories-action-button"
+                                    >
+                                        Eliminar
+                                    </Button>
+                                    <Button
+                                        variant="info"
+                                        onClick={() => handleViewChapters(story)}
+                                        className="my-stories-action-button"
+                                    >
+                                        Ver Capítulos
+                                    </Button>
+                                </div>
+                            </Card.Body>
+                        </Card>
                     </div>
                 ))}
             </div>
 
             {/* Modal para mostrar capítulos */}
             {selectedStory && (
-                <Modal show={modalShow} onHide={() => setModalShow(false)} centered>
+                <Modal show={modalShow} onHide={() => setModalShow(false)} centered className="my-stories-modal">
                     <Modal.Header closeButton>
-                        <Modal.Title style={{ color: '#4caf50' }}>
+                        <Modal.Title className="my-stories-modal-title">
                             Capítulos de {selectedStory.title}
                         </Modal.Title>
                     </Modal.Header>
-                    <Modal.Body style={{ backgroundColor: '#2c2c2c', color: '#f0f0f0' }}>
+                    <Modal.Body className="my-stories-modal-body">
                         {selectedStory.chapters && selectedStory.chapters.length > 0 ? (
                             <ul className="list-group">
-                                {selectedStory.chapters.map((chapter, idx) => (
+                                {selectedStory.chapters.map((chapter) => (
                                     <li
-                                        key={chapter._id} // Usar _id como key para mayor unicidad
-                                        className="list-group-item d-flex justify-content-between align-items-center"
-                                        style={{
-                                            backgroundColor: '#1a1a1a',
-                                            color: '#f0f0f0',
-                                            borderRadius: '4px',
-                                            marginBottom: '8px',
-                                        }}
+                                        key={chapter._id}
+                                        className="list-group-item my-stories-chapter-item"
                                     >
-                                        {chapter.title}
-                                        <div>
-                                            <button
-                                                className="btn btn-outline-primary btn-sm me-2"
-                                                onClick={() =>
-                                                    handleEditChapter(selectedStory._id, chapter._id)
-                                                }
-                                            >
-                                                Editar
-                                            </button>
-                                            <button
-                                                className="btn btn-outline-danger btn-sm"
-                                                onClick={() =>
-                                                    handleDeleteChapter(selectedStory._id, chapter._id, chapter.title)
-                                                }
-                                            >
-                                                Eliminar
-                                            </button>
+                                        <div className="d-flex justify-content-between align-items-center">
+                                            <span className="my-stories-chapter-title">{chapter.title}</span>
+                                            <div>
+                                                <Button
+                                                    variant="outline-primary"
+                                                    size="sm"
+                                                    className="me-2 my-stories-chapter-button"
+                                                    onClick={() =>
+                                                        handleEditChapter(selectedStory._id, chapter._id)
+                                                    }
+                                                >
+                                                    Editar
+                                                </Button>
+                                                <Button
+                                                    variant="outline-danger"
+                                                    size="sm"
+                                                    className="my-stories-chapter-button"
+                                                    onClick={() =>
+                                                        handleDeleteChapter(selectedStory._id, chapter._id, chapter.title)
+                                                    }
+                                                >
+                                                    Eliminar
+                                                </Button>
+                                            </div>
                                         </div>
                                     </li>
                                 ))}
@@ -251,17 +258,17 @@ const MyStories = () => {
                 </Modal>
             )}
 
-
             {/* Modal para mostrar descripción completa */}
             <Modal
                 show={descriptionModalShow}
                 onHide={() => setDescriptionModalShow(false)}
                 centered
+                className="my-stories-modal"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Descripción</Modal.Title>
+                    <Modal.Title className="my-stories-modal-title">Descripción</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>{selectedDescription}</Modal.Body>
+                <Modal.Body className="my-stories-modal-body">{selectedDescription}</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setDescriptionModalShow(false)}>
                         Cerrar
@@ -269,16 +276,19 @@ const MyStories = () => {
                 </Modal.Footer>
             </Modal>
 
-            {/* Modal de confirmación */}
+            {/* Modal de confirmación para eliminar historia */}
             <Modal
                 show={confirmModalShow}
                 onHide={() => setConfirmModalShow(false)}
                 centered
+                className="my-stories-modal"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Confirmar eliminación</Modal.Title>
+                    <Modal.Title className="my-stories-modal-title">Confirmar Eliminación</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>¿Estás seguro de que deseas eliminar esta historia?</Modal.Body>
+                <Modal.Body className="my-stories-modal-body">
+                    ¿Estás seguro de que deseas eliminar esta historia? Esta acción no se puede deshacer.
+                </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setConfirmModalShow(false)}>
                         Cancelar
@@ -294,15 +304,15 @@ const MyStories = () => {
                 show={confirmDeleteModalShow}
                 onHide={() => setConfirmDeleteModalShow(false)}
                 centered
+                className="my-stories-modal"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Confirmar Eliminación</Modal.Title>
+                    <Modal.Title className="my-stories-modal-title">Confirmar Eliminación</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="my-stories-modal-body">
                     {chapterToDelete ? (
                         <p>
-                            ¿Estás seguro de que deseas eliminar el capítulo <strong>{chapterToDelete.title}</strong>?
-                            Esta acción no se puede deshacer.
+                            ¿Estás seguro de que deseas eliminar el capítulo <strong>{chapterToDelete.title}</strong>? Esta acción no se puede deshacer.
                         </p>
                     ) : (
                         <p>¿Estás seguro de que deseas eliminar este capítulo?</p>
@@ -317,9 +327,9 @@ const MyStories = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
         </div>
     );
+
 };
 
 export default MyStories;

@@ -1,4 +1,3 @@
-// src/components/EditChapter.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -13,15 +12,13 @@ import Image from '@tiptap/extension-image';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import Annotation from '../extensions/Annotation'; // Asegúrate de que la ruta sea correcta
 import { Modal, Button } from 'react-bootstrap';
-import DOMPurify from 'dompurify';
-import '../styles/global.css';
+import '../styles/EditChapter.css'; // Importa el archivo CSS específico
 
 const EditChapter = () => {
     const { storyId, chapterId } = useParams();
     const navigate = useNavigate();
 
     const [title, setTitle] = useState('');
-    const [annotations, setAnnotations] = useState([]);
     const [selectedText, setSelectedText] = useState('');
     const [modalShow, setModalShow] = useState(false);
     const [annotationText, setAnnotationText] = useState('');
@@ -80,7 +77,6 @@ const EditChapter = () => {
                 const chapter = res.data;
                 setTitle(chapter.title);
                 editor?.commands.setContent(chapter.content || '');
-                setAnnotations(chapter.annotations || []);
                 setLoading(false);
             } catch (err) {
                 setError(err.response?.data?.message || 'Error al cargar el capítulo.');
@@ -100,7 +96,6 @@ const EditChapter = () => {
         const updatedChapter = {
             title,
             content: editor.getHTML(),
-            annotations,
         };
 
         try {
@@ -123,12 +118,6 @@ const EditChapter = () => {
         // Utiliza el comando definido en la extensión para establecer una anotación
         editor.chain().focus().setAnnotation({ text: annotationText }).run();
 
-        const newAnnotation = {
-            text: selectedText,
-            meaning: annotationText,
-        };
-        setAnnotations([...annotations, newAnnotation]);
-
         setSelectedText('');
         setAnnotationText('');
         setModalShow(false);
@@ -148,21 +137,21 @@ const EditChapter = () => {
         editor.chain().focus().setHorizontalRule().run();
     };
 
-    if (loading) return <p className="text-center">Cargando datos del capítulo...</p>;
-    if (error) return <p className="text-center text-danger">{error}</p>;
+    if (loading) return <p className="text-center edit-chapter-loading">Cargando datos del capítulo...</p>;
+    if (error) return <p className="text-center text-danger edit-chapter-error">{error}</p>;
 
     return (
-        <div className="container my-5">
-            <h2 className="text-center mb-4">Editar Capítulo</h2>
+        <div className="edit-chapter-container">
+            <h2 className="edit-chapter-title">Editar Capítulo</h2>
 
-            <div className="card shadow-sm p-4">
-                <div className="card-body">
+            <div className="edit-chapter-card">
+                <div className="edit-chapter-card-body">
                     <div className="form-group mb-3">
-                        <label htmlFor="title">Título del Capítulo</label>
+                        <label htmlFor="title" className="edit-chapter-label">Título del Capítulo</label>
                         <input
                             type="text"
                             id="title"
-                            className="form-control"
+                            className="form-control edit-chapter-input"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Introduce el título del capítulo"
@@ -170,53 +159,60 @@ const EditChapter = () => {
                     </div>
 
                     <div className="form-group mb-3">
-                        <label htmlFor="content">Contenido del Capítulo</label>
-                        <div className="toolbar mb-2">
+                        <label htmlFor="content" className="edit-chapter-label">Contenido del Capítulo</label>
+                        {/* Barra de herramientas */}
+                        <div className="toolbar mb-2 edit-chapter-toolbar">
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool edit-chapter-btn"
                                 onClick={() => editor.chain().focus().toggleBold().run()}
                                 disabled={!editor}
+                                title="Negrita"
                             >
                                 <b>B</b>
                             </button>
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool edit-chapter-btn"
                                 onClick={() => editor.chain().focus().toggleItalic().run()}
                                 disabled={!editor}
+                                title="Cursiva"
                             >
                                 <i>I</i>
                             </button>
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool edit-chapter-btn"
                                 onClick={() => editor.chain().focus().toggleUnderline().run()}
                                 disabled={!editor}
+                                title="Subrayado"
                             >
                                 <u>U</u>
                             </button>
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool edit-chapter-btn"
                                 onClick={() => editor.chain().focus().setTextAlign('left').run()}
                                 disabled={!editor}
+                                title="Alinear Izquierda"
                             >
                                 ↤
                             </button>
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool edit-chapter-btn"
                                 onClick={() => editor.chain().focus().setTextAlign('center').run()}
                                 disabled={!editor}
+                                title="Alinear Centro"
                             >
                                 ↔
                             </button>
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool edit-chapter-btn"
                                 onClick={() => editor.chain().focus().setTextAlign('right').run()}
                                 disabled={!editor}
+                                title="Alinear Derecha"
                             >
                                 ↦
                             </button>
 
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool edit-chapter-btn"
                                 onClick={() => {
                                     const url = prompt("Ingrese la URL del enlace:");
                                     if (url) {
@@ -224,13 +220,14 @@ const EditChapter = () => {
                                     }
                                 }}
                                 disabled={!editor}
+                                title="Insertar Enlace"
                             >
                                 🌐
                             </button>
 
                             {/* Botón para insertar imagen */}
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool edit-chapter-btn"
                                 onClick={insertImage}
                                 disabled={!editor}
                                 title="Insertar Imagen"
@@ -240,7 +237,7 @@ const EditChapter = () => {
 
                             {/* Botón para insertar separador */}
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool edit-chapter-btn"
                                 onClick={insertSeparator}
                                 disabled={!editor}
                                 title="Insertar Separador"
@@ -249,23 +246,23 @@ const EditChapter = () => {
                             </button>
                         </div>
 
-                        <div className="editor-container border p-2 rounded">
+                        <div className="editor-container edit-chapter-editor">
                             <EditorContent editor={editor} />
                         </div>
                     </div>
 
-                    {error && <p className="text-danger">{error}</p>}
+                    {error && <p className="text-danger edit-chapter-error">{error}</p>}
 
-                    <div className="d-flex justify-content-center gap-3">
+                    <div className="d-flex justify-content-center gap-3 edit-chapter-buttons">
                         <button
-                            className="btn btn-primary"
+                            className="btn btn-primary edit-chapter-save-btn"
                             onClick={handleSaveChapter}
                             disabled={loading}
                         >
                             {loading ? 'Guardando...' : 'Guardar Cambios'}
                         </button>
                         <button
-                            className="btn btn-secondary"
+                            className="btn btn-secondary edit-chapter-cancel-btn"
                             onClick={() => navigate(`/my-stories`)}
                         >
                             Cancelar
@@ -277,16 +274,15 @@ const EditChapter = () => {
             {/* Botón flotante para anotaciones */}
             {showAnnotationButton && (
                 <div
-                    className="floating-btn"
+                    className="floating-btn edit-chapter-floating-btn"
                     style={{
-                        position: 'absolute',
                         top: buttonPosition.top,
                         left: buttonPosition.left,
                         zIndex: 1000,
                     }}
                 >
                     <button
-                        className="btn btn-success"
+                        className="btn btn-success edit-chapter-annotate-btn"
                         onClick={() => setModalShow(true)}
                     >
                         Anotar
@@ -295,7 +291,7 @@ const EditChapter = () => {
             )}
 
             {/* Modal para agregar significado */}
-            <Modal show={modalShow} onHide={() => setModalShow(false)} centered>
+            <Modal show={modalShow} onHide={() => setModalShow(false)} centered className="edit-chapter-modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Agregar Significado</Modal.Title>
                 </Modal.Header>
@@ -304,7 +300,7 @@ const EditChapter = () => {
                         <strong>Texto Seleccionado:</strong> {selectedText}
                     </p>
                     <textarea
-                        className="form-control"
+                        className="form-control edit-chapter-textarea"
                         value={annotationText}
                         onChange={(e) => setAnnotationText(e.target.value)}
                         placeholder="Escribe el significado o anotación"

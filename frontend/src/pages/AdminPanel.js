@@ -21,6 +21,7 @@ const AdminPanel = () => {
         setLoading(false);
       } catch (error) {
         console.error('Error al cargar usuarios:', error);
+        setLoading(false);
       }
     };
     fetchUsers();
@@ -59,6 +60,18 @@ const AdminPanel = () => {
         { withCredentials: true }
       );
       alert('Roles asignados correctamente');
+      // Opcional: actualizar la lista de usuarios para reflejar los cambios
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user._id === selectedUser ? { ...user, roles: selectedRoles } : user
+        )
+      );
+      setFilteredUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user._id === selectedUser ? { ...user, roles: selectedRoles } : user
+        )
+      );
+      setSelectedRoles([]); // Resetear roles seleccionados
     } catch (error) {
       console.error('Error al asignar roles:', error);
       alert('Error al asignar roles');
@@ -71,29 +84,30 @@ const AdminPanel = () => {
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
-  if (loading) return <div className="loading">Cargando...</div>;
+  if (loading) return <div className="admin-loading">Cargando...</div>;
 
   return (
     <div className="admin-panel-container">
-      <div className="admin-panel-card">
-        <h1>Panel de Administrador</h1>
+      <div className="admin-panel-card shadow-sm">
+        <h1 className="admin-title">Panel de Administrador</h1>
         <div className="form-group">
-          <label htmlFor="searchBar">Buscar usuario:</label>
+          <label htmlFor="searchBar" className="admin-label">Buscar usuario:</label>
           <input
             type="text"
             id="searchBar"
             placeholder="Busca por nombre o email"
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
+            className="admin-search-input"
           />
         </div>
         <div className="user-list">
-          <h2>Lista de Usuarios</h2>
-          <ul>
+          <h2 className="user-list-title">Lista de Usuarios</h2>
+          <ul className="admin-user-list">
             {currentUsers.map((user) => (
               <li
                 key={user._id}
-                className={`user-item ${selectedUser === user._id ? 'selected' : ''}`}
+                className={`admin-user-item ${selectedUser === user._id ? 'selected' : ''}`}
                 onClick={() => setSelectedUser(user._id)}
               >
                 <strong>{user.username}</strong> ({user.roles.join(', ')})
@@ -102,57 +116,33 @@ const AdminPanel = () => {
           </ul>
         </div>
         <div className="form-group">
-          <label>Selecciona los roles:</label>
-          <div className="roles-checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                value="Traductor"
-                checked={selectedRoles.includes('Traductor')}
-                onChange={() => handleRoleChange('Traductor')}
-              />
-              Traductor
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                value="Escritor"
-                checked={selectedRoles.includes('Escritor')}
-                onChange={() => handleRoleChange('Escritor')}
-              />
-              Escritor
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                value="Editor"
-                checked={selectedRoles.includes('Editor')}
-                onChange={() => handleRoleChange('Editor')}
-              />
-              Editor
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                value="Lector"
-                checked={selectedRoles.includes('Lector')}
-                onChange={() => handleRoleChange('Lector')}
-              />
-              Lector
-            </label>
+          <label className="admin-label">Selecciona los roles:</label>
+          <div className="admin-roles-checkbox-group">
+            {['Traductor', 'Escritor', 'Editor', 'Lector'].map((role) => (
+              <label key={role} className="admin-checkbox-label">
+                <input
+                  type="checkbox"
+                  value={role}
+                  checked={selectedRoles.includes(role)}
+                  onChange={() => handleRoleChange(role)}
+                  className="admin-checkbox-input"
+                />
+                {role}
+              </label>
+            ))}
           </div>
         </div>
-        <button className="assign-role-btn" onClick={assignRoles}>
+        <button className="admin-assign-role-btn" onClick={assignRoles}>
           Asignar Roles
         </button>
       </div>
 
       {/* Paginación */}
-      <div className="pagination">
+      <div className="admin-pagination">
         {[...Array(Math.ceil(filteredUsers.length / usersPerPage)).keys()].map((number) => (
           <button
             key={number + 1}
-            className={`page-btn ${currentPage === number + 1 ? 'active' : ''}`}
+            className={`admin-page-btn ${currentPage === number + 1 ? 'active' : ''}`}
             onClick={() => paginate(number + 1)}
           >
             {number + 1}

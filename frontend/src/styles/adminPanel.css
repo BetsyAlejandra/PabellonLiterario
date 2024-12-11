@@ -1,112 +1,194 @@
+/* Contenedor Principal */
 .admin-panel-container {
-  background-color: #121212;
-  color: #f0f0f0;
-  padding: 20px;
-  border-radius: 10px;
+  background-color: #1a1a1a; /* Fondo oscuro */
+  min-height: 100vh;
+  padding: 50px 20px;
+  color: #f0f0f0; /* Texto claro para contraste */
+  font-family: 'Garamond', serif; /* Fuente con estilo clásico */
 }
 
-.assign-role-btn {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
+/* Tarjeta del Panel de Administrador */
+.admin-panel-card {
+  background-color: #2c2c2c; /* Gris oscuro */
+  border: 2px solid #ffd700; /* Borde dorado */
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
 }
 
-.assign-role-btn:hover {
-  background-color: #388e3c;
-}
-
-h1 {
-  font-size: 1.8rem;
-  color: #6C3483;
-}
-
-.form-group {
-  width: 100%;
-}
-
-label {
+/* Títulos */
+.admin-title {
+  color: #ffd700; /* Dorado */
+  text-align: center;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 5px;
+}
+
+.user-list-title {
+  color: #50c878; /* Esmeralda */
+  margin-bottom: 15px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Formulario de Búsqueda */
+.admin-label {
+  color: #ffd700; /* Dorado */
+  font-weight: bold;
   display: block;
+  margin-bottom: 8px;
 }
 
-select {
+.admin-search-input {
   width: 100%;
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #6C3483;
-  border-radius: 5px;
-  background-color: #fff;
+  padding: 10px 15px;
+  border: 1px solid #ffd700; /* Borde dorado */
+  border-radius: 10px;
+  background-color: #1c1c1c; /* Fondo oscuro */
+  color: #f0f0f0;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
-.roles-checkbox-group {
+.admin-search-input::placeholder {
+  color: #a9a9a9; /* Gris claro */
+}
+
+.admin-search-input:focus {
+  border-color: #50c878; /* Esmeralda */
+  background-color: #2a2a2a;
+  outline: none;
+}
+
+/* Lista de Usuarios */
+.admin-user-list {
+  list-style: none;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.admin-user-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #50c878; /* Borde esmeralda */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.admin-user-item:hover,
+.admin-user-item.selected {
+  background-color: #50c878; /* Esmeralda */
+  color: #1a1a1a;
+}
+
+/* Grupos de Checkboxes de Roles */
+.admin-roles-checkbox-group {
   display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.admin-checkbox-label {
+  display: flex;
+  align-items: center;
+  color: #f0f0f0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.admin-checkbox-input {
+  margin-right: 8px;
+  accent-color: #50c878; /* Esmeralda */
+}
+
+/* Botón de Asignar Roles */
+.admin-assign-role-btn {
+  background-color: #ffd700; /* Dorado */
+  border: none;
+  color: #1a1a1a;
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.admin-assign-role-btn:hover {
+  background-color: #e6c200;
+  transform: scale(1.05);
+}
+
+/* Paginación */
+.admin-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
   gap: 10px;
 }
 
-.roles-checkbox-group label {
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-input[type='checkbox'] {
-  margin-right: 5px;
-}
-
-.user-list ul {
-  list-style: none;
-  padding: 0;
-}
-
-.user-item {
-  padding: 10px;
-  background-color: #1e1e1e;
-  margin-bottom: 5px;
-  cursor: pointer;
+.admin-page-btn {
+  background-color: #50c878; /* Esmeralda */
+  border: none;
+  color: #1a1a1a;
+  padding: 8px 12px;
   border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: bold;
 }
 
-.user-item.selected {
-  background-color: #4caf50;
-  color: white;
+.admin-page-btn:hover {
+  background-color: #3a9d63;
+  transform: scale(1.05);
 }
 
-.roles-checkbox-group label {
-  display: block;
-  margin: 5px 0;
+.admin-page-btn.active {
+  background-color: #ffd700; /* Dorado */
+  color: #1a1a1a;
 }
 
-.loading {
+/* Cargando */
+.admin-loading {
   text-align: center;
   font-size: 1.5rem;
-  color: #ffffff;
+  color: #ffd700; /* Dorado */
+  margin-top: 50px;
 }
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
+/* Responsividad */
+@media (max-width: 768px) {
+  .admin-panel-container {
+      padding: 30px 10px;
+  }
 
-.page-btn {
-  background-color: #1e1e1e;
-  color: #f0f0f0;
-  border: 1px solid #4caf50;
-  padding: 5px 10px;
-  margin: 0 5px;
-  cursor: pointer;
-  border-radius: 3px;
-}
+  .admin-panel-card {
+      padding: 20px;
+  }
 
-.page-btn.active {
-  background-color: #4caf50;
-  color: white;
-}
+  .admin-title {
+      font-size: 1.8rem;
+  }
 
-.page-btn:hover {
-  background-color: #388e3c;
+  .user-list-title {
+      font-size: 1.3rem;
+  }
+
+  .admin-search-input {
+      padding: 8px 12px;
+  }
+
+  .admin-assign-role-btn {
+      padding: 10px 20px;
+  }
+
+  .admin-page-btn {
+      padding: 6px 10px;
+      font-size: 0.9rem;
+  }
 }

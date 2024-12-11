@@ -1,0 +1,230 @@
+/* src/styles/EditChapter.css */
+
+/* Contenedor Principal */
+.edit-chapter-container {
+    background-color: #1a1a1a; /* Fondo oscuro */
+    min-height: 100vh;
+    padding: 50px 0;
+    color: #f0f0f0; /* Texto claro para contraste */
+    font-family: 'Garamond', serif; /* Fuente con estilo clásico */
+}
+
+/* Título del Capítulo */
+.edit-chapter-title {
+    color: #ffd700; /* Dorado */
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+/* Tarjeta de Editar Capítulo */
+.edit-chapter-card {
+    background-color: #2c2c2c; /* Gris oscuro */
+    border: 2px solid #ffd700; /* Borde dorado */
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.edit-chapter-card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Etiquetas de Formularios */
+.edit-chapter-label {
+    color: #ffd700; /* Dorado */
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Inputs y Textareas */
+.edit-chapter-input,
+.edit-chapter-textarea {
+    background-color: #1c1c1c; /* Fondo más oscuro */
+    border: 1px solid #ffd700; /* Borde dorado */
+    border-radius: 10px;
+    color: #f0f0f0; /* Texto claro */
+    padding: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.edit-chapter-input::placeholder,
+.edit-chapter-textarea::placeholder {
+    color: #a9a9a9; /* Gris claro */
+}
+
+/* Enfoque de Inputs y Textareas */
+.edit-chapter-input:focus,
+.edit-chapter-textarea:focus {
+    border-color: #50c878; /* Esmeralda */
+    background-color: #2a2a2a;
+    outline: none;
+}
+
+/* Barra de Herramientas */
+.edit-chapter-toolbar {
+    background-color: #1c1c1c; /* Fondo oscuro */
+    border: 1px solid #ffd700; /* Borde dorado */
+    border-radius: 10px;
+    padding: 5px;
+    display: flex;
+    gap: 10px;
+}
+
+.edit-chapter-btn {
+    background-color: #3a3a3a; /* Botones gris oscuro */
+    border: none;
+    color: #ffd700; /* Iconos dorados */
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 1rem;
+}
+
+.edit-chapter-btn:hover {
+    background-color: #50c878; /* Fondo esmeralda al pasar el cursor */
+    color: #1a1a1a; /* Texto oscuro */
+    transform: scale(1.05);
+}
+
+.edit-chapter-btn:disabled {
+    background-color: #555555; /* Botones deshabilitados */
+    color: #a9a9a9;
+    cursor: not-allowed;
+}
+
+/* Contenedor del Editor */
+.edit-chapter-editor {
+    background-color: #1c1c1c; /* Fondo oscuro */
+    border: 1px solid #ffd700; /* Borde dorado */
+    border-radius: 10px;
+    padding: 15px;
+    min-height: 300px;
+    color: #f0f0f0; /* Texto claro */
+    font-size: 1.1rem;
+    overflow-y: auto;
+}
+
+/* Botones de Guardar y Cancelar */
+.edit-chapter-buttons {
+    margin-top: 20px;
+}
+
+.edit-chapter-save-btn {
+    background-color: #50c878; /* Esmeralda */
+    border: none;
+    color: #1a1a1a; /* Texto oscuro */
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-chapter-save-btn:hover {
+    background-color: #3a9d63;
+    transform: scale(1.05);
+}
+
+.edit-chapter-cancel-btn {
+    background-color: #ff6347; /* Tomate */
+    border: none;
+    color: #1a1a1a;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-chapter-cancel-btn:hover {
+    background-color: #e5533d;
+    transform: scale(1.05);
+}
+
+.edit-chapter-annotate-btn {
+    background-color: #ffd700; /* Dorado */
+    border: none;
+    color: #1a1a1a;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.edit-chapter-annotate-btn:hover {
+    background-color: #e6c200;
+    transform: scale(1.05);
+}
+
+/* Modal Personalizado */
+.edit-chapter-modal .modal-content {
+    background-color: #2c2c2c;
+    color: #f0f0f0;
+    border: 2px solid #ffd700;
+    border-radius: 15px;
+}
+
+.edit-chapter-modal .modal-header {
+    background-color: #3a3a3a;
+    border-bottom: 1px solid #ffd700;
+}
+
+.edit-chapter-modal .modal-title {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.edit-chapter-modal .modal-body {
+    background-color: #2c2c2c;
+}
+
+.edit-chapter-modal .modal-footer {
+    background-color: #3a3a3a;
+    border-top: 1px solid #ffd700;
+}
+
+.edit-chapter-modal .btn-success {
+    background-color: #50c878;
+    border: none;
+    color: #1a1a1a;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-chapter-modal .btn-success:hover {
+    background-color: #3a9d63;
+    transform: scale(1.05);
+}
+
+.edit-chapter-modal .btn-secondary {
+    background-color: #ff6347;
+    border: none;
+    color: #1a1a1a;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-chapter-modal .btn-secondary:hover {
+    background-color: #e5533d;
+    transform: scale(1.05);
+}
+
+/* Estilos para Mensajes de Carga y Error */
+.edit-chapter-loading {
+    color: #ffd700;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.edit-chapter-error {
+    color: #ff6347;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}

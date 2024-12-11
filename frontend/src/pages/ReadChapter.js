@@ -32,11 +32,34 @@ const ReadChapter = () => {
     // Estado para almacenar la posición del botón de ajustes
     const [dragPosition, setDragPosition] = useState({ x: 0, y: 0 });
 
+    // Estado para almacenar configuraciones persistentes
+    const [persistedFontSize, setPersistedFontSize] = useState(fontSize);
+    const [persistedBrightness, setPersistedBrightness] = useState(brightness);
+    const [persistedFontColor, setPersistedFontColor] = useState(fontColor);
+
     useEffect(() => {
-        // Recuperar posición desde localStorage al montar el componente
+        // Recuperar configuraciones desde localStorage al montar el componente
         const savedPosition = localStorage.getItem('settingsButtonPosition');
         if (savedPosition) {
             setDragPosition(JSON.parse(savedPosition));
+        }
+
+        const savedFontSize = localStorage.getItem('fontSize');
+        if (savedFontSize) {
+            setFontSize(Number(savedFontSize));
+            setPersistedFontSize(Number(savedFontSize));
+        }
+
+        const savedBrightness = localStorage.getItem('brightness');
+        if (savedBrightness) {
+            setBrightness(Number(savedBrightness));
+            setPersistedBrightness(Number(savedBrightness));
+        }
+
+        const savedFontColor = localStorage.getItem('fontColor');
+        if (savedFontColor) {
+            setFontColor(savedFontColor);
+            setPersistedFontColor(savedFontColor);
         }
     }, []);
 
@@ -127,8 +150,23 @@ const ReadChapter = () => {
         setProgress(scrolled);
     };
 
-    const handleFontSizeChange = (size) => setFontSize(size);
-    const handleBrightnessChange = (value) => setBrightness(value);
+    const handleFontSizeChange = (size) => {
+        setFontSize(Number(size));
+        setPersistedFontSize(Number(size));
+        localStorage.setItem('fontSize', size);
+    };
+
+    const handleBrightnessChange = (value) => {
+        setBrightness(Number(value));
+        setPersistedBrightness(Number(value));
+        localStorage.setItem('brightness', value);
+    };
+
+    const handleFontColorChange = (color) => {
+        setFontColor(color);
+        setPersistedFontColor(color);
+        localStorage.setItem('fontColor', color);
+    };
 
     const handleGeneralCommentSubmit = () => {
         if (generalComment.trim()) {
@@ -174,10 +212,7 @@ const ReadChapter = () => {
                         overlay={renderPopover(annotationText)}
                         rootClose // Cierra el popover al hacer clic fuera
                     >
-                        <span
-                            className="annotation"
-                            style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
-                        >
+                        <span className="annotation">
                             {domToReact(children, options)}
                         </span>
                     </OverlayTrigger>
@@ -217,10 +252,7 @@ const ReadChapter = () => {
                 <h2 className="chapter-title">{chapter.title}</h2>
                 <p className="chapter-date">{new Date(chapter.publishedAt).toLocaleDateString()}</p>
 
-                <div
-                    className="chapter-content"
-                // Eliminamos el manejador de clic ya que usamos Popovers
-                >
+                <div className="chapter-content">
                     {parse(sanitizedContent, options)}
                 </div>
             </Container>
@@ -256,13 +288,16 @@ const ReadChapter = () => {
                                 <Form.Label>Color de Fuente</Form.Label>
                                 <Form.Select
                                     value={fontColor}
-                                    onChange={(e) => setFontColor(e.target.value)}
+                                    onChange={(e) => handleFontColorChange(e.target.value)}
                                 >
-                                    <option value="#B2BABB">Gris Claro (#B2BABB)</option>
-                                    <option value="#CDC3E3">Morado Claro (#CDC3E3)</option>
-                                    <option value="#A9DFBF">Verde Claro (#A9DFBF)</option>
                                     <option value="#FBFCFC">Blanco (#FBFCFC)</option>
+                                    <option value="#FFD700">Dorado (#FFD700)</option>
+                                    <option value="#A9DFBF">Verde Claro (#A9DFBF)</option>
+                                    <option value="#CDC3E3">Morado Claro (#CDC3E3)</option>
                                     <option value="#FDEDEC">Rosado Claro (#FDEDEC)</option>
+                                    <option value="#FFFFFF">Blanco Puro (#FFFFFF)</option>
+                                    <option value="#FF5733">Naranja (#FF5733)</option>
+                                    <option value="#C70039">Rojo (#C70039)</option>
                                 </Form.Select>
                             </Form.Group>
                             <Form.Group>
@@ -280,7 +315,7 @@ const ReadChapter = () => {
             </Draggable>
 
             {/* Navegación entre capítulos */}
-            <div className="chapter-navigation text-center">
+            <div className="chapter-navigation">
                 <Button
                     variant="link"
                     onClick={() => {

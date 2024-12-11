@@ -1,3 +1,4 @@
+// src/components/Footer.jsx
 import React, { useState } from 'react';
 import { Container, Row, Col, Modal, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +21,7 @@ const Footer = () => {
   return (
     <footer className="custom-footer">
       <Container>
-        <Row className="text-center">
+        <Row className="text-center footer-links-row">
           <Col>
             <a
               className="footer-link"
@@ -82,28 +83,42 @@ const Footer = () => {
         <Modal
           show={showModal.preguntas}
           onHide={() => handleModal('preguntas', false)}
+          centered
+          className="footer-modal"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Preguntas Frecuentes</Modal.Title>
+            <Modal.Title className="modal-title-gold">Preguntas Frecuentes</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            <ul>
-              <li><strong>¿Qué tipos de novelas puedo encontrar aquí?</strong> Ofrecemos traducciones de géneros como danmei, fantasía, romance, acción, entre otros. Aunque el enfoque principal es el danmei, trabajamos en la diversidad de contenido.</li>
-              <li><strong>¿Solo se traducen novelas?</strong> No, también incluimos manhuas y audiolibros. Queremos abarcar distintas formas de contenido literario.</li>
-              <li><strong>¿Puedo unirme como traductora, escritora o editora?</strong> ¡Por supuesto! Buscamos personas apasionadas. Únete a nuestro Discord para más información.</li>
-              <li><strong>¿Hay algún costo por usar la plataforma?</strong> No, todo es gratuito, pero aceptamos donaciones para mantener el proyecto y cubrir costos de servidores.</li>
-              <li><strong>¿Cómo puedo apoyar el proyecto?</strong> Puedes donar, promocionar la plataforma y, sobre todo, apoyar a los autores comprando sus obras originales.</li>
-              <li><strong>¿Qué sucede si el contenido original tiene derechos de autor?</strong> Respetamos los derechos de los autores. Nuestro objetivo es educativo y de entretenimiento, sin fines de lucro.</li>
+          <Modal.Body className="modal-body-dark">
+            <ul className="modal-list">
+              <li>
+                <strong>¿Qué tipos de novelas puedo encontrar aquí?</strong> Ofrecemos traducciones de géneros como danmei, fantasía, romance, acción, entre otros. Aunque el enfoque principal es el danmei, trabajamos en la diversidad de contenido.
+              </li>
+              <li>
+                <strong>¿Solo se traducen novelas?</strong> No, también incluimos manhuas y audiolibros. Queremos abarcar distintas formas de contenido literario.
+              </li>
+              <li>
+                <strong>¿Puedo unirme como traductora, escritora o editora?</strong> ¡Por supuesto! Buscamos personas apasionadas. Únete a nuestro Discord para más información.
+              </li>
+              <li>
+                <strong>¿Hay algún costo por usar la plataforma?</strong> No, todo es gratuito, pero aceptamos donaciones para mantener el proyecto y cubrir costos de servidores.
+              </li>
+              <li>
+                <strong>¿Cómo puedo apoyar el proyecto?</strong> Puedes donar, promocionar la plataforma y, sobre todo, apoyar a los autores comprando sus obras originales.
+              </li>
+              <li>
+                <strong>¿Qué sucede si el contenido original tiene derechos de autor?</strong> Respetamos los derechos de los autores. Nuestro objetivo es educativo y de entretenimiento, sin fines de lucro.
+              </li>
             </ul>
           </Modal.Body>
         </Modal>
 
         {/* Modal: Únete a Nosotros */}
-        <Modal show={showModal.unete} onHide={() => handleModal('unete', false)}>
+        <Modal show={showModal.unete} onHide={() => handleModal('unete', false)} centered className="footer-modal">
           <Modal.Header closeButton>
-            <Modal.Title>¡Únete a Nosotros!</Modal.Title>
+            <Modal.Title className="modal-title-gold">¡Únete a Nosotros!</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className="modal-body-dark">
             <p>
               ¿Te apasiona la literatura? ¿Quieres contribuir como traductor, escritor, editor o simplemente ser parte de una comunidad literaria única?
               Únete a nuestro Discord y forma parte de un equipo increíble. Aquí celebramos la creatividad, el trabajo en equipo y el amor por las historias.
@@ -117,7 +132,7 @@ const Footer = () => {
               </ul>
             </p>
             <Button
-              variant="primary"
+              variant="emerald"
               href="https://discord.gg/Np8prZDgwX"
               target="_blank"
               className="w-100 mt-3"
@@ -131,16 +146,18 @@ const Footer = () => {
         <Modal
           show={showModal.contactanos}
           onHide={() => handleModal('contactanos', false)}
+          centered
+          className="footer-modal"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Contáctanos</Modal.Title>
+            <Modal.Title className="modal-title-gold">Contáctanos</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className="modal-body-dark">
             <p>
               Si tienes preguntas o sugerencias, no dudes en escribirnos. También puedes contactarnos directamente en nuestro Discord.
             </p>
             <Button
-              variant="primary"
+              variant="emerald"
               href="https://discord.gg/Np8prZDgwX"
               target="_blank"
               className="w-100 mt-3"
@@ -154,14 +171,14 @@ const Footer = () => {
         <Modal
           show={showModal.politica}
           onHide={() => handleModal('politica', false)}
+          centered
+          className="footer-modal"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Política de Privacidad</Modal.Title>
+            <Modal.Title className="modal-title-gold">Política de Privacidad</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            <p>
-              <strong>Última actualización:</strong>
-            </p>
+          <Modal.Body className="modal-body-dark">
+            <p><strong>Última actualización:</strong></p>
             <h5>Introducción</h5>
             <p>
               Bienvenido/a a Pabellón Literario. Tu privacidad es importante para nosotros. Esta Política de Privacidad explica cómo recopilamos, usamos, almacenamos y protegemos tu información al usar nuestra plataforma. Nuestro objetivo principal es ofrecer un espacio seguro y respetuoso para compartir traducciones de novelas, escritos originales y otros contenidos, sin fines de lucro.
@@ -238,11 +255,13 @@ const Footer = () => {
         <Modal
           show={showModal.terminos}
           onHide={() => handleModal('terminos', false)}
+          centered
+          className="footer-modal"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Términos de Servicio</Modal.Title>
+            <Modal.Title className="modal-title-gold">Términos de Servicio</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className="modal-body-dark">
             <h5>1. Introducción</h5>
             <p>
               Bienvenido/a a Pabellón Literario. Al usar nuestra plataforma, aceptas cumplir estos Términos de Servicio. Si no estás de acuerdo con ellos, no deberías usar el sitio.

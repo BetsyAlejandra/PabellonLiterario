@@ -2,10 +2,10 @@
 
 /* Contenedor Principal */
 .read-chapter {
-  background: linear-gradient(135deg, #2c3e50, #4ca1af);
+  background: linear-gradient(135deg, #1c1c1c, #2c2c2c); /* Fondo más oscuro */
   padding: 20px;
   border-radius: 15px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
   position: relative;
   overflow-y: auto;
   color: #FBFCFC; /* Blanco suave */
@@ -60,26 +60,35 @@
   border: none;
   color: #2c3e50;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  width: 60px; /* Aumentado para mejor visibilidad */
+  height: 60px; /* Aumentado para mejor visibilidad */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   cursor: grab;
   transition: background-color 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem; /* Icono más grande */
 }
 
 .settings-toggle:hover {
   background-color: #e6c200;
-  transform: scale(1.05);
+  transform: scale(1.1);
+}
+
+.settings-toggle:active {
+  cursor: grabbing;
 }
 
 /* Panel de Ajustes */
 .settings-panel {
-  background: rgba(44, 62, 80, 0.9);
+  background: rgba(44, 62, 80, 0.95);
   padding: 20px;
   border-radius: 15px;
   margin-top: 10px;
   box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
   transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1002;
 }
 
 .settings-panel .form-group {
@@ -88,6 +97,7 @@
 
 .settings-panel label {
   color: #ffd700;
+  font-weight: bold;
 }
 
 .settings-panel .form-control,
@@ -106,26 +116,50 @@
   background-color: rgba(255, 215, 0, 0.2);
 }
 
+.settings-panel .form-select option {
+  background-color: #2c3e50;
+  color: #FBFCFC;
+}
+
 /* Navegación entre Capítulos */
 .chapter-navigation {
   margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
 .nav-btn {
   color: #ffd700;
   font-size: 1.2rem;
   transition: color 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 20px;
+  background-color: rgba(255, 215, 0, 0.1);
+  border: 2px solid #ffd700;
+  border-radius: 10px;
+  text-decoration: none;
 }
 
 .nav-btn:hover {
   color: #e6c200;
+  background-color: rgba(255, 215, 0, 0.2);
   transform: scale(1.05);
+}
+
+.nav-btn:disabled {
+  color: #555;
+  border-color: #555;
+  cursor: not-allowed;
+  background-color: rgba(85, 85, 85, 0.1);
 }
 
 /* Comentarios Generales */
 .general-comments {
   margin-top: 40px;
-  background: rgba(44, 62, 80, 0.9);
+  background: rgba(44, 62, 80, 0.95);
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
@@ -154,7 +188,7 @@
 /* Anotaciones */
 .annotations-list {
   margin-top: 40px;
-  background: rgba(44, 62, 80, 0.9);
+  background: rgba(44, 62, 80, 0.95);
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
@@ -196,6 +230,21 @@
   color: #FBFCFC;
 }
 
+/* Anotaciones estilo */
+.annotation {
+  background-color: rgba(255, 215, 0, 0.2); /* Dorado suave */
+  border-bottom: 2px dashed #ffd700;
+  padding: 2px 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.annotation:hover {
+  background-color: rgba(255, 215, 0, 0.3);
+  border-bottom: 2px dashed #e6c200;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .floating-controls {
@@ -204,10 +253,22 @@
   }
 
   .settings-toggle {
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
+      font-size: 1.2rem;
+  }
+
+  .chapter-navigation {
+      flex-direction: column;
+      gap: 10px;
+  }
+
+  .nav-btn {
+      width: 100%;
+      justify-content: center;
   }
 }
+
 
 /* Opcional: Deshabilitar la selección de texto en elementos específicos */
 .chapter-content {

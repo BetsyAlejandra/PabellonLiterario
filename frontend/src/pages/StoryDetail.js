@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Modal, Button, Card, Form } from 'react-bootstrap';
-import '../styles/global.css';
+import '../styles/StoryDetail.css'; // Importa el archivo CSS específico
 
 const StoryDetail = () => {
     const { id } = useParams();
@@ -28,62 +28,61 @@ const StoryDetail = () => {
 
     useEffect(() => {
         const fetchStory = async () => {
-          try {
-            const res = await axios.get(`/api/novels/${id}`);
-            const storyData = res.data;
-      
-            // Verificar si los colaboradores están correctamente poblados
-            if (!storyData.collaborators || !Array.isArray(storyData.collaborators)) {
-              throw new Error('Datos de colaboradores inválidos.');
-            }
-      
-            // Identificar colaboradores con 'Usuario Desconocido'
-            const invalidCollaborators = storyData.collaborators.filter(col => !col.user || !col.user.username);
-      
-            if (invalidCollaborators.length > 0) {
-              // Obtener los IDs de los colaboradores inválidos
-              const invalidIds = invalidCollaborators.map(col => col._id);
-      
-              // Hacer solicitudes para obtener los datos de estos usuarios
-              const userPromises = invalidIds.map(id => axios.get(`/api/users/${id}`));
-      
-              try {
-                const userResponses = await Promise.all(userPromises);
-                const usersData = userResponses.map(response => response.data);
-      
-                // Actualizar los colaboradores con los datos obtenidos
-                const updatedCollaborators = storyData.collaborators.map(col => {
-                  if (!col.user || !col.user.username) {
-                    const fetchedUser = usersData.find(user => user.username === col.username);
-                    if (fetchedUser) {
-                      return {
-                        ...col,
-                        user: fetchedUser,
-                      };
+            try {
+                const res = await axios.get(`/api/novels/${id}`);
+                const storyData = res.data;
+
+                // Verificar si los colaboradores están correctamente poblados
+                if (!storyData.collaborators || !Array.isArray(storyData.collaborators)) {
+                    throw new Error('Datos de colaboradores inválidos.');
+                }
+
+                // Identificar colaboradores con 'Usuario Desconocido'
+                const invalidCollaborators = storyData.collaborators.filter(col => !col.user || !col.user.username);
+
+                if (invalidCollaborators.length > 0) {
+                    // Obtener los IDs de los colaboradores inválidos
+                    const invalidIds = invalidCollaborators.map(col => col._id);
+
+                    // Hacer solicitudes para obtener los datos de estos usuarios
+                    const userPromises = invalidIds.map(id => axios.get(`/api/users/${id}`));
+
+                    try {
+                        const userResponses = await Promise.all(userPromises);
+                        const usersData = userResponses.map(response => response.data);
+
+                        // Actualizar los colaboradores con los datos obtenidos
+                        const updatedCollaborators = storyData.collaborators.map(col => {
+                            if (!col.user || !col.user.username) {
+                                const fetchedUser = usersData.find(user => user.username === col.username);
+                                if (fetchedUser) {
+                                    return {
+                                        ...col,
+                                        user: fetchedUser,
+                                    };
+                                }
+                            }
+                            return col;
+                        });
+
+                        setStory({ ...storyData, collaborators: updatedCollaborators });
+                    } catch (err) {
+                        console.error('Error al obtener datos de colaboradores inválidos:', err);
+                        // Opcional: manejar errores específicos
                     }
-                  }
-                  return col;
-                });
-      
-                setStory({ ...storyData, collaborators: updatedCollaborators });
-              } catch (err) {
-                console.error('Error al obtener datos de colaboradores inválidos:', err);
-                // Opcional: manejar errores específicos
-              }
-            } else {
-              setStory(storyData);
+                } else {
+                    setStory(storyData);
+                }
+
+                setLoading(false);
+            } catch (err) {
+                console.error('Error al cargar la historia:', err);
+                setError('Error al cargar la historia.');
+                setLoading(false);
             }
-      
-            setLoading(false);
-          } catch (err) {
-            console.error('Error al cargar la historia:', err);
-            setError('Error al cargar la historia.');
-            setLoading(false);
-          }
         };
         fetchStory();
-      }, [id]);
-      
+    }, [id]);
 
     const handleSaveStory = async () => {
         try {
@@ -170,75 +169,75 @@ const StoryDetail = () => {
         }
     };
 
-    if (loading) return <p>Cargando...</p>;
-    if (error) return <p>{error}</p>;
+    if (loading) return <p className="story-detail-loading">Cargando...</p>;
+    if (error) return <p className="story-detail-error">{error}</p>;
 
     return (
-        <div className="container my-5">
+        <div className="story-detail-container">
             <div className="row">
                 <div className="col-md-4">
-                    <Card className="shadow-sm">
-                        <Card.Img
-                            variant="top"
-                            src={story.coverImage}
-                            alt={`Portada de ${story.title}`}
-                            style={{ maxHeight: '400px', objectFit: 'cover' }}
-                        />
+                    <Card className="shadow-sm story-detail-card">
+                        <div className="story-detail-card-image-container">
+                            <Card.Img
+                                variant="top"
+                                src={story.coverImage}
+                                alt={`Portada de ${story.title}`}
+                                className="story-detail-card-image"
+                            />
+                        </div>
                         <Card.Body>
                             <Button
-                                className="btn btn-secondary mt-2"
+                                className="btn btn-secondary mt-2 story-detail-read-btn"
                                 onClick={() => handleReadChapter(story.chapters[0]?._id)}
                                 disabled={!story.chapters.length}
                             >
                                 Leer
                             </Button>
                             {/* Mostrar autor (usuario encargado) */}
-                            <div className="mt-3">
-                                <strong>usuario:</strong>{' '}
-                                <Button variant="link" onClick={() => navigate(`/profileperson/${story.author}`)}>
+                            <div className="mt-3 story-detail-author">
+                                <strong>Usuario:</strong>{' '}
+                                <Button variant="link" onClick={() => navigate(`/profileperson/${story.author}`)} className="story-detail-author-link">
                                     {story.author}
                                 </Button>
-
                             </div>
                         </Card.Body>
                     </Card>
                 </div>
                 <div className="col-md-8">
-                    <Card className="shadow-sm">
+                    <Card className="shadow-sm story-detail-main-card">
                         <Card.Body>
-                            <h3>{story.title}</h3>
-                            <div>
+                            <h3 className="story-detail-title">{story.title}</h3>
+                            <div className="story-detail-info">
                                 <strong>Clasificación:</strong>{' '}
-                                <span className="badge bg-secondary">{story.classification}</span>
+                                <span className="badge bg-secondary story-detail-badge">{story.classification}</span>
                             </div>
-                            <div>
+                            <div className="story-detail-info">
                                 <strong>Idioma de Origen:</strong> {story.languageOrigin}
                             </div>
-                            <div>
+                            <div className="story-detail-info">
                                 <strong>Géneros:</strong> {story.genres.join(', ')}
                             </div>
-                            <div>
+                            <div className="story-detail-info">
                                 <strong>Subgéneros:</strong>{' '}
                                 {story.subGenres.length > 0
                                     ? story.subGenres.join(', ')
                                     : 'No especificado'}
                             </div>
-                            <div>
+                            <div className="story-detail-info">
                                 <strong>Etiquetas:</strong>{' '}
                                 {story.tags.length > 0 ? story.tags.join(', ') : 'Sin etiquetas'}
                             </div>
                             {/* Mostrar rawOrigin */}
-                            <div className="mt-3">
+                            <div className="mt-3 story-detail-raw-origin">
                                 <strong>Novela Original:</strong>{' '}
                                 {story.rawOrigin && story.rawOrigin.length > 0 ? (
-                                    <a href={story.rawOrigin[0].link} target="_blank" rel="noopener noreferrer">
+                                    <a href={story.rawOrigin[0].link} target="_blank" rel="noopener noreferrer" className="story-detail-link">
                                         {story.rawOrigin[0].origin}
                                     </a>
                                 ) : 'No disponible'}
-
                             </div>
 
-                            <div className="mt-3">
+                            <div className="mt-3 story-detail-collaborators">
                                 <strong>Colaboradores:</strong>{' '}
                                 {story.collaborators.length > 0 ? (
                                     story.collaborators.map((col, index) => (
@@ -247,7 +246,7 @@ const StoryDetail = () => {
                                             {col.username !== 'Usuario Desconocido' ? (
                                                 <button
                                                     onClick={() => navigate(`/profileperson/${col.username}`)}
-                                                    className="collaborator-link btn btn-link p-0"
+                                                    className="collaborator-link btn btn-link p-0 story-detail-collaborator-link"
                                                 >
                                                     {col.username} ({col.role})
                                                 </button>
@@ -262,20 +261,19 @@ const StoryDetail = () => {
                             </div>
 
                             {/* Mostrar adaptaciones */}
-                            <div className="mt-3">
+                            <div className="mt-3 story-detail-adaptations">
                                 <strong>Adaptaciones:</strong>{' '}
                                 {story.adaptations && story.adaptations.length > 0 ? (
                                     story.adaptations.map((adap, i) => (
-                                        <span key={i}>
-                                            {adap.type} - {adap.title}: <a href={adap.link} target="_blank" rel="noopener noreferrer">{adap.link}</a>
+                                        <span key={i} className="story-detail-adaptation">
+                                            {adap.type} - {adap.title}: <a href={adap.link} target="_blank" rel="noopener noreferrer" className="story-detail-link">{adap.link}</a>
                                             {i < story.adaptations.length - 1 && ', '}
                                         </span>
                                     ))
                                 ) : 'No hay adaptaciones'}
-
                             </div>
 
-                            <div className="mt-3">
+                            <div className="mt-3 story-detail-description">
                                 <p>
                                     {story.description.length > 200
                                         ? `${story.description.substring(0, 200)}...`
@@ -285,7 +283,7 @@ const StoryDetail = () => {
                                     <Button
                                         variant="link"
                                         onClick={() => setShowModal(true)}
-                                        className="p-0"
+                                        className="p-0 story-detail-view-more-btn"
                                     >
                                         Ver más
                                     </Button>
@@ -297,62 +295,62 @@ const StoryDetail = () => {
             </div>
 
             <div className="mt-5">
-                <h4>Capítulos</h4>
+                <h4 className="story-detail-chapters-title">Capítulos</h4>
                 {story.chapters.length ? (
                     story.chapters.map((chapter) => (
                         <Card
                             key={chapter._id}
-                            className="shadow-sm mb-3"
+                            className="shadow-sm mb-3 story-detail-chapter-card"
                             onClick={() => handleReadChapter(chapter._id)}
                             style={{ cursor: 'pointer' }}
                         >
                             <Card.Body>
-                                <h5>{chapter.title}</h5>
-                                <p>
+                                <h5 className="story-detail-chapter-title">{chapter.title}</h5>
+                                <p className="story-detail-chapter-date">
                                     Publicado el {new Date(chapter.publishedAt).toLocaleDateString()}
                                 </p>
                             </Card.Body>
                         </Card>
                     ))
                 ) : (
-                    <p>No hay capítulos disponibles.</p>
+                    <p className="story-detail-no-chapters">No hay capítulos disponibles.</p>
                 )}
             </div>
 
             <div className="mt-5">
-                <h4>Comentarios</h4>
-                <form onSubmit={handleReviewSubmit} className="mb-4">
+                <h4 className="story-detail-comments-title">Comentarios</h4>
+                <form onSubmit={handleReviewSubmit} className="mb-4 story-detail-review-form">
                     <div className="form-group mt-2">
-                        <label htmlFor="review">Deja un comentario</label>
+                        <label htmlFor="review" className="story-detail-review-label">Deja un comentario</label>
                         <textarea
                             id="review"
-                            className="form-control"
+                            className="form-control story-detail-review-textarea"
                             rows="3"
                             value={review}
                             onChange={(e) => setReview(e.target.value)}
                             placeholder="Escribe tu reseña aquí..."
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary mt-2" disabled={!review}>
+                    <button type="submit" className="btn btn-primary mt-2 story-detail-submit-btn" disabled={!review}>
                         Enviar reseña
                     </button>
                 </form>
 
                 {story.reviews.length ? (
                     story.reviews.map((rev, idx) => (
-                        <Card key={idx} className="shadow-sm mb-3">
+                        <Card key={idx} className="shadow-sm mb-3 story-detail-review-card">
                             <Card.Body>
-                                <div>
+                                <div className="story-detail-review-user">
                                     <strong>{rev.user.username}</strong>
                                 </div>
-                                <p>{rev.comment}</p>
-                                <Button variant="link" onClick={() => setSelectedReview(rev)}>
+                                <p className="story-detail-review-comment">{rev.comment}</p>
+                                <Button variant="link" onClick={() => setSelectedReview(rev)} className="story-detail-reply-btn">
                                     Responder
                                 </Button>
                                 {rev.replies?.map((reply, index) => (
-                                    <Card key={index} className="mt-2">
+                                    <Card key={index} className="mt-2 story-detail-reply-card">
                                         <Card.Body>
-                                            <p>{reply.text}</p>
+                                            <p className="story-detail-reply-text">{reply.text}</p>
                                         </Card.Body>
                                     </Card>
                                 ))}
@@ -360,18 +358,18 @@ const StoryDetail = () => {
                         </Card>
                     ))
                 ) : (
-                    <p>No hay reseñas disponibles.</p>
+                    <p className="story-detail-no-reviews">No hay reseñas disponibles.</p>
                 )}
             </div>
 
             {/* Modal Responder Reseña */}
-            <Modal show={!!selectedReview} onHide={() => setSelectedReview(null)} centered>
+            <Modal show={!!selectedReview} onHide={() => setSelectedReview(null)} centered className="story-detail-modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Responder a {selectedReview?.user.username}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <textarea
-                        className="form-control"
+                        className="form-control story-detail-reply-textarea"
                         rows="3"
                         value={reply}
                         onChange={(e) => setReply(e.target.value)}
@@ -383,55 +381,57 @@ const StoryDetail = () => {
                         variant="primary"
                         onClick={(e) => handleReplySubmit(e, selectedReview?._id)}
                         disabled={!reply.trim()}
+                        className="story-detail-reply-submit-btn"
                     >
                         Responder
                     </Button>
-                    <Button variant="secondary" onClick={() => setSelectedReview(null)}>
+                    <Button variant="secondary" onClick={() => setSelectedReview(null)} className="story-detail-reply-cancel-btn">
                         Cancelar
                     </Button>
                 </Modal.Footer>
             </Modal>
 
             {/* Modal Descripción Completa */}
-            <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+            <Modal show={showModal} onHide={() => setShowModal(false)} centered className="story-detail-modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Descripción Completa</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>{story.description}</Modal.Body>
+                <Modal.Body className="story-detail-modal-body">{story.description}</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowModal(false)}>
+                    <Button variant="secondary" onClick={() => setShowModal(false)} className="story-detail-modal-close-btn">
                         Cerrar
                     </Button>
                 </Modal.Footer>
             </Modal>
 
             {/* Modal Contraseña (si idioma es coreano) */}
-            <Modal show={showPasswordModal} onHide={() => setShowPasswordModal(false)} centered>
+            <Modal show={showPasswordModal} onHide={() => setShowPasswordModal(false)} centered className="story-detail-modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Esta novela está protegida por contraseña</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p>Para acceder a esta novela, ingresa la contraseña proporcionada.</p>
                     <Form.Group controlId="password">
-                        <Form.Label>Contraseña</Form.Label>
+                        <Form.Label className="story-detail-modal-label">Contraseña</Form.Label>
                         <Form.Control
                             type="password"
                             placeholder="Ingresa la contraseña"
                             value={enteredPassword}
                             onChange={(e) => setEnteredPassword(e.target.value)}
+                            className="story-detail-modal-input"
                         />
                         {passwordError && (
-                            <Form.Text className="text-danger">
+                            <Form.Text className="text-danger story-detail-modal-error">
                                 {passwordError}
                             </Form.Text>
                         )}
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={handlePasswordSubmit}>
+                    <Button variant="primary" onClick={handlePasswordSubmit} className="story-detail-modal-submit-btn">
                         Leer
                     </Button>
-                    <Button variant="secondary" onClick={() => setShowPasswordModal(false)}>
+                    <Button variant="secondary" onClick={() => setShowPasswordModal(false)} className="story-detail-modal-cancel-btn">
                         Cancelar
                     </Button>
                 </Modal.Footer>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../styles/components.css";
+import "../styles/components.css"; // Archivo CSS para personalización
 import axios from "axios";
 import {
   Navbar,
@@ -180,7 +180,7 @@ const Header = () => {
           </Nav>
           <Nav className="ms-auto align-items-center">
             <Button
-              className="search-icon me-2"
+              className="search-icon me-2 custom-button"
               onClick={() => setShowSearchModal(true)}
             >
               <FaSearch />
@@ -191,7 +191,7 @@ const Header = () => {
               <>
                 {isLoggedIn && hasRole(userRoles) && (
                   <Button
-                    className="upload-btn me-2"
+                    className="upload-btn me-2 custom-button"
                     onClick={handleUploadClick}
                   >
                     Subir Novela
@@ -207,15 +207,15 @@ const Header = () => {
                       <img
                         src={profilePic}
                         alt="Foto de perfil"
-                        className="rounded-circle"
+                        className="rounded-circle profile-pic"
                         width="40"
                         height="40"
                         style={{ cursor: "pointer" }}
                       />
-                      <span className="ms-2">{userName}</span>
+                      <span className="ms-2 profile-name">{userName}</span>
                     </Nav.Link>
                     <Button
-                      className="logout-btn"
+                      className="logout-btn custom-button"
                       variant="outline-danger"
                       onClick={handleLogout}
                     >
@@ -225,14 +225,14 @@ const Header = () => {
                 ) : (
                   <>
                     <Button
-                      className="register-btn me-2"
+                      className="register-btn me-2 custom-button"
                       variant="outline-primary"
                       onClick={() => navigate("/register")}
                     >
                       Registrarse
                     </Button>
                     <Button
-                      className="login-btn"
+                      className="login-btn custom-button"
                       variant="primary"
                       onClick={() => navigate("/login")}
                     >
@@ -253,6 +253,7 @@ const Header = () => {
         centered
         backdrop="static"
         keyboard={false}
+        className="search-modal-custom"
       >
         <Modal.Body className="search-modal">
           <Form className="d-flex justify-content-center">
@@ -265,13 +266,14 @@ const Header = () => {
             <Button
               variant="outline-secondary"
               onClick={handleSearchClick}
+              className="search-button"
             >
               Buscar
             </Button>
             <Button
               variant="outline-secondary"
               onClick={() => setShowSearchModal(false)}
-              className="ms-2"
+              className="ms-2 close-button"
             >
               Cerrar
             </Button>

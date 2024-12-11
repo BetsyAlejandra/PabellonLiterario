@@ -1,5 +1,4 @@
-// src/components/AddChapter.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEditor, EditorContent } from '@tiptap/react';
@@ -13,15 +12,13 @@ import Image from '@tiptap/extension-image';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import Annotation from '../extensions/Annotation'; // Asegúrate de que la ruta sea correcta
 import { Modal, Button } from 'react-bootstrap';
-import DOMPurify from 'dompurify';
-import '../styles/global.css';
+import '../styles/AddChapter.css'; // Importa el archivo CSS específico
 
 const AddChapter = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
     const [title, setTitle] = useState('');
-    const [annotations, setAnnotations] = useState([]);
     const [selectedText, setSelectedText] = useState('');
     const [modalShow, setModalShow] = useState(false);
     const [annotationText, setAnnotationText] = useState('');
@@ -87,7 +84,6 @@ const AddChapter = () => {
         const newChapter = {
             title,
             content: editor.getHTML(),
-            annotations,
             publishedAt: new Date(),
         };
 
@@ -106,12 +102,6 @@ const AddChapter = () => {
 
         // Utiliza el comando definido en la extensión para establecer una anotación
         editor.chain().focus().setAnnotation({ text: annotationText }).run();
-
-        const newAnnotation = {
-            text: selectedText,
-            meaning: annotationText,
-        };
-        setAnnotations([...annotations, newAnnotation]);
 
         setSelectedText('');
         setAnnotationText('');
@@ -133,17 +123,17 @@ const AddChapter = () => {
     };
 
     return (
-        <div className="container my-5">
-            <h2 className="text-center mb-4">Agregar Capítulo</h2>
+        <div className="add-chapter-container">
+            <h2 className="add-chapter-title">Agregar Capítulo</h2>
 
-            <div className="card shadow-sm p-4">
-                <div className="card-body">
+            <div className="add-chapter-card">
+                <div className="add-chapter-card-body">
                     <div className="form-group mb-3">
-                        <label htmlFor="title">Título del Capítulo</label>
+                        <label htmlFor="title" className="add-chapter-label">Título del Capítulo</label>
                         <input
                             type="text"
                             id="title"
-                            className="form-control"
+                            className="form-control add-chapter-input"
                             value={title}
                             onChange={handleTitleChange}
                             placeholder="Introduce el título del capítulo"
@@ -151,54 +141,60 @@ const AddChapter = () => {
                     </div>
 
                     <div className="form-group mb-3">
-                        <label htmlFor="content">Contenido del Capítulo</label>
+                        <label htmlFor="content" className="add-chapter-label">Contenido del Capítulo</label>
                         {/* Barra de herramientas */}
-                        <div className="toolbar mb-2">
+                        <div className="toolbar mb-2 add-chapter-toolbar">
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool add-chapter-btn"
                                 onClick={() => editor.chain().focus().toggleBold().run()}
                                 disabled={!editor}
+                                title="Negrita"
                             >
                                 <b>B</b>
                             </button>
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool add-chapter-btn"
                                 onClick={() => editor.chain().focus().toggleItalic().run()}
                                 disabled={!editor}
+                                title="Cursiva"
                             >
                                 <i>I</i>
                             </button>
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool add-chapter-btn"
                                 onClick={() => editor.chain().focus().toggleUnderline().run()}
                                 disabled={!editor}
+                                title="Subrayado"
                             >
                                 <u>U</u>
                             </button>
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool add-chapter-btn"
                                 onClick={() => editor.chain().focus().setTextAlign('left').run()}
                                 disabled={!editor}
+                                title="Alinear Izquierda"
                             >
                                 ↤
                             </button>
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool add-chapter-btn"
                                 onClick={() => editor.chain().focus().setTextAlign('center').run()}
                                 disabled={!editor}
+                                title="Alinear Centro"
                             >
                                 ↔
                             </button>
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool add-chapter-btn"
                                 onClick={() => editor.chain().focus().setTextAlign('right').run()}
                                 disabled={!editor}
+                                title="Alinear Derecha"
                             >
                                 ↦
                             </button>
 
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool add-chapter-btn"
                                 onClick={() => {
                                     const url = prompt("Ingrese la URL del enlace:");
                                     if (url) {
@@ -206,13 +202,14 @@ const AddChapter = () => {
                                     }
                                 }}
                                 disabled={!editor}
+                                title="Insertar Enlace"
                             >
                                 🌐
                             </button>
 
                             {/* Botón para insertar imagen */}
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool add-chapter-btn"
                                 onClick={insertImage}
                                 disabled={!editor}
                                 title="Insertar Imagen"
@@ -222,7 +219,7 @@ const AddChapter = () => {
 
                             {/* Botón para insertar separador */}
                             <button
-                                className="btn btn-tool"
+                                className="btn btn-tool add-chapter-btn"
                                 onClick={insertSeparator}
                                 disabled={!editor}
                                 title="Insertar Separador"
@@ -231,23 +228,23 @@ const AddChapter = () => {
                             </button>
                         </div>
 
-                        <div className="editor-container border p-2 rounded">
+                        <div className="editor-container add-chapter-editor">
                             <EditorContent editor={editor} />
                         </div>
                     </div>
 
-                    {error && <p className="text-danger">{error}</p>}
+                    {error && <p className="text-danger add-chapter-error">{error}</p>}
 
-                    <div className="d-flex justify-content-center gap-3">
+                    <div className="d-flex justify-content-center gap-3 add-chapter-buttons">
                         <button
-                            className="btn btn-primary"
+                            className="btn btn-primary add-chapter-save-btn"
                             onClick={handleSaveChapter}
                             disabled={loading}
                         >
                             {loading ? 'Guardando...' : 'Guardar Capítulo'}
                         </button>
                         <button
-                            className="btn btn-secondary"
+                            className="btn btn-secondary add-chapter-cancel-btn"
                             onClick={() => navigate(`/my-stories`)}
                         >
                             Cancelar
@@ -259,16 +256,15 @@ const AddChapter = () => {
             {/* Botón flotante para anotaciones */}
             {showAnnotationButton && (
                 <div
-                    className="floating-btn"
+                    className="floating-btn add-chapter-floating-btn"
                     style={{
-                        position: 'absolute',
                         top: buttonPosition.top,
                         left: buttonPosition.left,
                         zIndex: 1000,
                     }}
                 >
                     <button
-                        className="btn btn-success"
+                        className="btn btn-success add-chapter-annotate-btn"
                         onClick={() => setModalShow(true)}
                     >
                         Anotar
@@ -277,7 +273,7 @@ const AddChapter = () => {
             )}
 
             {/* Modal para agregar significado */}
-            <Modal show={modalShow} onHide={() => setModalShow(false)} centered>
+            <Modal show={modalShow} onHide={() => setModalShow(false)} centered className="add-chapter-modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Agregar Significado</Modal.Title>
                 </Modal.Header>
@@ -286,7 +282,7 @@ const AddChapter = () => {
                         <strong>Texto Seleccionado:</strong> {selectedText}
                     </p>
                     <textarea
-                        className="form-control"
+                        className="form-control add-chapter-textarea"
                         value={annotationText}
                         onChange={(e) => setAnnotationText(e.target.value)}
                         placeholder="Escribe el significado o anotación"

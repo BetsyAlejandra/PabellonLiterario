@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import '../styles/NovelsPage.css';
+import '../styles/NovelsPage.css'; // Importa el archivo CSS específico
 
 const NovelsPage = () => {
   const [novels, setNovels] = useState([]);
@@ -64,7 +64,7 @@ const NovelsPage = () => {
       <h2 className="novels-title">Todas las Novelas</h2>
       <div className="novels-grid">
         {currentNovels.map((novel) => (
-          <div className="novels-card" key={novel.id}>
+          <div className="novels-card" key={novel._id}>
             <img
               src={novel.coverImage}
               className="novels-cover"

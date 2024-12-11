@@ -1,3 +1,4 @@
+// src/components/FloatingButton.jsx
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { FaDonate } from 'react-icons/fa'; // Icono de "donar" de react-icons
@@ -10,36 +11,32 @@ const FloatingButton = () => {
 
   return (
     <>
-      {/* Botón flotante de Ko-fi */}
+      {/* Botón flotante de Donación */}
       <Button
         onClick={handleShow}
-        style={{
-          position: 'fixed',
-          bottom: '20px',
-          right: '20px',
-          backgroundColor: '#FF5F1F', // Color de Ko-fi
-          border: 'none',
-          borderRadius: '50%', // Asegura que el botón sea redondo
-          width: '60px', // Ajusta el tamaño del botón
-          height: '60px', // Ajusta el tamaño del botón
-          padding: '0', // Elimina el padding para que el botón sea perfectamente redondo
-          fontSize: '30px', // Ajusta el tamaño del icono
-          color: 'white',
-          boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
-          cursor: 'pointer',
-          zIndex: 10,
-        }}
+        className="floating-donate-btn"
       >
         <FaDonate />
       </Button>
 
-      {/* Modal con Fondo Negro */}
-      <Modal show={showModal} onHide={handleClose} centered>
-        <Modal.Body style={{ backgroundColor: 'black', color: 'white' }}>
-          <h5>Top Donadores de Ko-fi</h5>
+      {/* Modal de Donaciones */}
+      <Modal
+        show={showModal}
+        onHide={handleClose}
+        centered
+        className="donate-modal"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title className="modal-title-gold">Top Donadores de Ko-fi</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="modal-body-dark">
           <p>Aquí puedes mostrar la lista de los donadores más recientes de Ko-fi...</p>
           {/* Agregar la lógica para mostrar los top donadores */}
-          <Button variant="secondary" onClick={handleClose}>
+          <Button
+            variant="secondary"
+            onClick={handleClose}
+            className="modal-close-btn"
+          >
             Cerrar
           </Button>
         </Modal.Body>
