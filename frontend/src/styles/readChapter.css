@@ -48,10 +48,14 @@
   word-wrap: break-word;
 }
 
-/* Controles Flotantes */
-.floating-controls {
-  position: absolute;
-  /* Las coordenadas serán manejadas por react-draggable */
+.fixed-settings {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 /* Botón de Ajustes */
@@ -76,10 +80,6 @@
   transform: scale(1.1);
 }
 
-.settings-toggle:active {
-  cursor: grabbing;
-}
-
 /* Panel de Ajustes */
 .settings-panel {
   background: rgba(44, 62, 80, 0.95);
@@ -88,7 +88,6 @@
   margin-top: 10px;
   box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
   transition: opacity 0.3s ease, transform 0.3s ease;
-  z-index: 1002;
 }
 
 .settings-panel .form-group {

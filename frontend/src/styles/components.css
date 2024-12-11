@@ -12,6 +12,17 @@ body {
   transition: background 0.5s ease; /* Transición suave para cambios de fondo */
 }
 
+/* Clase para ocultar el navbar */
+.navbar-hidden {
+  transform: translateY(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Clase visible */
+.custom-navbar {
+  transition: transform 0.3s ease-in-out;
+}
+
 /* Navbar con transición de color inspirada en el logo */
 .custom-navbar {
   background: linear-gradient(90deg, #b3864e, #ffd700, #b3864e); /* Degradado dorado */

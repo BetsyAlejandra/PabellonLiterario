@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Container, Form, OverlayTrigger, Popover } from 'react-bootstrap';
-import { FaArrowLeft, FaBook, FaArrowRight } from 'react-icons/fa';
+import { FaArrowLeft, FaBook, FaArrowRight, FaCog } from 'react-icons/fa'; // FaCog para la tuerca
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import DOMPurify from 'dompurify';  
 import parse, { domToReact } from 'html-react-parser';
@@ -175,12 +175,6 @@ const ReadChapter = () => {
         }
     };
 
-    // Función para manejar el arrastre y guardar posición
-    const handleDrag = (e, data) => {
-        setDragPosition({ x: data.x, y: data.y });
-        localStorage.setItem('settingsButtonPosition', JSON.stringify({ x: data.x, y: data.y }));
-    };
-
     if (loading) return <p className="text-center">Cargando...</p>;
     if (error) return <p className="text-center text-danger">{error}</p>;
 
@@ -257,62 +251,54 @@ const ReadChapter = () => {
                 </div>
             </Container>
 
-            {/* Ajustes Movibles */}
-            <Draggable
-                handle=".handle"
-                position={dragPosition}
-                onDrag={handleDrag}
-                bounds="parent"
-            >
-                <div className="floating-controls">
-                    <Button
-                        variant="primary"
-                        className="settings-toggle handle"
-                        onClick={() => setShowSettings((prev) => !prev)} // Cambia entre mostrar/ocultar
-                    >
-                        {showSettings ? <FaArrowDown /> : <FaArrowUp />}
-                    </Button>
-
-                    {showSettings && (
-                        <div className="settings-panel">
-                            <Form.Group>
-                                <Form.Label>Tamaño de Letra</Form.Label>
-                                <Form.Range
-                                    min="12"
-                                    max="32"
-                                    value={fontSize}
-                                    onChange={(e) => handleFontSizeChange(e.target.value)}
-                                />
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Color de Fuente</Form.Label>
-                                <Form.Select
-                                    value={fontColor}
-                                    onChange={(e) => handleFontColorChange(e.target.value)}
-                                >
-                                    <option value="#FBFCFC">Blanco (#FBFCFC)</option>
-                                    <option value="#FFD700">Dorado (#FFD700)</option>
-                                    <option value="#A9DFBF">Verde Claro (#A9DFBF)</option>
-                                    <option value="#CDC3E3">Morado Claro (#CDC3E3)</option>
-                                    <option value="#FDEDEC">Rosado Claro (#FDEDEC)</option>
-                                    <option value="#FFFFFF">Blanco Puro (#FFFFFF)</option>
-                                    <option value="#FF5733">Naranja (#FF5733)</option>
-                                    <option value="#C70039">Rojo (#C70039)</option>
-                                </Form.Select>
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Brillo</Form.Label>
-                                <Form.Range
-                                    min="50"
-                                    max="150"
-                                    value={brightness}
-                                    onChange={(e) => handleBrightnessChange(e.target.value)}
-                                />
-                            </Form.Group>
-                        </div>
-                    )}
-                </div>
-            </Draggable>
+            {/* Botón de ajustes */}
+            <div className="fixed-settings">
+                <Button
+                    variant="secondary"
+                    className="settings-toggle"
+                    onClick={() => setShowSettings((prev) => !prev)}
+                >
+                    <FaCog /> {/* Ícono de tuerca */}
+                </Button>
+                {showSettings && (
+                    <div className="settings-panel">
+                        <Form.Group>
+                            <Form.Label>Tamaño de Letra</Form.Label>
+                            <Form.Range
+                                min="12"
+                                max="32"
+                                value={fontSize}
+                                onChange={(e) => handleFontSizeChange(e.target.value)}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Color de Fuente</Form.Label>
+                            <Form.Select
+                                value={fontColor}
+                                onChange={(e) => handleFontColorChange(e.target.value)}
+                            >
+                                <option value="#FBFCFC">Blanco (#FBFCFC)</option>
+                                <option value="#FFD700">Dorado (#FFD700)</option>
+                                <option value="#A9DFBF">Verde Claro (#A9DFBF)</option>
+                                <option value="#CDC3E3">Morado Claro (#CDC3E3)</option>
+                                <option value="#FDEDEC">Rosado Claro (#FDEDEC)</option>
+                                <option value="#FFFFFF">Blanco Puro (#FFFFFF)</option>
+                                <option value="#FF5733">Naranja (#FF5733)</option>
+                                <option value="#C70039">Rojo (#C70039)</option>
+                            </Form.Select>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Brillo</Form.Label>
+                            <Form.Range
+                                min="50"
+                                max="150"
+                                value={brightness}
+                                onChange={(e) => handleBrightnessChange(e.target.value)}
+                            />
+                        </Form.Group>
+                    </div>
+                )}
+            </div>
 
             {/* Navegación entre capítulos */}
             <div className="chapter-navigation">

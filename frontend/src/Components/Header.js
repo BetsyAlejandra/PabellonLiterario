@@ -22,6 +22,8 @@ const Header = () => {
   const [userRoles, setUserRoles] = useState([]);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true); // Estado para la visibilidad de la barra
+  const [lastScrollPos, setLastScrollPos] = useState(0); // Guarda la última posición de scroll
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -123,8 +125,32 @@ const Header = () => {
     );
   };
 
+    // Manejo de la visibilidad del navbar
+    useEffect(() => {
+      const handleScroll = () => {
+        const currentScrollPos = window.scrollY;
+  
+        if (currentScrollPos > lastScrollPos && currentScrollPos > 50) {
+          setIsNavbarVisible(false); // Oculta la barra al hacer scroll hacia abajo
+        } else {
+          setIsNavbarVisible(true); // Muestra la barra al hacer scroll hacia arriba
+        }
+  
+        setLastScrollPos(currentScrollPos);
+      };
+  
+      window.addEventListener("scroll", handleScroll);
+  
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }, [lastScrollPos]);
+
   return (
-    <Navbar expand="lg" className="custom-navbar">
+    <Navbar
+      expand="lg"
+      className={`custom-navbar ${isNavbarVisible ? "" : "navbar-hidden"}`} // Clase condicional
+    >
       <Container className="d-flex justify-content-between align-items-center">
         <Navbar.Brand
           onClick={() => navigate("/")}
