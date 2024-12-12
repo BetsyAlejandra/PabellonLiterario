@@ -13,6 +13,7 @@ const fs = require('fs');
 const novelRoutes = require('./routes/novels');
 const userRoutes = require('./routes/users');
 const actualizacionRoutes = require('./routes/actualizaciones');
+const donationRoutes = require('./routes/donations');
 
 // Configuración de Rate Limiting
 const limiter = rateLimit({
@@ -67,7 +68,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Rutas API
 app.use('/api/users', userRoutes);
 app.use('/api/novels', novelRoutes);
-
+app.use('/api/donations', donationRoutes);
 
 // Servir en producción
 if (process.env.NODE_ENV === 'production') {
