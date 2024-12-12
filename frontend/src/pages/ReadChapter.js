@@ -282,7 +282,7 @@ const ReadChapter = () => {
                         <ins className="adsbygoogle"
                              style={{ display: "block" }}
                              data-ad-client="ca-pub-3101266953328074"
-                             data-ad-slot="6455860659"
+                             data-ad-slot="5093282296"
                              data-ad-format="auto"
                              data-full-width-responsive="true"></ins>
                     </div>
