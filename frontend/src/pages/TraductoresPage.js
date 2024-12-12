@@ -62,45 +62,66 @@ const TranslatorsPage = () => {
         <h1 className="translators-title">Nuestros Traductores</h1>
         <p className="translators-subtitle">Explora los perfiles de nuestros talentosos traductores</p>
       </header>
-      <Container>
-        {/* Controles de Paginación en la parte superior */}
-        <Pagination className="justify-content-center mb-4">
-          <Pagination.First onClick={() => setCurrentPage(1)} disabled={currentPage === 1} />
-          <Pagination.Prev onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} />
-          {paginationItems}
-          <Pagination.Next onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} />
-          <Pagination.Last onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} />
-        </Pagination>
 
+      {/* Espacio para Anuncio */}
+      <section className="ad-section my-4">
+        <Container>
+          <div className="ad-section-container">
+            <ins className="adsbygoogle"
+                 style={{ display: "block" }}
+                 data-ad-client="ca-pub-3101266953328074"
+                 data-ad-slot="6880835240"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+          </div>
+        </Container>
+      </section>
 
-        <Row className="g-4">
-          {currentTranslators.map((translator) => (
-            <Col key={translator._id} sm={6} md={4} lg={3}>
-              <Card className="translator-card">
-                <Card.Img
-                  variant="top"
-                  src={translator.profilePhoto || 'https://via.placeholder.com/150'}
-                  className="translator-profile-photo"
-                  alt={`Foto de perfil de ${translator.username}`}
-                />
-                <Card.Body>
-                  <Card.Title className="translator-name">{translator.username}</Card.Title>
-                  <Card.Text className="translator-roles">
-                    <strong>Roles:</strong> {translator.roles.join(', ')}
-                  </Card.Text>
-                  <Button
-                    as={Link}
-                    to={`/profileperson/${translator.username}`}
-                    className="translator-profile-button"
-                  >
-                    Ver Perfil
-                  </Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      </Container>
+      {/* Controles de Paginación en la parte superior */}
+      <Pagination className="justify-content-center mb-4">
+        <Pagination.First onClick={() => setCurrentPage(1)} disabled={currentPage === 1} />
+        <Pagination.Prev onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} />
+        {paginationItems}
+        <Pagination.Next onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} />
+        <Pagination.Last onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} />
+      </Pagination>
+
+      <Row className="g-4">
+        {currentTranslators.map((translator) => (
+          <Col key={translator._id} sm={6} md={4} lg={3}>
+            <Card className="translator-card">
+              <Card.Img
+                variant="top"
+                src={translator.profilePhoto || 'https://via.placeholder.com/150'}
+                className="translator-profile-photo"
+                alt={`Foto de perfil de ${translator.username}`}
+              />
+              <Card.Body>
+                <Card.Title className="translator-name">{translator.username}</Card.Title>
+                <Card.Text className="translator-roles">
+                  <strong>Roles:</strong> {translator.roles.join(', ')}
+                </Card.Text>
+                <Button
+                  as={Link}
+                  to={`/profileperson/${translator.username}`}
+                  className="translator-profile-button"
+                >
+                  Ver Perfil
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      {/* Controles de Paginación en la parte inferior */}
+      <Pagination className="justify-content-center mt-4">
+        <Pagination.First onClick={() => setCurrentPage(1)} disabled={currentPage === 1} />
+        <Pagination.Prev onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} />
+        {paginationItems}
+        <Pagination.Next onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} />
+        <Pagination.Last onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} />
+      </Pagination>
     </div>
   );
 };

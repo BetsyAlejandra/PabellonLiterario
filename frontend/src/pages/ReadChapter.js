@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Container, Form, OverlayTrigger, Popover } from 'react-bootstrap';
 import { FaArrowLeft, FaBook, FaArrowRight, FaCog } from 'react-icons/fa'; // FaCog para la tuerca
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
-import DOMPurify from 'dompurify';  
+import DOMPurify from 'dompurify';
 import parse, { domToReact } from 'html-react-parser';
 import '../styles/readChapter.css';
 
@@ -79,6 +79,21 @@ const ReadChapter = () => {
         };
         fetchChapter();
     }, [storyId, chapterId]);
+
+    useEffect(() => {
+        const initializeAds = () => {
+            if (window.adsbygoogle) {
+                try {
+                    (window.adsbygoogle = window.adsbygoogle || []).push({});
+                } catch (e) {
+                    console.error('Adsense error:', e);
+                }
+            }
+        };
+        // Usar un pequeño retraso para asegurarse de que los anuncios se carguen correctamente
+        setTimeout(initializeAds, 1000);
+    }, []);
+
 
     useEffect(() => {
         const handleCopy = (e) => {
@@ -245,9 +260,33 @@ const ReadChapter = () => {
                 <h2 className="chapter-title">{chapter.title}</h2>
                 <p className="chapter-date">{new Date(chapter.publishedAt).toLocaleDateString()}</p>
 
+                 {/* Espacio para Anuncio 1: Antes del contenido del capítulo */}
+                 <section className="ad-section my-4">
+                    <div className="ad-section-container">
+                        <ins className="adsbygoogle"
+                             style={{ display: "block" }}
+                             data-ad-client="ca-pub-3101266953328074"
+                             data-ad-slot="6455860659"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                    </div>
+                </section>
+
                 <div className="chapter-content">
                     {parse(sanitizedContent, options)}
                 </div>
+
+                {/* Espacio para Anuncio 2: Al final del contenido del capítulo */}
+                <section className="ad-section my-4">
+                    <div className="ad-section-container">
+                        <ins className="adsbygoogle"
+                             style={{ display: "block" }}
+                             data-ad-client="ca-pub-3101266953328074"
+                             data-ad-slot="6455860659"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                    </div>
+                </section>
             </Container>
 
             {/* Botón de ajustes */}

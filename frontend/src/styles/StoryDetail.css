@@ -353,3 +353,24 @@
 .story-detail-view-more-btn:hover {
   text-decoration: underline;
 }
+
+/* Secciones de Anuncios */
+.ad-section {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.ad-section-container {
+  background-color: #2C2C2C;
+  /* Fondo similar al resto del sitio */
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #FFD700;
+  /* Borde dorado para consistencia */
+}
+
+.ad-section-container ins.adsbygoogle {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+}

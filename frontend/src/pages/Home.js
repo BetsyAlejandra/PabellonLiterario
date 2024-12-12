@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, Card, Carousel } from 'react-bootstrap';
+import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import '../styles/homeStyles.css';
 import "slick-carousel/slick/slick.css";
@@ -12,7 +12,6 @@ const Home = () => {
   const [novels, setNovels] = useState([]); // Estado para almacenar las novelas
   const [loading, setLoading] = useState(true); // Estado para indicar si los datos están cargando
   const [latestNovels, setLatestNovels] = useState([]); // Estado para las últimas traducciones
-  const [latestChapters, setLatestChapters] = useState([]); // Estado para últimos capítulos
   const [error, setError] = useState(null); // Estado para manejar errores
 
   useEffect(() => {
@@ -54,10 +53,19 @@ const Home = () => {
         setLatestNovels([]);
       }
     };
-    
 
     fetchNovels();
     fetchLatestNovels(); // Llama a ambas funciones al montar el componente
+
+    // Inicializar anuncios de AdSense
+    const ads = document.getElementsByClassName('adsbygoogle');
+    for (let i = 0; i < ads.length; i++) {
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {
+        console.error('Adsense error:', e);
+      }
+    }
   }, []);
 
   const settings = {
@@ -102,6 +110,20 @@ const Home = () => {
         </div>
       </header>
 
+      {/* Espacio para Anuncio 1 */}
+      <section className="ad-section my-4">
+        <Container>
+          <div className="ad-section-container">
+            <ins className="adsbygoogle"
+                 style={{ display: "block" }}
+                 data-ad-client="ca-pub-3101266953328074"
+                 data-ad-slot="2736107499"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+          </div>
+        </Container>
+      </section>
+
       {/* Galería de Obras Traducidas */}
       <section className="translated-works-gallery">
         <Container>
@@ -132,8 +154,21 @@ const Home = () => {
                 </Card>
               ))}
             </Slider>
-
           )}
+        </Container>
+      </section>
+
+      {/* Espacio para Anuncio 2 */}
+      <section className="ad-section my-4">
+        <Container>
+          <div className="ad-section-container">
+            <ins className="adsbygoogle"
+                 style={{ display: "block" }}
+                 data-ad-client="ca-pub-3101266953328074"
+                 data-ad-slot="8089975138"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+          </div>
         </Container>
       </section>
 
@@ -163,7 +198,6 @@ const Home = () => {
             ))}
           </Row>
         </Container>
-        <section />
 
         <Container>
           {/* Sección de Soporte y Discord */}
@@ -198,29 +232,43 @@ const Home = () => {
               >
                 ¡Únete al Discord!
               </Button>
+            </Col>
 
-              {/* Anuncio de Postulación */}
-              <Col md={6} className="apply-section text-light">
-                <h2>¡Únete a Nuestro Equipo!</h2>
-                <p>
-                  ¿Te apasionan las letras? Buscamos traductores (de cualquier idioma), escritores y editores.
-                  Forma parte de nuestro equipo y comparte tu talento con la comunidad.
-                </p>
-                <Button
-                  as={Link}
-                  to="/postular"
-                  variant="outline-light"
-                >
-                  Postúlate Aquí
-                </Button>
-              </Col>
+            {/* Anuncio de Postulación */}
+            <Col md={6} className="apply-section text-light">
+              <h2>¡Únete a Nuestro Equipo!</h2>
+              <p>
+                ¿Te apasionan las letras? Buscamos traductores (de cualquier idioma), escritores y editores.
+                Forma parte de nuestro equipo y comparte tu talento con la comunidad.
+              </p>
+              <Button
+                as={Link}
+                to="/postular"
+                variant="outline-light"
+              >
+                Postúlate Aquí
+              </Button>
             </Col>
           </Row>
-        </Container >
-      </section >
+        </Container>
+      </section>
+
+      {/* Espacio para Anuncio 3 */}
+      <section className="ad-section my-4">
+        <Container>
+          <div className="ad-section-container">
+            <ins className="adsbygoogle"
+                 style={{ display: "block" }}
+                 data-ad-client="ca-pub-3101266953328074"
+                 data-ad-slot="7936463288"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+          </div>
+        </Container>
+      </section>
 
       {/* Historia y Logros */}
-      < section className="history-and-achievements py-5" >
+      <section className="history-and-achievements py-5">
         <Container>
           <h2 className="text-center text-white mb-5">Historia y Logros del Proyecto</h2>
           <p className="text-center text-white mb-5">
@@ -278,8 +326,8 @@ const Home = () => {
             </Col>
           </Row>
         </Container>
-      </section >
-    </div >
+      </section>
+    </div>
   );
 };
 
