@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Modal, Button, Card, Form, Container } from 'react-bootstrap';
-import '../styles/StoryDetail.css'; // Importa el archivo CSS específico
+import '../styles/StoryDetail.css';
+import AdSense from '../Components/AdSense';
 
 const StoryDetail = () => {
     const { id } = useParams();
@@ -169,21 +170,6 @@ const StoryDetail = () => {
         }
     };
 
-    // Inicializar anuncios de AdSense cuando el componente se monta
-    useEffect(() => {
-        const initializeAds = () => {
-            if (window.adsbygoogle) {
-                try {
-                    (window.adsbygoogle = window.adsbygoogle || []).push({});
-                } catch (e) {
-                    console.error('Adsense error:', e);
-                }
-            }
-        };
-        // Usar un pequeño retraso para asegurarse de que los anuncios se carguen correctamente
-        setTimeout(initializeAds, 1000);
-    }, []);
-
     if (loading) return <p className="story-detail-loading">Cargando...</p>;
     if (error) return <p className="story-detail-error">{error}</p>;
 
@@ -193,12 +179,11 @@ const StoryDetail = () => {
             <section className="ad-section my-4">
                 <Container>
                     <div className="ad-section-container">
-                        <ins className="adsbygoogle"
-                             style={{ display: "block" }}
-                             data-ad-client="ca-pub-3101266953328074"
-                             data-ad-slot="2492564919"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
+                        <AdSense
+                            adClient="ca-pub-3101266953328074"
+                            adSlot="2492564919"
+                            style={{ display: "block" }}
+                        />
                     </div>
                 </Container>
             </section>
@@ -350,12 +335,11 @@ const StoryDetail = () => {
             <section className="ad-section my-4">
                 <Container>
                     <div className="ad-section-container">
-                        <ins className="adsbygoogle"
-                             style={{ display: "block" }}
-                             data-ad-client="ca-pub-3101266953328074"
-                             data-ad-slot="3959158431"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
+                        <AdSense
+                            adClient="ca-pub-3101266953328074"
+                            adSlot="3959158431"
+                            style={{ display: "block" }}
+                        />
                     </div>
                 </Container>
             </section>

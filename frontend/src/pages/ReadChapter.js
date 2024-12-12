@@ -7,6 +7,7 @@ import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import DOMPurify from 'dompurify';
 import parse, { domToReact } from 'html-react-parser';
 import '../styles/readChapter.css';
+import AdSense from '../Components/AdSense';
 
 const ReadChapter = () => {
     const { storyId, chapterId } = useParams();
@@ -79,21 +80,6 @@ const ReadChapter = () => {
         };
         fetchChapter();
     }, [storyId, chapterId]);
-
-    useEffect(() => {
-        const initializeAds = () => {
-            if (window.adsbygoogle) {
-                try {
-                    (window.adsbygoogle = window.adsbygoogle || []).push({});
-                } catch (e) {
-                    console.error('Adsense error:', e);
-                }
-            }
-        };
-        // Usar un pequeño retraso para asegurarse de que los anuncios se carguen correctamente
-        setTimeout(initializeAds, 1000);
-    }, []);
-
 
     useEffect(() => {
         const handleCopy = (e) => {
@@ -260,15 +246,14 @@ const ReadChapter = () => {
                 <h2 className="chapter-title">{chapter.title}</h2>
                 <p className="chapter-date">{new Date(chapter.publishedAt).toLocaleDateString()}</p>
 
-                 {/* Espacio para Anuncio 1: Antes del contenido del capítulo */}
-                 <section className="ad-section my-4">
+                {/* Espacio para Anuncio 1: Antes del contenido del capítulo */}
+                <section className="ad-section my-4">
                     <div className="ad-section-container">
-                        <ins className="adsbygoogle"
-                             style={{ display: "block" }}
-                             data-ad-client="ca-pub-3101266953328074"
-                             data-ad-slot="6455860659"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
+                        <AdSense
+                            adClient="ca-pub-3101266953328074"
+                            adSlot="6455860659"
+                            style={{ display: "block" }}
+                        />
                     </div>
                 </section>
 
@@ -279,12 +264,11 @@ const ReadChapter = () => {
                 {/* Espacio para Anuncio 2: Al final del contenido del capítulo */}
                 <section className="ad-section my-4">
                     <div className="ad-section-container">
-                        <ins className="adsbygoogle"
-                             style={{ display: "block" }}
-                             data-ad-client="ca-pub-3101266953328074"
-                             data-ad-slot="5093282296"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
+                        <AdSense
+                            adClient="ca-pub-3101266953328074"
+                            adSlot="5093282296"
+                            style={{ display: "block" }}
+                        />
                     </div>
                 </section>
             </Container>

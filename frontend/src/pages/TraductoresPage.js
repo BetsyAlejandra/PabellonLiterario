@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Button, Container, Row, Col, Pagination } from 'react-bootstrap';
 import '../styles/TranslatorsPage.css';
+import AdSense from '../Components/AdSense';
 
 const TranslatorsPage = () => {
   const [translators, setTranslators] = useState([]);
@@ -67,12 +68,11 @@ const TranslatorsPage = () => {
       <section className="ad-section my-4">
         <Container>
           <div className="ad-section-container">
-            <ins className="adsbygoogle"
-                 style={{ display: "block" }}
-                 data-ad-client="ca-pub-3101266953328074"
-                 data-ad-slot="6880835240"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
+            <AdSense
+              adClient="ca-pub-3101266953328074"
+              adSlot="6880835240"
+              style={{ display: "block" }}
+            />
           </div>
         </Container>
       </section>

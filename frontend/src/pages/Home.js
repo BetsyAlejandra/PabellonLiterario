@@ -5,6 +5,7 @@ import '../styles/homeStyles.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import headerImage from '../assets/header.png'; // Imagen de encabezado
+import AdSense from '../Components/AdSense';
 
 import Slider from "react-slick";
 
@@ -56,16 +57,6 @@ const Home = () => {
 
     fetchNovels();
     fetchLatestNovels(); // Llama a ambas funciones al montar el componente
-
-    // Inicializar anuncios de AdSense
-    const ads = document.getElementsByClassName('adsbygoogle');
-    for (let i = 0; i < ads.length; i++) {
-      try {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-      } catch (e) {
-        console.error('Adsense error:', e);
-      }
-    }
   }, []);
 
   const settings = {
@@ -114,12 +105,11 @@ const Home = () => {
       <section className="ad-section my-4">
         <Container>
           <div className="ad-section-container">
-            <ins className="adsbygoogle"
-                 style={{ display: "block" }}
-                 data-ad-client="ca-pub-3101266953328074"
-                 data-ad-slot="2736107499"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
+            <AdSense
+              adClient="ca-pub-3101266953328074"
+              adSlot="2736107499"
+              style={{ display: "block" }}
+            />
           </div>
         </Container>
       </section>
@@ -162,12 +152,11 @@ const Home = () => {
       <section className="ad-section my-4">
         <Container>
           <div className="ad-section-container">
-            <ins className="adsbygoogle"
-                 style={{ display: "block" }}
-                 data-ad-client="ca-pub-3101266953328074"
-                 data-ad-slot="8089975138"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
+            <AdSense
+              adClient="ca-pub-3101266953328074"
+              adSlot="8089975138"
+              style={{ display: "block" }}
+            />
           </div>
         </Container>
       </section>
@@ -257,12 +246,11 @@ const Home = () => {
       <section className="ad-section my-4">
         <Container>
           <div className="ad-section-container">
-            <ins className="adsbygoogle"
-                 style={{ display: "block" }}
-                 data-ad-client="ca-pub-3101266953328074"
-                 data-ad-slot="7936463288"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
+            <AdSense
+              adClient="ca-pub-3101266953328074"
+              adSlot="7936463288"
+              style={{ display: "block" }}
+            />
           </div>
         </Container>
       </section>
