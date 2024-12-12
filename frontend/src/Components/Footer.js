@@ -95,7 +95,7 @@ const Footer = () => {
                 <strong>¿Qué tipos de novelas puedo encontrar aquí?</strong> Ofrecemos traducciones de géneros como danmei, fantasía, romance, acción, entre otros. Aunque el enfoque principal es el danmei, trabajamos en la diversidad de contenido.
               </li>
               <li>
-                <strong>¿Solo se traducen novelas?</strong> No, también incluimos manhuas y audiolibros. Queremos abarcar distintas formas de contenido literario.
+                <strong>¿Solo se traducen novelas?</strong> Por el momento, sí.
               </li>
               <li>
                 <strong>¿Puedo unirme como traductora, escritora o editora?</strong> ¡Por supuesto! Buscamos personas apasionadas. Únete a nuestro Discord para más información.
