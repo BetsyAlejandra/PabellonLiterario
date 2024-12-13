@@ -56,24 +56,23 @@
   font-size: 1.1rem;
 }
 
-/* Botón de Descarga de Frase */
 .read-chapter .btn-success {
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  background: linear-gradient(45deg, #FFD700, #FFA500); /* Gradiente de dorado a naranja */
+  position: absolute;
+  z-index: 1000;
+  transform: translate(-50%, 0);
+  background: linear-gradient(45deg, #FFD700, #FFA500); /* Gradiente dorado */
   border: none;
-  color: #1c1c1c !important; /* Texto oscuro para contraste */
-  padding: 12px 20px; /* Tamaño adecuado */
+  color: black;
+  padding: 12px 18px;
+  border-radius: 8px;
   font-weight: bold;
-  border-radius: 10px;
-  font-family: 'Cinzel', serif; /* Fuente consistente con títulos */
-  cursor: pointer;
+  font-size: 14px;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .read-chapter .btn-success:hover {
-  transform: scale(1.07);
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
-  background: linear-gradient(45deg, #e6c200, #FF8C00); /* Gradiente al pasar el ratón */
+  transform: translate(-50%, 0) scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Botón de Ajustes */

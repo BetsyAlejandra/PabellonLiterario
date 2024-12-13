@@ -81,9 +81,9 @@ const ReadChapter = () => {
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
 
-                // Calcular posición debajo de la selección
-                let calculatedTop = rect.bottom + scrollTop + 10; // 10px debajo de la selección
-                let calculatedLeft = rect.left + scrollLeft + rect.width / 2; // Centrado horizontalmente
+                // Posicionar el botón 10px debajo del texto seleccionado
+                let calculatedTop = rect.bottom + scrollTop + 10;
+                let calculatedLeft = rect.left + scrollLeft + rect.width / 2;
 
                 // Asegurar que el botón no se salga de la pantalla
                 const windowWidth = window.innerWidth;
@@ -91,7 +91,7 @@ const ReadChapter = () => {
 
                 // Limitar top
                 if (calculatedTop > scrollTop + windowHeight - 60) { // 60px es la altura aproximada del botón
-                    calculatedTop = rect.top + scrollTop - 50; // Posicionar arriba si no hay espacio abajo
+                    calculatedTop = rect.top + scrollTop - 20; // Posicionar arriba si no hay espacio abajo
                 }
 
                 // Limitar left
