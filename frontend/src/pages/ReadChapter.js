@@ -30,9 +30,6 @@ const ReadChapter = () => {
     const [buttonPosition, setButtonPosition] = useState({ top: 0, left: 0 });
     const [novelName, setNovelName] = useState('');
 
-    // Referencia para el contenedor principal
-    const readChapterRef = useRef(null);
-
     // Ref para generar IDs únicos para los Popovers
     const popoverIdRef = useRef(0);
 
@@ -73,20 +70,20 @@ const ReadChapter = () => {
         const handleSelection = () => {
             const selection = window.getSelection();
             const text = selection.toString().trim();
+            console.log('Texto seleccionado:', text); // Log de selección
+
             if (text.length > 0) {
                 const range = selection.getRangeAt(0);
                 const rect = range.getBoundingClientRect();
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-                setButtonPosition({ top: rect.top + scrollTop - 40, left: rect.left + scrollLeft });
+                setButtonPosition({ top: rect.top + scrollTop - 40, left: rect.left + scrollLeft + rect.width / 2 });
                 setSelectedText(text);
                 setShowDownloadButton(true);
-                // Suponiendo que 'chapter.novelTitle' contiene el nombre de la novela
-                if (chapter && chapter.novelTitle) {
-                    setNovelName(chapter.novelTitle);
-                }
+                console.log('Botón de descarga mostrado en:', { top: rect.top + scrollTop - 40, left: rect.left + scrollLeft + rect.width / 2 }); // Log de posición
             } else {
                 setShowDownloadButton(false);
+                console.log('No hay texto seleccionado. Botón de descarga ocultado.'); // Log de ocultación
             }
         };
 
@@ -132,36 +129,30 @@ const ReadChapter = () => {
             }
         };
 
-        const readChapterElement = readChapterRef.current;
-
-        if (readChapterElement) {
-            readChapterElement.addEventListener('copy', handleCopy);
-            readChapterElement.addEventListener('cut', handleCut);
-            readChapterElement.addEventListener('paste', handlePaste);
-            readChapterElement.addEventListener('contextmenu', handleContextMenu);
-            window.addEventListener('keydown', handleKeyDown);
-        }
+        // Añadir event listeners al documento completo
+        document.addEventListener('copy', handleCopy);
+        document.addEventListener('cut', handleCut);
+        document.addEventListener('paste', handlePaste);
+        document.addEventListener('contextmenu', handleContextMenu);
+        window.addEventListener('keydown', handleKeyDown);
 
         return () => {
-            if (readChapterElement) {
-                readChapterElement.removeEventListener('copy', handleCopy);
-                readChapterElement.removeEventListener('cut', handleCut);
-                readChapterElement.removeEventListener('paste', handlePaste);
-                readChapterElement.removeEventListener('contextmenu', handleContextMenu);
-                window.removeEventListener('keydown', handleKeyDown);
-            }
+            // Limpiar event listeners al desmontar el componente
+            document.removeEventListener('copy', handleCopy);
+            document.removeEventListener('cut', handleCut);
+            document.removeEventListener('paste', handlePaste);
+            document.removeEventListener('contextmenu', handleContextMenu);
+            window.removeEventListener('keydown', handleKeyDown);
         };
     }, []);
 
     // useEffect para desplazar al inicio al cambiar de capítulo
     useEffect(() => {
-        if (readChapterRef.current) {
-            readChapterRef.current.scrollTo({
-                top: 0,
-                behavior: 'smooth', // Opcional: para un desplazamiento suave
-            });
-        }
-    }, [chapter]); // Dependencia basada en 'chapter' para asegurar que el contenido está cargado
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth', // Opcional: para un desplazamiento suave
+        });
+    }, [chapter]);
 
     const handleScroll = (e) => {
         const { scrollTop, scrollHeight, clientHeight } = e.target;
@@ -315,7 +306,6 @@ const ReadChapter = () => {
     return (
         <div
             className="read-chapter"
-            ref={readChapterRef}
             style={{
                 filter: `brightness(${brightness}%)`,
                 fontSize: `${fontSize}px`,
@@ -495,8 +485,8 @@ const ReadChapter = () => {
                     variant="success"
                     style={{
                         position: 'absolute',
-                        top: buttonPosition.top,
-                        left: buttonPosition.left,
+                        top: `${buttonPosition.top}px`,
+                        left: `${buttonPosition.left}px`,
                         zIndex: 1000,
                         transform: 'translate(-50%, -50%)', // Centrar el botón
                         display: 'flex',
@@ -510,6 +500,6 @@ const ReadChapter = () => {
             )}
         </div>
     ); // Cierre del bloque de retorno
-}; 
+};
 
 export default ReadChapter;
