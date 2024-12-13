@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Modal, Button, Card, Form, Container } from 'react-bootstrap';
+import { Modal, Button, Card, Form, Container, Pagination } from 'react-bootstrap';
 import '../styles/StoryDetail.css';
 import AdSense from '../Components/AdSense';
 
@@ -26,6 +26,11 @@ const StoryDetail = () => {
 
     // Estado para manejar la autorización de capítulos
     const [authorizedChapters, setAuthorizedChapters] = useState({});
+
+    // Paginación
+    const [currentPage, setCurrentPage] = useState(1);
+    const chaptersPerPage = 10; // Número de capítulos por página
+    const maxPaginationButtons = 5; // Número máximo de botones de paginación visibles
 
     useEffect(() => {
         const fetchStory = async () => {
@@ -168,6 +173,34 @@ const StoryDetail = () => {
             console.error(err);
             setPasswordError('Error al verificar la contraseña.');
         }
+    };
+
+    // Calcular capítulos visibles para la página actual
+    const indexOfLastChapter = currentPage * chaptersPerPage;
+    const indexOfFirstChapter = indexOfLastChapter - chaptersPerPage;
+    const currentChapters = story.chapters.slice(indexOfFirstChapter, indexOfLastChapter);
+
+    // Número total de páginas
+    const totalPages = Math.ceil(story.chapters.length / chaptersPerPage);
+
+    // Crear botones de paginación limitados
+    const getPaginationButtons = () => {
+        const buttons = [];
+        const startPage = Math.max(1, currentPage - Math.floor(maxPaginationButtons / 2));
+        const endPage = Math.min(totalPages, startPage + maxPaginationButtons - 1);
+
+        for (let page = startPage; page <= endPage; page++) {
+            buttons.push(
+                <Pagination.Item
+                    key={page}
+                    active={page === currentPage}
+                    onClick={() => setCurrentPage(page)}
+                >
+                    {page}
+                </Pagination.Item>
+            );
+        }
+        return buttons;
     };
 
     if (loading) return <p className="story-detail-loading">Cargando...</p>;
@@ -330,6 +363,18 @@ const StoryDetail = () => {
                     <p className="story-detail-no-chapters">No hay capítulos disponibles.</p>
                 )}
             </div>
+
+            {/* Control de paginación */}
+            {totalPages > 1 && (
+                <Pagination className="pagination">
+                    <Pagination.First disabled={currentPage === 1} onClick={() => setCurrentPage(1)} />
+                    <Pagination.Prev disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)} />
+                    {getPaginationButtons()}
+                    <Pagination.Next disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)} />
+                    <Pagination.Last disabled={currentPage === totalPages} onClick={() => setCurrentPage(totalPages)} />
+                </Pagination>
+
+            )}
 
             {/* Espacio para Anuncio 2 */}
             <section className="ad-section my-4">

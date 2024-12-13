@@ -374,3 +374,67 @@
   margin: 0 auto;
   max-width: 100%;
 }
+
+/* Contenedor de la paginación */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  list-style: none;
+  padding: 0;
+}
+
+/* Elementos de la paginación */
+.pagination .page-item {
+  margin: 0 5px; /* Espaciado entre botones */
+}
+
+.pagination .page-item .page-link {
+  background-color: #2c2c2c; /* Fondo oscuro */
+  color: #ffd700; /* Texto dorado */
+  border: 1px solid #50c878; /* Borde esmeralda */
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.pagination .page-item .page-link:hover {
+  background-color: #50c878; /* Fondo esmeralda */
+  color: #1a1a1a; /* Texto oscuro */
+  transform: scale(1.1); /* Efecto de zoom */
+}
+
+/* Página activa */
+.pagination .page-item.active .page-link {
+  background-color: #50c878; /* Fondo esmeralda */
+  color: #1a1a1a; /* Texto oscuro */
+  border-color: #50c878; /* Mantener borde esmeralda */
+  transform: scale(1.1); /* Destacar */
+  pointer-events: none; /* Deshabilitar clic */
+}
+
+/* Botones deshabilitados (Primero, Anterior, Siguiente, Último) */
+.pagination .page-item.disabled .page-link {
+  background-color: #1c1c1c; /* Fondo más oscuro */
+  color: #a9a9a9; /* Texto gris claro */
+  border: 1px solid #2a2a2a; /* Borde oscuro */
+  pointer-events: none; /* Deshabilitar clic */
+}
+
+/* Botones extremos (Primero, Último) */
+.pagination .page-item .page-link:first-child,
+.pagination .page-item .page-link:last-child {
+  border-radius: 50%; /* Botones redondeados */
+}
+
+/* Alinear correctamente en móviles */
+@media (max-width: 768px) {
+  .pagination .page-item .page-link {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}
