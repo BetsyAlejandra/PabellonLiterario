@@ -168,7 +168,8 @@ const ReadChapter = () => {
             top: 0,
             behavior: 'smooth', // Opcional: para un desplazamiento suave
         });
-    }, [chapter]);
+    }, [storyId, chapterId]);
+    
 
     const handleScroll = (e) => {
         const { scrollTop, scrollHeight, clientHeight } = e.target;
@@ -468,6 +469,7 @@ const ReadChapter = () => {
                 >
                     Siguiente <FaArrowRight />
                 </Button>
+
             </div>
 
             {/* Comentarios generales */}
