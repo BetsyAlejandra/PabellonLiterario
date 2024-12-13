@@ -66,32 +66,25 @@
   font-size: 1.1rem;
 }
 
-.read-chapter .btn-success {
+.fixed-download-button {
   position: fixed;
   bottom: 20px;
   left: 20px;
   z-index: 1000;
-  background: linear-gradient(45deg, #FFD700, #FFA500);
-  border: none;
-  color: #1c1c1c !important;
-  /* Texto oscuro */
-  padding: 12px 20px;
-  border-radius: 50px;
-  /* Bordes redondeados */
-  font-weight: bold;
-  font-size: 14px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  gap: 5px;
   cursor: pointer;
+  padding: 12px 20px;
+  font-size: 1rem;
+  background-color: #ffd700;
+  /* Opcional: agregar transición para una mejor experiencia visual */
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.read-chapter .btn-success:hover {
-  transform: scale(1.1);
-  /* Escalar un poco al pasar el mouse */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+.fixed-download-button:hover {
+  background-color: #b3864e; /* Cambia al color de hover deseado */
+  color: #fff;
 }
 
 
@@ -334,7 +327,7 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .read-chapter .btn-success {
+  .fixed-download-button {
     font-size: 12px;
     padding: 10px 14px;
     max-width: 90%;

@@ -2,13 +2,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Container, Form, OverlayTrigger, Popover, Toast, ToastContainer } from 'react-bootstrap';
-import { FaArrowLeft, FaBook, FaArrowRight, FaCog, FaQuoteRight } from 'react-icons/fa'; // Añadir FaDownload
+import { FaArrowLeft, FaBook, FaArrowRight, FaCog, FaQuoteRight } from 'react-icons/fa';
 import DOMPurify from 'dompurify';
 import parse, { domToReact } from 'html-react-parser';
 import '../styles/readChapter.css';
 import AdSense from '../Components/AdSense';
-import html2canvas from 'html2canvas'; // Importar html2canvas
-import backgroundImage from '../assets/background.png'; // Importar la imagen de fondo
+import html2canvas from 'html2canvas';
+import backgroundImage from '../assets/background.png';
 
 const ReadChapter = () => {
     const { storyId, chapterId } = useParams();
@@ -24,10 +24,9 @@ const ReadChapter = () => {
     const [generalComments, setGeneralComments] = useState([]);
     const [fontColor, setFontColor] = useState("#FBFCFC");
 
-    // Nuevos estados para la selección de texto y descarga de imagen
+    // Estados para la selección de texto y descarga de imagen
     const [selectedText, setSelectedText] = useState('');
     const [showDownloadButton, setShowDownloadButton] = useState(false);
-    const [buttonPosition, setButtonPosition] = useState({ top: 0, left: 0 });
     const [novelName, setNovelName] = useState('');
 
     const [showToast, setShowToast] = useState(false);
@@ -67,6 +66,16 @@ const ReadChapter = () => {
             }
         };
         fetchChapterAndStory();
+
+        // Cargar ajustes desde localStorage
+        const storedFontSize = localStorage.getItem('fontSize');
+        if (storedFontSize) setFontSize(Number(storedFontSize));
+
+        const storedBrightness = localStorage.getItem('brightness');
+        if (storedBrightness) setBrightness(Number(storedBrightness));
+
+        const storedFontColor = localStorage.getItem('fontColor');
+        if (storedFontColor) setFontColor(storedFontColor);
     }, [storyId, chapterId]);
 
     useEffect(() => {
@@ -75,41 +84,9 @@ const ReadChapter = () => {
             const text = selection.toString().trim();
 
             if (text.length > 0) {
-                const range = selection.getRangeAt(0);
-                const rect = range.getBoundingClientRect();
-
-                // Obtener desplazamiento del scroll
-                const scrollTop = window.scrollY || document.documentElement.scrollTop;
-                const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
-
-                // Calcular posición final del botón (debajo del texto seleccionado)
-                let calculatedTop = rect.bottom + scrollTop + 10; // Agregar 10px debajo del texto
-                let calculatedLeft = rect.left + scrollLeft + rect.width / 2; // Centrar horizontalmente
-
-                // Obtener dimensiones de la ventana
-                const windowWidth = window.innerWidth;
-                const windowHeight = window.innerHeight;
-
-                // Ajustar posición para no salir de la pantalla
-                if (calculatedTop + 60 > scrollTop + windowHeight) {
-                    // Si no hay espacio debajo, colocar arriba del texto
-                    calculatedTop = rect.top + scrollTop - 70; // 70px para el espacio del botón
-                }
-                if (calculatedLeft - 40 < 0) {
-                    // Evitar que el botón se salga del lado izquierdo
-                    calculatedLeft = 40;
-                }
-                if (calculatedLeft + 40 > scrollLeft + windowWidth) {
-                    // Evitar que el botón se salga del lado derecho
-                    calculatedLeft = scrollLeft + windowWidth - 40;
-                }
-
-                // Actualizar estado
-                setButtonPosition({ top: calculatedTop, left: calculatedLeft });
                 setSelectedText(text);
                 setShowDownloadButton(true);
             } else {
-                // Si no hay texto seleccionado, ocultar el botón
                 setShowDownloadButton(false);
             }
         };
@@ -148,7 +125,7 @@ const ReadChapter = () => {
 
         const handleContextMenu = (e) => {
             e.preventDefault();
-            setToastMessage('El menú esta deshabilitado en esta sección.');
+            setToastMessage('El menú está deshabilitado en esta sección.');
             setShowToast(true);
         };
 
@@ -158,7 +135,7 @@ const ReadChapter = () => {
                 ['c', 'C', 'v', 'V', 'x', 'X'].includes(e.key)
             ) {
                 e.preventDefault();
-                setToastMessage('Está acción esta deshabilitada en esta sección.');
+                setToastMessage('Esta acción está deshabilitada en esta sección.');
                 setShowToast(true);
             }
         };
@@ -408,7 +385,7 @@ const ReadChapter = () => {
                 </Button>
                 {showSettings && (
                     <div className="settings-panel">
-                        <Form.Group>
+                        <Form.Group className="mb-3">
                             <Form.Label>Tamaño de Letra</Form.Label>
                             <Form.Range
                                 min="12"
@@ -416,8 +393,9 @@ const ReadChapter = () => {
                                 value={fontSize}
                                 onChange={(e) => handleFontSizeChange(e.target.value)}
                             />
+                            <div className="text-end">{fontSize}px</div>
                         </Form.Group>
-                        <Form.Group>
+                        <Form.Group className="mb-3">
                             <Form.Label>Color de Fuente</Form.Label>
                             <Form.Select
                                 value={fontColor}
@@ -433,7 +411,7 @@ const ReadChapter = () => {
                                 <option value="#C70039">Rojo (#C70039)</option>
                             </Form.Select>
                         </Form.Group>
-                        <Form.Group>
+                        <Form.Group className="mb-3">
                             <Form.Label>Brillo</Form.Label>
                             <Form.Range
                                 min="50"
@@ -441,6 +419,7 @@ const ReadChapter = () => {
                                 value={brightness}
                                 onChange={(e) => handleBrightnessChange(e.target.value)}
                             />
+                            <div className="text-end">{brightness}%</div>
                         </Form.Group>
                     </div>
                 )}
@@ -521,18 +500,7 @@ const ReadChapter = () => {
             {showDownloadButton && (
                 <Button
                     variant="success"
-                    style={{
-                        position: 'fixed', // Fijar en la esquina
-                        bottom: '20px', // Margen desde abajo
-                        left: '20px', // Margen desde la izquierda
-                        zIndex: 1000,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '5px',
-                        cursor: 'pointer',
-                        padding: '12px 20px',
-                        fontSize: '1rem',
-                    }}
+                    className="fixed-download-button"
                     onClick={handleDownload}
                 >
                     <FaQuoteRight /> Descargar Frase
