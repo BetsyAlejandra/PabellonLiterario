@@ -47,6 +47,7 @@ const ReadChapter = () => {
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
 
+    const chapterContainerRef = useRef(null);
     // Ref para generar IDs únicos para los Popovers
     const popoverIdRef = useRef(0);
 
@@ -163,13 +164,13 @@ const ReadChapter = () => {
     }, []);
 
     // useEffect para desplazar al inicio al cambiar de capítulo
+
     useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth', // Opcional: para un desplazamiento suave
-        });
-    }, [storyId, chapterId]);
-    
+        if (chapterContainerRef.current) {
+            chapterContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, [chapter]);
+
 
     const handleScroll = (e) => {
         const { scrollTop, scrollHeight, clientHeight } = e.target;
@@ -330,6 +331,7 @@ const ReadChapter = () => {
 
         <div
             className="read-chapter"
+            ref={chapterContainerRef} // Referencia al contenedor principal
             style={{
                 '--brightness': `${brightness}%`,
                 '--font-size': `${fontSize}px`,
@@ -339,7 +341,6 @@ const ReadChapter = () => {
                 height: '100vh',
                 position: 'relative',
             }}
-            onScroll={handleScroll}
         >
 
             {/* Barra de progreso fija */}
@@ -443,7 +444,6 @@ const ReadChapter = () => {
                     onClick={() => {
                         if (chapter.previous) {
                             navigate(`/read-chapter/${storyId}/${chapter.previous}`);
-                            window.scrollTo({ top: 0, behavior: 'smooth' }); // Desplazar al inicio
                         }
                     }}
                     disabled={!chapter.previous}
@@ -463,7 +463,6 @@ const ReadChapter = () => {
                     onClick={() => {
                         if (chapter.next) {
                             navigate(`/read-chapter/${storyId}/${chapter.next}`);
-                            window.scrollTo({ top: 0, behavior: 'smooth' }); // Desplazar al inicio
                         }
                     }}
                     disabled={!chapter.next}

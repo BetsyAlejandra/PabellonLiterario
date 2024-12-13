@@ -15,6 +15,7 @@
   transition: filter 0.3s ease, font-size 0.3s ease, color 0.3s ease;
   font-family: 'Merriweather', serif;
   /* Fuente legible y elegante */
+  overflow: scroll
 }
 
 /* Asegurarse de que los títulos y textos hereden el color y tamaño */
