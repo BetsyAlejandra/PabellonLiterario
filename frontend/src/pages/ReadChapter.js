@@ -16,13 +16,28 @@ const ReadChapter = () => {
     const [chapter, setChapter] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [fontSize, setFontSize] = useState(16);
-    const [brightness, setBrightness] = useState(100);
-    const [progress, setProgress] = useState(0);
-    const [showSettings, setShowSettings] = useState(false);
-    const [generalComment, setGeneralComment] = useState('');
-    const [generalComments, setGeneralComments] = useState([]);
-    const [fontColor, setFontColor] = useState("#FBFCFC");
+
+    const [progress, setProgress] = useState(0); // Estado para el progreso de la barra de lectura
+    const [generalComment, setGeneralComment] = useState(''); // Comentario actual
+    const [generalComments, setGeneralComments] = useState([]); // Lista de comentarios generales
+    const [showSettings, setShowSettings] = useState(false); // Panel de ajustes visible
+
+
+    // Inicialización de estados desde localStorage
+    const [fontSize, setFontSize] = useState(() => {
+        const storedFontSize = localStorage.getItem('fontSize');
+        return storedFontSize ? Number(storedFontSize) : 16;
+    });
+
+    const [brightness, setBrightness] = useState(() => {
+        const storedBrightness = localStorage.getItem('brightness');
+        return storedBrightness ? Number(storedBrightness) : 100;
+    });
+
+    const [fontColor, setFontColor] = useState(() => {
+        const storedFontColor = localStorage.getItem('fontColor');
+        return storedFontColor || "#FBFCFC";
+    });
 
     // Estados para la selección de texto y descarga de imagen
     const [selectedText, setSelectedText] = useState('');
@@ -66,16 +81,6 @@ const ReadChapter = () => {
             }
         };
         fetchChapterAndStory();
-
-        // Cargar ajustes desde localStorage
-        const storedFontSize = localStorage.getItem('fontSize');
-        if (storedFontSize) setFontSize(Number(storedFontSize));
-
-        const storedBrightness = localStorage.getItem('brightness');
-        if (storedBrightness) setBrightness(Number(storedBrightness));
-
-        const storedFontColor = localStorage.getItem('fontColor');
-        if (storedFontColor) setFontColor(storedFontColor);
     }, [storyId, chapterId]);
 
     useEffect(() => {
@@ -173,13 +178,15 @@ const ReadChapter = () => {
     };
 
     const handleFontSizeChange = (size) => {
-        setFontSize(Number(size));
-        localStorage.setItem('fontSize', size);
+        const newSize = Number(size);
+        setFontSize(newSize);
+        localStorage.setItem('fontSize', newSize);
     };
 
     const handleBrightnessChange = (value) => {
-        setBrightness(Number(value));
-        localStorage.setItem('brightness', value);
+        const newBrightness = Number(value);
+        setBrightness(newBrightness);
+        localStorage.setItem('brightness', newBrightness);
     };
 
     const handleFontColorChange = (color) => {
@@ -323,9 +330,9 @@ const ReadChapter = () => {
         <div
             className="read-chapter"
             style={{
-                filter: `brightness(${brightness}%)`,
-                fontSize: `${fontSize}px`,
-                color: fontColor,
+                '--brightness': `${brightness}%`,
+                '--font-size': `${fontSize}px`,
+                '--font-color': fontColor,
                 userSelect: 'text',
                 overflowY: 'auto',
                 height: '100vh',
@@ -333,7 +340,6 @@ const ReadChapter = () => {
             }}
             onScroll={handleScroll}
         >
-
 
             {/* Barra de progreso fija */}
             <div className="progress-bar-container">
@@ -501,6 +507,7 @@ const ReadChapter = () => {
                 </Container>
             )}
 
+            {/* Botón de Descarga de Frase */}
             {showDownloadButton && (
                 <Button
                     variant="success"

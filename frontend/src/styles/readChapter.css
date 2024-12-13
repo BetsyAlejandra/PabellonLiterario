@@ -17,6 +17,20 @@
   /* Fuente legible y elegante */
 }
 
+/* Asegurarse de que los títulos y textos hereden el color y tamaño */
+.story-title,
+.chapter-title,
+.chapter-date,
+.chapter-content,
+.general-comments,
+.annotations-list,
+.comment-item {
+  color: inherit; /* Heredar color del contenedor */
+  font-size: inherit; /* Heredar tamaño de fuente del contenedor */
+  font-family: inherit; /* Heredar fuente del contenedor */
+}
+
+
 /* Barra de Progreso */
 .progress-bar-container {
   position: fixed;
@@ -62,7 +76,6 @@
   word-wrap: break-word;
   font-family: 'Merriweather', serif;
   /* Fuente legible y elegante */
-  color: #FBFCFC;
   font-size: 1.1rem;
 }
 
