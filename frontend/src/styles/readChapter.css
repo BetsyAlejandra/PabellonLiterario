@@ -289,11 +289,31 @@
   max-width: 100%;
 }
 
+/* Botón de Descarga de Frase */
+.read-chapter .btn-success {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-/* Opcional: Deshabilitar la selección de texto en elementos específicos */
-.chapter-content {
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+.read-chapter .btn-success:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+  .read-chapter .btn-success {
+      font-size: 0.9rem;
+      padding: 8px 12px;
+  }
+}
+
+/* Animación al aparecer */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.read-chapter .btn-success {
+  animation: fadeIn 0.3s ease forwards;
 }

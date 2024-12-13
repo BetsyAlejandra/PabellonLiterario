@@ -2,12 +2,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Container, Form, OverlayTrigger, Popover } from 'react-bootstrap';
-import { FaArrowLeft, FaBook, FaArrowRight, FaCog } from 'react-icons/fa'; // FaCog para la tuerca
-import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
+import { FaArrowLeft, FaBook, FaArrowRight, FaCog, FaDownload } from 'react-icons/fa'; // Añadir FaDownload
 import DOMPurify from 'dompurify';
 import parse, { domToReact } from 'html-react-parser';
 import '../styles/readChapter.css';
 import AdSense from '../Components/AdSense';
+import html2canvas from 'html2canvas'; // Importar html2canvas
+import backgroundImage from '../assets/background.png'; // Importar la imagen de fondo
 
 const ReadChapter = () => {
     const { storyId, chapterId } = useParams();
@@ -23,43 +24,38 @@ const ReadChapter = () => {
     const [generalComments, setGeneralComments] = useState([]);
     const [fontColor, setFontColor] = useState("#FBFCFC");
 
-    // Referencias para manejar el desplazamiento
-    const readChapterRef = useRef(null); // Referencia al contenedor principal
+    // Nuevos estados para la selección de texto y descarga de imagen
+    const [selectedText, setSelectedText] = useState('');
+    const [showDownloadButton, setShowDownloadButton] = useState(false);
+    const [buttonPosition, setButtonPosition] = useState({ top: 0, left: 0 });
+    const [novelName, setNovelName] = useState('');
+
+    // Referencia para el contenedor principal
+    const readChapterRef = useRef(null);
 
     // Ref para generar IDs únicos para los Popovers
     const popoverIdRef = useRef(0);
-
-    // Estado para almacenar la posición del botón de ajustes
-    const [dragPosition, setDragPosition] = useState({ x: 0, y: 0 });
-
-    // Estado para almacenar configuraciones persistentes
-    const [persistedFontSize, setPersistedFontSize] = useState(fontSize);
-    const [persistedBrightness, setPersistedBrightness] = useState(brightness);
-    const [persistedFontColor, setPersistedFontColor] = useState(fontColor);
 
     useEffect(() => {
         // Recuperar configuraciones desde localStorage al montar el componente
         const savedPosition = localStorage.getItem('settingsButtonPosition');
         if (savedPosition) {
-            setDragPosition(JSON.parse(savedPosition));
+            setButtonPosition(JSON.parse(savedPosition));
         }
 
         const savedFontSize = localStorage.getItem('fontSize');
         if (savedFontSize) {
             setFontSize(Number(savedFontSize));
-            setPersistedFontSize(Number(savedFontSize));
         }
 
         const savedBrightness = localStorage.getItem('brightness');
         if (savedBrightness) {
             setBrightness(Number(savedBrightness));
-            setPersistedBrightness(Number(savedBrightness));
         }
 
         const savedFontColor = localStorage.getItem('fontColor');
         if (savedFontColor) {
             setFontColor(savedFontColor);
-            setPersistedFontColor(savedFontColor);
         }
     }, []);
 
@@ -73,6 +69,13 @@ const ReadChapter = () => {
                 const data = await res.json();
                 setChapter(data);
                 setLoading(false);
+                // Suponiendo que 'data' contiene 'novelTitle'
+                if (data.novelTitle) {
+                    setNovelName(data.novelTitle);
+                } else {
+                    // Alternativamente, podrías obtener el nombre de la novela desde otro lugar
+                    setNovelName('Nombre de la Novela');
+                }
             } catch (err) {
                 setError('Error al cargar el capítulo.');
                 setLoading(false);
@@ -80,6 +83,38 @@ const ReadChapter = () => {
         };
         fetchChapter();
     }, [storyId, chapterId]);
+
+    useEffect(() => {
+        const handleSelection = () => {
+            const selection = window.getSelection();
+            const text = selection.toString().trim();
+            if (text.length > 0) {
+                const range = selection.getRangeAt(0);
+                const rect = range.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+                setButtonPosition({ top: rect.top + scrollTop - 40, left: rect.left + scrollLeft });
+                setSelectedText(text);
+                setShowDownloadButton(true);
+                // Suponiendo que 'chapter.novelTitle' contiene el nombre de la novela
+                if (chapter && chapter.novelTitle) {
+                    setNovelName(chapter.novelTitle);
+                }
+            } else {
+                setShowDownloadButton(false);
+            }
+        };
+
+        // Añadir event listeners para detectar la selección
+        document.addEventListener('mouseup', handleSelection);
+        document.addEventListener('keyup', handleSelection);
+
+        // Limpiar event listeners al desmontar el componente
+        return () => {
+            document.removeEventListener('mouseup', handleSelection);
+            document.removeEventListener('keyup', handleSelection);
+        };
+    }, [chapter]);
 
     useEffect(() => {
         const handleCopy = (e) => {
@@ -112,7 +147,7 @@ const ReadChapter = () => {
             }
         };
 
-        const readChapterElement = readChapterRef.current; // Usar la referencia
+        const readChapterElement = readChapterRef.current;
 
         if (readChapterElement) {
             readChapterElement.addEventListener('copy', handleCopy);
@@ -152,19 +187,16 @@ const ReadChapter = () => {
 
     const handleFontSizeChange = (size) => {
         setFontSize(Number(size));
-        setPersistedFontSize(Number(size));
         localStorage.setItem('fontSize', size);
     };
 
     const handleBrightnessChange = (value) => {
         setBrightness(Number(value));
-        setPersistedBrightness(Number(value));
         localStorage.setItem('brightness', value);
     };
 
     const handleFontColorChange = (color) => {
         setFontColor(color);
-        setPersistedFontColor(color);
         localStorage.setItem('fontColor', color);
     };
 
@@ -175,14 +207,6 @@ const ReadChapter = () => {
         }
     };
 
-    if (loading) return <p className="text-center">Cargando...</p>;
-    if (error) return <p className="text-center text-danger">{error}</p>;
-
-    // Configuración de DOMPurify para permitir 'data-annotation' y la clase 'annotation'
-    const sanitizeOptions = {
-        ADD_ATTR: ['data-annotation', 'class', 'src', 'alt'],
-    };
-
     // Función para renderizar Popover
     const renderPopover = (annotation) => (
         <Popover id={`popover-${popoverIdRef.current++}`}>
@@ -190,6 +214,11 @@ const ReadChapter = () => {
             <Popover.Body>{annotation}</Popover.Body>
         </Popover>
     );
+
+    // Configuración de DOMPurify para permitir 'data-annotation' y la clase 'annotation'
+    const sanitizeOptions = {
+        ADD_ATTR: ['data-annotation', 'class', 'src', 'alt'],
+    };
 
     // Parsear y envolver las anotaciones con OverlayTrigger y Popover
     const sanitizedContent = DOMPurify.sanitize(chapter.content, sanitizeOptions);
@@ -221,6 +250,79 @@ const ReadChapter = () => {
         },
     };
 
+    // Función para manejar la descarga de la frase seleccionada
+    const handleDownload = async () => {
+        if (!selectedText) return;
+
+        // Crear un elemento temporal con el diseño deseado
+        const tempDiv = document.createElement('div');
+        tempDiv.style.position = 'fixed';
+        tempDiv.style.top = '0';
+        tempDiv.style.left = '0';
+        tempDiv.style.width = '800px'; // Ancho deseado
+        tempDiv.style.height = '400px'; // Alto deseado
+        tempDiv.style.backgroundImage = `url(${backgroundImage})`;
+        tempDiv.style.backgroundSize = 'cover';
+        tempDiv.style.backgroundPosition = 'center';
+        tempDiv.style.filter = 'blur(8px)';
+        tempDiv.style.display = 'flex';
+        tempDiv.style.flexDirection = 'column';
+        tempDiv.style.justifyContent = 'center';
+        tempDiv.style.alignItems = 'center';
+        tempDiv.style.padding = '20px';
+        tempDiv.style.boxSizing = 'border-box';
+        tempDiv.style.color = '#FFFFFF';
+        tempDiv.style.textAlign = 'center';
+        tempDiv.style.fontSize = '24px';
+        tempDiv.style.fontFamily = 'Georgia, serif'; // Fuente más elegante
+        tempDiv.style.border = '2px solid #FFD700';
+        tempDiv.style.borderRadius = '15px';
+        tempDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.5)';
+        tempDiv.style.backgroundBlendMode = 'overlay';
+        tempDiv.style.opacity = '0.95';
+
+        // Crear el contenido de la imagen
+        const contentDiv = document.createElement('div');
+        contentDiv.style.background = 'rgba(44, 62, 80, 0.6)'; // Fondo semi-transparente para el texto
+        contentDiv.style.padding = '20px';
+        contentDiv.style.borderRadius = '10px';
+        contentDiv.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.3)';
+
+        const phraseElement = document.createElement('p');
+        phraseElement.innerText = selectedText;
+        phraseElement.style.fontSize = '28px';
+        phraseElement.style.fontWeight = 'bold';
+        phraseElement.style.marginBottom = '10px';
+        phraseElement.style.fontStyle = 'italic'; // Texto en cursiva
+
+        const sourceElement = document.createElement('p');
+        sourceElement.innerText = `- De la novela "${novelName}"`;
+        sourceElement.style.fontSize = '20px';
+        sourceElement.style.fontFamily = 'Lucida Console, Monaco, monospace'; // Fuente diferente para el origen
+        sourceElement.style.opacity = '0.8'; // Texto más sutil
+
+        contentDiv.appendChild(phraseElement);
+        contentDiv.appendChild(sourceElement);
+        tempDiv.appendChild(contentDiv);
+        document.body.appendChild(tempDiv);
+
+        try {
+            const canvas = await html2canvas(tempDiv, { useCORS: true });
+            const imgData = canvas.toDataURL('image/png');
+
+            // Crear un enlace para descargar la imagen
+            const link = document.createElement('a');
+            link.href = imgData;
+            link.download = 'frase.png';
+            link.click();
+        } catch (error) {
+            console.error('Error al generar la imagen:', error);
+        }
+
+        // Eliminar el elemento temporal del DOM
+        document.body.removeChild(tempDiv);
+    };
+
     return (
         <div
             className="read-chapter"
@@ -228,8 +330,8 @@ const ReadChapter = () => {
             style={{
                 filter: `brightness(${brightness}%)`,
                 fontSize: `${fontSize}px`,
-                color: fontColor, // Aplica el color de la fuente
-                userSelect: 'none',
+                color: fontColor,
+                userSelect: 'text', // Permitir la selección de texto
                 overflowY: 'auto',
                 height: '100vh',
                 position: 'relative',
@@ -280,7 +382,7 @@ const ReadChapter = () => {
                     className="settings-toggle"
                     onClick={() => setShowSettings((prev) => !prev)}
                 >
-                    <FaCog /> {/* Ícono de tuerca */}
+                    <FaCog />
                 </Button>
                 {showSettings && (
                     <div className="settings-panel">
@@ -393,9 +495,28 @@ const ReadChapter = () => {
                     </ul>
                 </Container>
             )}
-        </div>
-    );
 
-};
+            {/* Botón de Descarga de Frase */}
+            {showDownloadButton && (
+                <Button
+                    variant="success"
+                    style={{
+                        position: 'absolute',
+                        top: buttonPosition.top,
+                        left: buttonPosition.left,
+                        zIndex: 1000,
+                        transform: 'translate(-50%, -50%)', // Centrar el botón
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                    }}
+                    onClick={handleDownload}
+                >
+                    <FaDownload /> Descargar Frase
+                </Button>
+            )}
+        </div>
+    ); 
+}; 
 
 export default ReadChapter;
