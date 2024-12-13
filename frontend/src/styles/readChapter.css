@@ -2,15 +2,19 @@
 
 /* Contenedor Principal */
 .read-chapter {
-  background: linear-gradient(135deg, #121212, #1e1e1e); /* Tonos más oscuros */
+  background: linear-gradient(135deg, #121212, #1e1e1e);
+  /* Tonos más oscuros */
   padding: 25px;
   border-radius: 20px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.7); /* Sombra más profunda */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.7);
+  /* Sombra más profunda */
   position: relative;
   overflow-y: auto;
-  color: #FBFCFC; /* Blanco suave */
+  color: #FBFCFC;
+  /* Blanco suave */
   transition: filter 0.3s ease, font-size 0.3s ease, color 0.3s ease;
-  font-family: 'Merriweather', serif; /* Fuente legible y elegante */
+  font-family: 'Merriweather', serif;
+  /* Fuente legible y elegante */
 }
 
 /* Barra de Progreso */
@@ -20,28 +24,33 @@
   left: 0;
   width: 100%;
   height: 5px;
-  background-color: rgba(255, 215, 0, 0.3); /* Dorado suave */
+  background-color: rgba(255, 215, 0, 0.3);
+  /* Dorado suave */
   z-index: 1000;
 }
 
 .progress-bar {
   height: 100%;
-  background-color: #FFD700; /* Dorado */
+  background-color: #FFD700;
+  /* Dorado */
   width: 0%;
   transition: width 0.2s ease;
 }
 
 /* Títulos y Textos */
 .chapter-title {
-  color: #FFD700; /* Dorado */
+  color: #FFD700;
+  /* Dorado */
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
   margin-bottom: 15px;
-  font-family: 'Cinzel', serif; /* Fuente más fantástica */
+  font-family: 'Cinzel', serif;
+  /* Fuente más fantástica */
   font-size: 2rem;
 }
 
 .chapter-date {
-  color: #C0C0C0; /* Gris claro para contraste */
+  color: #C0C0C0;
+  /* Gris claro para contraste */
   margin-bottom: 25px;
   font-style: italic;
   font-size: 1rem;
@@ -51,30 +60,40 @@
 .chapter-content {
   line-height: 1.8;
   word-wrap: break-word;
-  font-family: 'Merriweather', serif; /* Fuente legible y elegante */
+  font-family: 'Merriweather', serif;
+  /* Fuente legible y elegante */
   color: #FBFCFC;
   font-size: 1.1rem;
 }
 
-/* Botón de Descarga */
 .read-chapter .btn-success {
-  position: absolute;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
   z-index: 1000;
-  transform: translate(-50%, -50%); /* Centrado basado en el punto */
   background: linear-gradient(45deg, #FFD700, #FFA500);
   border: none;
-  color: #1c1c1c !important; /* Texto oscuro */
+  color: #1c1c1c !important;
+  /* Texto oscuro */
   padding: 12px 20px;
-  border-radius: 10px;
+  border-radius: 50px;
+  /* Bordes redondeados */
   font-weight: bold;
   font-size: 14px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
 .read-chapter .btn-success:hover {
-  transform: translate(-50%, -50%) scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: scale(1.1);
+  /* Escalar un poco al pasar el mouse */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
+
 
 /* Botón de Ajustes */
 .fixed-settings {
@@ -89,19 +108,23 @@
 
 /* Botón de Ajustes */
 .settings-toggle {
-  background-color: #FFD700; /* Dorado */
+  background-color: #FFD700;
+  /* Dorado */
   border: none;
   color: #1c1c1c;
   border-radius: 50%;
-  width: 60px; /* Aumentado para mejor visibilidad */
-  height: 60px; /* Aumentado para mejor visibilidad */
+  width: 60px;
+  /* Aumentado para mejor visibilidad */
+  height: 60px;
+  /* Aumentado para mejor visibilidad */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem; /* Icono más grande */
+  font-size: 1.5rem;
+  /* Icono más grande */
 }
 
 .settings-toggle:hover {
@@ -111,7 +134,8 @@
 
 /* Panel de Ajustes */
 .settings-panel {
-  background: rgba(30, 30, 30, 0.95); /* Fondo más oscuro */
+  background: rgba(30, 30, 30, 0.95);
+  /* Fondo más oscuro */
   padding: 20px;
   border-radius: 15px;
   margin-top: 10px;
@@ -189,7 +213,8 @@
 /* Comentarios Generales */
 .general-comments {
   margin-top: 40px;
-  background: rgba(30, 30, 30, 0.95); /* Fondo más oscuro */
+  background: rgba(30, 30, 30, 0.95);
+  /* Fondo más oscuro */
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
@@ -221,7 +246,8 @@
 /* Anotaciones */
 .annotations-list {
   margin-top: 40px;
-  background: rgba(30, 30, 30, 0.95); /* Fondo más oscuro */
+  background: rgba(30, 30, 30, 0.95);
+  /* Fondo más oscuro */
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
@@ -270,7 +296,8 @@
 
 /* Anotaciones estilo */
 .annotation {
-  background-color: rgba(255, 215, 0, 0.2); /* Dorado suave */
+  background-color: rgba(255, 215, 0, 0.2);
+  /* Dorado suave */
   border-bottom: 2px dashed #FFD700;
   padding: 2px 6px;
   border-radius: 4px;
@@ -291,10 +318,12 @@
 }
 
 .ad-section-container {
-  background-color: #2C2C2C; /* Fondo similar al resto del sitio */
+  background-color: #2C2C2C;
+  /* Fondo similar al resto del sitio */
   padding: 1rem;
   border-radius: 10px;
-  border: 1px solid #FFD700; /* Borde dorado para consistencia */
+  border: 1px solid #FFD700;
+  /* Borde dorado para consistencia */
 }
 
 .ad-section-container ins.adsbygoogle {
@@ -309,26 +338,26 @@
     font-size: 12px;
     padding: 10px 14px;
     max-width: 90%;
-}
+  }
 
   .fixed-settings {
-      top: 15px;
-      right: 15px;
+    top: 15px;
+    right: 15px;
   }
 
   .settings-toggle {
-      width: 50px;
-      height: 50px;
-      font-size: 1.2rem;
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
   }
 
   .chapter-navigation {
-      flex-direction: column;
-      gap: 10px;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .nav-btn {
-      width: 100%;
-      justify-content: center;
+    width: 100%;
+    justify-content: center;
   }
 }

@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Container, Form, OverlayTrigger, Popover, Toast, ToastContainer } from 'react-bootstrap';
-import { FaArrowLeft, FaBook, FaArrowRight, FaCog, FaDownload } from 'react-icons/fa'; // Añadir FaDownload
+import { FaArrowLeft, FaBook, FaArrowRight, FaCog, FaQuoteRight } from 'react-icons/fa'; // Añadir FaDownload
 import DOMPurify from 'dompurify';
 import parse, { domToReact } from 'html-react-parser';
 import '../styles/readChapter.css';
@@ -73,23 +73,23 @@ const ReadChapter = () => {
         const handleSelection = () => {
             const selection = window.getSelection();
             const text = selection.toString().trim();
-    
+
             if (text.length > 0) {
                 const range = selection.getRangeAt(0);
                 const rect = range.getBoundingClientRect();
-    
+
                 // Obtener desplazamiento del scroll
                 const scrollTop = window.scrollY || document.documentElement.scrollTop;
                 const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
-    
+
                 // Calcular posición final del botón (debajo del texto seleccionado)
                 let calculatedTop = rect.bottom + scrollTop + 10; // Agregar 10px debajo del texto
                 let calculatedLeft = rect.left + scrollLeft + rect.width / 2; // Centrar horizontalmente
-    
+
                 // Obtener dimensiones de la ventana
                 const windowWidth = window.innerWidth;
                 const windowHeight = window.innerHeight;
-    
+
                 // Ajustar posición para no salir de la pantalla
                 if (calculatedTop + 60 > scrollTop + windowHeight) {
                     // Si no hay espacio debajo, colocar arriba del texto
@@ -103,7 +103,7 @@ const ReadChapter = () => {
                     // Evitar que el botón se salga del lado derecho
                     calculatedLeft = scrollLeft + windowWidth - 40;
                 }
-    
+
                 // Actualizar estado
                 setButtonPosition({ top: calculatedTop, left: calculatedLeft });
                 setSelectedText(text);
@@ -113,12 +113,12 @@ const ReadChapter = () => {
                 setShowDownloadButton(false);
             }
         };
-    
+
         // Añadir eventos para detectar selección de texto
         document.addEventListener('mouseup', handleSelection);
         document.addEventListener('keyup', handleSelection);
         document.addEventListener('touchend', handleSelection); // Soporte para dispositivos táctiles
-    
+
         // Limpiar eventos al desmontar el componente
         return () => {
             document.removeEventListener('mouseup', handleSelection);
@@ -518,16 +518,14 @@ const ReadChapter = () => {
                 </Container>
             )}
 
-            {/* Botón de Descarga de Frase */}
             {showDownloadButton && (
                 <Button
                     variant="success"
                     style={{
-                        position: 'absolute',
-                        top: `${buttonPosition.top}px`,
-                        left: `${buttonPosition.left}px`,
+                        position: 'fixed', // Fijar en la esquina
+                        bottom: '20px', // Margen desde abajo
+                        left: '20px', // Margen desde la izquierda
                         zIndex: 1000,
-                        transform: 'translate(-50%, -50%)', // Centrar el botón
                         display: 'flex',
                         alignItems: 'center',
                         gap: '5px',
@@ -537,9 +535,10 @@ const ReadChapter = () => {
                     }}
                     onClick={handleDownload}
                 >
-                    <FaDownload /> Descargar Frase
+                    <FaQuoteRight /> Descargar Frase
                 </Button>
             )}
+
             <ToastContainer position="bottom-end" className="p-3">
                 <Toast onClose={() => setShowToast(false)} show={showToast} delay={3000} autohide bg="warning">
                     <Toast.Header>
