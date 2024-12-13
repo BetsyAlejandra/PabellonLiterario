@@ -175,6 +175,11 @@ const StoryDetail = () => {
         }
     };
 
+    if (loading) return <p className="story-detail-loading">Cargando...</p>;
+    if (error) return <p className="story-detail-error">{error}</p>;
+    if (!story) return <p className="story-detail-error">Historia no encontrada.</p>;
+
+    // Ahora que sabemos que `story` no es null, podemos realizar las siguientes operaciones
     // Calcular capítulos visibles para la página actual
     const indexOfLastChapter = currentPage * chaptersPerPage;
     const indexOfFirstChapter = indexOfLastChapter - chaptersPerPage;
@@ -186,8 +191,14 @@ const StoryDetail = () => {
     // Crear botones de paginación limitados
     const getPaginationButtons = () => {
         const buttons = [];
-        const startPage = Math.max(1, currentPage - Math.floor(maxPaginationButtons / 2));
-        const endPage = Math.min(totalPages, startPage + maxPaginationButtons - 1);
+        const half = Math.floor(maxPaginationButtons / 2);
+        let startPage = Math.max(1, currentPage - half);
+        let endPage = Math.min(totalPages, startPage + maxPaginationButtons - 1);
+
+        // Ajustar el startPage si estamos cerca del final
+        if (endPage - startPage < maxPaginationButtons - 1) {
+            startPage = Math.max(1, endPage - maxPaginationButtons + 1);
+        }
 
         for (let page = startPage; page <= endPage; page++) {
             buttons.push(
@@ -202,9 +213,6 @@ const StoryDetail = () => {
         }
         return buttons;
     };
-
-    if (loading) return <p className="story-detail-loading">Cargando...</p>;
-    if (error) return <p className="story-detail-error">{error}</p>;
 
     return (
         <div className="story-detail-container">
@@ -344,37 +352,39 @@ const StoryDetail = () => {
             <div className="mt-5">
                 <h4 className="story-detail-chapters-title">Capítulos</h4>
                 {story.chapters.length ? (
-                    story.chapters.map((chapter) => (
-                        <Card
-                            key={chapter._id}
-                            className="shadow-sm mb-3 story-detail-chapter-card"
-                            onClick={() => handleReadChapter(chapter._id)}
-                            style={{ cursor: 'pointer' }}
-                        >
-                            <Card.Body>
-                                <h5 className="story-detail-chapter-title">{chapter.title}</h5>
-                                <p className="story-detail-chapter-date">
-                                    Publicado el {new Date(chapter.publishedAt).toLocaleDateString()}
-                                </p>
-                            </Card.Body>
-                        </Card>
-                    ))
+                    // Mostrar capítulos paginados
+                    <>
+                        {currentChapters.map((chapter) => (
+                            <Card
+                                key={chapter._id}
+                                className="shadow-sm mb-3 story-detail-chapter-card"
+                                onClick={() => handleReadChapter(chapter._id)}
+                                style={{ cursor: 'pointer' }}
+                            >
+                                <Card.Body>
+                                    <h5 className="story-detail-chapter-title">{chapter.title}</h5>
+                                    <p className="story-detail-chapter-date">
+                                        Publicado el {new Date(chapter.publishedAt).toLocaleDateString()}
+                                    </p>
+                                </Card.Body>
+                            </Card>
+                        ))}
+
+                        {/* Control de paginación */}
+                        {totalPages > 1 && (
+                            <Pagination className="pagination">
+                                <Pagination.First disabled={currentPage === 1} onClick={() => setCurrentPage(1)} />
+                                <Pagination.Prev disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)} />
+                                {getPaginationButtons()}
+                                <Pagination.Next disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)} />
+                                <Pagination.Last disabled={currentPage === totalPages} onClick={() => setCurrentPage(totalPages)} />
+                            </Pagination>
+                        )}
+                    </>
                 ) : (
                     <p className="story-detail-no-chapters">No hay capítulos disponibles.</p>
                 )}
             </div>
-
-            {/* Control de paginación */}
-            {totalPages > 1 && (
-                <Pagination className="pagination">
-                    <Pagination.First disabled={currentPage === 1} onClick={() => setCurrentPage(1)} />
-                    <Pagination.Prev disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)} />
-                    {getPaginationButtons()}
-                    <Pagination.Next disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)} />
-                    <Pagination.Last disabled={currentPage === totalPages} onClick={() => setCurrentPage(totalPages)} />
-                </Pagination>
-
-            )}
 
             {/* Espacio para Anuncio 2 */}
             <section className="ad-section my-4">
@@ -403,7 +413,7 @@ const StoryDetail = () => {
                             placeholder="Escribe tu reseña aquí..."
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary mt-2 story-detail-submit-btn" disabled={!review}>
+                    <button type="submit" className="btn btn-primary mt-2 story-detail-submit-btn" disabled={!review.trim()}>
                         Enviar reseña
                     </button>
                 </form>
