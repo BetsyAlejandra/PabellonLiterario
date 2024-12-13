@@ -37,51 +37,36 @@ const ReadChapter = () => {
     const popoverIdRef = useRef(0);
 
     useEffect(() => {
-        // Recuperar configuraciones desde localStorage al montar el componente
-        const savedPosition = localStorage.getItem('settingsButtonPosition');
-        if (savedPosition) {
-            setButtonPosition(JSON.parse(savedPosition));
-        }
-
-        const savedFontSize = localStorage.getItem('fontSize');
-        if (savedFontSize) {
-            setFontSize(Number(savedFontSize));
-        }
-
-        const savedBrightness = localStorage.getItem('brightness');
-        if (savedBrightness) {
-            setBrightness(Number(savedBrightness));
-        }
-
-        const savedFontColor = localStorage.getItem('fontColor');
-        if (savedFontColor) {
-            setFontColor(savedFontColor);
-        }
-    }, []);
-
-    useEffect(() => {
-        const fetchChapter = async () => {
+        const fetchChapterAndStory = async () => {
             try {
-                const res = await fetch(`/api/novels/${storyId}/chapters/${chapterId}`);
-                if (!res.ok) {
+                // Solicitar los datos del capítulo
+                const resChapter = await fetch(`/api/novels/${storyId}/chapters/${chapterId}`);
+                if (!resChapter.ok) {
                     throw new Error('Error al cargar el capítulo.');
                 }
-                const data = await res.json();
-                setChapter(data);
+                const dataChapter = await resChapter.json();
+                setChapter(dataChapter);
                 setLoading(false);
-                // Suponiendo que 'data' contiene 'novelTitle'
-                if (data.novelTitle) {
-                    setNovelName(data.novelTitle);
+
+                // Verificar si 'novelTitle' está presente
+                if (dataChapter.novelTitle) {
+                    setNovelName(dataChapter.novelTitle);
                 } else {
-                    // Alternativamente, podrías obtener el nombre de la novela desde otro lugar
-                    setNovelName('Nombre de la Novela');
+                    // Si no está presente, solicitar los datos de la novela
+                    const resStory = await fetch(`/api/novels/${storyId}`);
+                    if (!resStory.ok) {
+                        throw new Error('Error al cargar los detalles de la novela.');
+                    }
+                    const dataStory = await resStory.json();
+                    setNovelName(dataStory.title);
                 }
             } catch (err) {
-                setError('Error al cargar el capítulo.');
+                console.error(err);
+                setError('Error al cargar los datos.');
                 setLoading(false);
             }
         };
-        fetchChapter();
+        fetchChapterAndStory();
     }, [storyId, chapterId]);
 
     useEffect(() => {
@@ -221,7 +206,7 @@ const ReadChapter = () => {
     };
 
     // Parsear y envolver las anotaciones con OverlayTrigger y Popover
-    const sanitizedContent = DOMPurify.sanitize(chapter.content, sanitizeOptions);
+    const sanitizedContent = chapter ? DOMPurify.sanitize(chapter.content, sanitizeOptions) : '';
 
     const options = {
         replace: ({ name, attribs, children }) => {
@@ -317,11 +302,15 @@ const ReadChapter = () => {
             link.click();
         } catch (error) {
             console.error('Error al generar la imagen:', error);
+            alert('Hubo un problema al generar la imagen. Por favor, intenta de nuevo.');
         }
 
         // Eliminar el elemento temporal del DOM
         document.body.removeChild(tempDiv);
     };
+
+    if (loading) return <p className="read-chapter-loading">Cargando...</p>;
+    if (error) return <p className="read-chapter-error">{error}</p>;
 
     return (
         <div
@@ -345,6 +334,10 @@ const ReadChapter = () => {
             </div>
 
             <Container>
+                {/* Título de la Novela */}
+                <h1 className="story-title">{novelName}</h1>
+
+                {/* Título del Capítulo */}
                 <h2 className="chapter-title">{chapter.title}</h2>
                 <p className="chapter-date">{new Date(chapter.publishedAt).toLocaleDateString()}</p>
 
@@ -360,7 +353,7 @@ const ReadChapter = () => {
                 </section>
 
                 <div className="chapter-content">
-                    {parse(sanitizedContent, options)}
+                    {chapter && parse(sanitizedContent, options)}
                 </div>
 
                 {/* Espacio para Anuncio 2: Al final del contenido del capítulo */}
@@ -516,7 +509,7 @@ const ReadChapter = () => {
                 </Button>
             )}
         </div>
-    ); 
+    ); // Cierre del bloque de retorno
 }; 
 
 export default ReadChapter;
