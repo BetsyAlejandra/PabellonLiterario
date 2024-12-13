@@ -443,6 +443,7 @@ const ReadChapter = () => {
                     onClick={() => {
                         if (chapter.previous) {
                             navigate(`/read-chapter/${storyId}/${chapter.previous}`);
+                            window.scrollTo({ top: 0, behavior: 'smooth' }); // Desplazar al inicio
                         }
                     }}
                     disabled={!chapter.previous}
@@ -462,6 +463,7 @@ const ReadChapter = () => {
                     onClick={() => {
                         if (chapter.next) {
                             navigate(`/read-chapter/${storyId}/${chapter.next}`);
+                            window.scrollTo({ top: 0, behavior: 'smooth' }); // Desplazar al inicio
                         }
                     }}
                     disabled={!chapter.next}
