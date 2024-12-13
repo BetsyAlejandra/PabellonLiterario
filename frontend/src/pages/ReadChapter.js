@@ -326,13 +326,14 @@ const ReadChapter = () => {
                 filter: `brightness(${brightness}%)`,
                 fontSize: `${fontSize}px`,
                 color: fontColor,
-                userSelect: 'text', // Permitir la selección de texto
+                userSelect: 'text',
                 overflowY: 'auto',
                 height: '100vh',
                 position: 'relative',
             }}
             onScroll={handleScroll}
         >
+
 
             {/* Barra de progreso fija */}
             <div className="progress-bar-container">
@@ -395,6 +396,7 @@ const ReadChapter = () => {
                             />
                             <div className="text-end">{fontSize}px</div>
                         </Form.Group>
+
                         <Form.Group className="mb-3">
                             <Form.Label>Color de Fuente</Form.Label>
                             <Form.Select
@@ -411,6 +413,7 @@ const ReadChapter = () => {
                                 <option value="#C70039">Rojo (#C70039)</option>
                             </Form.Select>
                         </Form.Group>
+
                         <Form.Group className="mb-3">
                             <Form.Label>Brillo</Form.Label>
                             <Form.Range
@@ -421,6 +424,7 @@ const ReadChapter = () => {
                             />
                             <div className="text-end">{brightness}%</div>
                         </Form.Group>
+
                     </div>
                 )}
             </div>

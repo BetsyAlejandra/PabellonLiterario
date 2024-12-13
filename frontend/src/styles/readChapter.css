@@ -77,9 +77,8 @@
   cursor: pointer;
   padding: 12px 20px;
   font-size: 1rem;
-  background-color: #ffd700;
-  /* Opcional: agregar transición para una mejor experiencia visual */
-  transition: background-color 0.3s, color 0.3s;
+  background-color: #FFD700;
+  color: #121212;
 }
 
 .fixed-download-button:hover {
