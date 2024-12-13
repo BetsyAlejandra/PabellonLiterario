@@ -2,14 +2,15 @@
 
 /* Contenedor Principal */
 .read-chapter {
-  background: linear-gradient(135deg, #1c1c1c, #2c2c2c); /* Fondo más oscuro */
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
+  background: linear-gradient(135deg, #121212, #1e1e1e); /* Tonos más oscuros */
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.7); /* Sombra más profunda */
   position: relative;
   overflow-y: auto;
   color: #FBFCFC; /* Blanco suave */
   transition: filter 0.3s ease, font-size 0.3s ease, color 0.3s ease;
+  font-family: 'Merriweather', serif; /* Fuente legible y elegante */
 }
 
 /* Barra de Progreso */
@@ -25,33 +26,61 @@
 
 .progress-bar {
   height: 100%;
-  background-color: #ffd700; /* Dorado */
+  background-color: #FFD700; /* Dorado */
   width: 0%;
   transition: width 0.2s ease;
 }
 
 /* Títulos y Textos */
 .chapter-title {
-  color: #ffd700;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-  margin-bottom: 10px;
+  color: #FFD700; /* Dorado */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+  margin-bottom: 15px;
+  font-family: 'Cinzel', serif; /* Fuente más fantástica */
+  font-size: 2rem;
 }
 
 .chapter-date {
-  color: #A9DFBF; /* Verde Claro */
-  margin-bottom: 20px;
+  color: #C0C0C0; /* Gris claro para contraste */
+  margin-bottom: 25px;
+  font-style: italic;
+  font-size: 1rem;
 }
 
 /* Contenido del Capítulo */
 .chapter-content {
-  line-height: 1.6;
+  line-height: 1.8;
   word-wrap: break-word;
+  font-family: 'Merriweather', serif; /* Fuente legible y elegante */
+  color: #FBFCFC;
+  font-size: 1.1rem;
 }
 
+/* Botón de Descarga de Frase */
+.read-chapter .btn-success {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: linear-gradient(45deg, #FFD700, #FFA500); /* Gradiente de dorado a naranja */
+  border: none;
+  color: #1c1c1c !important; /* Texto oscuro para contraste */
+  padding: 12px 20px; /* Tamaño adecuado */
+  font-weight: bold;
+  border-radius: 10px;
+  font-family: 'Cinzel', serif; /* Fuente consistente con títulos */
+  cursor: pointer;
+}
+
+.read-chapter .btn-success:hover {
+  transform: scale(1.07);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(45deg, #e6c200, #FF8C00); /* Gradiente al pasar el ratón */
+}
+
+/* Botón de Ajustes */
 .fixed-settings {
   position: fixed;
-  top: 10px;
-  right: 10px;
+  top: 20px;
+  right: 20px;
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -60,14 +89,14 @@
 
 /* Botón de Ajustes */
 .settings-toggle {
-  background-color: #ffd700; /* Dorado */
+  background-color: #FFD700; /* Dorado */
   border: none;
-  color: #2c3e50;
+  color: #1c1c1c;
   border-radius: 50%;
   width: 60px; /* Aumentado para mejor visibilidad */
   height: 60px; /* Aumentado para mejor visibilidad */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  cursor: grab;
+  cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
   display: flex;
   align-items: center;
@@ -82,7 +111,7 @@
 
 /* Panel de Ajustes */
 .settings-panel {
-  background: rgba(44, 62, 80, 0.95);
+  background: rgba(30, 30, 30, 0.95); /* Fondo más oscuro */
   padding: 20px;
   border-radius: 15px;
   margin-top: 10px;
@@ -95,14 +124,15 @@
 }
 
 .settings-panel label {
-  color: #ffd700;
+  color: #FFD700;
   font-weight: bold;
+  font-family: 'Cinzel', serif;
 }
 
 .settings-panel .form-control,
 .settings-panel .form-select {
   background-color: rgba(255, 215, 0, 0.1);
-  border: 1px solid #ffd700;
+  border: 1px solid #FFD700;
   color: #FBFCFC;
   border-radius: 10px;
   transition: border-color 0.3s ease;
@@ -129,7 +159,7 @@
 }
 
 .nav-btn {
-  color: #ffd700;
+  color: #FFD700;
   font-size: 1.2rem;
   transition: color 0.3s ease, transform 0.3s ease;
   display: flex;
@@ -137,9 +167,10 @@
   gap: 5px;
   padding: 10px 20px;
   background-color: rgba(255, 215, 0, 0.1);
-  border: 2px solid #ffd700;
+  border: 2px solid #FFD700;
   border-radius: 10px;
   text-decoration: none;
+  font-family: 'Cinzel', serif;
 }
 
 .nav-btn:hover {
@@ -158,16 +189,18 @@
 /* Comentarios Generales */
 .general-comments {
   margin-top: 40px;
-  background: rgba(44, 62, 80, 0.95);
+  background: rgba(30, 30, 30, 0.95); /* Fondo más oscuro */
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
   color: #FBFCFC;
+  font-family: 'Merriweather', serif;
 }
 
 .general-comments h3 {
-  color: #ffd700;
+  color: #FFD700;
   margin-bottom: 20px;
+  font-family: 'Cinzel', serif;
 }
 
 .comment-list {
@@ -182,21 +215,24 @@
   border-radius: 10px;
   margin-bottom: 10px;
   color: #FBFCFC;
+  font-family: 'Merriweather', serif;
 }
 
 /* Anotaciones */
 .annotations-list {
   margin-top: 40px;
-  background: rgba(44, 62, 80, 0.95);
+  background: rgba(30, 30, 30, 0.95); /* Fondo más oscuro */
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
   color: #FBFCFC;
+  font-family: 'Merriweather', serif;
 }
 
 .annotations-list h3 {
-  color: #ffd700;
+  color: #FFD700;
   margin-bottom: 20px;
+  font-family: 'Cinzel', serif;
 }
 
 .annotations-list ul {
@@ -209,66 +245,44 @@
   padding: 10px;
   border-radius: 10px;
   margin-bottom: 10px;
+  font-family: 'Merriweather', serif;
 }
 
 /* Popover */
 .popover {
   background: #2c3e50;
   color: #FBFCFC;
-  border: 2px solid #ffd700;
+  border: 2px solid #FFD700;
   border-radius: 15px;
 }
 
 .popover-header {
   background: #4ca1af;
-  color: #ffd700;
-  border-bottom: 1px solid #ffd700;
+  color: #FFD700;
+  border-bottom: 1px solid #FFD700;
+  font-family: 'Cinzel', serif;
 }
 
 .popover-body {
   color: #FBFCFC;
+  font-family: 'Merriweather', serif;
 }
 
 /* Anotaciones estilo */
 .annotation {
   background-color: rgba(255, 215, 0, 0.2); /* Dorado suave */
-  border-bottom: 2px dashed #ffd700;
-  padding: 2px 4px;
+  border-bottom: 2px dashed #FFD700;
+  padding: 2px 6px;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease, border-bottom 0.3s ease;
+  font-family: 'Merriweather', serif;
 }
 
 .annotation:hover {
   background-color: rgba(255, 215, 0, 0.3);
   border-bottom: 2px dashed #e6c200;
 }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .floating-controls {
-      bottom: 10px;
-      right: 10px;
-  }
-
-  .settings-toggle {
-      width: 50px;
-      height: 50px;
-      font-size: 1.2rem;
-  }
-
-  .chapter-navigation {
-      flex-direction: column;
-      gap: 10px;
-  }
-
-  .nav-btn {
-      width: 100%;
-      justify-content: center;
-  }
-}
-
-/* readChapter.css */
 
 /* Secciones de Anuncios */
 .ad-section {
@@ -289,31 +303,35 @@
   max-width: 100%;
 }
 
-/* Botón de Descarga de Frase */
-.read-chapter .btn-success {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.read-chapter .btn-success:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
-}
-
-/* Ajustes para dispositivos móviles */
+/* Responsive */
 @media (max-width: 768px) {
+  .read-chapter {
+      padding: 15px;
+  }
+
   .read-chapter .btn-success {
       font-size: 0.9rem;
-      padding: 8px 12px;
+      padding: 10px 16px;
   }
-}
 
-/* Animación al aparecer */
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
+  .fixed-settings {
+      top: 15px;
+      right: 15px;
+  }
 
-.read-chapter .btn-success {
-  animation: fadeIn 0.3s ease forwards;
+  .settings-toggle {
+      width: 50px;
+      height: 50px;
+      font-size: 1.2rem;
+  }
+
+  .chapter-navigation {
+      flex-direction: column;
+      gap: 10px;
+  }
+
+  .nav-btn {
+      width: 100%;
+      justify-content: center;
+  }
 }

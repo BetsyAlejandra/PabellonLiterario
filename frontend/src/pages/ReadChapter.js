@@ -1,7 +1,7 @@
 // src/components/ReadChapter.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, Container, Form, OverlayTrigger, Popover } from 'react-bootstrap';
+import { Button, Container, Form, OverlayTrigger, Popover, Toast, ToastContainer } from 'react-bootstrap';
 import { FaArrowLeft, FaBook, FaArrowRight, FaCog, FaDownload } from 'react-icons/fa'; // Añadir FaDownload
 import DOMPurify from 'dompurify';
 import parse, { domToReact } from 'html-react-parser';
@@ -29,6 +29,9 @@ const ReadChapter = () => {
     const [showDownloadButton, setShowDownloadButton] = useState(false);
     const [buttonPosition, setButtonPosition] = useState({ top: 0, left: 0 });
     const [novelName, setNovelName] = useState('');
+
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
 
     // Ref para generar IDs únicos para los Popovers
     const popoverIdRef = useRef(0);
@@ -77,10 +80,31 @@ const ReadChapter = () => {
                 const rect = range.getBoundingClientRect();
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-                setButtonPosition({ top: rect.top + scrollTop - 40, left: rect.left + scrollLeft + rect.width / 2 });
+
+                // Calcular posición debajo de la selección
+                let calculatedTop = rect.bottom + scrollTop + 10; // 10px debajo de la selección
+                let calculatedLeft = rect.left + scrollLeft + rect.width / 2; // Centrado horizontalmente
+
+                // Asegurar que el botón no se salga de la pantalla
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+
+                // Limitar top
+                if (calculatedTop > scrollTop + windowHeight - 60) { // 60px es la altura aproximada del botón
+                    calculatedTop = rect.top + scrollTop - 50; // Posicionar arriba si no hay espacio abajo
+                }
+
+                // Limitar left
+                if (calculatedLeft < 40) { // Evitar que esté muy a la izquierda
+                    calculatedLeft = 40;
+                } else if (calculatedLeft > scrollLeft + windowWidth - 40) { // Evitar que esté muy a la derecha
+                    calculatedLeft = scrollLeft + windowWidth - 40;
+                }
+
+                setButtonPosition({ top: calculatedTop, left: calculatedLeft });
                 setSelectedText(text);
                 setShowDownloadButton(true);
-                console.log('Botón de descarga mostrado en:', { top: rect.top + scrollTop - 40, left: rect.left + scrollLeft + rect.width / 2 }); // Log de posición
+                console.log('Botón de descarga mostrado en:', { top: calculatedTop, left: calculatedLeft }); // Log de posición
             } else {
                 setShowDownloadButton(false);
                 console.log('No hay texto seleccionado. Botón de descarga ocultado.'); // Log de ocultación
@@ -90,33 +114,39 @@ const ReadChapter = () => {
         // Añadir event listeners para detectar la selección
         document.addEventListener('mouseup', handleSelection);
         document.addEventListener('keyup', handleSelection);
+        document.addEventListener('touchend', handleSelection); // Añadido para dispositivos táctiles
 
         // Limpiar event listeners al desmontar el componente
         return () => {
             document.removeEventListener('mouseup', handleSelection);
             document.removeEventListener('keyup', handleSelection);
+            document.removeEventListener('touchend', handleSelection); // Limpiar touchend
         };
     }, [chapter]);
 
     useEffect(() => {
         const handleCopy = (e) => {
             e.preventDefault();
-            alert('Copiar está deshabilitado en esta sección.');
+            setToastMessage('Copiar está deshabilitado en esta sección.');
+            setShowToast(true);
         };
 
         const handleCut = (e) => {
             e.preventDefault();
-            alert('Cortar está deshabilitado en esta sección.');
+            setToastMessage('Cortar está deshabilitado en esta sección.');
+            setShowToast(true);
         };
 
         const handlePaste = (e) => {
             e.preventDefault();
-            alert('Pegar está deshabilitado en esta sección.');
+            setToastMessage('Pegar está deshabilitado en esta sección.');
+            setShowToast(true);
         };
 
         const handleContextMenu = (e) => {
             e.preventDefault();
-            alert('El menú contextual está deshabilitado.');
+            setToastMessage('El menú esta deshabilitado en esta sección.');
+            setShowToast(true);
         };
 
         const handleKeyDown = (e) => {
@@ -125,7 +155,8 @@ const ReadChapter = () => {
                 ['c', 'C', 'v', 'V', 'x', 'X'].includes(e.key)
             ) {
                 e.preventDefault();
-                alert('Esta acción está deshabilitada en esta sección.');
+                setToastMessage('Está acción esta deshabilitada en esta sección.');
+                setShowToast(true);
             }
         };
 
@@ -233,49 +264,53 @@ const ReadChapter = () => {
         // Crear un elemento temporal con el diseño deseado
         const tempDiv = document.createElement('div');
         tempDiv.style.position = 'fixed';
-        tempDiv.style.top = '0';
-        tempDiv.style.left = '0';
+        tempDiv.style.top = '50%';
+        tempDiv.style.left = '50%';
         tempDiv.style.width = '800px'; // Ancho deseado
         tempDiv.style.height = '400px'; // Alto deseado
+        tempDiv.style.transform = 'translate(-50%, -50%)';
         tempDiv.style.backgroundImage = `url(${backgroundImage})`;
         tempDiv.style.backgroundSize = 'cover';
         tempDiv.style.backgroundPosition = 'center';
-        tempDiv.style.filter = 'blur(8px)';
+        tempDiv.style.filter = 'blur(10px)'; // Aumentar el blur
         tempDiv.style.display = 'flex';
         tempDiv.style.flexDirection = 'column';
         tempDiv.style.justifyContent = 'center';
         tempDiv.style.alignItems = 'center';
         tempDiv.style.padding = '20px';
         tempDiv.style.boxSizing = 'border-box';
-        tempDiv.style.color = '#FFFFFF';
+        tempDiv.style.color = '#FFD700'; // Texto dorado
         tempDiv.style.textAlign = 'center';
-        tempDiv.style.fontSize = '24px';
-        tempDiv.style.fontFamily = 'Georgia, serif'; // Fuente más elegante
-        tempDiv.style.border = '2px solid #FFD700';
-        tempDiv.style.borderRadius = '15px';
-        tempDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.5)';
+        tempDiv.style.fontSize = '28px';
+        tempDiv.style.fontFamily = 'Cinzel, serif'; // Fuente más elegante y fantástica
+        tempDiv.style.border = '3px solid #FFD700';
+        tempDiv.style.borderRadius = '20px';
+        tempDiv.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.7)';
         tempDiv.style.backgroundBlendMode = 'overlay';
         tempDiv.style.opacity = '0.95';
 
         // Crear el contenido de la imagen
         const contentDiv = document.createElement('div');
-        contentDiv.style.background = 'rgba(44, 62, 80, 0.6)'; // Fondo semi-transparente para el texto
+        contentDiv.style.background = 'rgba(0, 0, 0, 0.6)'; // Fondo semi-transparente para el texto
         contentDiv.style.padding = '20px';
-        contentDiv.style.borderRadius = '10px';
-        contentDiv.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.3)';
+        contentDiv.style.borderRadius = '15px';
+        contentDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
+        contentDiv.style.width = '90%';
 
         const phraseElement = document.createElement('p');
         phraseElement.innerText = selectedText;
-        phraseElement.style.fontSize = '28px';
+        phraseElement.style.fontSize = '32px';
         phraseElement.style.fontWeight = 'bold';
-        phraseElement.style.marginBottom = '10px';
-        phraseElement.style.fontStyle = 'italic'; // Texto en cursiva
+        phraseElement.style.marginBottom = '15px';
+        phraseElement.style.fontStyle = 'italic';
+        phraseElement.style.color = '#FFD700'; // Dorado
 
         const sourceElement = document.createElement('p');
         sourceElement.innerText = `- De la novela "${novelName}"`;
-        sourceElement.style.fontSize = '20px';
+        sourceElement.style.fontSize = '24px';
         sourceElement.style.fontFamily = 'Lucida Console, Monaco, monospace'; // Fuente diferente para el origen
-        sourceElement.style.opacity = '0.8'; // Texto más sutil
+        sourceElement.style.opacity = '0.9'; // Texto más sutil
+        sourceElement.style.color = '#FFD700'; // Dorado
 
         contentDiv.appendChild(phraseElement);
         contentDiv.appendChild(sourceElement);
@@ -304,6 +339,7 @@ const ReadChapter = () => {
     if (error) return <p className="read-chapter-error">{error}</p>;
 
     return (
+
         <div
             className="read-chapter"
             style={{
@@ -492,12 +528,23 @@ const ReadChapter = () => {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '5px',
+                        cursor: 'pointer',
+                        padding: '12px 20px',
+                        fontSize: '1rem',
                     }}
                     onClick={handleDownload}
                 >
                     <FaDownload /> Descargar Frase
                 </Button>
             )}
+            <ToastContainer position="bottom-end" className="p-3">
+                <Toast onClose={() => setShowToast(false)} show={showToast} delay={3000} autohide bg="warning">
+                    <Toast.Header>
+                        <strong className="me-auto">Aviso</strong>
+                    </Toast.Header>
+                    <Toast.Body>{toastMessage}</Toast.Body>
+                </Toast>
+            </ToastContainer>
         </div>
     ); // Cierre del bloque de retorno
 };
