@@ -73,54 +73,57 @@ const ReadChapter = () => {
         const handleSelection = () => {
             const selection = window.getSelection();
             const text = selection.toString().trim();
-            console.log('Texto seleccionado:', text); // Log de selección
-
+    
             if (text.length > 0) {
                 const range = selection.getRangeAt(0);
                 const rect = range.getBoundingClientRect();
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-
-                // Posicionar el botón 10px debajo del texto seleccionado
-                let calculatedTop = rect.bottom + scrollTop + 10;
-                let calculatedLeft = rect.left + scrollLeft + rect.width / 2;
-
-                // Asegurar que el botón no se salga de la pantalla
+    
+                // Obtener desplazamiento del scroll
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
+    
+                // Calcular posición final del botón (debajo del texto seleccionado)
+                let calculatedTop = rect.bottom + scrollTop + 10; // Agregar 10px debajo del texto
+                let calculatedLeft = rect.left + scrollLeft + rect.width / 2; // Centrar horizontalmente
+    
+                // Obtener dimensiones de la ventana
                 const windowWidth = window.innerWidth;
                 const windowHeight = window.innerHeight;
-
-                // Limitar top
-                if (calculatedTop > scrollTop + windowHeight - 60) { // 60px es la altura aproximada del botón
-                    calculatedTop = rect.top + scrollTop - 20; // Posicionar arriba si no hay espacio abajo
+    
+                // Ajustar posición para no salir de la pantalla
+                if (calculatedTop + 60 > scrollTop + windowHeight) {
+                    // Si no hay espacio debajo, colocar arriba del texto
+                    calculatedTop = rect.top + scrollTop - 70; // 70px para el espacio del botón
                 }
-
-                // Limitar left
-                if (calculatedLeft < 40) { // Evitar que esté muy a la izquierda
+                if (calculatedLeft - 40 < 0) {
+                    // Evitar que el botón se salga del lado izquierdo
                     calculatedLeft = 40;
-                } else if (calculatedLeft > scrollLeft + windowWidth - 40) { // Evitar que esté muy a la derecha
+                }
+                if (calculatedLeft + 40 > scrollLeft + windowWidth) {
+                    // Evitar que el botón se salga del lado derecho
                     calculatedLeft = scrollLeft + windowWidth - 40;
                 }
-
+    
+                // Actualizar estado
                 setButtonPosition({ top: calculatedTop, left: calculatedLeft });
                 setSelectedText(text);
                 setShowDownloadButton(true);
-                console.log('Botón de descarga mostrado en:', { top: calculatedTop, left: calculatedLeft }); // Log de posición
             } else {
+                // Si no hay texto seleccionado, ocultar el botón
                 setShowDownloadButton(false);
-                console.log('No hay texto seleccionado. Botón de descarga ocultado.'); // Log de ocultación
             }
         };
-
-        // Añadir event listeners para detectar la selección
+    
+        // Añadir eventos para detectar selección de texto
         document.addEventListener('mouseup', handleSelection);
         document.addEventListener('keyup', handleSelection);
-        document.addEventListener('touchend', handleSelection); // Añadido para dispositivos táctiles
-
-        // Limpiar event listeners al desmontar el componente
+        document.addEventListener('touchend', handleSelection); // Soporte para dispositivos táctiles
+    
+        // Limpiar eventos al desmontar el componente
         return () => {
             document.removeEventListener('mouseup', handleSelection);
             document.removeEventListener('keyup', handleSelection);
-            document.removeEventListener('touchend', handleSelection); // Limpiar touchend
+            document.removeEventListener('touchend', handleSelection);
         };
     }, [chapter]);
 

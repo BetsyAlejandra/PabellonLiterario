@@ -56,22 +56,23 @@
   font-size: 1.1rem;
 }
 
+/* Botón de Descarga */
 .read-chapter .btn-success {
   position: absolute;
   z-index: 1000;
-  transform: translate(-50%, 0);
-  background: linear-gradient(45deg, #FFD700, #FFA500); /* Gradiente dorado */
+  transform: translate(-50%, -50%); /* Centrado basado en el punto */
+  background: linear-gradient(45deg, #FFD700, #FFA500);
   border: none;
-  color: black;
-  padding: 12px 18px;
-  border-radius: 8px;
+  color: #1c1c1c !important; /* Texto oscuro */
+  padding: 12px 20px;
+  border-radius: 10px;
   font-weight: bold;
   font-size: 14px;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .read-chapter .btn-success:hover {
-  transform: translate(-50%, 0) scale(1.05);
+  transform: translate(-50%, -50%) scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -304,14 +305,11 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .read-chapter {
-      padding: 15px;
-  }
-
   .read-chapter .btn-success {
-      font-size: 0.9rem;
-      padding: 10px 16px;
-  }
+    font-size: 12px;
+    padding: 10px 14px;
+    max-width: 90%;
+}
 
   .fixed-settings {
       top: 15px;
