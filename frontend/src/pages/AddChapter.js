@@ -44,25 +44,18 @@ const AddChapter = () => {
         editorProps: {
             handleDOMEvents: {
                 mouseup: (view, event) => {
-                    const { state } = view;
-                    const { selection } = state;
+                    const selection = window.getSelection();
+                    const selectedText = selection.toString().trim();
 
-                    if (!selection.empty) {
-                        const selectedText = state.doc.textBetween(
-                            selection.from,
-                            selection.to
-                        );
+                    if (selectedText) {
+                        const range = selection.getRangeAt(0);
+                        const rect = range.getBoundingClientRect();
+
                         setSelectedText(selectedText);
-
-                        if (selectedText) {
-                            const rect = selectedText.getBoundingClientRect();
-                            setButtonPosition({
-                                top: rect.top + window.scrollY - 40,
-                                left: rect.left + window.scrollX + 10,
-                            });
-                        }
-
-
+                        setButtonPosition({
+                            top: rect.top + window.scrollY - 40, // Ajuste para posición flotante
+                            left: rect.left + window.scrollX + rect.width / 2, // Centrado horizontal
+                        });
                         setShowAnnotationButton(true);
                     } else {
                         setShowAnnotationButton(false);
@@ -70,7 +63,7 @@ const AddChapter = () => {
                 },
             },
         },
-    });
+    },);
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
@@ -258,11 +251,10 @@ const AddChapter = () => {
             {/* Botón flotante para anotaciones */}
             {showAnnotationButton && (
                 <div
-                    className="floating-btn add-chapter-floating-btn"
+                    className={`floating-btn ${showAnnotationButton ? 'visible' : 'hidden'} add-chapter-floating-btn`}
                     style={{
                         top: buttonPosition.top,
                         left: buttonPosition.left,
-                        zIndex: 1000,
                     }}
                 >
                     <button
@@ -272,6 +264,7 @@ const AddChapter = () => {
                         Anotar
                     </button>
                 </div>
+
             )}
 
             {/* Modal para agregar significado */}
