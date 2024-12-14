@@ -214,3 +214,19 @@
     background-color: #e5533d;
     transform: scale(1.05);
 }
+
+.floating-btn {
+    position: absolute;
+    z-index: 1000;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s ease;
+}
+
+.floating-btn.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.floating-btn.visible {
+    opacity: 1;
+}

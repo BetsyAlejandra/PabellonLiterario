@@ -1,5 +1,3 @@
-// services/discordService.js
-
 const axios = require('axios');
 
 // Obtener la URL del webhook desde las variables de entorno
@@ -19,17 +17,30 @@ const sendDiscordNotification = async (update) => {
   }
 
   const embed = {
-    title: '¡Nueva Actualización en Pabellón Literario!',
+    title: '¡Actualización en Pabellón Literario! 📚✨',
     url: update.link,
-    description: `**Título:** ${update.titulo}\n**Descripción:** ${update.descripcion}`,
-    color: 0xffd700, // Asegúrate de usar un número válido para el color
+    description: `**Capítulo:** ${update.titulo}\n\n**De:**\n${update.descripcion}`,
+    color: 0xffd700, 
     timestamp: new Date(),
-    footer: {
-      text: 'Pabellón Literario',
+    author: {
+      name: 'Pabellón Literario',
     },
+    image: {
+      url: `https://pabellonliterario.com/uploads/actualizacion.png`, // Imagen destacada
+    },
+    footer: {
+      text: 'Visita Pabellón Literario para más actualizaciones',
+    },
+    fields: [
+      {
+        name: '📖 Detalles',
+        value: `¡Descubre más sobre esta actualización [aquí](${update.link})!`,
+      },
+    ],
   };
 
   const payload = {
+    username: '📖Actualizacion Pabellón Literario',
     embeds: [embed],
   };
 

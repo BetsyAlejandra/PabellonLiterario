@@ -54,12 +54,14 @@ const AddChapter = () => {
                         );
                         setSelectedText(selectedText);
 
-                        // Posiciona el botón flotante
-                        const rect = event.target.getBoundingClientRect();
-                        setButtonPosition({
-                            top: rect.top + window.scrollY - 40,
-                            left: rect.left + window.scrollX + 50,
-                        });
+                        if (selectedText) {
+                            const rect = selectedText.getBoundingClientRect();
+                            setButtonPosition({
+                                top: rect.top + window.scrollY - 40,
+                                left: rect.left + window.scrollX + 10,
+                            });
+                        }
+
 
                         setShowAnnotationButton(true);
                     } else {

@@ -165,9 +165,9 @@ const addChapter = async (req, res) => {
 
     // Preparar los detalles para Discord
     const updateDetails = {
-      titulo: `Nuevo Capítulo: ${title}`,
-      descripcion: `Se ha agregado un nuevo capítulo a la novela **${novel.title}**. <@&1310810841414762516>`,
-      link: `https://pabellonliterario.com/read-chapter/${id}/${newChapterSaved._id}`, // Ajusta el enlace según tu ruta
+      titulo: `${title}`,
+      descripcion: `Se ha agregado un nuevo capítulo a la novela **${novel.title}**. <@&1310810841414762516>`, // Mención de un rol de Discord
+      link: `https://pabellonliterario.com/read-chapter/${id}/${newChapterSaved._id}`, // Enlace al capítulo
     };
 
     // Enviar la notificación a Discord
