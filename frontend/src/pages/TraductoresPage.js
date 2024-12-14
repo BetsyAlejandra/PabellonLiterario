@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Button, Container, Row, Col, Pagination } from 'react-bootstrap';
 import '../styles/TranslatorsPage.css';
-import AdSense from '../Components/AdSense';
 
 const TranslatorsPage = () => {
   const [translators, setTranslators] = useState([]);
@@ -63,19 +62,6 @@ const TranslatorsPage = () => {
         <h1 className="translators-title">Nuestros Traductores</h1>
         <p className="translators-subtitle">Explora los perfiles de nuestros talentosos traductores</p>
       </header>
-
-      {/* Espacio para Anuncio */}
-      <section className="ad-section my-4">
-        <Container>
-          <div className="ad-section-container">
-            <AdSense
-              adClient="ca-pub-3101266953328074"
-              adSlot="6880835240"
-              style={{ display: "block" }}
-            />
-          </div>
-        </Container>
-      </section>
 
       {/* Controles de Paginación en la parte superior */}
       <Pagination className="justify-content-center mb-4">

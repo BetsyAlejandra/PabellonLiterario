@@ -332,6 +332,7 @@ const ReadChapter = () => {
         <div
             className="read-chapter"
             ref={chapterContainerRef} // Referencia al contenedor principal
+            onScroll={handleScroll}
             style={{
                 '--brightness': `${brightness}%`,
                 '--font-size': `${fontSize}px`,
