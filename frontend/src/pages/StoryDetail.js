@@ -217,17 +217,19 @@ const StoryDetail = () => {
     return (
         <div className="story-detail-container">
             {/* Espacio para Anuncio 1 */}
-            <section className="ad-section my-4">
-                <Container>
-                    <div className="ad-section-container">
-                        <AdSense
-                            adClient="ca-pub-3101266953328074"
-                            adSlot="2492564919"
-                            style={{ display: "block" }}
-                        />
-                    </div>
-                </Container>
-            </section>
+            {story && (
+                <section className="ad-section my-4">
+                    <Container>
+                        <div className="ad-section-container">
+                            <AdSense
+                                adClient="ca-pub-3101266953328074"
+                                adSlot="2492564919"
+                                style={{ display: "block" }}
+                            />
+                        </div>
+                    </Container>
+                </section>
+            )}
 
             <div className="row">
                 <div className="col-md-4">

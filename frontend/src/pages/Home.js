@@ -102,17 +102,19 @@ const Home = () => {
       </header>
 
       {/* Espacio para Anuncio 1 */}
-      <section className="ad-section my-4">
-        <Container>
-          <div className="ad-section-container">
-            <AdSense
-              adClient="ca-pub-3101266953328074"
-              adSlot="2736107499"
-              style={{ display: "block" }}
-            />
-          </div>
-        </Container>
-      </section>
+      {novels.length > 0 && (
+        <section className="ad-section my-4">
+          <Container>
+            <div className="ad-section-container">
+              <AdSense
+                adClient="ca-pub-3101266953328074"
+                adSlot="2736107499"
+                style={{ display: "block" }}
+              />
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* Galería de Obras Traducidas */}
       <section className="translated-works-gallery">
