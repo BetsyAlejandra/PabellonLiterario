@@ -1,31 +1,21 @@
 /* readChapter.css */
 
-/* Contenedor Principal */
 .read-chapter {
   background: linear-gradient(135deg, #121212, #1e1e1e);
-  /* Tonos más oscuros */
   padding: 25px;
   border-radius: 20px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.7);
-  /* Sombra más profunda */
   position: relative;
   overflow-y: auto;
-  color: #FBFCFC;
-  /* Blanco suave */
+  /* Utilizar las variables CSS */
+  font-size: var(--font-size);
+  color: var(--font-color);
+  filter: brightness(var(--brightness));
   transition: filter 0.3s ease, font-size 0.3s ease, color 0.3s ease;
   font-family: 'Merriweather', serif;
-  /* Fuente legible y elegante */
-  overflow: scroll
 }
 
-/* Asegurarse de que los títulos y textos hereden el color y tamaño */
-.story-title,
-.chapter-title,
-.chapter-date,
-.chapter-content,
-.general-comments,
-.annotations-list,
-.comment-item {
+.chapter-content {
   color: inherit; /* Heredar color del contenedor */
   font-size: inherit; /* Heredar tamaño de fuente del contenedor */
   font-family: inherit; /* Heredar fuente del contenedor */
