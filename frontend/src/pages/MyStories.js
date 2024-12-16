@@ -17,6 +17,7 @@ const MyStories = () => {
     const [storyToDelete, setStoryToDelete] = useState(null); // Historia a eliminar
     const [confirmDeleteModalShow, setConfirmDeleteModalShow] = useState(false); // Modal de confirmación de eliminación
     const [chapterToDelete, setChapterToDelete] = useState(null); // Capítulo a eliminar
+    const [userRoles, setUserRoles] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,7 +33,18 @@ const MyStories = () => {
                 setLoading(false);
             }
         };
+
+          // Obtener roles del usuario
+          const fetchUserRoles = async () => {
+            try {
+                const res = await axios.get('/api/users/profile', { withCredentials: true });
+                setUserRoles(res.data.roles || []); // Suponiendo que `roles` es un array
+            } catch (err) {
+                console.error('Error al obtener roles del usuario:', err);
+            }
+        };
         fetchUserStories();
+        fetchUserRoles();
     }, []);
 
     const handleEditClick = (id) => {
@@ -129,9 +141,12 @@ const MyStories = () => {
         <div className="my-stories-container">
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h2 className="my-stories-title">Mis Historias</h2>
-                <Button className="my-stories-add-button" onClick={handleAddNovel}>
-                    Agregar Nueva Novela
-                </Button>
+                {/* Renderizar el botón solo si tiene el rol adecuado */}
+                {userRoles.includes('Traductor') || userRoles.includes('Escritor') ? (
+                    <Button className="my-stories-add-button" onClick={handleAddNovel}>
+                        Agregar Nueva Novela
+                    </Button>
+                ) : null}
             </div>
             <div className="row">
                 {stories.map((story) => (

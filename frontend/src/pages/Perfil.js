@@ -172,7 +172,12 @@ const Perfil = () => {
           </div>
         )}
         <div className="buttons-fantasy">
-          <button onClick={() => navigate('/my-stories')} className="fantasy-btn">
+          <button
+            onClick={() => navigate('/my-stories')}
+            className={`fantasy-btn ${user.roles.includes('Lector') ? 'btn-disabled' : ''}`}
+            disabled={user.roles.includes('Lector')} // Deshabilitar si el rol es "Lector"
+            title={user.roles.includes('Lector') ? 'Acceso restringido a Lectores.' : ''}
+          >
             Mis Traducciones
           </button>
           <button onClick={handleEditToggle} className="fantasy-btn">
@@ -187,7 +192,7 @@ const Perfil = () => {
               </button>
             </div>
           )}
-          
+
           {isEditing && (
             <button onClick={handleSaveChanges} className="fantasy-btn-save">
               Guardar Cambios
