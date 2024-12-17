@@ -18,8 +18,6 @@ const MyStories = () => {
     const [confirmDeleteModalShow, setConfirmDeleteModalShow] = useState(false); // Modal de confirmación de eliminación
     const [chapterToDelete, setChapterToDelete] = useState(null); // Capítulo a eliminar
     const [userRoles, setUserRoles] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1); // Página actual
-    const chaptersPerPage = 5; // Número de capítulos por página
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -36,8 +34,8 @@ const MyStories = () => {
             }
         };
 
-        // Obtener roles del usuario
-        const fetchUserRoles = async () => {
+          // Obtener roles del usuario
+          const fetchUserRoles = async () => {
             try {
                 const res = await axios.get('/api/users/profile', { withCredentials: true });
                 setUserRoles(res.data.roles || []); // Suponiendo que `roles` es un array
@@ -80,25 +78,7 @@ const MyStories = () => {
 
     const handleViewChapters = (story) => {
         setSelectedStory(story);
-        setCurrentPage(1); // Reinicia la página a la primera
         setModalShow(true);
-    };
-
-    // Lógica de paginación
-    const indexOfLastChapter = currentPage * chaptersPerPage;
-    const indexOfFirstChapter = indexOfLastChapter - chaptersPerPage;
-    const currentChapters = selectedStory?.chapters.slice(indexOfFirstChapter, indexOfLastChapter);
-
-    const nextPage = () => {
-        if (currentPage < Math.ceil(selectedStory?.chapters.length / chaptersPerPage)) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
-
-    const prevPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
     };
 
     const handleEditChapter = (storyId, chapterId) => {
@@ -235,18 +215,46 @@ const MyStories = () => {
             </div>
 
             {/* Modal para mostrar capítulos */}
-            {/* Modal de capítulos */}
             {selectedStory && (
-                <Modal show={modalShow} onHide={() => setModalShow(false)} centered>
+                <Modal show={modalShow} onHide={() => setModalShow(false)} centered className="my-stories-modal">
                     <Modal.Header closeButton>
-                        <Modal.Title>Capítulos de {selectedStory.title}</Modal.Title>
+                        <Modal.Title className="my-stories-modal-title">
+                            Capítulos de {selectedStory.title}
+                        </Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
-                        {currentChapters && currentChapters.length > 0 ? (
-                            <ul>
-                                {currentChapters.map((chapter, index) => (
-                                    <li key={index}>
-                                        <span>{chapter.title}</span>
+                    <Modal.Body className="my-stories-modal-body">
+                        {selectedStory.chapters && selectedStory.chapters.length > 0 ? (
+                            <ul className="list-group">
+                                {selectedStory.chapters.map((chapter) => (
+                                    <li
+                                        key={chapter._id}
+                                        className="list-group-item my-stories-chapter-item"
+                                    >
+                                        <div className="d-flex justify-content-between align-items-center">
+                                            <span className="my-stories-chapter-title">{chapter.title}</span>
+                                            <div>
+                                                <Button
+                                                    variant="outline-primary"
+                                                    size="sm"
+                                                    className="me-2 my-stories-chapter-button"
+                                                    onClick={() =>
+                                                        handleEditChapter(selectedStory._id, chapter._id)
+                                                    }
+                                                >
+                                                    Editar
+                                                </Button>
+                                                <Button
+                                                    variant="outline-danger"
+                                                    size="sm"
+                                                    className="my-stories-chapter-button"
+                                                    onClick={() =>
+                                                        handleDeleteChapter(selectedStory._id, chapter._id, chapter.title)
+                                                    }
+                                                >
+                                                    Eliminar
+                                                </Button>
+                                            </div>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>
@@ -255,28 +263,12 @@ const MyStories = () => {
                         )}
                     </Modal.Body>
                     <Modal.Footer>
-                        <div className="d-flex justify-content-between w-100">
-                            <Button
-                                variant="secondary"
-                                onClick={prevPage}
-                                disabled={currentPage === 1}
-                            >
-                                Anterior
-                            </Button>
-                            <span>
-                                Página {currentPage} de{' '}
-                                {Math.ceil(selectedStory?.chapters.length / chaptersPerPage)}
-                            </span>
-                            <Button
-                                variant="secondary"
-                                onClick={nextPage}
-                                disabled={
-                                    currentPage >= Math.ceil(selectedStory?.chapters.length / chaptersPerPage)
-                                }
-                            >
-                                Siguiente
-                            </Button>
-                        </div>
+                        <Button variant="success" onClick={() => handleAddChapter(selectedStory._id)}>
+                            Agregar Capítulo
+                        </Button>
+                        <Button variant="secondary" onClick={() => setModalShow(false)}>
+                            Cerrar
+                        </Button>
                     </Modal.Footer>
                 </Modal>
             )}
