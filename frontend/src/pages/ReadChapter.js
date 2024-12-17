@@ -355,6 +355,7 @@ const ReadChapter = () => {
                         variant="info"
                         className="go-to-content-btn"
                         onClick={() => navigate(`/story-detail/${storyId}`)}
+                        aria-label="Volver al contenido"
                     >
                         <FaBook />
                     </Button>
@@ -418,6 +419,7 @@ const ReadChapter = () => {
                         variant="secondary"
                         className="settings-toggle"
                         onClick={() => setShowSettings((prev) => !prev)}
+                        aria-label="Abrir ajustes de lectura"
                     >
                         <FaCog />
                     </Button>
@@ -577,6 +579,7 @@ const ReadChapter = () => {
                         variant="success"
                         onClick={handleDownload}
                         title="Descargar frase"
+                        aria-label="Descargar frase seleccionada"
                     >
                         <FaQuoteRight /> Descargar
                     </Button>
