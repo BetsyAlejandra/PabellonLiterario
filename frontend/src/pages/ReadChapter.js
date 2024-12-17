@@ -445,8 +445,6 @@ const ReadChapter = () => {
                                     <option value="#FBFCFC">Blanco (#FBFCFC)</option>
                                     <option value="#FFD700">Dorado (#FFD700)</option>
                                     <option value="#A9DFBF">Verde Claro (#A9DFBF)</option>
-                                    <option value="#CDC3E3">Morado Claro (#CDC3E3)</option>
-                                    <option value="#FDEDEC">Rosado Claro (#FDEDEC)</option>
                                     <option value="#FFFFFF">Blanco Puro (#FFFFFF)</option>
                                     <option value="#FF5733">Naranja (#FF5733)</option>
                                     <option value="#C70039">Rojo (#C70039)</option>

@@ -150,7 +150,7 @@
   position: absolute;
   top: 70px; /* Ajusta este valor según el tamaño del botón de ajustes */
   right: 0px;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(0, 0, 0, 0.95);
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
