@@ -261,3 +261,12 @@
         font-size: 0.9rem;
     }
 }
+
+
+.my-stories-action-button {
+    min-width: 100px;
+}
+
+.my-stories-chapter-button {
+    margin-left: 5px;
+}

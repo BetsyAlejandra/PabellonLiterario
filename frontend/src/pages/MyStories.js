@@ -17,6 +17,7 @@ const MyStories = () => {
     const [storyToDelete, setStoryToDelete] = useState(null); // Historia a eliminar
     const [confirmDeleteModalShow, setConfirmDeleteModalShow] = useState(false); // Modal de confirmación de eliminación
     const [chapterToDelete, setChapterToDelete] = useState(null); // Capítulo a eliminar
+    const [confirmDeleteChapterModalShow, setConfirmDeleteChapterModalShow] = useState(false); // Modal de confirmación de eliminación de capítulo
     const [userRoles, setUserRoles] = useState([]);
     const navigate = useNavigate();
 
@@ -34,8 +35,8 @@ const MyStories = () => {
             }
         };
 
-          // Obtener roles del usuario
-          const fetchUserRoles = async () => {
+        // Obtener roles del usuario
+        const fetchUserRoles = async () => {
             try {
                 const res = await axios.get('/api/users/profile', { withCredentials: true });
                 setUserRoles(res.data.roles || []); // Suponiendo que `roles` es un array
@@ -97,7 +98,7 @@ const MyStories = () => {
     const handleDeleteChapter = (storyId, chapterId, chapterTitle) => {
         console.log('Eliminando capítulo:', { storyId, chapterId, chapterTitle });
         setChapterToDelete({ id: chapterId, title: chapterTitle, storyId });
-        setConfirmDeleteModalShow(true);
+        setConfirmDeleteChapterModalShow(true);
     };
 
     // Función para confirmar la eliminación del capítulo
@@ -125,12 +126,12 @@ const MyStories = () => {
                 })
             );
 
-            setConfirmDeleteModalShow(false); // Cierra el modal de confirmación
+            setConfirmDeleteChapterModalShow(false); // Cierra el modal de confirmación
             setChapterToDelete(null); // Resetea el capítulo a eliminar
         } catch (err) {
             alert('Error al eliminar el capítulo. Intenta nuevamente.');
             console.error(err);
-            setConfirmDeleteModalShow(false); // Cierra el modal de confirmación
+            setConfirmDeleteChapterModalShow(false); // Cierra el modal de confirmación
         }
     };
 
@@ -207,6 +208,14 @@ const MyStories = () => {
                                     >
                                         Ver Capítulos
                                     </Button>
+                                    {/* Nuevo botón para agregar capítulo directamente desde la tarjeta */}
+                                    <Button
+                                        variant="success"
+                                        onClick={() => handleAddChapter(story._id)}
+                                        className="my-stories-action-button"
+                                    >
+                                        Agregar Capítulo
+                                    </Button>
                                 </div>
                             </Card.Body>
                         </Card>
@@ -216,21 +225,27 @@ const MyStories = () => {
 
             {/* Modal para mostrar capítulos */}
             {selectedStory && (
-                <Modal show={modalShow} onHide={() => setModalShow(false)} centered className="my-stories-modal">
+                <Modal show={modalShow} onHide={() => setModalShow(false)} centered size="lg" className="my-stories-modal">
                     <Modal.Header closeButton>
                         <Modal.Title className="my-stories-modal-title">
                             Capítulos de {selectedStory.title}
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="my-stories-modal-body">
+                        <div className="d-flex justify-content-between align-items-center mb-3">
+                            <h5>Lista de Capítulos</h5>
+                            <Button variant="success" onClick={() => handleAddChapter(selectedStory._id)}>
+                                Agregar Capítulo
+                            </Button>
+                        </div>
                         {selectedStory.chapters && selectedStory.chapters.length > 0 ? (
-                            <ul className="list-group">
-                                {selectedStory.chapters.map((chapter) => (
-                                    <li
-                                        key={chapter._id}
-                                        className="list-group-item my-stories-chapter-item"
-                                    >
-                                        <div className="d-flex justify-content-between align-items-center">
+                            <div className="chapters-list" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                                <ul className="list-group">
+                                    {selectedStory.chapters.map((chapter) => (
+                                        <li
+                                            key={chapter._id}
+                                            className="list-group-item my-stories-chapter-item d-flex justify-content-between align-items-center"
+                                        >
                                             <span className="my-stories-chapter-title">{chapter.title}</span>
                                             <div>
                                                 <Button
@@ -254,18 +269,15 @@ const MyStories = () => {
                                                     Eliminar
                                                 </Button>
                                             </div>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         ) : (
                             <p>No hay capítulos disponibles.</p>
                         )}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="success" onClick={() => handleAddChapter(selectedStory._id)}>
-                            Agregar Capítulo
-                        </Button>
                         <Button variant="secondary" onClick={() => setModalShow(false)}>
                             Cerrar
                         </Button>
@@ -316,8 +328,8 @@ const MyStories = () => {
 
             {/* Modal de confirmación para eliminar capítulo */}
             <Modal
-                show={confirmDeleteModalShow}
-                onHide={() => setConfirmDeleteModalShow(false)}
+                show={confirmDeleteChapterModalShow}
+                onHide={() => setConfirmDeleteChapterModalShow(false)}
                 centered
                 className="my-stories-modal"
             >
@@ -334,7 +346,7 @@ const MyStories = () => {
                     )}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setConfirmDeleteModalShow(false)}>
+                    <Button variant="secondary" onClick={() => setConfirmDeleteChapterModalShow(false)}>
                         Cancelar
                     </Button>
                     <Button variant="danger" onClick={confirmDeleteChapter}>
