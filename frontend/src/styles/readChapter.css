@@ -7,12 +7,11 @@
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.7);
   position: relative;
   overflow-y: auto;
-  /* Utilizar las variables CSS */
-  font-size: var(--font-size);
-  color: var(--font-color);
-  filter: brightness(var(--brightness));
-  transition: filter 0.3s ease, font-size 0.3s ease, color 0.3s ease;
-  font-family: 'Merriweather', serif;
+  font-family: var(--font-family, Serif);
+  color: var(--font-color, #FBFCFC);
+  font-size: var(--font-size, 16px);
+  filter: brightness(var(--brightness, 100%));
+  transition: all 0.3s ease;
 }
 
 .chapter-content {
@@ -128,15 +127,16 @@
   transform: scale(1.1);
 }
 
-/* Panel de Ajustes */
 .settings-panel {
-  background: rgba(30, 30, 30, 0.95);
-  /* Fondo más oscuro */
-  padding: 20px;
-  border-radius: 15px;
-  margin-top: 10px;
-  box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  position: absolute;
+  bottom: 60px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 250px;
 }
 
 .settings-panel .form-group {
@@ -329,34 +329,44 @@
 }
 
 /* Responsive */
+/* src/styles/readChapter.css */
+
+/* Responsividad para dispositivos móviles */
 @media (max-width: 768px) {
-  .fixed-download-button {
-    font-size: 12px;
-    padding: 10px 14px;
-    max-width: 90%;
+  .floating-download-button {
+      bottom: 10px;
+      left: 10px;
+      padding: 8px 12px;
+      font-size: 14px;
   }
 
-  .fixed-settings {
-    top: 15px;
-    right: 15px;
+  .floating-top-button {
+      top: 10px;
+      right: 10px;
   }
 
-  .settings-toggle {
-    width: 50px;
-    height: 50px;
-    font-size: 1.2rem;
+  .settings-panel {
+      width: 200px;
+      bottom: 50px;
+      right: 10px;
   }
 
   .chapter-navigation {
-    flex-direction: column;
-    gap: 10px;
+      bottom: 10px;
+      right: 10px;
+      flex-direction: column;
+      gap: 5px;
   }
 
-  .nav-btn {
-    width: 100%;
-    justify-content: center;
+  .progress-bar-container {
+      height: 3px;
+  }
+
+  .chapter-content {
+      padding: 10px;
   }
 }
+
 
 /* Botón flotante en la esquina superior izquierda */
 .floating-top-button {
@@ -381,4 +391,26 @@
   background-color: #e6c200;
   transform: scale(1.05); /* Efecto de zoom */
   color: #1a1a1a;
+}
+
+/* Botón Flotante de Descarga */
+.floating-download-button {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000; /* Asegura que el botón esté por encima de otros elementos */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  border-radius: 50px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para darle profundidad */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Suaviza la aparición y desaparición */
+  opacity: 0.9; /* Ajusta la opacidad según prefieras */
+  background-color: #28a745; /* Color de fondo verde para indicar éxito */
+}
+
+.floating-download-button:hover {
+  opacity: 1; /* Aumenta la opacidad al pasar el cursor */
+  transform: scale(1.05); /* Agranda ligeramente el botón al pasar el cursor */
 }

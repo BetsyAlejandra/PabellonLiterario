@@ -17,11 +17,10 @@ const ReadChapter = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const [progress, setProgress] = useState(0); // Estado para el progreso de la barra de lectura
-    const [generalComment, setGeneralComment] = useState(''); // Comentario actual
-    const [generalComments, setGeneralComments] = useState([]); // Lista de comentarios generales
-    const [showSettings, setShowSettings] = useState(false); // Panel de ajustes visible
-
+    const [progress, setProgress] = useState(0);
+    const [generalComment, setGeneralComment] = useState('');
+    const [generalComments, setGeneralComments] = useState([]);
+    const [showSettings, setShowSettings] = useState(false);
 
     // Inicialización de estados desde localStorage
     const [fontSize, setFontSize] = useState(() => {
@@ -39,6 +38,12 @@ const ReadChapter = () => {
         return storedFontColor || "#FBFCFC";
     });
 
+    // Estado para la fuente
+    const [fontFamily, setFontFamily] = useState(() => {
+        const storedFontFamily = localStorage.getItem('fontFamily');
+        return storedFontFamily || 'Serif';
+    });
+
     // Estados para la selección de texto y descarga de imagen
     const [selectedText, setSelectedText] = useState('');
     const [showDownloadButton, setShowDownloadButton] = useState(false);
@@ -48,13 +53,11 @@ const ReadChapter = () => {
     const [toastMessage, setToastMessage] = useState('');
 
     const chapterContainerRef = useRef(null);
-    // Ref para generar IDs únicos para los Popovers
     const popoverIdRef = useRef(0);
 
     useEffect(() => {
         const fetchChapterAndStory = async () => {
             try {
-                // Solicitar los datos del capítulo
                 const resChapter = await fetch(`/api/novels/${storyId}/chapters/${chapterId}`);
                 if (!resChapter.ok) {
                     throw new Error('Error al cargar el capítulo.');
@@ -63,11 +66,9 @@ const ReadChapter = () => {
                 setChapter(dataChapter);
                 setLoading(false);
 
-                // Verificar si 'novelTitle' está presente
                 if (dataChapter.novelTitle) {
                     setNovelName(dataChapter.novelTitle);
                 } else {
-                    // Si no está presente, solicitar los datos de la novela
                     const resStory = await fetch(`/api/novels/${storyId}`);
                     if (!resStory.ok) {
                         throw new Error('Error al cargar los detalles de la novela.');
@@ -97,12 +98,10 @@ const ReadChapter = () => {
             }
         };
 
-        // Añadir eventos para detectar selección de texto
         document.addEventListener('mouseup', handleSelection);
         document.addEventListener('keyup', handleSelection);
-        document.addEventListener('touchend', handleSelection); // Soporte para dispositivos táctiles
+        document.addEventListener('touchend', handleSelection);
 
-        // Limpiar eventos al desmontar el componente
         return () => {
             document.removeEventListener('mouseup', handleSelection);
             document.removeEventListener('keyup', handleSelection);
@@ -146,7 +145,6 @@ const ReadChapter = () => {
             }
         };
 
-        // Añadir event listeners al documento completo
         document.addEventListener('copy', handleCopy);
         document.addEventListener('cut', handleCut);
         document.addEventListener('paste', handlePaste);
@@ -154,7 +152,6 @@ const ReadChapter = () => {
         window.addEventListener('keydown', handleKeyDown);
 
         return () => {
-            // Limpiar event listeners al desmontar el componente
             document.removeEventListener('copy', handleCopy);
             document.removeEventListener('cut', handleCut);
             document.removeEventListener('paste', handlePaste);
@@ -163,14 +160,11 @@ const ReadChapter = () => {
         };
     }, []);
 
-    // useEffect para desplazar al inicio al cambiar de capítulo
-
     useEffect(() => {
         if (chapterContainerRef.current) {
             chapterContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }, [chapter]);
-
 
     const handleScroll = (e) => {
         const { scrollTop, scrollHeight, clientHeight } = e.target;
@@ -196,6 +190,11 @@ const ReadChapter = () => {
         localStorage.setItem('fontColor', color);
     };
 
+    const handleFontFamilyChange = (family) => {
+        setFontFamily(family);
+        localStorage.setItem('fontFamily', family);
+    };
+
     const handleGeneralCommentSubmit = () => {
         if (generalComment.trim()) {
             setGeneralComments((prev) => [...prev, generalComment]);
@@ -203,7 +202,6 @@ const ReadChapter = () => {
         }
     };
 
-    // Función para renderizar Popover
     const renderPopover = (annotation) => (
         <Popover id={`popover-${popoverIdRef.current++}`}>
             <Popover.Header as="h3">Anotación</Popover.Header>
@@ -211,12 +209,10 @@ const ReadChapter = () => {
         </Popover>
     );
 
-    // Configuración de DOMPurify para permitir 'data-annotation' y la clase 'annotation'
     const sanitizeOptions = {
         ADD_ATTR: ['data-annotation', 'class', 'src', 'alt'],
     };
 
-    // Parsear y envolver las anotaciones con OverlayTrigger y Popover
     const sanitizedContent = chapter ? DOMPurify.sanitize(chapter.content, sanitizeOptions) : '';
 
     const options = {
@@ -229,7 +225,7 @@ const ReadChapter = () => {
                         trigger="click"
                         placement="top"
                         overlay={renderPopover(annotationText)}
-                        rootClose // Cierra el popover al hacer clic fuera
+                        rootClose
                     >
                         <span className="annotation">
                             {domToReact(children, options)}
@@ -246,7 +242,6 @@ const ReadChapter = () => {
         },
     };
 
-    // Función para manejar la descarga de la frase seleccionada
     const handleDownload = async () => {
         if (!selectedText) return;
 
@@ -256,12 +251,12 @@ const ReadChapter = () => {
         tempDiv.style.top = '50%';
         tempDiv.style.left = '50%';
         tempDiv.style.width = '800px'; // Ancho deseado
-        tempDiv.style.height = '400px'; // Alto deseado
+        tempDiv.style.height = '800px'; // Alto igual para hacer la imagen cuadrada
         tempDiv.style.transform = 'translate(-50%, -50%)';
         tempDiv.style.backgroundImage = `url(${backgroundImage})`;
         tempDiv.style.backgroundSize = 'cover';
         tempDiv.style.backgroundPosition = 'center';
-        tempDiv.style.filter = 'blur(10px)'; // Aumentar el blur
+        tempDiv.style.filter = 'brightness(100%)'; // Ajuste de brillo si es necesario
         tempDiv.style.display = 'flex';
         tempDiv.style.flexDirection = 'column';
         tempDiv.style.justifyContent = 'center';
@@ -277,6 +272,7 @@ const ReadChapter = () => {
         tempDiv.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.7)';
         tempDiv.style.backgroundBlendMode = 'overlay';
         tempDiv.style.opacity = '0.95';
+        tempDiv.style.overflow = 'hidden'; // Ocultar contenido que exceda
 
         // Crear el contenido de la imagen
         const contentDiv = document.createElement('div');
@@ -285,6 +281,13 @@ const ReadChapter = () => {
         contentDiv.style.borderRadius = '15px';
         contentDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
         contentDiv.style.width = '90%';
+        contentDiv.style.height = '90%'; // Asegura que el contenido no exceda el contenedor
+        contentDiv.style.display = 'flex';
+        contentDiv.style.flexDirection = 'column';
+        contentDiv.style.justifyContent = 'center';
+        contentDiv.style.alignItems = 'center';
+        contentDiv.style.wordWrap = 'break-word'; // Permite que el texto se envuelva
+        contentDiv.style.textAlign = 'center'; // Centrar el texto
 
         const phraseElement = document.createElement('p');
         phraseElement.innerText = selectedText;
@@ -293,6 +296,8 @@ const ReadChapter = () => {
         phraseElement.style.marginBottom = '15px';
         phraseElement.style.fontStyle = 'italic';
         phraseElement.style.color = '#FFD700'; // Dorado
+        phraseElement.style.wordWrap = 'break-word'; // Permite que el texto se envuelva
+        phraseElement.style.maxWidth = '100%'; // Asegura que el texto no exceda el contenedor
 
         const sourceElement = document.createElement('p');
         sourceElement.innerText = `- De la novela "${novelName}"`;
@@ -307,7 +312,7 @@ const ReadChapter = () => {
         document.body.appendChild(tempDiv);
 
         try {
-            const canvas = await html2canvas(tempDiv, { useCORS: true });
+            const canvas = await html2canvas(tempDiv, { useCORS: true, scale: 2 }); // Aumenta la escala para mejor calidad
             const imgData = canvas.toDataURL('image/png');
 
             // Crear un enlace para descargar la imagen
@@ -328,226 +333,257 @@ const ReadChapter = () => {
     if (error) return <p className="read-chapter-error">{error}</p>;
 
     return (
-
-        <div
-            className="read-chapter"
-            ref={chapterContainerRef} // Referencia al contenedor principal
-            onScroll={handleScroll}
-            style={{
-                '--brightness': `${brightness}%`,
-                '--font-size': `${fontSize}px`,
-                '--font-color': fontColor,
-                userSelect: 'text',
-                overflowY: 'auto',
-                height: '100vh',
-                position: 'relative',
-            }}
-        >
-
-            {/* Barra de progreso fija */}
-            <div className="progress-bar-container">
-                <div className="progress-bar" style={{ width: `${progress}%` }}></div>
-            </div>
-
-            <Container>
-                {/* Título de la Novela */}
-                <h1 className="story-title">{novelName}</h1>
-
-                {/* Título del Capítulo */}
-                <h2 className="chapter-title">{chapter.title}</h2>
-                <p className="chapter-date">{new Date(chapter.publishedAt).toLocaleDateString()}</p>
-
-                {/* Espacio para Anuncio 1: Antes del contenido del capítulo */}
-                {chapter?.content && (
-                    <section className="ad-section my-4">
-                        <div className="ad-section-container">
-                            <AdSense
-                                adClient="ca-pub-3101266953328074"
-                                adSlot="6455860659"
-                                style={{ display: "block" }}
-                            />
-                        </div>
-                    </section>
-                )}
-
-                <div className="chapter-content">
-                    {chapter && parse(sanitizedContent, options)}
-                </div>
-
-                {/* Espacio para Anuncio 2: Al final del contenido del capítulo */}
-                {chapter?.content && (
-                    <section className="ad-section my-4">
-                        <div className="ad-section-container">
-                            <AdSense
-                                adClient="ca-pub-3101266953328074"
-                                adSlot="5093282296"
-                                style={{ display: "block" }}
-                            />
-                        </div>
-                    </section>
-                )}
-            </Container>
-
-            {/* Botón flotante para volver al contenido */}
-            <div className="floating-top-button">
-                <Button
-                    variant="info"
-                    className="go-to-content-btn"
-                    onClick={() => navigate(`/story-detail/${storyId}`)} // Navega a la página de detalles de la historia
-                >
-                    <FaBook />
-                </Button>
-            </div>
-
-
-            {/* Botón de ajustes */}
-            <div className="fixed-settings">
-                <Button
-                    variant="secondary"
-                    className="settings-toggle"
-                    onClick={() => setShowSettings((prev) => !prev)}
-                >
-                    <FaCog />
-                </Button>
-                {showSettings && (
-                    <div className="settings-panel">
-                        <Form.Group className="mb-3">
-                            <Form.Label>Tamaño de Letra</Form.Label>
-                            <Form.Range
-                                min="12"
-                                max="32"
-                                value={fontSize}
-                                onChange={(e) => handleFontSizeChange(e.target.value)}
-                            />
-                            <div className="text-end">{fontSize}px</div>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <Form.Label>Color de Fuente</Form.Label>
-                            <Form.Select
-                                value={fontColor}
-                                onChange={(e) => handleFontColorChange(e.target.value)}
-                            >
-                                <option value="#FBFCFC">Blanco (#FBFCFC)</option>
-                                <option value="#FFD700">Dorado (#FFD700)</option>
-                                <option value="#A9DFBF">Verde Claro (#A9DFBF)</option>
-                                <option value="#CDC3E3">Morado Claro (#CDC3E3)</option>
-                                <option value="#FDEDEC">Rosado Claro (#FDEDEC)</option>
-                                <option value="#FFFFFF">Blanco Puro (#FFFFFF)</option>
-                                <option value="#FF5733">Naranja (#FF5733)</option>
-                                <option value="#C70039">Rojo (#C70039)</option>
-                            </Form.Select>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <Form.Label>Brillo</Form.Label>
-                            <Form.Range
-                                min="50"
-                                max="150"
-                                value={brightness}
-                                onChange={(e) => handleBrightnessChange(e.target.value)}
-                            />
-                            <div className="text-end">{brightness}%</div>
-                        </Form.Group>
-
-                    </div>
-                )}
-            </div>
-
-            {/* Navegación entre capítulos */}
-            <div className="chapter-navigation">
-                <Button
-                    variant="link"
-                    onClick={() => {
-                        if (chapter.previous) {
-                            navigate(`/read-chapter/${storyId}/${chapter.previous}`);
-                        }
-                    }}
-                    disabled={!chapter.previous}
-                    className="nav-btn"
-                >
-                    <FaArrowLeft /> Anterior
-                </Button>
-                <Button
-                    variant="link"
-                    onClick={() => navigate(`/story-detail/${storyId}`)}
-                    className="nav-btn"
-                >
-                    <FaBook /> Contenido
-                </Button>
-                <Button
-                    variant="link"
-                    onClick={() => {
-                        if (chapter.next) {
-                            navigate(`/read-chapter/${storyId}/${chapter.next}`);
-                        }
-                    }}
-                    disabled={!chapter.next}
-                    className="nav-btn"
-                >
-                    Siguiente <FaArrowRight />
-                </Button>
-
-            </div>
-
-            {/* Comentarios generales */}
-            <Container className="general-comments">
-                <h3>Comentarios del capítulo</h3>
-                <div className="comment-list">
-                    {generalComments.map((comment, idx) => (
-                        <div key={idx} className="comment-item">
-                            {comment}
-                        </div>
-                    ))}
-                </div>
-                <Form className="mt-3">
-                    <Form.Control
-                        as="textarea"
-                        rows={3}
-                        value={generalComment}
-                        onChange={(e) => setGeneralComment(e.target.value)}
-                        placeholder="Escribe tu comentario aquí..."
-                    />
-                    <Button variant="primary" className="mt-2" onClick={handleGeneralCommentSubmit}>
-                        Enviar
+        <div className="read-chapter-wrapper" style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
+            <div
+                className="read-chapter"
+                ref={chapterContainerRef}
+                onScroll={handleScroll}
+                style={{
+                    '--brightness': `${brightness}%`,
+                    '--font-size': `${fontSize}px`,
+                    '--font-color': fontColor,
+                    '--font-family': fontFamily,
+                    userSelect: 'text',
+                    overflowY: 'auto',
+                    height: '100vh',
+                    position: 'relative',
+                }}
+            >
+                {/* Botón flotante para volver al contenido */}
+                <div className="floating-top-button">
+                    <Button
+                        variant="info"
+                        className="go-to-content-btn"
+                        onClick={() => navigate(`/story-detail/${storyId}`)}
+                    >
+                        <FaBook />
                     </Button>
-                </Form>
-            </Container>
+                </div>
 
-            {chapter.annotations && chapter.annotations.length > 0 && (
-                <Container className="annotations-list mt-4">
-                    <h3>Anotaciones</h3>
-                    <ul>
-                        {chapter.annotations.map((ann, idx) => (
-                            <li key={idx}>
-                                <strong>{ann.text}:</strong> {ann.meaning}
-                            </li>
-                        ))}
-                    </ul>
+                {chapter.annotations && chapter.annotations.length > 0 && (
+                    <Container className="annotations-list mt-4">
+                        <h3>Anotaciones</h3>
+                        <ul>
+                            {chapter.annotations.map((ann, idx) => (
+                                <li key={idx}>
+                                    <strong>{ann.text}:</strong> {ann.meaning}
+                                </li>
+                            ))}
+                        </ul>
+                    </Container>
+                )}
+
+                <Container>
+                    {/* Título de la Novela */}
+                    <h1 className="story-title">{novelName}</h1>
+
+                    {/* Título del Capítulo */}
+                    <h2 className="chapter-title">{chapter.title}</h2>
+                    <p className="chapter-date">{new Date(chapter.publishedAt).toLocaleDateString()}</p>
+
+                    {/* Espacio para Anuncio 1: Antes del contenido del capítulo */}
+                    {chapter?.content && (
+                        <section className="ad-section my-4">
+                            <div className="ad-section-container">
+                                <AdSense
+                                    adClient="ca-pub-3101266953328074"
+                                    adSlot="6455860659"
+                                    style={{ display: "block" }}
+                                />
+                            </div>
+                        </section>
+                    )}
+
+                    <div className="chapter-content">
+                        {chapter && parse(sanitizedContent, options)}
+                    </div>
+
+                    {/* Espacio para Anuncio 2: Al final del contenido del capítulo */}
+                    {chapter?.content && (
+                        <section className="ad-section my-4">
+                            <div className="ad-section-container">
+                                <AdSense
+                                    adClient="ca-pub-3101266953328074"
+                                    adSlot="5093282296"
+                                    style={{ display: "block" }}
+                                />
+                            </div>
+                        </section>
+                    )}
                 </Container>
-            )}
 
-            {/* Botón de Descarga de Frase */}
+                {/* Botón de ajustes */}
+                <div className="fixed-settings">
+                    <Button
+                        variant="secondary"
+                        className="settings-toggle"
+                        onClick={() => setShowSettings((prev) => !prev)}
+                    >
+                        <FaCog />
+                    </Button>
+                    {showSettings && (
+                        <div className="settings-panel">
+                            <Form.Group className="mb-3">
+                                <Form.Label>Tamaño de Letra</Form.Label>
+                                <Form.Range
+                                    min="12"
+                                    max="32"
+                                    value={fontSize}
+                                    onChange={(e) => handleFontSizeChange(e.target.value)}
+                                />
+                                <div className="text-end">{fontSize}px</div>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Color de Fuente</Form.Label>
+                                <Form.Select
+                                    value={fontColor}
+                                    onChange={(e) => handleFontColorChange(e.target.value)}
+                                >
+                                    <option value="#FBFCFC">Blanco (#FBFCFC)</option>
+                                    <option value="#FFD700">Dorado (#FFD700)</option>
+                                    <option value="#A9DFBF">Verde Claro (#A9DFBF)</option>
+                                    <option value="#CDC3E3">Morado Claro (#CDC3E3)</option>
+                                    <option value="#FDEDEC">Rosado Claro (#FDEDEC)</option>
+                                    <option value="#FFFFFF">Blanco Puro (#FFFFFF)</option>
+                                    <option value="#FF5733">Naranja (#FF5733)</option>
+                                    <option value="#C70039">Rojo (#C70039)</option>
+                                </Form.Select>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Fuente</Form.Label>
+                                <Form.Select
+                                    value={fontFamily}
+                                    onChange={(e) => handleFontFamilyChange(e.target.value)}
+                                >
+                                    <option value="Serif">Serif</option>
+                                    <option value="Georgia">Georgia</option>
+                                    <option value="Times New Roman">Times New Roman</option>
+                                    <option value="Arial">Arial</option>
+                                    <option value="Helvetica">Helvetica</option>
+                                    <option value="Verdana">Verdana</option>
+                                    <option value="Courier New">Courier New</option>
+                                    <option value="Lucida Console">Lucida Console</option>
+                                </Form.Select>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Brillo</Form.Label>
+                                <Form.Range
+                                    min="50"
+                                    max="150"
+                                    value={brightness}
+                                    onChange={(e) => handleBrightnessChange(e.target.value)}
+                                />
+                                <div className="text-end">{brightness}%</div>
+                            </Form.Group>
+                        </div>
+                    )}
+                </div>
+
+                {/* Barra de progreso fija */}
+                <div className="progress-bar-container">
+                    <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+                </div>
+
+                {/* Navegación entre capítulos */}
+                <div className="chapter-navigation">
+                    <Button
+                        variant="link"
+                        onClick={() => {
+                            if (chapter.previous) {
+                                navigate(`/read-chapter/${storyId}/${chapter.previous}`);
+                            }
+                        }}
+                        disabled={!chapter.previous}
+                        className="nav-btn"
+                    >
+                        <FaArrowLeft /> Anterior
+                    </Button>
+                    <Button
+                        variant="link"
+                        onClick={() => navigate(`/story-detail/${storyId}`)}
+                        className="nav-btn"
+                    >
+                        <FaBook /> Contenido
+                    </Button>
+                    <Button
+                        variant="link"
+                        onClick={() => {
+                            if (chapter.next) {
+                                navigate(`/read-chapter/${storyId}/${chapter.next}`);
+                            }
+                        }}
+                        disabled={!chapter.next}
+                        className="nav-btn"
+                    >
+                        Siguiente <FaArrowRight />
+                    </Button>
+                </div>
+
+                {/* Comentarios generales */}
+                <Container className="general-comments">
+                    <h3>Comentarios del capítulo</h3>
+                    <div className="comment-list">
+                        {generalComments.map((comment, idx) => (
+                            <div key={idx} className="comment-item">
+                                {comment}
+                            </div>
+                        ))}
+                    </div>
+                    <Form className="mt-3">
+                        <Form.Control
+                            as="textarea"
+                            rows={3}
+                            value={generalComment}
+                            onChange={(e) => setGeneralComment(e.target.value)}
+                            placeholder="Escribe tu comentario aquí..."
+                        />
+                        <Button variant="primary" className="mt-2" onClick={handleGeneralCommentSubmit}>
+                            Enviar
+                        </Button>
+                    </Form>
+                </Container>
+
+                {chapter.annotations && chapter.annotations.length > 0 && (
+                    <Container className="annotations-list mt-4">
+                        <h3>Anotaciones</h3>
+                        <ul>
+                            {chapter.annotations.map((ann, idx) => (
+                                <li key={idx}>
+                                    <strong>{ann.text}:</strong> {ann.meaning}
+                                </li>
+                            ))}
+                        </ul>
+                    </Container>
+                )}
+
+                {/* Contenedor de Toasts */}
+                <ToastContainer position="bottom-end" className="p-3">
+                    <Toast onClose={() => setShowToast(false)} show={showToast} delay={3000} autohide bg="warning">
+                        <Toast.Header>
+                            <strong className="me-auto">Aviso</strong>
+                        </Toast.Header>
+                        <Toast.Body>{toastMessage}</Toast.Body>
+                    </Toast>
+                </ToastContainer>
+            </div>
+
+            {/* Botón Flotante de Descarga */}
             {showDownloadButton && (
-                <Button
-                    variant="success"
-                    className="fixed-download-button"
-                    onClick={handleDownload}
-                >
-                    <FaQuoteRight /> Descargar Frase
-                </Button>
+                <div className="floating-download-button">
+                    <Button
+                        variant="success"
+                        onClick={handleDownload}
+                        title="Descargar frase"
+                    >
+                        <FaQuoteRight /> Descargar
+                    </Button>
+                </div>
             )}
-
-            <ToastContainer position="bottom-end" className="p-3">
-                <Toast onClose={() => setShowToast(false)} show={showToast} delay={3000} autohide bg="warning">
-                    <Toast.Header>
-                        <strong className="me-auto">Aviso</strong>
-                    </Toast.Header>
-                    <Toast.Body>{toastMessage}</Toast.Body>
-                </Toast>
-            </ToastContainer>
         </div>
-    ); // Cierre del bloque de retorno
+    );
 };
 
 export default ReadChapter;
