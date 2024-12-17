@@ -231,3 +231,32 @@
     opacity: 1;
     visibility: visible;
 }
+
+/* Barra de herramientas fija */
+.sticky-toolbar {
+    position: sticky;
+    top: 0;
+    background-color: #1c1c1c; /* Fondo similar al editor */
+    z-index: 1000; /* Asegura que esté sobre otros elementos */
+    padding: 10px;
+    border-bottom: 1px solid #ffd700; /* Línea dorada */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Botones fijos al fondo */
+.fixed-bottom-buttons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1c1c1c; /* Fondo oscuro */
+    padding: 15px 0;
+    border-top: 1px solid #ffd700; /* Borde dorado */
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.fixed-bottom-buttons button {
+    padding: 10px 20px;
+    border-radius: 10px;
+}

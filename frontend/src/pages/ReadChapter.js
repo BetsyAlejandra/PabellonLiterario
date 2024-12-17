@@ -388,6 +388,18 @@ const ReadChapter = () => {
                 )}
             </Container>
 
+            {/* Botón flotante para volver al contenido */}
+            <div className="floating-top-button">
+                <Button
+                    variant="info"
+                    className="go-to-content-btn"
+                    onClick={() => navigate(`/story-detail/${storyId}`)} // Navega a la página de detalles de la historia
+                >
+                    <FaBook />
+                </Button>
+            </div>
+
+
             {/* Botón de ajustes */}
             <div className="fixed-settings">
                 <Button

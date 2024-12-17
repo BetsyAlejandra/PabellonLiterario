@@ -138,7 +138,7 @@ const AddChapter = () => {
                     <div className="form-group mb-3">
                         <label htmlFor="content" className="add-chapter-label">Contenido del Capítulo</label>
                         {/* Barra de herramientas */}
-                        <div className="toolbar mb-2 add-chapter-toolbar">
+                        <div className="toolbar add-chapter-toolbar sticky-toolbar mb-2">
                             <button
                                 className="btn btn-tool add-chapter-btn"
                                 onClick={() => editor.chain().focus().toggleBold().run()}
@@ -221,6 +221,19 @@ const AddChapter = () => {
                             >
                                 ➖
                             </button>
+
+                            <button
+                                className="btn btn-warning add-chapter-btn"
+                                onClick={() => {
+                                    const cleaned = editor.getHTML()
+                                        .replace(/<br\s*\/?>/g, '')
+                                        .replace(/\n/g, '');
+                                    editor.commands.setContent(cleaned); // Actualiza el editor
+                                }}
+                            >
+                                Limpiar Saltos de Texto
+                            </button>
+
                         </div>
 
                         <div className="editor-container add-chapter-editor">
@@ -230,7 +243,7 @@ const AddChapter = () => {
 
                     {error && <p className="text-danger add-chapter-error">{error}</p>}
 
-                    <div className="d-flex justify-content-center gap-3 add-chapter-buttons">
+                    <div className="fixed-bottom-buttons add-chapter-buttons d-flex justify-content-center gap-3">
                         <button
                             className="btn btn-primary add-chapter-save-btn"
                             onClick={handleSaveChapter}
@@ -245,6 +258,7 @@ const AddChapter = () => {
                             Cancelar
                         </button>
                     </div>
+
                 </div>
             </div>
 

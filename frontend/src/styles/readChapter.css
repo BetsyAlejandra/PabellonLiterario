@@ -357,3 +357,28 @@
     justify-content: center;
   }
 }
+
+/* Botón flotante en la esquina superior izquierda */
+.floating-top-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000; /* Asegura que el botón esté por encima del contenido */
+}
+
+.go-to-content-btn {
+  background-color: #ffd700; /* Fondo dorado */
+  color: #1a1a1a; /* Texto oscuro */
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.go-to-content-btn:hover {
+  background-color: #e6c200;
+  transform: scale(1.05); /* Efecto de zoom */
+  color: #1a1a1a;
+}
