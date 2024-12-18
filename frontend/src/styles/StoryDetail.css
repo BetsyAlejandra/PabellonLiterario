@@ -17,89 +17,6 @@
   /* Centra el contenido horizontalmente */
 }
 
-/* Sección de Portada */
-.story-detail-cover-section {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-    overflow: hidden;
-    max-width: 1920px;
-    margin: 0 auto 50px auto;
-    /* Centrar y agregar espacio inferior */
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
-}
-
-.story-detail-cover-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    /* Asegura que la imagen cubra todo el contenedor sin distorsionarse */
-    object-position: center;
-    /* Centra la imagen */
-    transition: transform 0.3s ease;
-}
-
-.story-detail-cover-image:hover {
-    transform: scale(1.05);
-    /* Efecto de zoom al pasar el cursor */
-}
-
-/* Superposición para botones e información */
-.story-detail-cover-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    /* Superposición semi-transparente */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #f0f0f0;
-}
-
-/* Botones dentro de la superposición */
-.story-detail-read-btn {
-    background-color: #50c878;
-    /* Esmeralda */
-    border: none;
-    color: #1a1a1a;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.story-detail-read-btn:hover {
-    background-color: #3a9d63;
-    transform: scale(1.05);
-}
-
-/* Información del autor dentro de la superposición */
-.story-detail-author {
-    margin-top: 15px;
-    font-size: 1.2rem;
-}
-
-.story-detail-author a.story-detail-author-link {
-    color: #ffd700;
-    /* Dorado */
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-.story-detail-author a.story-detail-author-link:hover {
-    color: #e6c200;
-    text-decoration: underline;
-}
 
 /* Títulos */
 .story-detail-title {
@@ -126,6 +43,141 @@
   /* Borde dorado */
   border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+}
+
+/* Contenedor de la Imagen de Portada */
+.story-detail-card-image-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  /* 16:9 Aspect Ratio (9/16 = 0.5625) */
+  overflow: hidden;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  max-width: 1920px;
+  /* Ancho máximo deseado */
+  margin: 0 auto;
+  /* Centrar el contenedor */
+}
+
+.story-detail-card-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Asegura que la imagen cubra todo el contenedor sin distorsionarse */
+  object-position: center;
+  /* Centra la imagen */
+  transition: transform 0.3s ease;
+}
+
+.story-detail-card-image:hover {
+  transform: scale(1.05);
+  /* Efecto de zoom al pasar el cursor */
+}
+
+/* Botones */
+.story-detail-read-btn,
+.story-detail-save-btn,
+.story-detail-cancel-btn,
+.story-detail-reply-submit-btn,
+.story-detail-reply-cancel-btn,
+.story-detail-modal-submit-btn,
+.story-detail-modal-cancel-btn,
+.story-detail-modal-close-btn {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: bold;
+}
+
+.story-detail-read-btn {
+  background-color: #50c878;
+  /* Esmeralda */
+  border: none;
+  color: #1a1a1a;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.story-detail-read-btn:hover {
+  background-color: #3a9d63;
+  transform: scale(1.05);
+}
+
+.story-detail-save-btn {
+  background-color: #ffd700;
+  /* Dorado */
+  border: none;
+  color: #1a1a1a;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.story-detail-save-btn:hover {
+  background-color: #e6c200;
+  transform: scale(1.05);
+}
+
+.story-detail-cancel-btn {
+  background-color: #ff6347;
+  /* Tomate */
+  border: none;
+  color: #1a1a1a;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.story-detail-cancel-btn:hover {
+  background-color: #e5533d;
+  transform: scale(1.05);
+}
+
+.story-detail-reply-submit-btn {
+  background-color: #50c878;
+  /* Esmeralda */
+  border: none;
+  color: #1a1a1a;
+  padding: 8px 16px;
+  border-radius: 10px;
+}
+
+.story-detail-reply-submit-btn:hover {
+  background-color: #3a9d63;
+  transform: scale(1.05);
+}
+
+.story-detail-reply-cancel-btn,
+.story-detail-modal-cancel-btn,
+.story-detail-modal-close-btn {
+  background-color: #ff6347;
+  /* Tomate */
+  border: none;
+  color: #1a1a1a;
+  padding: 8px 16px;
+  border-radius: 10px;
+}
+
+.story-detail-reply-cancel-btn:hover,
+.story-detail-modal-cancel-btn:hover,
+.story-detail-modal-close-btn:hover {
+  background-color: #e5533d;
+  transform: scale(1.05);
+}
+
+.story-detail-modal-submit-btn,
+.story-detail-modal-submit-btn {
+  background-color: #50c878;
+  /* Esmeralda */
+  border: none;
+  color: #1a1a1a;
+  padding: 8px 16px;
+  border-radius: 10px;
+}
+
+.story-detail-modal-submit-btn:hover {
+  background-color: #3a9d63;
+  transform: scale(1.05);
 }
 
 /* Información de la Historia */
@@ -342,39 +394,6 @@
   color: #f0f0f0;
 }
 
-.story-detail-modal .story-detail-modal-submit-btn,
-.story-detail-modal .story-detail-modal-submit-btn {
-  background-color: #50c878;
-  /* Esmeralda */
-  border: none;
-  color: #1a1a1a;
-  padding: 8px 16px;
-  border-radius: 10px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.story-detail-modal .story-detail-modal-submit-btn:hover {
-  background-color: #3a9d63;
-  transform: scale(1.05);
-}
-
-.story-detail-modal .story-detail-modal-cancel-btn,
-.story-detail-modal .story-detail-modal-close-btn {
-  background-color: #ff6347;
-  /* Tomate */
-  border: none;
-  color: #1a1a1a;
-  padding: 8px 16px;
-  border-radius: 10px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.story-detail-modal .story-detail-modal-cancel-btn:hover,
-.story-detail-modal .story-detail-modal-close-btn:hover {
-  background-color: #e5533d;
-  transform: scale(1.05);
-}
-
 /* Enlaces */
 .story-detail-link {
   color: #ffd700;
@@ -385,16 +404,6 @@
 
 .story-detail-link:hover {
   color: #e6c200;
-}
-
-.story-detail-collaborators .collaborator-link {
-  color: #50c878;
-  /* Esmeralda */
-  text-decoration: none;
-}
-
-.story-detail-collaborators .collaborator-link:hover {
-  text-decoration: underline;
 }
 
 /* Botón Ver Más */
@@ -502,33 +511,20 @@
   /* Botones redondeados */
 }
 
-/* Responsividad para dispositivos móviles */
+/* Alinear correctamente en móviles */
 @media (max-width: 768px) {
-  .story-detail-cover-section {
-      padding-bottom: 56.25%;
-      /* Mantiene 16:9 */
-      max-width: 100%;
-      /* Permite que ocupe todo el ancho en móviles */
-      border-radius: 10px;
-      margin-bottom: 30px;
-  }
-
-  .story-detail-read-btn {
-      padding: 8px 16px;
-      font-size: 1rem;
-  }
-
-  .story-detail-author {
-      font-size: 1rem;
+  .story-detail-card-image-container {
+    padding-bottom: 56.25%;
+    /* Mantiene 16:9 en móviles */
   }
 
   .story-detail-title {
-      font-size: 2rem;
-      /* Ajusta el tamaño del título en pantallas pequeñas */
+    font-size: 2rem;
+    /* Ajusta el tamaño del título en pantallas pequeñas */
   }
 
   .pagination .page-item .page-link {
-      padding: 6px 12px;
-      font-size: 0.9rem;
+    padding: 6px 12px;
+    font-size: 0.9rem;
   }
 }
