@@ -1,7 +1,8 @@
+// src/components/StoryDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Modal, Button, Card, Form, Container, Pagination } from 'react-bootstrap';
+import { Modal, Button, Card, Form, Container, Pagination, Row, Col } from 'react-bootstrap';
 import '../styles/StoryDetail.css';
 import AdSense from '../Components/AdSense';
 
@@ -241,8 +242,10 @@ const StoryDetail = () => {
                 </section>
             )}
 
-            <div className="row">
-                <div className="col-md-4">
+            {/* Fila para Portada y Tarjeta de Información */}
+            <Row>
+                {/* Columna Izquierda: Portada */}
+                <Col md={4} sm={12} className="mb-4">
                     <Card className="shadow-sm story-detail-card">
                         <div className="story-detail-card-image-container">
                             <Card.Img
@@ -269,8 +272,10 @@ const StoryDetail = () => {
                             </div>
                         </Card.Body>
                     </Card>
-                </div>
-                <div className="col-md-8">
+                </Col>
+
+                {/* Columna Derecha: Tarjeta de Información */}
+                <Col md={8} sm={12}>
                     <Card className="shadow-sm story-detail-main-card">
                         <Card.Body>
                             <h3 className="story-detail-title">{story.title}</h3>
@@ -358,9 +363,10 @@ const StoryDetail = () => {
                             </div>
                         </Card.Body>
                     </Card>
-                </div>
-            </div>
+                </Col>
+            </Row>
 
+            {/* Lista de Capítulos */}
             <div className="mt-5">
                 <h4 className="story-detail-chapters-title">Capítulos</h4>
                 {story.chapters.length ? (
@@ -411,6 +417,7 @@ const StoryDetail = () => {
                 </Container>
             </section>
 
+            {/* Sección de Comentarios */}
             <div className="mt-5">
                 <h4 className="story-detail-comments-title">Comentarios</h4>
                 <form onSubmit={handleReviewSubmit} className="mb-4 story-detail-review-form">

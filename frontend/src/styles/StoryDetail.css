@@ -11,7 +11,8 @@
   /* Fuente con estilo clásico */
   box-sizing: border-box;
   /* Asegura que padding esté incluido en el ancho total */
-  max-width: 1920px;
+  max-width: 1080px;
+  max-height: 1920px;
   /* Limita el ancho máximo a 1920px */
   margin: 0 auto;
   /* Centra el contenido horizontalmente */
@@ -55,7 +56,7 @@
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   max-width: 1920px;
-  /* Ancho máximo deseado */
+  max-height: 1920px;
   margin: 0 auto;
   /* Centrar el contenedor */
 }
