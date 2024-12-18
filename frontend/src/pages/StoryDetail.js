@@ -243,10 +243,10 @@ const StoryDetail = () => {
             )}
 
             {/* Fila para Portada y Tarjeta de Información */}
-            <Row>
+            <Row className="align-items-stretch">
                 {/* Columna Izquierda: Portada */}
                 <Col md={4} sm={12} className="mb-4">
-                    <Card className="shadow-sm story-detail-card">
+                    <Card className="shadow-sm story-detail-card h-100">
                         <div className="story-detail-card-image-container">
                             <Card.Img
                                 variant="top"
@@ -276,8 +276,8 @@ const StoryDetail = () => {
                 </Col>
 
                 {/* Columna Derecha: Tarjeta de Información */}
-                <Col md={8} sm={12}>
-                    <Card className="shadow-sm story-detail-main-card">
+                <Col md={8} sm={12} className="mb-4">
+                    <Card className="shadow-sm story-detail-main-card h-100">
                         <Card.Body>
                             <h3 className="story-detail-title">{story.title}</h3>
                             <div className="story-detail-info">
@@ -346,21 +346,9 @@ const StoryDetail = () => {
                                 ) : 'No hay adaptaciones'}
                             </div>
 
+                            {/* Mostrar sinopsis completa */}
                             <div className="mt-3 story-detail-description">
-                                <p>
-                                    {story.description.length > 200
-                                        ? `${story.description.substring(0, 200)}...`
-                                        : story.description}
-                                </p>
-                                {story.description.length > 200 && (
-                                    <Button
-                                        variant="link"
-                                        onClick={() => setShowModal(true)}
-                                        className="p-0 story-detail-view-more-btn"
-                                    >
-                                        Ver más
-                                    </Button>
-                                )}
+                                <p>{story.description}</p>
                             </div>
                         </Card.Body>
                     </Card>
@@ -494,6 +482,9 @@ const StoryDetail = () => {
             </Modal>
 
             {/* Modal Descripción Completa */}
+            {/* Este modal ya no es necesario si muestras la sinopsis completa directamente */}
+            {/* Puedes eliminar este bloque si decides no usarlo */}
+            {/* 
             <Modal show={showModal} onHide={() => setShowModal(false)} centered className="story-detail-modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Descripción Completa</Modal.Title>
@@ -504,7 +495,8 @@ const StoryDetail = () => {
                         Cerrar
                     </Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal> 
+            */}
 
             {/* Modal Contraseña (si idioma es coreano) */}
             <Modal show={showPasswordModal} onHide={() => setShowPasswordModal(false)} centered className="story-detail-modal">
