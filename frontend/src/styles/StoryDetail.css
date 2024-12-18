@@ -1,56 +1,81 @@
 /* Contenedor Principal - Ajuste de márgenes y ancho */
 .story-detail-container {
-  background-color: #1a1a1a; /* Fondo oscuro */
+  background-color: #1a1a1a;
+  /* Fondo oscuro */
   min-height: 100vh;
-  padding: 50px 15px; /* Agrega espacio en los lados */
-  color: #f0f0f0; /* Texto claro para contraste */
-  font-family: 'Garamond', serif; /* Fuente con estilo clásico */
-  box-sizing: border-box; /* Asegura que padding esté incluido en el ancho total */
-  max-width: 1200px; /* Limita el ancho máximo */
-  margin: 0 auto; /* Centra el contenido horizontalmente */
+  padding: 50px 15px;
+  /* Agrega espacio en los lados */
+  color: #f0f0f0;
+  /* Texto claro para contraste */
+  font-family: 'Garamond', serif;
+  /* Fuente con estilo clásico */
+  box-sizing: border-box;
+  /* Asegura que padding esté incluido en el ancho total */
+  max-width: 1920px;
+  /* Limita el ancho máximo a 1920px */
+  margin: 0 auto;
+  /* Centra el contenido horizontalmente */
 }
 
 
 /* Títulos */
 .story-detail-title {
-  color: #ffd700; /* Dorado */
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  color: #ffd700;
+  /* Dorado */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   font-size: 2.5rem;
   font-weight: bold;
 }
 
 .story-detail-chapters-title,
 .story-detail-comments-title {
-  color: #50c878; /* Esmeralda */
+  color: #50c878;
+  /* Esmeralda */
   margin-bottom: 20px;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* Tarjeta de la Portada */
 .story-detail-card {
-  background-color: #2c2c2c; /* Gris oscuro */
-  border: 2px solid #ffd700; /* Borde dorado */
+  background-color: #2c2c2c;
+  /* Gris oscuro */
+  border: 2px solid #ffd700;
+  /* Borde dorado */
   border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
 }
 
+/* Contenedor de la Imagen de Portada */
 .story-detail-card-image-container {
+  position: relative;
   width: 100%;
-  height: 400px; /* Altura fija para mantener la consistencia */
+  padding-bottom: 56.25%;
+  /* 16:9 Aspect Ratio (9/16 = 0.5625) */
   overflow: hidden;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+  max-width: 1920px;
+  /* Ancho máximo deseado */
+  margin: 0 auto;
+  /* Centrar el contenedor */
 }
 
 .story-detail-card-image {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Asegura que la imagen cubra el contenedor sin estirarse */
+  object-fit: cover;
+  /* Asegura que la imagen cubra todo el contenedor sin distorsionarse */
+  object-position: center;
+  /* Centra la imagen */
   transition: transform 0.3s ease;
 }
 
 .story-detail-card-image:hover {
-  transform: scale(1.05); /* Efecto de zoom al pasar el cursor */
+  transform: scale(1.05);
+  /* Efecto de zoom al pasar el cursor */
 }
 
 /* Botones */
@@ -67,7 +92,8 @@
 }
 
 .story-detail-read-btn {
-  background-color: #50c878; /* Esmeralda */
+  background-color: #50c878;
+  /* Esmeralda */
   border: none;
   color: #1a1a1a;
   padding: 10px 20px;
@@ -80,7 +106,8 @@
 }
 
 .story-detail-save-btn {
-  background-color: #ffd700; /* Dorado */
+  background-color: #ffd700;
+  /* Dorado */
   border: none;
   color: #1a1a1a;
   padding: 10px 20px;
@@ -93,7 +120,8 @@
 }
 
 .story-detail-cancel-btn {
-  background-color: #ff6347; /* Tomate */
+  background-color: #ff6347;
+  /* Tomate */
   border: none;
   color: #1a1a1a;
   padding: 10px 20px;
@@ -106,7 +134,8 @@
 }
 
 .story-detail-reply-submit-btn {
-  background-color: #50c878; /* Esmeralda */
+  background-color: #50c878;
+  /* Esmeralda */
   border: none;
   color: #1a1a1a;
   padding: 8px 16px;
@@ -121,7 +150,8 @@
 .story-detail-reply-cancel-btn,
 .story-detail-modal-cancel-btn,
 .story-detail-modal-close-btn {
-  background-color: #ff6347; /* Tomate */
+  background-color: #ff6347;
+  /* Tomate */
   border: none;
   color: #1a1a1a;
   padding: 8px 16px;
@@ -137,7 +167,8 @@
 
 .story-detail-modal-submit-btn,
 .story-detail-modal-submit-btn {
-  background-color: #50c878; /* Esmeralda */
+  background-color: #50c878;
+  /* Esmeralda */
   border: none;
   color: #1a1a1a;
   padding: 8px 16px;
@@ -155,12 +186,14 @@
 }
 
 .story-detail-badge {
-  background-color: #50c878; /* Esmeralda */
+  background-color: #50c878;
+  /* Esmeralda */
   color: #1a1a1a;
 }
 
 .story-detail-raw-origin a.story-detail-link {
-  color: #ffd700; /* Dorado */
+  color: #ffd700;
+  /* Dorado */
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -170,7 +203,8 @@
 }
 
 .story-detail-collaborators .story-detail-collaborator-link {
-  color: #50c878; /* Esmeralda */
+  color: #50c878;
+  /* Esmeralda */
   text-decoration: none;
 }
 
@@ -179,7 +213,8 @@
 }
 
 .story-detail-adaptations a.story-detail-link {
-  color: #ffd700; /* Dorado */
+  color: #ffd700;
+  /* Dorado */
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -189,67 +224,83 @@
 }
 
 .story-detail-chapter-title {
-  color: #ffd700; /* Dorado */
+  color: #ffd700;
+  /* Dorado */
   font-weight: bold;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .story-detail-chapter-date {
-  color: #a9a9a9; /* Gris claro */
+  color: #a9a9a9;
+  /* Gris claro */
 }
 
 .story-detail-no-chapters,
 .story-detail-no-reviews {
-  color: #a9a9a9; /* Gris claro */
+  color: #a9a9a9;
+  /* Gris claro */
 }
 
-.story-detail-chapter-card{
+.story-detail-chapter-card {
   margin-left: auto;
   margin-right: auto;
-  width: 95%; /* Asegura que se mantengan dentro del contenedor principal */
-  max-width: 1100px; /* Ancho máximo para tarjetas */
+  width: 95%;
+  /* Asegura que se mantengan dentro del contenedor principal */
+  max-width: 1100px;
+  /* Ancho máximo para tarjetas */
 }
 
 /* Formularios */
 .story-detail-review-form .story-detail-review-label {
-  color: #ffd700; /* Dorado */
+  color: #ffd700;
+  /* Dorado */
   font-weight: bold;
   max-width: 800px;
 }
 
 .story-detail-review-textarea {
-  background-color: #1c1c1c; /* Fondo más oscuro */
-  border: 1px solid #ffd700; /* Borde dorado */
+  background-color: #1c1c1c;
+  /* Fondo más oscuro */
+  border: 1px solid #ffd700;
+  /* Borde dorado */
   border-radius: 10px;
-  color: #f0f0f0; /* Texto claro */
+  color: #f0f0f0;
+  /* Texto claro */
   padding: 10px;
   font-size: 1rem;
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .story-detail-review-textarea::placeholder {
-  color: #a9a9a9; /* Gris claro */
+  color: #a9a9a9;
+  /* Gris claro */
 }
 
 .story-detail-review-textarea:focus {
-  border-color: #50c878; /* Esmeralda */
+  border-color: #50c878;
+  /* Esmeralda */
   background-color: #2a2a2a;
   outline: none;
 }
 
 /* Reseñas */
 .story-detail-review-card {
-  background-color: #2c2c2c; /* Gris oscuro */
-  border: 1px solid #50c878; /* Borde esmeralda */
+  background-color: #2c2c2c;
+  /* Gris oscuro */
+  border: 1px solid #50c878;
+  /* Borde esmeralda */
   border-radius: 10px;
   margin-left: auto;
   margin-right: auto;
-  width: 95%; /* Asegura que se mantengan dentro del contenedor principal */
-  max-width: 1100px; /* Ancho máximo para tarjetas */
+  width: 95%;
+  /* Asegura que se mantengan dentro del contenedor principal */
+  max-width: 1100px;
+  /* Ancho máximo para tarjetas */
 }
 
 .story-detail-review-user {
-  color: #ffd700; /* Dorado */
+  color: #ffd700;
+  /* Dorado */
   font-weight: bold;
 }
 
@@ -259,7 +310,8 @@
 }
 
 .story-detail-reply-btn {
-  color: #50c878; /* Esmeralda */
+  color: #50c878;
+  /* Esmeralda */
   text-decoration: none;
   padding: 0;
 }
@@ -269,8 +321,10 @@
 }
 
 .story-detail-reply-card {
-  background-color: #1c1c1c; /* Fondo más oscuro para respuestas */
-  border: 1px solid #ffd700; /* Borde dorado */
+  background-color: #1c1c1c;
+  /* Fondo más oscuro para respuestas */
+  border: 1px solid #ffd700;
+  /* Borde dorado */
   border-radius: 8px;
 }
 
@@ -301,32 +355,39 @@
 }
 
 .story-detail-modal .story-detail-modal-label {
-  color: #ffd700; /* Dorado */
+  color: #ffd700;
+  /* Dorado */
   font-weight: bold;
 }
 
 .story-detail-modal .story-detail-modal-input {
-  background-color: #1c1c1c; /* Fondo más oscuro */
-  border: 1px solid #ffd700; /* Borde dorado */
+  background-color: #1c1c1c;
+  /* Fondo más oscuro */
+  border: 1px solid #ffd700;
+  /* Borde dorado */
   border-radius: 10px;
-  color: #f0f0f0; /* Texto claro */
+  color: #f0f0f0;
+  /* Texto claro */
   padding: 10px;
   font-size: 1rem;
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .story-detail-modal .story-detail-modal-input::placeholder {
-  color: #a9a9a9; /* Gris claro */
+  color: #a9a9a9;
+  /* Gris claro */
 }
 
 .story-detail-modal .story-detail-modal-input:focus {
-  border-color: #50c878; /* Esmeralda */
+  border-color: #50c878;
+  /* Esmeralda */
   background-color: #2a2a2a;
   outline: none;
 }
 
 .story-detail-modal .story-detail-modal-error {
-  color: #ff6347; /* Tomate */
+  color: #ff6347;
+  /* Tomate */
 }
 
 .story-detail-modal .story-detail-modal-body {
@@ -335,7 +396,8 @@
 
 /* Enlaces */
 .story-detail-link {
-  color: #ffd700; /* Dorado */
+  color: #ffd700;
+  /* Dorado */
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -346,7 +408,8 @@
 
 /* Botón Ver Más */
 .story-detail-view-more-btn {
-  color: #50c878; /* Esmeralda */
+  color: #50c878;
+  /* Esmeralda */
   text-decoration: none;
 }
 
@@ -388,13 +451,17 @@
 
 /* Elementos de la paginación */
 .pagination .page-item {
-  margin: 0 5px; /* Espaciado entre botones */
+  margin: 0 5px;
+  /* Espaciado entre botones */
 }
 
 .pagination .page-item .page-link {
-  background-color: #2c2c2c; /* Fondo oscuro */
-  color: #ffd700; /* Texto dorado */
-  border: 1px solid #50c878; /* Borde esmeralda */
+  background-color: #2c2c2c;
+  /* Fondo oscuro */
+  color: #ffd700;
+  /* Texto dorado */
+  border: 1px solid #50c878;
+  /* Borde esmeralda */
   border-radius: 10px;
   padding: 8px 16px;
   font-size: 1rem;
@@ -403,36 +470,59 @@
 }
 
 .pagination .page-item .page-link:hover {
-  background-color: #50c878; /* Fondo esmeralda */
-  color: #1a1a1a; /* Texto oscuro */
-  transform: scale(1.1); /* Efecto de zoom */
+  background-color: #50c878;
+  /* Fondo esmeralda */
+  color: #1a1a1a;
+  /* Texto oscuro */
+  transform: scale(1.1);
+  /* Efecto de zoom */
 }
 
 /* Página activa */
 .pagination .page-item.active .page-link {
-  background-color: #50c878; /* Fondo esmeralda */
-  color: #1a1a1a; /* Texto oscuro */
-  border-color: #50c878; /* Mantener borde esmeralda */
-  transform: scale(1.1); /* Destacar */
-  pointer-events: none; /* Deshabilitar clic */
+  background-color: #50c878;
+  /* Fondo esmeralda */
+  color: #1a1a1a;
+  /* Texto oscuro */
+  border-color: #50c878;
+  /* Mantener borde esmeralda */
+  transform: scale(1.1);
+  /* Destacar */
+  pointer-events: none;
+  /* Deshabilitar clic */
 }
 
 /* Botones deshabilitados (Primero, Anterior, Siguiente, Último) */
 .pagination .page-item.disabled .page-link {
-  background-color: #1c1c1c; /* Fondo más oscuro */
-  color: #a9a9a9; /* Texto gris claro */
-  border: 1px solid #2a2a2a; /* Borde oscuro */
-  pointer-events: none; /* Deshabilitar clic */
+  background-color: #1c1c1c;
+  /* Fondo más oscuro */
+  color: #a9a9a9;
+  /* Texto gris claro */
+  border: 1px solid #2a2a2a;
+  /* Borde oscuro */
+  pointer-events: none;
+  /* Deshabilitar clic */
 }
 
 /* Botones extremos (Primero, Último) */
 .pagination .page-item .page-link:first-child,
 .pagination .page-item .page-link:last-child {
-  border-radius: 50%; /* Botones redondeados */
+  border-radius: 50%;
+  /* Botones redondeados */
 }
 
 /* Alinear correctamente en móviles */
 @media (max-width: 768px) {
+  .story-detail-card-image-container {
+    padding-bottom: 56.25%;
+    /* Mantiene 16:9 en móviles */
+  }
+
+  .story-detail-title {
+    font-size: 2rem;
+    /* Ajusta el tamaño del título en pantallas pequeñas */
+  }
+
   .pagination .page-item .page-link {
     padding: 6px 12px;
     font-size: 0.9rem;
