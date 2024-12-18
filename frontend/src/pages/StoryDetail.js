@@ -32,6 +32,10 @@ const StoryDetail = () => {
     const chaptersPerPage = 10; // Número de capítulos por página
     const maxPaginationButtons = 5; // Número máximo de botones de paginación visibles
 
+    // Nuevos estados para advertencia +18
+    const [show18Warning, setShow18Warning] = useState(false); // Controla la visibilidad del modal de advertencia +18
+    const [chapterToAccess, setChapterToAccess] = useState(null); // Almacena el ID del capítulo que el usuario quiere acceder
+
     useEffect(() => {
         const fetchStory = async () => {
             try {
@@ -134,17 +138,24 @@ const StoryDetail = () => {
     };
 
     const handleReadChapter = (chapterId) => {
-        // Si el idioma es Coreano, pedir password antes de leer
-        if (story.languageOrigin === 'Coreano') {
-            // Verificar si el capítulo ya está autorizado
-            if (authorizedChapters[chapterId]) {
-                navigate(`/read-chapter/${id}/${chapterId}`);
-            } else {
-                setChapterToRead(chapterId);
-                setShowPasswordModal(true);
-            }
+        // Verificar si la clasificación es +18
+        if (story.classification === '+18') {
+            // Almacenar el capítulo que el usuario quiere acceder
+            setChapterToAccess(chapterId);
+            // Mostrar el modal de advertencia
+            setShow18Warning(true);
         } else {
-            navigate(`/read-chapter/${id}/${chapterId}`);
+            // Proceder normalmente si la clasificación no es +18
+            if (story.languageOrigin === 'Coreano') {
+                if (authorizedChapters[chapterId]) {
+                    navigate(`/read-chapter/${id}/${chapterId}`);
+                } else {
+                    setChapterToRead(chapterId);
+                    setShowPasswordModal(true);
+                }
+            } else {
+                navigate(`/read-chapter/${id}/${chapterId}`);
+            }
         }
     };
 
@@ -179,7 +190,6 @@ const StoryDetail = () => {
     if (error) return <p className="story-detail-error">{error}</p>;
     if (!story) return <p className="story-detail-error">Historia no encontrada.</p>;
 
-    // Ahora que sabemos que `story` no es null, podemos realizar las siguientes operaciones
     // Calcular capítulos visibles para la página actual
     const indexOfLastChapter = currentPage * chaptersPerPage;
     const indexOfFirstChapter = indexOfLastChapter - chaptersPerPage;
@@ -517,6 +527,30 @@ const StoryDetail = () => {
                     </Button>
                     <Button variant="secondary" onClick={() => setShowPasswordModal(false)} className="story-detail-modal-cancel-btn">
                         Cancelar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            {/* Modal Advertencia +18 */}
+            <Modal show={show18Warning} onHide={() => setShow18Warning(false)} centered className="story-detail-modal">
+                <Modal.Header closeButton>
+                    <Modal.Title>Advertencia de Contenido +18</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>
+                        Esta historia está clasificada como +18 y puede contener contenido sensible, como violencia, lenguaje explícito o temas adultos.
+                        ¿Estás seguro de que deseas continuar?
+                    </p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShow18Warning(false)} className="story-detail-modal-cancel-btn">
+                        Cancelar
+                    </Button>
+                    <Button variant="primary" onClick={() => {
+                        setShow18Warning(false);
+                        navigate(`/read-chapter/${id}/${chapterToAccess}`);
+                    }} className="story-detail-modal-confirm-btn">
+                        Continuar
                     </Button>
                 </Modal.Footer>
             </Modal>

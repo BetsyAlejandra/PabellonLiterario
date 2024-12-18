@@ -402,3 +402,67 @@
   opacity: 1; /* Aumenta la opacidad al pasar el cursor */
   transform: scale(1.05); /* Agranda ligeramente el botón al pasar el cursor */
 }
+
+/* readChapter.css */
+
+/* Estilos generales para los modales */
+.story-detail-modal .modal-content {
+  background-color: #1e1e1e; /* Fondo oscuro */
+  color: #FBFCFC; /* Texto claro */
+  border: 2px solid #FFD700; /* Borde dorado */
+  border-radius: 15px; /* Bordes redondeados */
+}
+
+.story-detail-modal .modal-header {
+  background-color: #FFD700; /* Fondo dorado */
+  color: #1c1c1c; /* Texto oscuro */
+  border-bottom: 1px solid #FFD700; /* Borde inferior dorado */
+  font-family: 'Cinzel', serif;
+}
+
+.story-detail-modal .modal-title {
+  font-family: 'Cinzel', serif;
+}
+
+.story-detail-modal .modal-body {
+  font-family: 'Merriweather', serif;
+  background-color: #2c3e50; /* Fondo ligeramente más oscuro dentro del modal */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.story-detail-modal .modal-footer .btn-secondary {
+  background-color: #555; /* Botón de cancelar con fondo gris oscuro */
+  border-color: #555;
+  color: #FBFCFC;
+}
+
+.story-detail-modal .modal-footer .btn-primary {
+  background-color: #FFD700; /* Botón de confirmar con fondo dorado */
+  border-color: #FFD700;
+  color: #1c1c1a;
+}
+
+.story-detail-modal .modal-footer .btn-primary:hover {
+  background-color: #e6c200;
+  border-color: #e6c200;
+}
+
+/* Ajustes para inputs dentro del modal */
+.story-detail-modal .form-control {
+  background-color: #34495e; /* Fondo oscuro para inputs */
+  color: #FBFCFC; /* Texto claro */
+  border: 1px solid #FFD700; /* Borde dorado */
+  border-radius: 10px;
+}
+
+.story-detail-modal .form-control:focus {
+  background-color: #3e556e; /* Cambio de fondo al enfocar */
+  border-color: #e6c200;
+  box-shadow: none;
+}
+
+/* Texto de error en el modal */
+.story-detail-modal .text-danger {
+  color: #e74c3c !important; /* Rojo para errores */
+}
