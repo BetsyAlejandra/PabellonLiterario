@@ -300,6 +300,10 @@ const StoryDetail = () => {
                                 <strong>Etiquetas:</strong>{' '}
                                 {story.tags.length > 0 ? story.tags.join(', ') : 'Sin etiquetas'}
                             </div>
+                            {/* Agregar Número de Capítulos */}
+                            <div className="story-detail-info">
+                                <strong>Número de capítulos:</strong> {story.chapters.length}
+                            </div>
                             {/* Mostrar rawOrigin */}
                             <div className="mt-3 story-detail-raw-origin">
                                 <strong>Novela Original:</strong>{' '}
@@ -348,6 +352,7 @@ const StoryDetail = () => {
 
                             {/* Mostrar sinopsis completa */}
                             <div className="mt-3 story-detail-description">
+                                <strong>Sinopsis:</strong>
                                 <p>{story.description}</p>
                             </div>
                         </Card.Body>
@@ -480,23 +485,6 @@ const StoryDetail = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
-            {/* Modal Descripción Completa */}
-            {/* Este modal ya no es necesario si muestras la sinopsis completa directamente */}
-            {/* Puedes eliminar este bloque si decides no usarlo */}
-            {/* 
-            <Modal show={showModal} onHide={() => setShowModal(false)} centered className="story-detail-modal">
-                <Modal.Header closeButton>
-                    <Modal.Title>Descripción Completa</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="story-detail-modal-body">{story.description}</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowModal(false)} className="story-detail-modal-close-btn">
-                        Cerrar
-                    </Button>
-                </Modal.Footer>
-            </Modal> 
-            */}
 
             {/* Modal Contraseña (si idioma es coreano) */}
             <Modal show={showPasswordModal} onHide={() => setShowPasswordModal(false)} centered className="story-detail-modal">

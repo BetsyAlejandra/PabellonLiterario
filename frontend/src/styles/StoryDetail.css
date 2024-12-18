@@ -176,6 +176,7 @@
 .story-detail-info {
   margin-top: 10px;
   font-size: 1.1rem;
+  word-wrap: break-word; /* Asegura que el texto largo se ajuste */
 }
 
 .story-detail-badge {
@@ -254,6 +255,7 @@
   padding: 10px;
   font-size: 1rem;
   transition: border-color 0.3s ease, background-color 0.3s ease;
+  resize: vertical; /* Permite al usuario ajustar verticalmente */
 }
 
 .story-detail-review-textarea::placeholder {
@@ -522,4 +524,14 @@
   .story-detail-card-image-container {
     padding-bottom: 200%; /* Aumentar la altura para pantallas pequeñas */
   }
+}
+
+/* Ajustes para la Sinopsis */
+.story-detail-description {
+  word-wrap: break-word; /* Asegura que el texto largo se ajuste */
+}
+
+.story-detail-description p {
+  margin-top: 5px;
+  line-height: 1.6;
 }
