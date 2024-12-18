@@ -1,3 +1,4 @@
+// src/components/StoryDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -226,6 +227,31 @@ const StoryDetail = () => {
 
     return (
         <div className="story-detail-container">
+            {/* Sección de Portada */}
+            <section className="story-detail-cover-section">
+                <img
+                    src={story.coverImage}
+                    alt={`Portada de ${story.title}`}
+                    className="story-detail-cover-image"
+                />
+                <div className="story-detail-cover-overlay">
+                    <Button
+                        className="btn btn-secondary story-detail-read-btn"
+                        onClick={() => handleReadChapter(story.chapters[0]?._id)}
+                        disabled={!story.chapters.length}
+                    >
+                        Leer
+                    </Button>
+                    {/* Mostrar autor (usuario encargado) */}
+                    <div className="mt-3 story-detail-author">
+                        <strong>Usuario:</strong>{' '}
+                        <Button variant="link" onClick={() => navigate(`/profileperson/${story.author}`)} className="story-detail-author-link">
+                            {story.author}
+                        </Button>
+                    </div>
+                </div>
+            </section>
+
             {/* Espacio para Anuncio 1 */}
             {story && (
                 <section className="ad-section my-4">
@@ -241,36 +267,9 @@ const StoryDetail = () => {
                 </section>
             )}
 
+            {/* Resto del contenido */}
             <div className="row">
-                <div className="col-md-4">
-                    <Card className="shadow-sm story-detail-card">
-                        <div className="story-detail-card-image-container">
-                            <Card.Img
-                                variant="top"
-                                src={story.coverImage}
-                                alt={`Portada de ${story.title}`}
-                                className="story-detail-card-image"
-                            />
-                        </div>
-                        <Card.Body>
-                            <Button
-                                className="btn btn-secondary mt-2 story-detail-read-btn"
-                                onClick={() => handleReadChapter(story.chapters[0]?._id)}
-                                disabled={!story.chapters.length}
-                            >
-                                Leer
-                            </Button>
-                            {/* Mostrar autor (usuario encargado) */}
-                            <div className="mt-3 story-detail-author">
-                                <strong>Usuario:</strong>{' '}
-                                <Button variant="link" onClick={() => navigate(`/profileperson/${story.author}`)} className="story-detail-author-link">
-                                    {story.author}
-                                </Button>
-                            </div>
-                        </Card.Body>
-                    </Card>
-                </div>
-                <div className="col-md-8">
+                <div className="col-md-12">
                     <Card className="shadow-sm story-detail-main-card">
                         <Card.Body>
                             <h3 className="story-detail-title">{story.title}</h3>
