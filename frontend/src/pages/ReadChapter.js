@@ -55,10 +55,6 @@ const ReadChapter = () => {
     const chapterContainerRef = useRef(null);
     const popoverIdRef = useRef(0);
 
-    // Estados para advertencia +18 (si es necesario)
-    // const [show18Warning, setShow18Warning] = useState(false);
-    // const [chapterToAccess, setChapterToAccess] = useState(null);
-
     useEffect(() => {
         const fetchChapterAndStory = async () => {
             try {
@@ -249,113 +245,131 @@ const ReadChapter = () => {
     const handleDownload = async () => {
         if (!selectedText) return;
 
-        // Crear un elemento temporal con el diseño deseado
-        const tempDiv = document.createElement('div');
-        tempDiv.style.position = 'fixed';
-        tempDiv.style.top = '50%';
-        tempDiv.style.left = '50%';
-        tempDiv.style.width = '800px'; // Ancho deseado
-        tempDiv.style.height = '800px'; // Alto igual para hacer la imagen cuadrada
-        tempDiv.style.transform = 'translate(-50%, -50%)';
-        tempDiv.style.display = 'flex';
-        tempDiv.style.flexDirection = 'column';
-        tempDiv.style.justifyContent = 'center';
-        tempDiv.style.alignItems = 'center';
-        tempDiv.style.padding = '20px';
-        tempDiv.style.boxSizing = 'border-box';
-        tempDiv.style.border = '3px solid #FFD700';
-        tempDiv.style.borderRadius = '20px';
-        tempDiv.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.7)';
-        tempDiv.style.opacity = '0.95';
-        tempDiv.style.overflow = 'hidden'; // Ocultar contenido que exceda
+        // Crear un nuevo objeto Image para asegurarse de que la imagen de fondo se carga correctamente
+        const img = new Image();
+        img.src = backgroundImage;
+        img.crossOrigin = 'anonymous'; // Importante para CORS
 
-        // Añadir una capa de fondo desenfocada
-        const backgroundLayer = document.createElement('div');
-        backgroundLayer.style.position = 'absolute';
-        backgroundLayer.style.top = '0';
-        backgroundLayer.style.left = '0';
-        backgroundLayer.style.width = '100%';
-        backgroundLayer.style.height = '100%';
-        backgroundLayer.style.backgroundImage = `url(${backgroundImage})`;
-        backgroundLayer.style.backgroundSize = 'cover';
-        backgroundLayer.style.backgroundPosition = 'center';
-        backgroundLayer.style.filter = 'blur(8px)'; // Aplicar desenfoque
-        backgroundLayer.style.zIndex = '1';
-        backgroundLayer.style.borderRadius = '20px';
+        img.onload = async () => {
+            // Crear un elemento temporal con dimensiones aumentadas
+            const tempDiv = document.createElement('div');
+            tempDiv.style.position = 'fixed';
+            tempDiv.style.top = '50%';
+            tempDiv.style.left = '50%';
+            tempDiv.style.width = '1200px'; // Aumentar ancho
+            tempDiv.style.height = '1200px'; // Aumentar altura
+            tempDiv.style.transform = 'translate(-50%, -50%)';
+            tempDiv.style.display = 'flex';
+            tempDiv.style.flexDirection = 'column';
+            tempDiv.style.justifyContent = 'center';
+            tempDiv.style.alignItems = 'center';
+            tempDiv.style.padding = '20px';
+            tempDiv.style.boxSizing = 'border-box';
+            tempDiv.style.border = '3px solid #FFD700';
+            tempDiv.style.borderRadius = '20px';
+            tempDiv.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.7)';
+            tempDiv.style.opacity = '0.95';
+            tempDiv.style.overflow = 'visible'; // Permitir overflow
+            tempDiv.style.backgroundColor = 'transparent'; // Fondo transparente para ver las capas
 
-        // Añadir una capa de superposición para oscurecer el fondo y mejorar la legibilidad
-        const overlayLayer = document.createElement('div');
-        overlayLayer.style.position = 'absolute';
-        overlayLayer.style.top = '0';
-        overlayLayer.style.left = '0';
-        overlayLayer.style.width = '100%';
-        overlayLayer.style.height = '100%';
-        overlayLayer.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
-        overlayLayer.style.zIndex = '2';
-        overlayLayer.style.borderRadius = '20px';
+            // Añadir una capa de fondo desenfocada
+            const backgroundLayer = document.createElement('div');
+            backgroundLayer.style.position = 'absolute';
+            backgroundLayer.style.top = '0';
+            backgroundLayer.style.left = '0';
+            backgroundLayer.style.width = '100%';
+            backgroundLayer.style.height = '100%';
+            backgroundLayer.style.backgroundImage = `url(${backgroundImage})`;
+            backgroundLayer.style.backgroundSize = 'cover';
+            backgroundLayer.style.backgroundPosition = 'center';
+            backgroundLayer.style.filter = 'blur(8px)'; // Aplicar desenfoque
+            backgroundLayer.style.zIndex = '1';
+            backgroundLayer.style.borderRadius = '20px';
 
-        // Crear el contenido de la imagen
-        const contentDiv = document.createElement('div');
-        contentDiv.style.position = 'relative'; // Posición relativa para estar encima de las capas anteriores
-        contentDiv.style.zIndex = '3'; // Asegurar que esté encima de las capas de fondo y superposición
-        contentDiv.style.background = 'rgba(0, 0, 0, 0.6)'; // Fondo semi-transparente para el texto
-        contentDiv.style.padding = '20px';
-        contentDiv.style.borderRadius = '15px';
-        contentDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
-        contentDiv.style.width = '90%';
-        contentDiv.style.maxHeight = '90%'; // Limitar la altura para evitar desbordamientos
-        contentDiv.style.display = 'flex';
-        contentDiv.style.flexDirection = 'column';
-        contentDiv.style.justifyContent = 'center';
-        contentDiv.style.alignItems = 'center';
-        contentDiv.style.wordWrap = 'break-word'; // Permite que el texto se envuelva
-        contentDiv.style.textAlign = 'center'; // Centrar el texto
-        contentDiv.style.overflowY = 'auto'; // Añadir scroll si el contenido excede
+            // Añadir una capa de superposición para oscurecer el fondo y mejorar la legibilidad
+            const overlayLayer = document.createElement('div');
+            overlayLayer.style.position = 'absolute';
+            overlayLayer.style.top = '0';
+            overlayLayer.style.left = '0';
+            overlayLayer.style.width = '100%';
+            overlayLayer.style.height = '100%';
+            overlayLayer.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
+            overlayLayer.style.zIndex = '2';
+            overlayLayer.style.borderRadius = '20px';
 
-        const phraseElement = document.createElement('p');
-        phraseElement.innerText = selectedText;
-        phraseElement.style.fontSize = '32px';
-        phraseElement.style.fontWeight = 'bold';
-        phraseElement.style.marginBottom = '15px';
-        phraseElement.style.fontStyle = 'italic';
-        phraseElement.style.color = '#FFD700'; // Dorado
-        phraseElement.style.wordWrap = 'break-word'; // Permite que el texto se envuelva
-        phraseElement.style.maxWidth = '100%'; // Asegura que el texto no exceda el contenedor
+            // Crear el contenido de la imagen
+            const contentDiv = document.createElement('div');
+            contentDiv.style.position = 'relative'; // Posición relativa para estar encima de las capas anteriores
+            contentDiv.style.zIndex = '3'; // Asegurar que esté encima de las capas de fondo y superposición
+            contentDiv.style.background = 'rgba(0, 0, 0, 0.6)'; // Fondo semi-transparente para el texto
+            contentDiv.style.padding = '20px';
+            contentDiv.style.borderRadius = '15px';
+            contentDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
+            contentDiv.style.width = '90%';
+            contentDiv.style.maxHeight = '90%'; // Limitar la altura para evitar desbordamientos
+            contentDiv.style.display = 'flex';
+            contentDiv.style.flexDirection = 'column';
+            contentDiv.style.justifyContent = 'center';
+            contentDiv.style.alignItems = 'center';
+            contentDiv.style.wordWrap = 'break-word'; // Permite que el texto se envuelva
+            contentDiv.style.textAlign = 'center'; // Centrar el texto
+            contentDiv.style.overflowY = 'auto'; // Añadir scroll si el contenido excede
 
-        const sourceElement = document.createElement('p');
-        sourceElement.innerText = `- De la novela "${novelName}"`;
-        sourceElement.style.fontSize = '24px';
-        sourceElement.style.fontFamily = 'Lucida Console, Monaco, monospace'; // Fuente diferente para el origen
-        sourceElement.style.opacity = '0.9'; // Texto más sutil
-        sourceElement.style.color = '#FFD700'; // Dorado
-        sourceElement.style.wordWrap = 'break-word'; // Permite que el texto se envuelva
-        sourceElement.style.maxWidth = '100%'; // Asegura que el texto no exceda el contenedor
+            // Crear elementos de texto
+            const phraseElement = document.createElement('p');
+            phraseElement.innerText = selectedText;
+            phraseElement.style.fontSize = '32px';
+            phraseElement.style.fontWeight = 'bold';
+            phraseElement.style.marginBottom = '15px';
+            phraseElement.style.fontStyle = 'italic';
+            phraseElement.style.color = '#FFD700'; // Dorado
+            phraseElement.style.wordWrap = 'break-word'; // Permite que el texto se envuelva
+            phraseElement.style.maxWidth = '100%'; // Asegura que el texto no exceda el contenedor
 
-        contentDiv.appendChild(phraseElement);
-        contentDiv.appendChild(sourceElement);
+            const sourceElement = document.createElement('p');
+            sourceElement.innerText = `- De la novela "${novelName}"`;
+            sourceElement.style.fontSize = '24px';
+            sourceElement.style.fontFamily = 'Lucida Console, Monaco, monospace'; // Fuente diferente para el origen
+            sourceElement.style.opacity = '0.9'; // Texto más sutil
+            sourceElement.style.color = '#FFD700'; // Dorado
+            sourceElement.style.wordWrap = 'break-word'; // Permite que el texto se envuelva
+            sourceElement.style.maxWidth = '100%'; // Asegura que el texto no exceda el contenedor
 
-        // Añadir las capas y el contenido al div temporal
-        tempDiv.appendChild(backgroundLayer);
-        tempDiv.appendChild(overlayLayer);
-        tempDiv.appendChild(contentDiv);
-        document.body.appendChild(tempDiv);
+            // Añadir los elementos de texto al contenido
+            contentDiv.appendChild(phraseElement);
+            contentDiv.appendChild(sourceElement);
 
-        try {
-            const canvas = await html2canvas(tempDiv, { useCORS: true, scale: 2 }); // Aumenta la escala para mejor calidad
-            const imgData = canvas.toDataURL('image/png');
+            // Añadir las capas y el contenido al div temporal
+            tempDiv.appendChild(backgroundLayer);
+            tempDiv.appendChild(overlayLayer);
+            tempDiv.appendChild(contentDiv);
+            document.body.appendChild(tempDiv);
 
-            // Crear un enlace para descargar la imagen
-            const link = document.createElement('a');
-            link.href = imgData;
-            link.download = 'frase.png';
-            link.click();
-        } catch (error) {
-            console.error('Error al generar la imagen:', error);
-            alert('Hubo un problema al generar la imagen. Por favor, intenta de nuevo.');
-        }
+            // Esperar un breve momento para asegurar que el DOM ha renderizado los elementos
+            await new Promise(resolve => setTimeout(resolve, 500));
 
-        // Eliminar el elemento temporal del DOM
-        document.body.removeChild(tempDiv);
+            try {
+                const canvas = await html2canvas(tempDiv, { useCORS: true, scale: 2, allowTaint: false });
+                const imgData = canvas.toDataURL('image/png');
+
+                // Crear un enlace para descargar la imagen
+                const link = document.createElement('a');
+                link.href = imgData;
+                link.download = 'frase.png';
+                link.click();
+            } catch (error) {
+                console.error('Error al generar la imagen:', error);
+                alert('Hubo un problema al generar la imagen. Por favor, intenta de nuevo.');
+            }
+
+            // Eliminar el elemento temporal del DOM
+            document.body.removeChild(tempDiv);
+        };
+
+        // Agregar una función de fallback en caso de que la imagen no se cargue
+        img.onerror = () => {
+            alert('Error al cargar la imagen de fondo. Por favor, verifica la ruta de la imagen.');
+        };
     };
 
     if (loading) return <p className="read-chapter-loading">Cargando...</p>;
