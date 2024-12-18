@@ -1,47 +1,42 @@
-/* Contenedor Principal - Ajuste de márgenes y ancho */
 .story-detail-container {
-  background-color: #1a1a1a;
-  /* Fondo oscuro */
+  background-color: #1a1a1a; /* Fondo oscuro */
   min-height: 100vh;
   padding: 50px 15px;
-  /* Agrega espacio en los lados */
-  color: #f0f0f0;
-  /* Texto claro para contraste */
+  color: #f0f0f0; /* Texto claro */
   font-family: 'Garamond', serif;
-  /* Fuente con estilo clásico */
   box-sizing: border-box;
-  /* Asegura que padding esté incluido en el ancho total */
   max-width: 1920px;
-  /* Limita el ancho máximo a 1920px */
   margin: 0 auto;
-  /* Centra el contenido horizontalmente */
 }
 
 /* Títulos */
 .story-detail-title {
-  color: #ffd700;
-  /* Dorado */
+  color: #ffd700; /* Dorado */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   font-size: 2.5rem;
   font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .story-detail-chapters-title,
 .story-detail-comments-title {
-  color: #50c878;
-  /* Esmeralda */
+  color: #50c878; /* Esmeralda */
   margin-bottom: 20px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* Tarjeta de la Portada */
 .story-detail-card {
-  background-color: #2c2c2c;
-  /* Gris oscuro */
-  border: 2px solid #ffd700;
-  /* Borde dorado */
+  background-color: #2c2c2c; /* Gris oscuro */
+  border: 2px solid #ffd700; /* Borde dorado */
   border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.story-detail-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.9);
 }
 
 /* Contenedor de la Imagen de Portada */
@@ -88,11 +83,11 @@
 .story-detail-modal-close-btn {
   transition: background-color 0.3s ease, transform 0.2s ease;
   font-weight: bold;
+  margin-right: 10px;
 }
 
 .story-detail-read-btn {
-  background-color: #50c878;
-  /* Esmeralda */
+  background-color: #50c878; /* Esmeralda */
   border: none;
   color: #1a1a1a;
   padding: 10px 20px;
@@ -182,12 +177,15 @@
 /* Información de la Historia */
 .story-detail-info {
   margin-top: 10px;
+  font-size: 1.1rem;
 }
 
 .story-detail-badge {
-  background-color: #50c878;
-  /* Esmeralda */
+  background-color: #50c878; /* Esmeralda */
   color: #1a1a1a;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
 }
 
 .story-detail-raw-origin a.story-detail-link {
@@ -284,17 +282,18 @@
 
 /* Reseñas */
 .story-detail-review-card {
-  background-color: #2c2c2c;
-  /* Gris oscuro */
-  border: 1px solid #50c878;
-  /* Borde esmeralda */
+  background-color: #2c2c2c; /* Gris oscuro */
+  border: 1px solid #50c878; /* Borde esmeralda */
   border-radius: 10px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 10px auto;
   width: 95%;
-  /* Asegura que se mantengan dentro del contenedor principal */
   max-width: 1100px;
-  /* Ancho máximo para tarjetas */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.story-detail-review-card:hover {
+  background-color: #3a3a3a;
+  border-color: #3a9d63;
 }
 
 .story-detail-review-user {
@@ -497,13 +496,11 @@
   /* Espaciado entre botones */
 }
 
+/* Paginación */
 .pagination .page-item .page-link {
   background-color: #2c2c2c;
-  /* Fondo oscuro */
   color: #ffd700;
-  /* Texto dorado */
   border: 1px solid #50c878;
-  /* Borde esmeralda */
   border-radius: 10px;
   padding: 8px 16px;
   font-size: 1rem;
@@ -513,25 +510,16 @@
 
 .pagination .page-item .page-link:hover {
   background-color: #50c878;
-  /* Fondo esmeralda */
   color: #1a1a1a;
-  /* Texto oscuro */
   transform: scale(1.1);
-  /* Efecto de zoom */
 }
 
-/* Página activa */
 .pagination .page-item.active .page-link {
   background-color: #50c878;
-  /* Fondo esmeralda */
   color: #1a1a1a;
-  /* Texto oscuro */
   border-color: #50c878;
-  /* Mantener borde esmeralda */
   transform: scale(1.1);
-  /* Destacar */
   pointer-events: none;
-  /* Deshabilitar clic */
 }
 
 /* Botones deshabilitados (Primero, Anterior, Siguiente, Último) */
@@ -555,31 +543,23 @@
 
 /* Responsividad para dispositivos móviles */
 @media (max-width: 768px) {
-  .story-detail-cover-section {
-      padding-bottom: 56.25%;
-      /* Mantiene 16:9 */
-      max-width: 100%;
-      /* Permite que ocupe todo el ancho en móviles */
-      border-radius: 10px;
-      margin-bottom: 30px;
+  .story-detail-title {
+    font-size: 2rem;
   }
 
   .story-detail-read-btn {
-      padding: 8px 16px;
-      font-size: 1rem;
-  }
-
-  .story-detail-author {
-      font-size: 1rem;
-  }
-
-  .story-detail-title {
-      font-size: 2rem;
-      /* Ajusta el tamaño del título en pantallas pequeñas */
+    padding: 8px 16px;
+    font-size: 1rem;
   }
 
   .pagination .page-item .page-link {
-      padding: 6px 12px;
-      font-size: 0.9rem;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+
+  /* Asegurar que la imagen de portada no se desborde en móviles */
+  .story-detail-card-image-container {
+    padding-bottom: 56.25%; /* Mantiene 16:9 */
+    max-height: 300px; /* Limita la altura en pantallas pequeñas */
   }
 }

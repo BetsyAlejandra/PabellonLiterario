@@ -255,7 +255,8 @@ const StoryDetail = () => {
                                 className="story-detail-card-image"
                             />
                         </div>
-                        <Card.Body>
+                        {/* Nueva Sección Debajo de la Imagen */}
+                        <Card.Body className="story-detail-card-body">
                             <Button
                                 className="btn btn-secondary mt-2 story-detail-read-btn"
                                 onClick={() => handleReadChapter(story.chapters[0]?._id)}
