@@ -39,19 +39,17 @@
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.9);
 }
 
-/* Contenedor de la Imagen de Portada */
+/* Contenedor de la Imagen de Portada - Orientación Vertical 9:16 */
 .story-detail-card-image-container {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%;
-  /* 16:9 Aspect Ratio (9/16 = 0.5625) */
+  padding-bottom: 177.78%;
+  /* 9:16 Aspect Ratio (16/9 = 1.7778) */
   overflow: hidden;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-  /* Eliminar el max-width para que la imagen se ajuste a la columna */
-  /* max-width: 1920px; */
-  /* Centrar el contenedor */
   margin: 0 auto;
+  background-color: #000; /* Fondo negro para evitar espacios vacíos */
 }
 
 .story-detail-card-image {
@@ -61,15 +59,17 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Asegura que la imagen cubra todo el contenedor sin distorsionarse */
   object-position: center;
-  /* Centra la imagen */
   transition: transform 0.3s ease;
 }
 
 .story-detail-card-image:hover {
   transform: scale(1.05);
-  /* Efecto de zoom al pasar el cursor */
+}
+
+/* Asegurar que el Card.Body no se superponga con la imagen */
+.story-detail-card-body {
+  padding-top: 15px; /* Espacio superior para separar de la imagen */
 }
 
 /* Botones */
@@ -100,8 +100,7 @@
 }
 
 .story-detail-save-btn {
-  background-color: #ffd700;
-  /* Dorado */
+  background-color: #ffd700; /* Dorado */
   border: none;
   color: #1a1a1a;
   padding: 10px 20px;
@@ -114,8 +113,7 @@
 }
 
 .story-detail-cancel-btn {
-  background-color: #ff6347;
-  /* Tomate */
+  background-color: #ff6347; /* Tomate */
   border: none;
   color: #1a1a1a;
   padding: 10px 20px;
@@ -128,8 +126,7 @@
 }
 
 .story-detail-reply-submit-btn {
-  background-color: #50c878;
-  /* Esmeralda */
+  background-color: #50c878; /* Esmeralda */
   border: none;
   color: #1a1a1a;
   padding: 8px 16px;
@@ -144,8 +141,7 @@
 .story-detail-reply-cancel-btn,
 .story-detail-modal-cancel-btn,
 .story-detail-modal-close-btn {
-  background-color: #ff6347;
-  /* Tomate */
+  background-color: #ff6347; /* Tomate */
   border: none;
   color: #1a1a1a;
   padding: 8px 16px;
@@ -159,10 +155,8 @@
   transform: scale(1.05);
 }
 
-.story-detail-modal-submit-btn,
 .story-detail-modal-submit-btn {
-  background-color: #50c878;
-  /* Esmeralda */
+  background-color: #50c878; /* Esmeralda */
   border: none;
   color: #1a1a1a;
   padding: 8px 16px;
@@ -189,8 +183,7 @@
 }
 
 .story-detail-raw-origin a.story-detail-link {
-  color: #ffd700;
-  /* Dorado */
+  color: #ffd700; /* Dorado */
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -200,8 +193,7 @@
 }
 
 .story-detail-collaborators .story-detail-collaborator-link {
-  color: #50c878;
-  /* Esmeralda */
+  color: #50c878; /* Esmeralda */
   text-decoration: none;
 }
 
@@ -210,8 +202,7 @@
 }
 
 .story-detail-adaptations a.story-detail-link {
-  color: #ffd700;
-  /* Dorado */
+  color: #ffd700; /* Dorado */
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -221,21 +212,18 @@
 }
 
 .story-detail-chapter-title {
-  color: #ffd700;
-  /* Dorado */
+  color: #ffd700; /* Dorado */
   font-weight: bold;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .story-detail-chapter-date {
-  color: #a9a9a9;
-  /* Gris claro */
+  color: #a9a9a9; /* Gris claro */
 }
 
 .story-detail-no-chapters,
 .story-detail-no-reviews {
-  color: #a9a9a9;
-  /* Gris claro */
+  color: #a9a9a9; /* Gris claro */
 }
 
 .story-detail-chapter-card {
@@ -249,33 +237,27 @@
 
 /* Formularios */
 .story-detail-review-form .story-detail-review-label {
-  color: #ffd700;
-  /* Dorado */
+  color: #ffd700; /* Dorado */
   font-weight: bold;
   max-width: 800px;
 }
 
 .story-detail-review-textarea {
-  background-color: #1c1c1c;
-  /* Fondo más oscuro */
-  border: 1px solid #ffd700;
-  /* Borde dorado */
+  background-color: #1c1c1c; /* Fondo más oscuro */
+  border: 1px solid #ffd700; /* Borde dorado */
   border-radius: 10px;
-  color: #f0f0f0;
-  /* Texto claro */
+  color: #f0f0f0; /* Texto claro */
   padding: 10px;
   font-size: 1rem;
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .story-detail-review-textarea::placeholder {
-  color: #a9a9a9;
-  /* Gris claro */
+  color: #a9a9a9; /* Gris claro */
 }
 
 .story-detail-review-textarea:focus {
-  border-color: #50c878;
-  /* Esmeralda */
+  border-color: #50c878; /* Esmeralda */
   background-color: #2a2a2a;
   outline: none;
 }
@@ -297,8 +279,7 @@
 }
 
 .story-detail-review-user {
-  color: #ffd700;
-  /* Dorado */
+  color: #ffd700; /* Dorado */
   font-weight: bold;
 }
 
@@ -308,8 +289,7 @@
 }
 
 .story-detail-reply-btn {
-  color: #50c878;
-  /* Esmeralda */
+  color: #50c878; /* Esmeralda */
   text-decoration: none;
   padding: 0;
 }
@@ -319,10 +299,8 @@
 }
 
 .story-detail-reply-card {
-  background-color: #1c1c1c;
-  /* Fondo más oscuro para respuestas */
-  border: 1px solid #ffd700;
-  /* Borde dorado */
+  background-color: #1c1c1c; /* Fondo más oscuro para respuestas */
+  border: 1px solid #ffd700; /* Borde dorado */
   border-radius: 8px;
 }
 
@@ -353,49 +331,40 @@
 }
 
 .story-detail-modal .story-detail-modal-label {
-  color: #ffd700;
-  /* Dorado */
+  color: #ffd700; /* Dorado */
   font-weight: bold;
 }
 
 .story-detail-modal .story-detail-modal-input {
-  background-color: #1c1c1c;
-  /* Fondo más oscuro */
-  border: 1px solid #ffd700;
-  /* Borde dorado */
+  background-color: #1c1c1c; /* Fondo más oscuro */
+  border: 1px solid #ffd700; /* Borde dorado */
   border-radius: 10px;
-  color: #f0f0f0;
-  /* Texto claro */
+  color: #f0f0f0; /* Texto claro */
   padding: 10px;
   font-size: 1rem;
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .story-detail-modal .story-detail-modal-input::placeholder {
-  color: #a9a9a9;
-  /* Gris claro */
+  color: #a9a9a9; /* Gris claro */
 }
 
 .story-detail-modal .story-detail-modal-input:focus {
-  border-color: #50c878;
-  /* Esmeralda */
+  border-color: #50c878; /* Esmeralda */
   background-color: #2a2a2a;
   outline: none;
 }
 
 .story-detail-modal .story-detail-modal-error {
-  color: #ff6347;
-  /* Tomate */
+  color: #ff6347; /* Tomate */
 }
 
 .story-detail-modal .story-detail-modal-body {
   color: #f0f0f0;
 }
 
-.story-detail-modal .story-detail-modal-submit-btn,
 .story-detail-modal .story-detail-modal-submit-btn {
-  background-color: #50c878;
-  /* Esmeralda */
+  background-color: #50c878; /* Esmeralda */
   border: none;
   color: #1a1a1a;
   padding: 8px 16px;
@@ -410,8 +379,7 @@
 
 .story-detail-modal .story-detail-modal-cancel-btn,
 .story-detail-modal .story-detail-modal-close-btn {
-  background-color: #ff6347;
-  /* Tomate */
+  background-color: #ff6347; /* Tomate */
   border: none;
   color: #1a1a1a;
   padding: 8px 16px;
@@ -427,8 +395,7 @@
 
 /* Enlaces */
 .story-detail-link {
-  color: #ffd700;
-  /* Dorado */
+  color: #ffd700; /* Dorado */
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -438,8 +405,7 @@
 }
 
 .story-detail-collaborators .collaborator-link {
-  color: #50c878;
-  /* Esmeralda */
+  color: #50c878; /* Esmeralda */
   text-decoration: none;
 }
 
@@ -449,8 +415,7 @@
 
 /* Botón Ver Más */
 .story-detail-view-more-btn {
-  color: #50c878;
-  /* Esmeralda */
+  color: #50c878; /* Esmeralda */
   text-decoration: none;
 }
 
@@ -465,12 +430,10 @@
 }
 
 .ad-section-container {
-  background-color: #2C2C2C;
-  /* Fondo similar al resto del sitio */
+  background-color: #2C2C2C; /* Fondo similar al resto del sitio */
   padding: 1rem;
   border-radius: 10px;
-  border: 1px solid #FFD700;
-  /* Borde dorado para consistencia */
+  border: 1px solid #FFD700; /* Borde dorado para consistencia */
 }
 
 .ad-section-container ins.adsbygoogle {
@@ -492,8 +455,7 @@
 
 /* Elementos de la paginación */
 .pagination .page-item {
-  margin: 0 5px;
-  /* Espaciado entre botones */
+  margin: 0 5px; /* Espaciado entre botones */
 }
 
 /* Paginación */
@@ -524,21 +486,16 @@
 
 /* Botones deshabilitados (Primero, Anterior, Siguiente, Último) */
 .pagination .page-item.disabled .page-link {
-  background-color: #1c1c1c;
-  /* Fondo más oscuro */
-  color: #a9a9a9;
-  /* Texto gris claro */
-  border: 1px solid #2a2a2a;
-  /* Borde oscuro */
-  pointer-events: none;
-  /* Deshabilitar clic */
+  background-color: #1c1c1c; /* Fondo más oscuro */
+  color: #a9a9a9; /* Texto gris claro */
+  border: 1px solid #2a2a2a; /* Borde oscuro */
+  pointer-events: none; /* Deshabilitar clic */
 }
 
 /* Botones extremos (Primero, Último) */
 .pagination .page-item .page-link:first-child,
 .pagination .page-item .page-link:last-child {
-  border-radius: 50%;
-  /* Botones redondeados */
+  border-radius: 50%; /* Botones redondeados */
 }
 
 /* Responsividad para dispositivos móviles */
@@ -559,7 +516,6 @@
 
   /* Asegurar que la imagen de portada no se desborde en móviles */
   .story-detail-card-image-container {
-    padding-bottom: 56.25%; /* Mantiene 16:9 */
-    max-height: 300px; /* Limita la altura en pantallas pequeñas */
+    padding-bottom: 200%; /* Aumentar la altura para pantallas pequeñas */
   }
 }
