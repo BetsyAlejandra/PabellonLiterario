@@ -11,13 +11,11 @@
   /* Fuente con estilo clásico */
   box-sizing: border-box;
   /* Asegura que padding esté incluido en el ancho total */
-  max-width: 1080px;
-  max-height: 1920px;
+  max-width: 1920px;
   /* Limita el ancho máximo a 1920px */
   margin: 0 auto;
   /* Centra el contenido horizontalmente */
 }
-
 
 /* Títulos */
 .story-detail-title {
@@ -55,10 +53,10 @@
   overflow: hidden;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-  max-width: 1920px;
-  max-height: 1920px;
-  margin: 0 auto;
+  /* Eliminar el max-width para que la imagen se ajuste a la columna */
+  /* max-width: 1920px; */
   /* Centrar el contenedor */
+  margin: 0 auto;
 }
 
 .story-detail-card-image {
@@ -395,6 +393,39 @@
   color: #f0f0f0;
 }
 
+.story-detail-modal .story-detail-modal-submit-btn,
+.story-detail-modal .story-detail-modal-submit-btn {
+  background-color: #50c878;
+  /* Esmeralda */
+  border: none;
+  color: #1a1a1a;
+  padding: 8px 16px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.story-detail-modal .story-detail-modal-submit-btn:hover {
+  background-color: #3a9d63;
+  transform: scale(1.05);
+}
+
+.story-detail-modal .story-detail-modal-cancel-btn,
+.story-detail-modal .story-detail-modal-close-btn {
+  background-color: #ff6347;
+  /* Tomate */
+  border: none;
+  color: #1a1a1a;
+  padding: 8px 16px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.story-detail-modal .story-detail-modal-cancel-btn:hover,
+.story-detail-modal .story-detail-modal-close-btn:hover {
+  background-color: #e5533d;
+  transform: scale(1.05);
+}
+
 /* Enlaces */
 .story-detail-link {
   color: #ffd700;
@@ -405,6 +436,16 @@
 
 .story-detail-link:hover {
   color: #e6c200;
+}
+
+.story-detail-collaborators .collaborator-link {
+  color: #50c878;
+  /* Esmeralda */
+  text-decoration: none;
+}
+
+.story-detail-collaborators .collaborator-link:hover {
+  text-decoration: underline;
 }
 
 /* Botón Ver Más */
@@ -512,20 +553,33 @@
   /* Botones redondeados */
 }
 
-/* Alinear correctamente en móviles */
+/* Responsividad para dispositivos móviles */
 @media (max-width: 768px) {
-  .story-detail-card-image-container {
-    padding-bottom: 56.25%;
-    /* Mantiene 16:9 en móviles */
+  .story-detail-cover-section {
+      padding-bottom: 56.25%;
+      /* Mantiene 16:9 */
+      max-width: 100%;
+      /* Permite que ocupe todo el ancho en móviles */
+      border-radius: 10px;
+      margin-bottom: 30px;
+  }
+
+  .story-detail-read-btn {
+      padding: 8px 16px;
+      font-size: 1rem;
+  }
+
+  .story-detail-author {
+      font-size: 1rem;
   }
 
   .story-detail-title {
-    font-size: 2rem;
-    /* Ajusta el tamaño del título en pantallas pequeñas */
+      font-size: 2rem;
+      /* Ajusta el tamaño del título en pantallas pequeñas */
   }
 
   .pagination .page-item .page-link {
-    padding: 6px 12px;
-    font-size: 0.9rem;
+      padding: 6px 12px;
+      font-size: 0.9rem;
   }
 }
