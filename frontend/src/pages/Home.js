@@ -104,15 +104,8 @@ const Home = () => {
       {/* Espacio para Anuncio 1 */}
       {novels.length > 0 && (
         <section className="ad-section my-4">
-          <Container>
-            <div className="ad-section-container">
-              <AdSense
-                adClient="ca-pub-3101266953328074"
-                adSlot="2736107499"
-                style={{ display: "block" }}
-              />
-            </div>
-          </Container>
+          <script async="async" data-cfasync="false" src="//pl25525481.profitablecpmrate.com/e5a63efee8994ddc9df064551436e92b/invoke.js"></script>
+          <div id="container-e5a63efee8994ddc9df064551436e92b"></div>
         </section>
       )}
 
@@ -152,15 +145,8 @@ const Home = () => {
 
       {/* Espacio para Anuncio 2 */}
       <section className="ad-section my-4">
-        <Container>
-          <div className="ad-section-container">
-            <AdSense
-              adClient="ca-pub-3101266953328074"
-              adSlot="8089975138"
-              style={{ display: "block" }}
-            />
-          </div>
-        </Container>
+      <script async="async" data-cfasync="false" src="//pl25525481.profitablecpmrate.com/e5a63efee8994ddc9df064551436e92b/invoke.js"></script>
+      <div id="container-e5a63efee8994ddc9df064551436e92b"></div>
       </section>
 
       {/* Últimas Traducciones */}
@@ -246,15 +232,8 @@ const Home = () => {
 
       {/* Espacio para Anuncio 3 */}
       <section className="ad-section my-4">
-        <Container>
-          <div className="ad-section-container">
-            <AdSense
-              adClient="ca-pub-3101266953328074"
-              adSlot="7936463288"
-              style={{ display: "block" }}
-            />
-          </div>
-        </Container>
+      <script async="async" data-cfasync="false" src="//pl25525481.profitablecpmrate.com/e5a63efee8994ddc9df064551436e92b/invoke.js"></script>
+      <div id="container-e5a63efee8994ddc9df064551436e92b"></div>
       </section>
 
       {/* Historia y Logros */}

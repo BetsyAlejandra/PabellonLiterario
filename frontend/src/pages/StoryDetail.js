@@ -231,13 +231,8 @@ const StoryDetail = () => {
             {story && (
                 <section className="ad-section my-4">
                     <Container>
-                        <div className="ad-section-container">
-                            <AdSense
-                                adClient="ca-pub-3101266953328074"
-                                adSlot="2492564919"
-                                style={{ display: "block" }}
-                            />
-                        </div>
+                    <script async="async" data-cfasync="false" src="//pl25525481.profitablecpmrate.com/e5a63efee8994ddc9df064551436e92b/invoke.js"></script>
+                    <div id="container-e5a63efee8994ddc9df064551436e92b"></div>
                     </Container>
                 </section>
             )}
@@ -401,13 +396,8 @@ const StoryDetail = () => {
             {/* Espacio para Anuncio 2 */}
             <section className="ad-section my-4">
                 <Container>
-                    <div className="ad-section-container">
-                        <AdSense
-                            adClient="ca-pub-3101266953328074"
-                            adSlot="3959158431"
-                            style={{ display: "block" }}
-                        />
-                    </div>
+                <script async="async" data-cfasync="false" src="//pl25525481.profitablecpmrate.com/e5a63efee8994ddc9df064551436e92b/invoke.js"></script>
+                <div id="container-e5a63efee8994ddc9df064551436e92b"></div>
                 </Container>
             </section>
 
