@@ -9,6 +9,7 @@ import '../styles/readChapter.css';
 import AdSense from '../Components/AdSense';
 import html2canvas from 'html2canvas';
 import backgroundImage from '../assets/background.png';
+import { DiscussionEmbed, CommentCount } from 'disqus-react';
 
 const ReadChapter = () => {
     const { storyId, chapterId } = useParams();
@@ -565,28 +566,17 @@ const ReadChapter = () => {
                     </Button>
                 </div>
 
-                {/* Comentarios generales */}
                 <Container className="general-comments">
                     <h3>Comentarios del capítulo</h3>
-                    <div className="comment-list">
-                        {generalComments.map((comment, idx) => (
-                            <div key={idx} className="comment-item">
-                                {comment}
-                            </div>
-                        ))}
-                    </div>
-                    <Form className="mt-3">
-                        <Form.Control
-                            as="textarea"
-                            rows={3}
-                            value={generalComment}
-                            onChange={(e) => setGeneralComment(e.target.value)}
-                            placeholder="Escribe tu comentario aquí..."
-                        />
-                        <Button variant="primary" className="mt-2" onClick={handleGeneralCommentSubmit}>
-                            Enviar
-                        </Button>
-                    </Form>
+                    <DiscussionEmbed
+                        shortname="pabellonliterario"
+                        config={{
+                            url: `${window.location.origin}/read-chapter/${storyId}/${chapterId}`,
+                            identifier: `${chapterId}`,
+                            title: `${chapter?.title || 'Capítulo'}`,
+                            language: 'es',
+                        }}
+                    />
                 </Container>
 
                 {chapter.annotations && chapter.annotations.length > 0 && (
