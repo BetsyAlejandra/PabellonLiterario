@@ -178,7 +178,7 @@ const Home = () => {
         <Container>
           {/* Sección de Soporte y Discord */}
           <Row className="support-and-apply-section">
-            <Col md={6} className="support-section text-light">
+            <Col md={6} className="support-section text-black">
               <h2>¡Apóyanos!</h2>
               <p>
                 Si te gustan nuestras traducciones y quieres ayudarnos a seguir, puedes hacerlo con una pequeña donación en

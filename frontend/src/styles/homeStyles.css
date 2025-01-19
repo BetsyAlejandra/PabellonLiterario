@@ -103,13 +103,14 @@ body {
 /* Sección de Apoyo */
 .support-section {
   padding: 2rem;
+  background-color: #EDE4D4;
   border-radius: 10px;
 }
 
 .support-section .btn {
   background-color: #C9D6D5 ;
   color: #2C3E50;
-  border: none;
+  border: 1px #F7E1D7;
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
 }
@@ -191,7 +192,7 @@ body {
 
 
 .translated-works-gallery {
-  background-color: #2A2A2E;
+  background-color: #F1E4D1;
   padding: 50px 0;
 }
 
@@ -229,7 +230,7 @@ body {
   align-self: center;
   background-color: #C9D6D5 ;
   color: #2C3E50;
-  border: 2px solid #D6B4A1;
+  border: 2px solid #F7E1D7;
   border-radius: 5px;
   padding: 8px 16px;
   transition: background 0.3s ease;
@@ -242,6 +243,7 @@ body {
 
 .latest-translations {
   background: linear-gradient(to bottom, #D3D0E1, #16213e);
+  color: #2C3E50;
   padding: 50px 0;
 }
 
