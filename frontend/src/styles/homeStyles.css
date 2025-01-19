@@ -103,9 +103,7 @@ body {
 /* Sección de Apoyo */
 .support-section {
   padding: 2rem;
-  background-color: #EDE4D4;
   border-radius: 10px;
-  color: #000;
 }
 
 .support-section .btn {
