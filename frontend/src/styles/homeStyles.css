@@ -48,93 +48,93 @@ body {
 /* Galería de Obras Traducidas */
 .translated-works-gallery {
   padding: 3rem 0;
-  background-color: #D3D0E1; 
 }
 
 .translated-works-gallery .gallery-card {
-  background-color: #D7E2E9;
-  border: 1px solid #E8E2D6;
+  background-color: #EDE4D4;
+  border: 1px solid #FFD700;
+  /* Dorado */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .translated-works-gallery .gallery-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 15px #E6D6C3;
+  box-shadow: 0 0 15px #FFD700;
 }
 
 .translated-works-gallery .gallery-image {
   width: 100%;
   height: 200px;
   object-fit: cover;
-  border-bottom: 1px solid #E8E2D6;
+  border-bottom: 1px solid #4CAF50;
+  /* Verde */
 }
 
 .translated-works-gallery .gallery-button {
-  background-color: #E6D6C3;
-  color: #2C3E50;
+  background-color: #FFD700;
+  color: #F8EBF5;
   border: none;
   margin-top: 0.5rem;
   transition: background-color 0.3s ease;
 }
 
 .translated-works-gallery .gallery-button:hover {
-  background-color: #D3D0E1;
-  color: #2C3E50 ;
+  background-color: #4CAF50;
+  color: #E0E0E0;
 }
 
 /* Últimas Traducciones */
 .latest-translations .card {
-  background-color: #D3D0E1; 
-  border: 1px solid #E8E2D6;
+  background-color: #2C2C2C;
+  border: 1px solid #FFD700;
 }
 
 .latest-translations .card img {
   height: 200px;
   object-fit: cover;
-  border-bottom: 1px solid #E8E2D6;
+  border-bottom: 1px solid #4CAF50;
 }
 
 .latest-translations .card .btn {
-  background-color: #E6D6C3;
-  color: #2C3E50;
+  background-color: #FFD700;
+  color: #000;
   border: none;
 }
 
 .latest-translations .card .btn:hover {
-  background-color: #C9E4F3;
-  color: #A3B4C4;
+  background-color: #4CAF50;
+  color: #E0E0E0;
 }
 
 /* Sección de Apoyo */
 .support-section {
   padding: 2rem;
-  background-color: #D3D0E1;
+  background-color: #EDE4D4;
   border-radius: 10px;
-  color: #2C3E50;
 }
 
 .support-section .btn {
-  background-color: #D6B4A1 ;
-  color: #2C3E50;
+  background-color: #FFD700;
+  color: #000;
   border: none;
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
 }
 
 .support-section .btn:hover {
-  background-color: #E6D6C3 ;
-  color: #2C3E50;
+  background-color: #4CAF50;
+  color: #E0E0E0;
 }
 
 /* Historia y Logros */
 .history-and-achievements {
-  background-color: #F8EBF5;
+  background-color: #EDE4D4;
   padding: 3rem 0;
   margin-top: 2rem;
 }
 
 .history-and-achievements h2 {
-  color: #2C3E50;
+  color: #FFD700;
   text-align: center;
   margin-bottom: 2rem;
 }
@@ -142,7 +142,8 @@ body {
 .timeline {
   position: relative;
   padding-left: 2rem;
-  border-left: 3px solid #F4D9E5;
+  border-left: 3px solid #FFD700;
+  /* Línea vertical */
 }
 
 .timeline .timeline-item {
@@ -157,43 +158,148 @@ body {
   top: 0;
   width: 16px;
   height: 16px;
-  background-color: #F4D9E5;
+  background-color: #FFD700;
   border-radius: 50%;
-  border: 2px solid #F8EBF5;
+  border: 2px solid #2C2C2C;
 }
 
 .timeline .timeline-content h5 {
-  color: #F4D9E5;
+  color: #FFD700;
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
 }
 
 .timeline .timeline-content p {
-  color: #A3B4C4;
+  color: #E0E0E0;
 }
 
 /* Slider */
 .slick-arrow {
-  color: #F4D9E5;
+  color: #FFD700;
   font-size: 2rem;
 }
 
 .slick-arrow:hover {
-  color: #C9E4F3;
+  color: #4CAF50;
 }
 
 /* Personalización de los puntos del slider */
 .slick-dots {
   bottom: -25px;
+  /* Ajusta la posición vertical si es necesario */
 }
 
 .slick-dots li button:before {
   font-size: 8px;
-  color: rgba(163, 180, 196, 0.5);
+  /* Tamaño más pequeño */
+  color: rgba(255, 255, 255, 0.5);
+  /* Color más tenue */
 }
 
 .slick-dots li.slick-active button:before {
-  color: rgba(244, 217, 229, 0.8);
+  color: rgba(255, 215, 0, 0.8);
+  /* Color más visible para el punto activo */
+}
+
+
+.translated-works-gallery {
+  background-color: #2A2A2E;
+  padding: 50px 0;
+}
+
+.gallery-card {
+  height: 350px;
+  /* Ajusta la altura según tu diseño */
+  display: flex;
+  flex-direction: column;
+  background-color: #1e1e2f;
+  /* Opcional: fondo para las tarjetas */
+  border: 2px solid #ffd700;
+  /* Opcional: borde dorado */
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.gallery-card-img {
+  height: 200px;
+  /* Altura fija para las imágenes */
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.gallery-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.gallery-card-title {
+  font-size: 1.1rem;
+  color: #ffd700;
+  margin-bottom: 10px;
+}
+
+.gallery-card-btn {
+  align-self: center;
+  background-color: #16213e;
+  color: #ffd700;
+  border: 2px solid #ffd700;
+  border-radius: 5px;
+  padding: 8px 16px;
+  transition: background 0.3s ease;
+}
+
+.gallery-card-btn:hover {
+  background-color: #ffd700;
+  color: #16213e;
+}
+
+.latest-translations {
+  background: linear-gradient(to bottom, #1F1F23, #2A2A2E);
+  padding: 50px 0;
+}
+
+.section-title {
+  color: #FFD700;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.chapter-card {
+  background-color: #1e1e2f;
+  color: #ffffff;
+  border: 2px solid #ffd700;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chapter-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 15px rgba(255, 215, 0, 0.8);
+}
+
+/* Secciones de Anuncios */
+.ad-section {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.ad-section-container {
+  background-color: #2C2C2C;
+  /* Fondo similar al resto del sitio */
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #FFD700;
+  /* Borde dorado para consistencia */
+}
+
+.ad-section-container ins.adsbygoogle {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
 }
 
 .header-section {
