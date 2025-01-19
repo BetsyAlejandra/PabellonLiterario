@@ -14,10 +14,6 @@ body {
   color: #2C3E50;
 }
 
-.h2{
-  color: #2C3E50 !important;
-}
-
 .watermark-overlay .watermark-logo {
   max-width: 150px;
   border-radius: 50%;
@@ -66,7 +62,6 @@ body {
   height: 200px;
   object-fit: cover;
   border-bottom: 1px solid #D6B4A1;
-  /* Verde */
 }
 
 .translated-works-gallery .gallery-button {
@@ -110,6 +105,7 @@ body {
   padding: 2rem;
   background-color: #EDE4D4;
   border-radius: 10px;
+  color: #000;
 }
 
 .support-section .btn {
@@ -317,6 +313,6 @@ body {
 }
 
 .header-button:hover {
-  background-color: #C9E4F3;
+  background-color: #C1D0B5;
   color: #2C3E50;
 }
