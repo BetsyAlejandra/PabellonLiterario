@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Modal, Button, Table } from 'react-bootstrap';
-import '../styles/NovelFormStyles.css';
+import '../styles/novelFormStyles.css';
 
 const GENRES = [
   'Fantasía', 'Acción', 'Supernatural', 'Xuanhuan', 'Transmigración',

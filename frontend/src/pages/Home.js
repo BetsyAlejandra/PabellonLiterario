@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import '../styles/homeStyles.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import headerImage from '../assets/header.png'; // Imagen de encabezado
-import AdSense from '../Components/AdSense';
+import headerImage from '../assets/Encabezado.png'; // Imagen de encabezado
 
 import Slider from "react-slick";
 

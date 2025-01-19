@@ -4,7 +4,7 @@ body {
 }
 /* Contenedor Principal */
 .register-container {
-  background: linear-gradient(180deg, #1a1a2e, #16213e);
+  background: linear-gradient(180deg, #D3D0E1, #16213e);
     min-height: 100vh;
     padding: 50px;
   }
@@ -12,8 +12,8 @@ body {
   /* Tarjeta de Registro */
   .register-card {
     width: 400px;
-    background: rgba(255, 215, 0, 0.1); /* Fondo semi-transparente dorado */
-    border: 2px solid #ffd700; /* Borde dorado */
+    background: #f0e1d642 ;
+    border: 2px solid #D6B4A1; /* Borde dorado */
     border-radius: 15px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
@@ -27,14 +27,14 @@ body {
   .fantasy-title {
     font-family: 'MedievalSharp', cursive;
     font-size: 2.5rem;
-    color: #ffd700; /* Dorado */
+    color: #2C3E50;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
     margin-bottom: 20px;
     transition: color 0.3s ease;
   }
   
   .fantasy-title:hover {
-    color: #ffec8b; /* Dorado más claro */
+    color: #2C3E50; /* Dorado más claro */
   }
   
   /* Alertas */
@@ -50,7 +50,7 @@ body {
   
   /* Etiquetas de los Campos */
   .fantasy-label {
-    color: #ffd700; /* Dorado */
+    color: #2C3E50;
     font-weight: bold;
     margin-bottom: 5px;
     display: block;
@@ -59,8 +59,8 @@ body {
   /* Campos de Entrada */
   .fantasy-input {
     background: rgba(255, 215, 0, 0.05); /* Fondo dorado muy claro */
-    border: 1px solid #ffd700; /* Borde dorado */
-    color: #000000 !important;
+    border: 1px solid #D6B4A1; /* Borde dorado */
+    color: #2C3E50 !important;
     border-radius: 10px;
     padding: 10px;
     transition: border-color 0.3s ease, background 0.3s ease;
@@ -74,7 +74,7 @@ body {
   
   /* Botón de Registro */
   .fantasy-button {
-    background-color: #ffd700; /* Dorado */
+    background-color: #C9D6D5; /* Dorado */
     color: #2c3e50; /* Texto oscuro */
     border: none;
     padding: 10px 20px;
@@ -96,19 +96,19 @@ body {
   
   /* Pie de Página */
   .fantasy-footer {
-    color: #ffd700;
+    color: #2C3E50;
     transition: color 0.3s ease;
   }
   
   .fantasy-footer .fantasy-link {
-    color: #ffd700;
+    color: #2C3E50;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s ease;
   }
   
   .fantasy-footer .fantasy-link:hover {
-    color: #ffec8b;
+    color: #2C3E50;
     text-decoration: underline;
   }
   

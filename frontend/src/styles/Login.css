@@ -5,7 +5,7 @@
 
 /* Contenedor Principal */
 .login-container {
-  background: linear-gradient(180deg, #1a1a2e, #16213e);
+  background: linear-gradient(180deg, #D3D0E1, #16213e);
   min-height: 100vh;
   padding: 50px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -13,22 +13,20 @@
 
 /* Tarjeta de Login */
 .login-card {
-  background: rgba(255, 215, 0, 0.1); /* Fondo semi-transparente dorado */
-  border: 2px solid #ffd700; /* Borde dorado */
-  border-radius: 15px;
+  background: #f0e1d642 ;
+  border: 2px solid #D6B4A1 ; 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .login-card:hover {
   transform: scale(1.02);
-  box-shadow: 0 8px 16px rgba(255, 215, 0, 0.6);
+  box-shadow: 0 8px 16px #d6b4a13b;
 }
 
-/* Título */
 .fantasy-title {
   font-family: 'MedievalSharp', cursive;
   font-size: 2.5rem;
-  color: #ffd700; /* Dorado */
+  color: #2C3E50;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
   margin-bottom: 20px;
   transition: color 0.3s ease;
@@ -39,7 +37,7 @@
 
 .fantasy-title svg {
   margin-right: 10px;
-  color: #ffd700;
+  color: #2C3E50;
   vertical-align: middle;
   animation: glow 2s infinite alternate;
 }
@@ -47,7 +45,7 @@
 /* Animación de brillo */
 @keyframes glow {
   from {
-    text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
+    text-shadow: 0 0 10px #2C3E50, 0 0 20px #2C3E50, 0 0 30px #2C3E50;
   }
   to {
     text-shadow: 0 0 20px #ffec8b, 0 0 30px #ffec8b, 0 0 40px #ffec8b;
@@ -67,7 +65,7 @@
 
 /* Etiquetas de los Campos */
 .fantasy-label {
-  color: #ffd700; /* Dorado */
+  color: #2C3E50;
   font-weight: bold;
   margin-bottom: 5px;
   display: block;
@@ -76,8 +74,8 @@
 /* Campos de Entrada */
 .fantasy-input {
   background: rgba(255, 215, 0, 0.05); /* Fondo dorado muy claro */
-  border: 1px solid #ffd700; /* Borde dorado */
-  color: #000000 !important;
+  border: 1px solid #D6B4A1; /* Borde dorado */
+  color: #2C3E50 !important;
   border-radius: 10px;
   padding: 10px;
   transition: border-color 0.3s ease, background 0.3s ease;
@@ -88,15 +86,15 @@
 }
 
 .fantasy-input:focus {
-  border-color: #ffec8b; /* Dorado claro */
+  border-color: #D6B4A1; /* Dorado claro */
   background: rgba(255, 215, 0, 0.1);
   box-shadow: none;
 }
 
 /* Botón de Inicio de Sesión */
 .fantasy-button {
-  background-color: #ffd700; /* Dorado */
-  color: #2c3e50; /* Texto oscuro */
+  background-color: #C9D6D5; /* Dorado */
+  color: #2C3E50; /* Texto oscuro */
   border: none;
   padding: 10px 20px;
   border-radius: 10px;
@@ -106,9 +104,9 @@
 }
 
 .fantasy-button:hover {
-  background-color: #e5c100; /* Dorado más oscuro */
+  background-color: #C9D6D5; /* Dorado más oscuro */
   transform: scale(1.05);
-  box-shadow: 0 0 10px #ffd700;
+  box-shadow: 0 0 10px #C9D6D5;
 }
 
 .fantasy-button:disabled {
@@ -118,12 +116,12 @@
 
 /* Pie de Página */
 .fantasy-footer {
-  color: #ffd700;
+  color: #C9D6D5;
   transition: color 0.3s ease;
 }
 
 .fantasy-footer .fantasy-link {
-  color: #ffd700;
+  color: #C9D6D5;
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s ease;

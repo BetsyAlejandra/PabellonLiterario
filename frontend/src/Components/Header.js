@@ -12,7 +12,7 @@ import {
   Spinner,
   NavDropdown,
 } from "react-bootstrap";
-import logo from "../assets/logo.png"; // Logo de fantasía
+import logo from "../assets/logon.png";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 

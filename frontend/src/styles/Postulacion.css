@@ -5,7 +5,7 @@
 
 /* Contenedor Principal */
 .postulacion-page {
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  background: linear-gradient(135deg, #D3D0E1, #16213e);
   min-height: 100vh;
   padding-top: 50px;
   padding-bottom: 50px;
@@ -14,7 +14,7 @@
 
 /* Encabezado */
 .postulacion-header {
-  background: rgba(255, 215, 0, 0.2); /* Fondo dorado semi-transparente */
+  background: #d7e2e942 ;
   padding: 40px 20px;
   border-radius: 15px;
   margin-bottom: 40px;
@@ -25,7 +25,7 @@
 .postulacion-title {
   font-family: 'MedievalSharp', cursive;
   font-size: 3rem;
-  color: #ffd700; /* Dorado */
+  color: #2C3E50; /* Dorado */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
   margin-bottom: 20px;
   display: inline-flex;
@@ -36,7 +36,7 @@
 
 .icon-title {
   margin: 0 10px;
-  color: #ffec8b; /* Dorado claro */
+  color: #F0E1D6;
   animation: float 2s infinite alternate;
 }
 
@@ -44,15 +44,15 @@
 @keyframes shimmer {
   0% {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6),
-                 0 0 10px rgba(255, 215, 0, 0.8);
+                 0 0 10px rgba(138, 138, 138, 0.8);
   }
   50% {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6),
-                 0 0 20px rgba(255, 215, 0, 1);
+                 0 0 20px rgb(206, 206, 206);
   }
   100% {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6),
-                 0 0 10px rgba(255, 215, 0, 0.8);
+                 0 0 10px rgba(212, 212, 212, 0.8);
   }
 }
 
@@ -67,13 +67,13 @@
 
 .postulacion-subtitle {
   font-size: 1.2rem;
-  color: #ffd700;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  color: #2C3E50;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 /* Contenido Principal */
 .postulacion-content {
-  background: rgba(255, 215, 0, 0.05); /* Fondo muy ligero */
+  background: #d7e2e942 ;
   padding: 30px;
   border-radius: 15px;
 }
@@ -82,7 +82,7 @@
 .info-title {
   font-family: 'MedievalSharp', cursive;
   font-size: 2rem;
-  color: #ffd700;
+  color: #2C3E50;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -91,7 +91,7 @@
 
 .info-title svg {
   margin-right: 10px;
-  color: #ffd700;
+  color: #2C3E50;
   animation: float 3s infinite alternate;
 }
 
@@ -100,7 +100,7 @@
   list-style: none;
   padding: 0;
   font-size: 1.1rem;
-  color: #fff;
+  color: #000;
   text-align: left;
 }
 
@@ -114,13 +114,13 @@
   content: '✔️';
   position: absolute;
   left: 0;
-  color: #ffd700;
+  color: #2C3E50;
 }
 
 /* Tarjetas de Roles */
 .postulacion-card {
-  background: rgba(255, 215, 0, 0.1); /* Fondo dorado semi-transparente */
-  border: 2px solid #ffd700; /* Borde dorado */
+  background: hsla(25, 46%, 89%, 0.176);
+  border: 2px solid #D6B4A1 ; 
   border-radius: 15px;
   padding: 20px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -132,12 +132,12 @@
 
 .postulacion-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 8px 16px rgba(255, 215, 0, 0.6);
+  box-shadow: 0 8px 16px rgba(155, 155, 155, 0.432);
 }
 
 .postulacion-icon {
   font-size: 3rem;
-  color: #ffd700;
+  color: #E6D6C3;
   margin-bottom: 15px;
   animation: float 2s infinite alternate;
 }
@@ -145,18 +145,18 @@
 .postulacion-card h3 {
   font-family: 'MedievalSharp', cursive;
   font-size: 1.8rem;
-  color: #ffd700;
+  color: #2C3E50;
   margin-bottom: 15px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .postulacion-card p {
-  color: #fff;
+  color: #000;
   margin-bottom: 20px;
 }
 
 .postulacion-btn {
-  background-color: #ffd700;
+  background-color: #C9D6D5;
   color: #2c3e50;
   border: none;
   padding: 10px 20px;
@@ -166,7 +166,7 @@
 }
 
 .postulacion-btn:hover {
-  background-color: #e5c100;
+  background-color: #D7E2E9;
   transform: scale(1.05);
   box-shadow: 0 0 10px #ffd700;
 }
@@ -176,7 +176,7 @@
   background: rgba(255, 215, 0, 0.05);
   padding: 20px;
   border-radius: 15px;
-  color: #ffd700;
+  color: #2c3e50;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
