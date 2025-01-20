@@ -1,9 +1,9 @@
 .story-detail-container {
-  background-color: #1a1a1a; /* Fondo oscuro */
+  background-color: #F1E4D1 ; /* Fondo oscuro */
   min-height: 100vh;
   padding: 50px 15px;
-  color: #f0f0f0; /* Texto claro */
-  font-family: 'Garamond', serif;
+  color: #000; /* Texto claro */
+  font-family: 'Arial', sans-serif;
   box-sizing: border-box;
   max-width: 1920px;
   margin: 0 auto;
@@ -11,7 +11,7 @@
 
 /* Títulos */
 .story-detail-title {
-  color: #ffd700; /* Dorado */
+  color: #2A2F3B;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   font-size: 2.5rem;
   font-weight: bold;
@@ -20,24 +20,24 @@
 
 .story-detail-chapters-title,
 .story-detail-comments-title {
-  color: #50c878; /* Esmeralda */
+  color: #2C3E50;
   margin-bottom: 20px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* Tarjeta de la Portada y Tarjeta de Información */
 .story-detail-card,
-.story-detail-main-card { /* Agregamos los estilos para la tarjeta de información */
-  background-color: #2c2c2c; /* Gris oscuro */
-  border: 2px solid #ffd700; /* Borde dorado */
+.story-detail-main-card {
+  background-color: #D7E2E9;
+  border: 2px solid #D6B4A1;
   border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%; /* Asegura que la tarjeta ocupe todo el espacio disponible */
+  height: 100%;
 }
 
 .story-detail-card:hover,
-.story-detail-main-card:hover { /* Aplica hover a ambas tarjetas */
+.story-detail-main-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.9);
 }
@@ -90,20 +90,20 @@
 }
 
 .story-detail-read-btn {
-  background-color: #50c878; /* Esmeralda */
+  background-color: #C9D6D5;
   border: none;
-  color: #1a1a1a;
+  color: #2C3E50;
   padding: 10px 20px;
   border-radius: 10px;
 }
 
 .story-detail-read-btn:hover {
-  background-color: #3a9d63;
+  background-color: #C1D0B5;
   transform: scale(1.05);
 }
 
 .story-detail-save-btn {
-  background-color: #ffd700; /* Dorado */
+  background-color: #ffd700;
   border: none;
   color: #1a1a1a;
   padding: 10px 20px;
@@ -116,7 +116,7 @@
 }
 
 .story-detail-cancel-btn {
-  background-color: #ff6347; /* Tomate */
+  background-color: #ff6347;
   border: none;
   color: #1a1a1a;
   padding: 10px 20px;
@@ -129,15 +129,15 @@
 }
 
 .story-detail-reply-submit-btn {
-  background-color: #50c878; /* Esmeralda */
+  background-color: #C9D6D5;
   border: none;
-  color: #1a1a1a;
+  color: #2C3E50;
   padding: 8px 16px;
   border-radius: 10px;
 }
 
 .story-detail-reply-submit-btn:hover {
-  background-color: #3a9d63;
+  background-color: #C9D6D5;
   transform: scale(1.05);
 }
 
@@ -159,16 +159,16 @@
 }
 
 .story-detail-modal-submit-btn {
-  background-color: #50c878; /* Esmeralda */
+  background-color: #C9D6D5;
   border: none;
-  color: #1a1a1a;
+  color: #2C3E50;
   padding: 8px 16px;
   border-radius: 10px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .story-detail-modal-submit-btn:hover {
-  background-color: #3a9d63;
+  background-color: #C9D6D5;
   transform: scale(1.05);
 }
 
@@ -180,25 +180,25 @@
 }
 
 .story-detail-badge {
-  background-color: #50c878; /* Esmeralda */
-  color: #1a1a1a;
+  background-color: #C9D6D5;
+  color: #2C3E50;
   padding: 5px 10px;
   border-radius: 5px;
   font-size: 0.9rem;
 }
 
 .story-detail-raw-origin a.story-detail-link {
-  color: #ffd700; /* Dorado */
+  color: #E8E2D6;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .story-detail-raw-origin a.story-detail-link:hover {
-  color: #e6c200;
+  color: #E8E2D6;
 }
 
 .story-detail-collaborators .story-detail-collaborator-link {
-  color: #50c878; /* Esmeralda */
+  color: #F0E1D6;
   text-decoration: none;
 }
 
@@ -207,17 +207,17 @@
 }
 
 .story-detail-adaptations a.story-detail-link {
-  color: #ffd700; /* Dorado */
+  color: #F0E1D6;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .story-detail-adaptations a.story-detail-link:hover {
-  color: #e6c200;
+  color: #F0E1D6;
 }
 
 .story-detail-chapter-title {
-  color: #ffd700; /* Dorado */
+  color: #E8E2D6 ;
   font-weight: bold;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
@@ -242,16 +242,16 @@
 
 /* Formularios */
 .story-detail-review-form .story-detail-review-label {
-  color: #ffd700; /* Dorado */
+  color: #E8E2D6 ; /* Dorado */
   font-weight: bold;
   max-width: 800px;
 }
 
 .story-detail-review-textarea {
-  background-color: #1c1c1c; /* Fondo más oscuro */
-  border: 1px solid #ffd700; /* Borde dorado */
+  background-color: #2C3E50; /* Fondo más oscuro */
+  border: 1px solid #E8E2D6 ; /* Borde dorado */
   border-radius: 10px;
-  color: #f0f0f0; /* Texto claro */
+  color: black; /* Texto claro */
   padding: 10px;
   font-size: 1rem;
   transition: border-color 0.3s ease, background-color 0.3s ease;
@@ -263,15 +263,15 @@
 }
 
 .story-detail-review-textarea:focus {
-  border-color: #50c878; /* Esmeralda */
+  border-color: #C1D0B5;
   background-color: #2a2a2a;
   outline: none;
 }
 
 /* Reseñas */
 .story-detail-review-card {
-  background-color: #2c2c2c; /* Gris oscuro */
-  border: 1px solid #50c878; /* Borde esmeralda */
+  background-color: #2C3E50; 
+  border: 1px solid #C1D0B5 ;
   border-radius: 10px;
   margin: 10px auto;
   width: 95%;
@@ -280,12 +280,12 @@
 }
 
 .story-detail-review-card:hover {
-  background-color: #3a3a3a;
-  border-color: #3a9d63;
+  background-color: #2C3E50;
+  border-color: #C1D0B5;
 }
 
 .story-detail-review-user {
-  color: #ffd700; /* Dorado */
+  color: #E8E2D6; /* Dorado */
   font-weight: bold;
 }
 
@@ -466,9 +466,9 @@
 
 /* Paginación */
 .pagination .page-item .page-link {
-  background-color: #2c2c2c;
-  color: #ffd700;
-  border: 1px solid #50c878;
+  background-color: #E8E2D6;
+  color: #2C3E50;
+  border: 1px solid #C1D0B5 ;
   border-radius: 10px;
   padding: 8px 16px;
   font-size: 1rem;
@@ -477,15 +477,15 @@
 }
 
 .pagination .page-item .page-link:hover {
-  background-color: #50c878;
-  color: #1a1a1a;
+  background-color: #C1D0B5;
+  color: #2C3E50;
   transform: scale(1.1);
 }
 
 .pagination .page-item.active .page-link {
-  background-color: #50c878;
-  color: #1a1a1a;
-  border-color: #50c878;
+  background-color: #C1D0B5;
+  color: #2C3E50;
+  border-color: #E8E2D6;
   transform: scale(1.1);
   pointer-events: none;
 }
