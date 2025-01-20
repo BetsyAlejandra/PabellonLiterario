@@ -68,12 +68,12 @@
 }
 
 .nav-tabs .nav-link.active {
-  color: #E8E2D6 ;
-  border-bottom: 2px solid #E8E2D6 ;
+  color: #2C3E50 ;
+  border-bottom: 2px solid #2C3E50 ;
 }
 
 .nav-tabs .nav-link:hover {
-  color: #E8E2D6 ;
+  color: #2C3E50 ;
 }
 
 /* Contenido general */
