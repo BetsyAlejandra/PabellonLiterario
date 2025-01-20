@@ -1,14 +1,14 @@
 /* readChapter.css */
 
 .read-chapter {
-  background: linear-gradient(135deg, #121212, #1e1e1e);
+  background: linear-gradient(135deg, #D3D0E1, #D7E2E9);
   padding: 25px;
   border-radius: 20px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.7);
   position: relative;
   overflow-y: auto;
   font-family: var(--font-family, Serif);
-  color: var(--font-color, #FBFCFC);
+  color: var(--font-color, #000);
   font-size: var(--font-size, 16px);
   filter: brightness(var(--brightness, 100%));
   transition: all 0.3s ease;
@@ -29,14 +29,13 @@
   left: 0;
   width: 100%;
   height: 5px;
-  background-color: rgba(255, 215, 0, 0.3);
-  /* Dorado suave */
+  background-color: hsla(22, 39%, 74%, 0.219) ;
   z-index: 1000;
 }
 
 .progress-bar {
   height: 100%;
-  background-color: #FFD700;
+  background-color: #E6D6C3;
   /* Dorado */
   width: 0%;
   transition: width 0.2s ease;
@@ -44,18 +43,14 @@
 
 /* Títulos y Textos */
 .chapter-title {
-  color: #FFD700;
-  /* Dorado */
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+  color: #2A2F3B;
   margin-bottom: 15px;
   font-family: 'Cinzel', serif;
-  /* Fuente más fantástica */
   font-size: 2rem;
 }
 
 .chapter-date {
-  color: #C0C0C0;
-  /* Gris claro para contraste */
+  color: #2C3E50;
   margin-bottom: 25px;
   font-style: italic;
   font-size: 1rem;
@@ -70,8 +65,8 @@
 }
 
 .go-to-content-btn {
-  background-color: #ffd700; /* Fondo dorado */
-  color: #1a1a1a; /* Texto oscuro */
+  background-color: #E8E2D6 ;
+  color: #2C3E50;
   border: none;
   padding: 10px 15px;
   border-radius: 10px;
@@ -81,9 +76,9 @@
 }
 
 .go-to-content-btn:hover {
-  background-color: #e6c200;
+  background-color: #E8E2D6;
   transform: scale(1.05); /* Efecto de zoom */
-  color: #1a1a1a;
+  color: #2C3E50;
 }
 
 /* Botón Flotante de Descarga */
@@ -100,7 +95,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para darle profundidad */
   transition: opacity 0.3s ease, transform 0.3s ease; /* Suaviza la aparición y desaparición */
   opacity: 0.9; /* Ajusta la opacidad según prefieras */
-  background-color: #28a745; /* Color de fondo verde para indicar éxito */
+  background-color: #D6B4A1 ; /* Color de fondo verde para indicar éxito */
 }
 
 .floating-download-button:hover {
@@ -121,10 +116,9 @@
 
 /* Botón de Ajustes */
 .settings-toggle {
-  background-color: #ffd700;
-  /* Dorado */
+  background-color: #D6B4A1;
   border: none;
-  color: #1c1c1c;
+  color: #2C3E50;
   border-radius: 50%;
   width: 60px;
   /* Aumentado para mejor visibilidad */
@@ -141,7 +135,7 @@
 }
 
 .settings-toggle:hover {
-  background-color: #e6c200;
+  background-color: #2C3E50;
   transform: scale(1.1);
 }
 
@@ -171,23 +165,23 @@
 }
 
 .nav-btn {
-  color: #FFD700;
+  color: #2C3E50;
   font-size: 1.2rem;
   transition: color 0.3s ease, transform 0.3s ease;
   display: flex;
   align-items: center;
   gap: 5px;
   padding: 10px 20px;
-  background-color: rgba(255, 215, 0, 0.1);
-  border: 2px solid #FFD700;
+  background-color: hsla(40, 28%, 87%, 0.239);
+  border: 2px solid #E6D6C3 ;
   border-radius: 10px;
   text-decoration: none;
   font-family: 'Cinzel', serif;
 }
 
 .nav-btn:hover {
-  color: #e6c200;
-  background-color: rgba(255, 215, 0, 0.2);
+  color: #2C3E50;
+  background-color: hsla(40, 28%, 87%, 0.239);
   transform: scale(1.05);
 }
 
@@ -235,16 +229,15 @@
 .annotations-list {
   margin-top: 40px;
   background: rgba(30, 30, 30, 0.95);
-  /* Fondo más oscuro */
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
   color: #FBFCFC;
-  font-family: 'Merriweather', serif;
+  font-family: 'Arial', sans-serif;
 }
 
 .annotations-list h3 {
-  color: #FFD700;
+  color: #F0E1D6;
   margin-bottom: 20px;
   font-family: 'Cinzel', serif;
 }
@@ -264,29 +257,28 @@
 
 /* Popover */
 .popover {
-  background: #2c3e50;
-  color: #FBFCFC;
-  border: 2px solid #FFD700;
+  background: #2C3E50;
+  color: #C2B4D6;
+  border: 2px solid #5F7D8B;
   border-radius: 15px;
 }
 
 .popover-header {
-  background: #4ca1af;
-  color: #FFD700;
-  border-bottom: 1px solid #FFD700;
+  background: #2C3E50;
+  color: #A0B5B1 ;
+  border-bottom: 1px solid #5F7D8B;
   font-family: 'Cinzel', serif;
 }
 
 .popover-body {
   color: #FBFCFC;
-  font-family: 'Merriweather', serif;
+  font-family: 'Arial', sans-serif;
 }
 
 /* Anotaciones estilo */
 .annotation {
   background-color: rgba(255, 215, 0, 0.2);
-  /* Dorado suave */
-  border-bottom: 2px dashed #FFD700;
+  border-bottom: 2px dashed #E8E2D6 ;
   padding: 2px 6px;
   border-radius: 4px;
   cursor: pointer;
@@ -296,7 +288,7 @@
 
 .annotation:hover {
   background-color: rgba(255, 215, 0, 0.3);
-  border-bottom: 2px dashed #e6c200;
+  border-bottom: 2px dashed #E8E2D6;
 }
 
 /* Secciones de Anuncios */

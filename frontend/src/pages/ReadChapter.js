@@ -36,7 +36,7 @@ const ReadChapter = () => {
 
     const [fontColor, setFontColor] = useState(() => {
         const storedFontColor = localStorage.getItem('fontColor');
-        return storedFontColor || "#FBFCFC";
+        return storedFontColor || "#000";
     });
 
     // Estado para la fuente

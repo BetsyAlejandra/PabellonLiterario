@@ -529,6 +529,7 @@
 
 /* Ajustes para la Sinopsis */
 .story-detail-description {
+  color: #000;
   word-wrap: break-word; /* Asegura que el texto largo se ajuste */
 }
 
