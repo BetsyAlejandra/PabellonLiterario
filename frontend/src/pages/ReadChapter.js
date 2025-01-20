@@ -486,10 +486,10 @@ const ReadChapter = () => {
                                     value={fontColor}
                                     onChange={(e) => handleFontColorChange(e.target.value)}
                                 >
-                                    <option value="#FBFCFC">Blanco (#FBFCFC)</option>
+                                    <option value="#000">Negro (#000)</option>
+                                    <option value="#2C3E50 ">Azul Oscuro (#2C3E50)</option>
                                     <option value="#FFD700">Dorado (#FFD700)</option>
                                     <option value="#A9DFBF">Verde Claro (#A9DFBF)</option>
-                                    <option value="#FFFFFF">Blanco Puro (#FFFFFF)</option>
                                     <option value="#FF5733">Naranja (#FF5733)</option>
                                     <option value="#C70039">Rojo (#C70039)</option>
                                 </Form.Select>

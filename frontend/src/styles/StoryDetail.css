@@ -529,11 +529,11 @@
 
 /* Ajustes para la Sinopsis */
 .story-detail-description {
-  color: #000;
   word-wrap: break-word; /* Asegura que el texto largo se ajuste */
 }
 
 .story-detail-description p {
   margin-top: 5px;
   line-height: 1.6;
+  color: #000;
 }
