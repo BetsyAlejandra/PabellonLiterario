@@ -199,6 +199,13 @@ const Header = () => {
             <Nav.Link
               as="div"
               className="custom-link"
+              onClick={() => navigate("/https://patreon.com/pabellonliterario?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink")}
+            >
+              Audio Dramas
+            </Nav.Link>
+            <Nav.Link
+              as="div"
+              className="custom-link"
               onClick={() => navigate("/postular")}
             >
               Postularme
