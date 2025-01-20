@@ -1,7 +1,7 @@
 /* EditorsPage.css */
 
 .editors-page-container {
-    background: linear-gradient(180deg, #1a1a2e, #16213e);
+    background: linear-gradient(180deg, #D3D0E1, #16213e);
     padding: 50px 0;
     color: #fff;
     min-height: 100vh;
@@ -25,18 +25,18 @@
   
   .editors-title {
     font-size: 2.5rem;
-    color: #28a745; /* Verde esmeralda */
+    color: #5F7D8B;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
   }
   
   .editors-subtitle {
     font-size: 1.2rem;
-    color: #b0c4de;
+    color: #5A3D42;
   }
   
   .editor-card {
-    background: #1e1e2f;
-    border: 2px solid #28a745; /* Verde esmeralda */
+    background: #D3D0E1;
+    border: 2px solid #D6B4A1; /* Verde esmeralda */
     border-radius: 15px;
     text-align: center;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.6);
@@ -45,7 +45,7 @@
   
   .editor-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0px 15px 20px rgba(40, 167, 69, 0.7); /* Verde esmeralda con opacidad */
+    box-shadow: 0px 15px 20px hsla(22, 39%, 74%, 0.5);
   }
   
   .editor-profile-photo {
@@ -54,13 +54,13 @@
     height: 100px;
     margin: 20px auto;
     object-fit: cover;
-    border: 3px solid #28a745; /* Verde esmeralda */
-    box-shadow: 0px 4px 8px rgba(40, 167, 69, 0.8); /* Verde esmeralda con opacidad */
+    border: 3px solid #8C6A4B;
+    box-shadow: 0px 4px 8px #28a74665;
   }
   
   .editor-name {
     font-size: 1.2rem;
-    color: #28a745; /* Verde esmeralda */
+    color: #5F7D8B;
     margin: 10px 0;
   }
   
@@ -71,9 +71,9 @@
   }
   
   .editor-profile-button {
-    background: #16213e;
-    color: #28a745; /* Verde esmeralda */
-    border: 2px solid #28a745; /* Verde esmeralda */
+    background: #C9D6D5;
+    color: #2C3E50;
+    border: 2px solid #C1D0B5;
     padding: 8px 15px;
     border-radius: 10px;
     font-size: 0.9rem;
@@ -81,8 +81,8 @@
   }
   
   .editor-profile-button:hover {
-    background: #28a745; /* Verde esmeralda */
-    color: #16213e;
+    background: #C1D0B5;
+    color: #2C3E50;
     transform: scale(1.1);
   }
   
@@ -92,20 +92,20 @@
   }
   
   .pagination .page-link {
-    color: #28a745; /* Verde esmeralda */
-    border: 1px solid #28a745; /* Verde esmeralda */
+    color: #5F7D8B ;
+    border: 1px solid #5F7D8B ;
     border-radius: 50%;
     margin: 0 5px;
   }
   
   .pagination .page-link:hover {
-    background-color: #28a745; /* Verde esmeralda */
+    background-color: #5F7D8B;
     color: white;
   }
   
   .pagination .active .page-link {
-    background-color: #28a745; /* Verde esmeralda */
-    border-color: #28a745; /* Verde esmeralda */
+    background-color: #5F7D8B;
+    border-color: #5F7D8B;
     color: white;
   }
   
@@ -123,9 +123,9 @@
   }
   
   .loading-text {
-    color: #28a745; /* Verde esmeralda */
+    color: #5F7D8B;
   }
   
   .error-text {
-    color: #dc3545; /* Rojo para errores */
+    color: #5F7D8B ;
   }  

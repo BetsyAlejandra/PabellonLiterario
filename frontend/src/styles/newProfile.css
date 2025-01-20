@@ -3,20 +3,20 @@
   justify-content: center;
   align-items: center;
   padding: 40px;
-  background: linear-gradient(180deg, #1a1a2e, #16213e);
+  background: linear-gradient(180deg, #D3D0E1, #16213e);
   min-height: 100vh;
 }
 
 .profile-card-fantasy {
-  background: #1e1e2f;
-  border: 2px solid #ffd700;
+  background: #E8E2D6;
+  border: 2px solid #D6B4A1 ;
   border-radius: 20px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.6);
   padding: 20px;
   width: 100%;
   max-width: 600px;
   text-align: center;
-  color: #ffffff;
+  color: #000;
 }
 
 .profile-header-fantasy {
@@ -53,20 +53,20 @@
 
 .profile-info-fantasy h1 {
   font-size: 1.8rem;
-  color: #ffd700;
+  color: #A0B5B1;
   margin: 10px 0;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .profile-info-fantasy h2 {
   font-size: 1.2rem;
-  color: #b0c4de;
+  color: #2C3E50;
   margin: 5px 0;
 }
 
 .profile-info-fantasy p {
   font-size: 1rem;
-  color: #dcdcdc;
+  color: black;
 }
 
 .social-links-new {
@@ -79,7 +79,7 @@
 .social-link-icon {
   display: inline-block;
   font-size: 1.5rem;
-  color: #ffd700;
+  color: #A0B5B1;
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
@@ -93,9 +93,9 @@
 }
 
 .fantasy-btn {
-  background: #16213e;
-  color: #ffd700;
-  border: 2px solid #ffd700;
+  background: #C9D6D5;
+  color: #2C3E50;
+  border: 2px solid #C1D0B5;
   padding: 10px 20px;
   margin: 10px;
   border-radius: 10px;
@@ -105,8 +105,8 @@
 }
 
 .fantasy-btn:hover {
-  background: #ffd700;
-  color: #16213e;
+  background: #F0E1D6;
+  color: #2C3E50;
 }
 
 .admin-panel-container {
@@ -114,8 +114,8 @@
 }
 
 .admin-panel-button {
-  background: #ffd700;
-  color: #16213e;
+  background: #C9D6D5;
+  color: #2C3E50;
   padding: 10px 20px;
   border: none;
   border-radius: 10px;
@@ -131,8 +131,8 @@
 }
 
 .fantasy-btn-save {
-  background: #04aa6d;
-  color: white;
+  background: #C9D6D5;
+  color: black;
   padding: 10px 20px;
   border: none;
   border-radius: 10px;

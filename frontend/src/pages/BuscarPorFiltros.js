@@ -49,7 +49,7 @@ const BuscarPorFiltros = () => {
   return (
     <div className="search-page">
       <Container>
-        <h2 className="search-title">Buscar por Filtros</h2>
+        <h2 className="search-title">Buscar por Filtros<br></br>No funciona por el momento.</h2>
         <Form onSubmit={handleFilterSubmit} className="filter-form">
           <Row>
             {/* Género */}
