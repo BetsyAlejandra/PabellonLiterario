@@ -2,11 +2,11 @@
 
 /* Contenedor Principal */
 .novels-container {
-  background-color: #F1E4D1 ; /* Fondo oscuro */
+  background-color: #D7E2E9; 
   min-height: 100vh;
   padding: 50px 20px;
-  color: #2C3E50; /* Texto claro para contraste */
-  font-family: 'Garamond', serif; /* Fuente con estilo clásico */
+  color: #2C3E50;
+  font-family: 'Arial', sans-serif;
 }
 
 /* Título de la Página */
@@ -28,8 +28,8 @@
 
 /* Tarjeta de Novela */
 .novels-card {
-  background-color: #F0E1D6;
-  border: 2px solid #F7E1D7; 
+  background-color: #D3D0E1;
+  border: 2px solid #C1D0B5; 
   border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
   display: flex;
@@ -80,14 +80,14 @@
 .novels-card-footer {
   padding: 15px;
   text-align: center;
-  border-top: 1px solid #F7E1D7;
-  background-color: #F0E1D6;
+  border-top: 1px solid #C1D0B5;
+  background-color: #F7E1D7;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
 
 .novels-button {
-  background-color: #C9D6D5;
+  background-color: #F0E1D6;
   border: none;
   color: #2C3E50;
   padding: 10px 20px;
@@ -98,7 +98,7 @@
 }
 
 .novels-button:hover {
-  background-color: #3a9d63;
+  background-color: #C1D0B5;
   transform: scale(1.05);
   color: #2C3E50;
 }

@@ -23,18 +23,18 @@
   
   .translators-title {
     font-size: 2.5rem;
-    color: #ffd700;
+    color: #2C3E50;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
   }
   
   .translators-subtitle {
     font-size: 1.2rem;
-    color: #b0c4de;
+    color: #F0E1D6 ;
   }
   
   .translator-card {
-    background: #1e1e2f;
-    border: 2px solid #ffd700;
+    background: #E8E2D6;
+    border: 2px solid #D6B4A1;
     border-radius: 15px;
     text-align: center;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.6);
@@ -43,7 +43,7 @@
   
   .translator-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0px 15px 20px rgba(255, 215, 0, 0.7);
+    box-shadow: 0px 15px 20px rgba(255, 242, 168, 0.164);
   }
   
   .translator-profile-photo {
@@ -52,26 +52,26 @@
     height: 100px;
     margin: 20px auto;
     object-fit: cover;
-    border: 3px solid #ffd700;
-    box-shadow: 0px 4px 8px rgba(255, 215, 0, 0.8);
+    border: 3px solid #E6D6C3;
+    box-shadow: 0px 4px 8px rgba(255, 244, 179, 0.548);
   }
   
   .translator-name {
     font-size: 1.2rem;
-    color: #ffd700;
+    color: #8C6A4B;
     margin: 10px 0;
   }
   
   .translator-roles {
     font-size: 0.9rem;
-    color: #b0c4de;
+    color: #000;
     margin-bottom: 15px;
   }
   
   .translator-profile-button {
-    background: #16213e;
-    color: #ffd700;
-    border: 2px solid #ffd700;
+    background: #F0E1D6;
+    color: #2C3E50;
+    border: 2px solid #C1D0B5;
     padding: 8px 15px;
     border-radius: 10px;
     font-size: 0.9rem;
@@ -79,8 +79,8 @@
   }
   
   .translator-profile-button:hover {
-    background: #ffd700;
-    color: #16213e;
+    background: #C1D0B5;
+    color: #2C3E50;
     transform: scale(1.1);
   }  
 
@@ -90,21 +90,21 @@
 }
 
 .pagination .page-link {
-  color: #4caf50; /* Color verde */
-  border: 1px solid #4caf50;
+  color: #D6B4A1 ; /* Color verde */
+  border: 1px solid #D6B4A1 ;
   border-radius: 50%;
   margin: 0 5px;
 }
 
 .pagination .page-link:hover {
-  background-color: #4caf50;
-  color: white;
+  background-color: #D6B4A1;
+  color: black;
 }
 
 .pagination .active .page-link {
-  background-color: #4caf50;
-  border-color: #4caf50;
-  color: white;
+  background-color: #D6B4A1 ;
+  border-color: #D6B4A1;
+  color: black;
 }
 
 .pagination .disabled .page-link {
