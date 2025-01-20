@@ -80,6 +80,7 @@ body {
 /* Últimas Traducciones */
 .latest-translations .card {
   background-color: #D3D0E1;
+  color: #2C3E50;
   border: 1px solid #D6B4A1;
 }
 
@@ -90,9 +91,9 @@ body {
 }
 
 .latest-translations .card .btn {
-  background-color: #C9D6D5 ;
+  background-color: #C9D6D5;
   color: #2C3E50;
-  border: none;
+  border: 1px #E8E2D6 ;
 }
 
 .latest-translations .card .btn:hover {
@@ -100,9 +101,7 @@ body {
   color: #2C3E50;
 }
 
-.latest-card{
-  color: #2C3E50;
-}
+
 /* Sección de Apoyo */
 .support-section {
   padding: 2rem;
