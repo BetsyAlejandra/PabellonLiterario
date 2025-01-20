@@ -2,7 +2,7 @@
   background-color: #F1E4D1 ; /* Fondo oscuro */
   min-height: 100vh;
   padding: 50px 15px;
-  color: #000; /* Texto claro */
+  color: #000;
   font-family: 'Arial', sans-serif;
   box-sizing: border-box;
   max-width: 1920px;
@@ -30,6 +30,7 @@
 .story-detail-main-card {
   background-color: #D7E2E9;
   border: 2px solid #D6B4A1;
+  color: #000;
   border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -188,17 +189,17 @@
 }
 
 .story-detail-raw-origin a.story-detail-link {
-  color: #E8E2D6;
+  color: #2A2F3B;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .story-detail-raw-origin a.story-detail-link:hover {
-  color: #E8E2D6;
+  color: #2A2F3B;
 }
 
 .story-detail-collaborators .story-detail-collaborator-link {
-  color: #F0E1D6;
+  color: #2A2F3B;
   text-decoration: none;
 }
 
@@ -207,28 +208,28 @@
 }
 
 .story-detail-adaptations a.story-detail-link {
-  color: #F0E1D6;
+  color: #2A2F3B;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .story-detail-adaptations a.story-detail-link:hover {
-  color: #F0E1D6;
+  color: #2A2F3B;
 }
 
 .story-detail-chapter-title {
-  color: #E8E2D6 ;
+  color: #2A2F3B ;
   font-weight: bold;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .story-detail-chapter-date {
-  color: #a9a9a9; /* Gris claro */
+  color: #a9a9a9;
 }
 
 .story-detail-no-chapters,
 .story-detail-no-reviews {
-  color: #a9a9a9; /* Gris claro */
+  color: #a9a9a9;
 }
 
 .story-detail-chapter-card {
