@@ -9,31 +9,31 @@ body {
   }
   
   .novel-form-card {
-    background: #2C2C2C;
-    border: 1px solid #FFD700;
+    background: #2C3E50;
+    border: 1px solid #E8E2D6 ;
     border-radius: 10px;
     padding: 2rem;
   }
   
   .form-title {
-    color: #FFD700;
+    color: #E8E2D6 ;
     margin-bottom: 1.5rem;
   }
   
   .fantasy-input {
-    background: #1E1E1E;
-    border: 1px solid #FFD700;
-    color: #FFD700;
+    background: #2C3E50;
+    border: 1px solid #E8E2D6;
+    color: #E8E2D6;
   }
   
   .fantasy-input:focus {
     outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 10px #4CAF50;
+    border-color: #2C3E50;
+    box-shadow: 0 0 10px #2C3E50;
   }
   
   .fantasy-button {
-    background: #FFD700;
+    background: #C9D6D5 ;
     color: #000;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -41,14 +41,14 @@ body {
   }
   
   .fantasy-button:hover {
-    background: #4CAF50;
-    color: #FFF;
+    background: #C9D6D5;
+    color: #000;
   }
   
   .preview-container img {
     max-width: 100%;
     margin-top: 1rem;
-    border: 2px solid #FFD700;
+    border: 2px solid #D6B4A1;
     border-radius: 5px;
   }
   
@@ -57,19 +57,19 @@ body {
   }
   
   .modal-success .modal-content {
-    background-color: #1E1E1E;
-    border: 2px solid #4CAF50;
+    background-color: #2C3E50;
+    border: 2px solid #D6B4A1 ;
   }
   
   .modal-error .modal-content {
-    background-color: #1E1E1E;
-    border: 2px solid #FF6347;
+    background-color: #2C3E50;
+    border: 2px solid #D6B4A1 ;
   }
   
   .novel-cover-preview {
     max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
     height: auto;    /* Mantén la proporción de la imagen */
-    border: 2px solid #FFD700; /* Estilo dorado para la previsualización */
+    border: 2px solid #E8E2D6 ; /* Estilo dorado para la previsualización */
     border-radius: 5px;
     display: block; /* Centra la imagen dentro de su contenedor */
     margin: 0 auto;
