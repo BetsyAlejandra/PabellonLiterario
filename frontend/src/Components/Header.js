@@ -125,26 +125,26 @@ const Header = () => {
     );
   };
 
-    // Manejo de la visibilidad del navbar
-    useEffect(() => {
-      const handleScroll = () => {
-        const currentScrollPos = window.scrollY;
-  
-        if (currentScrollPos > lastScrollPos && currentScrollPos > 50) {
-          setIsNavbarVisible(false); // Oculta la barra al hacer scroll hacia abajo
-        } else {
-          setIsNavbarVisible(true); // Muestra la barra al hacer scroll hacia arriba
-        }
-  
-        setLastScrollPos(currentScrollPos);
-      };
-  
-      window.addEventListener("scroll", handleScroll);
-  
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-      };
-    }, [lastScrollPos]);
+  // Manejo de la visibilidad del navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+
+      if (currentScrollPos > lastScrollPos && currentScrollPos > 50) {
+        setIsNavbarVisible(false); // Oculta la barra al hacer scroll hacia abajo
+      } else {
+        setIsNavbarVisible(true); // Muestra la barra al hacer scroll hacia arriba
+      }
+
+      setLastScrollPos(currentScrollPos);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollPos]);
 
   return (
     <Navbar
@@ -197,9 +197,11 @@ const Header = () => {
               Géneros
             </Nav.Link>
             <Nav.Link
-              as="div"
+              as="a"
               className="custom-link"
-              onClick={() => navigate("/https://patreon.com/pabellonliterario?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink")}
+              href="https://patreon.com/pabellonliterario?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Audio Dramas
             </Nav.Link>
