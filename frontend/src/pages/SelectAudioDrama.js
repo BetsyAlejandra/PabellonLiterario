@@ -10,7 +10,7 @@ const SelectAudioDrama = () => {
   useEffect(() => {
     const fetchAudioDramas = async () => {
       try {
-        const response = await fetch("/api/audio-dramas");
+        const response = await fetch('/api/audio-dramas');
         if (!response.ok) throw new Error("Error al cargar los audiodramas");
         const data = await response.json();
         setAudioDramas(data);
