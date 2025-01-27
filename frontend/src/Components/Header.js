@@ -176,7 +176,15 @@ const Header = () => {
             >
               Novelas
             </Nav.Link>
-            {/* Menú Desplegable para Traductores y Editores */}
+            <Nav.Link
+              as="a"
+              className="custom-link"
+              href="https://patreon.com/pabellonliterario?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Audio Dramas
+            </Nav.Link>
             <NavDropdown
               title="Roles" // Título del desplegable
               id="roles-dropdown"
@@ -195,15 +203,6 @@ const Header = () => {
               onClick={() => navigate("/generos")}
             >
               Géneros
-            </Nav.Link>
-            <Nav.Link
-              as="a"
-              className="custom-link"
-              href="https://patreon.com/pabellonliterario?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Audio Dramas
             </Nav.Link>
             <Nav.Link
               as="div"

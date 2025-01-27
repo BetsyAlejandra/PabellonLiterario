@@ -14,6 +14,7 @@ const fs = require('fs');
 const novelRoutes = require('./routes/novels');
 const userRoutes = require('./routes/users');
 const donationRoutes = require('./routes/donations');
+const audioDramaRoutes = require('./routes/audioDramas');
 
 // Configuración de Rate Limiting
 const limiter = rateLimit({
@@ -69,6 +70,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/users', userRoutes);
 app.use('/api/novels', novelRoutes);
 app.use('/api/donations', donationRoutes);
+app.use('/api/audio-dramas', audioDramaRoutes);
 
 // Servir en producción
 if (process.env.NODE_ENV === 'production') {

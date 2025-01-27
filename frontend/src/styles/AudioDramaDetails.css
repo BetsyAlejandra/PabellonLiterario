@@ -1,0 +1,58 @@
+.audio-drama-details {
+    padding: 2rem 0;
+    background-color: #F7E1D7;
+  }
+  
+  .audio-drama-details .title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #D6B4A1;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .audio-drama-details .description {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+  
+  .audio-drama-details .genres, .audio-drama-details .progress {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .audio-drama-details .season {
+    margin-top: 1.5rem;
+    background-color: #FFF;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #D3D0E1;
+  }
+  
+  .audio-drama-details .season h3 {
+    font-size: 1.5rem;
+    color: #C9D6D5;
+    margin-bottom: 1rem;
+  }
+  
+  .audio-drama-details ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .audio-drama-details li {
+    margin-bottom: 0.8rem;
+  }
+  
+  .audio-drama-details .video-link {
+    margin-left: 10px;
+    color: #D6B4A1;
+    text-decoration: none;
+  }
+  
+  .audio-drama-details .video-link:hover {
+    color: #B79B8F;
+  }
+  

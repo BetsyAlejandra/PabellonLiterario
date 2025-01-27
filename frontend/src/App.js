@@ -30,10 +30,10 @@ import TranslatorsPage from './pages/TraductoresPage';
 import Postulacion from './pages/Postulacion';
 import BuscarPorFiltros from './pages/BuscarPorFiltros';
 import EditorsPage from './pages/EditorsPages';
-import EpisodePlayerPage from './pages/EpisodePlayerPage';
-import AudioDramaForm from './pages/AudioDramaForm';
-import SeasonsPage from './pages/SeasonsPage';
-import EpisodesPage from './pages/EpisodeList';
+import ManageChapters from './pages/ManageChapters';
+import CreateAudioDrama from './pages/CreateAudioDrama';
+import AudioDramaDetails from './pages/AudioDramaDetails';
+import AudioDramaList from './pages/AudioDramaList';
 
 function App() {
   const location = useLocation(); // Hook para obtener la ubicación actual
@@ -67,10 +67,10 @@ function App() {
         <Route path="/profile" element={<Perfil />} />
         <Route path="/profileperson/:username" element={<PerfilUsuario />} />
         <Route path="/admin-panel" element={<AdminPanel />} />
-        <Route path="/audio-dramasUp" element={<AudioDramaForm />} />
-        <Route path="/audio-dramas" element={<SeasonsPage />} />
-        <Route path="/audio-dramas/season/:season" element={<EpisodesPage />} />
-        <Route path="/audio-dramas/episode/:episodeId" element={<EpisodePlayerPage />} />
+        <Route path="/audiodramacreacion" element={<CreateAudioDrama />} />
+        <Route path="/audiodramas" element={<AudioDramaList />} />
+        <Route path="/audiodramas/:id" element={<AudioDramaDetails />} />
+        <Route path="/audiodramasgestion" element={<ManageChapters />} />
       </Routes>
       {!hideHeaderFooter && <FloatingButton />}
       {!hideHeaderFooter && <Footer />}

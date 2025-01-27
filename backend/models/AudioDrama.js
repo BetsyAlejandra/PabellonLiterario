@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
 
-const AudioDramaSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  description: { type: String },
-  season: { type: Number, required: true },
+const ChapterSchema = new mongoose.Schema({
   episode: { type: Number, required: true },
+  title: { type: String, required: true }, 
+  description: { type: String }, 
   videoLinks: [
     {
       platform: { type: String, required: true },
@@ -12,6 +11,24 @@ const AudioDramaSchema = new mongoose.Schema({
     },
   ],
   likes: { type: Number, default: 0 },
+  publishedAt: { type: Date }, 
+});
+
+const SeasonSchema = new mongoose.Schema({
+  seasonNumber: { type: Number, required: true },
+  chapters: [ChapterSchema],
+});
+
+const AudioDramaSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String },
+  genres: { type: [String], required: true },
+  progress: {
+    type: String,
+    enum: ['En progreso', 'Finalizado', 'Pausado'],
+    default: 'En progreso',
+  },
+  seasons: [SeasonSchema],
   createdAt: { type: Date, default: Date.now },
 });
 

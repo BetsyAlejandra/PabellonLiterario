@@ -1,0 +1,69 @@
+.manage-chapters {
+    padding: 2rem 0;
+    background-color: #F1E4D1;
+  }
+  
+  .manage-chapters .title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #D6B4A1;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .manage-chapters .season-list {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  
+  .manage-chapters .season-button {
+    padding: 0.8rem 1.5rem;
+    background-color: #D3D0E1;
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .manage-chapters .season-button.active {
+    background-color: #C9D6D5;
+    color: #FFF;
+  }
+  
+  .manage-chapters .add-chapter {
+    background-color: #FFF;
+    padding: 1.5rem;
+    border: 1px solid #D3D0E1;
+    border-radius: 8px;
+  }
+  
+  .manage-chapters .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .manage-chapters label {
+    display: block;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .manage-chapters input, .manage-chapters textarea {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #D3D0E1;
+    border-radius: 5px;
+  }
+  
+  .manage-chapters .btn-primary {
+    background-color: #D6B4A1;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+  }  
