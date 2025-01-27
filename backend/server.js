@@ -14,7 +14,7 @@ const fs = require('fs');
 const novelRoutes = require('./routes/novels');
 const userRoutes = require('./routes/users');
 const donationRoutes = require('./routes/donations');
-const audioDramaRoutes = require('./routes/audioDramas');
+const audioDramaRoutes = require('./routes/audioDrama');
 
 // Configuración de Rate Limiting
 const limiter = rateLimit({
