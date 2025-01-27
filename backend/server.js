@@ -90,7 +90,6 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Algo salió mal!' });
 });
-app.use(errorHandler);
 
 // Iniciar servidor
 const PORT = process.env.PORT || 5000;
