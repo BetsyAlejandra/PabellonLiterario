@@ -30,6 +30,10 @@ import TranslatorsPage from './pages/TraductoresPage';
 import Postulacion from './pages/Postulacion';
 import BuscarPorFiltros from './pages/BuscarPorFiltros';
 import EditorsPage from './pages/EditorsPages';
+import EpisodePlayerPage from './pages/EpisodePlayerPage';
+import AudioDramaForm from './pages/AudioDramaForm';
+import SeasonsPage from './pages/SeasonsPage';
+import EpisodesPage from './pages/EpisodeList';
 
 function App() {
   const location = useLocation(); // Hook para obtener la ubicación actual
@@ -55,8 +59,6 @@ function App() {
         <Route path="/story-detail/:id" element={<StoryDetail />} />
         <Route path="/read-chapter/:storyId/:chapterId" element={<ReadChapter />} />
         <Route path="/add-chapter/:id" element={<AddChapter />} />
-
-        {/* Rutas protegidas */}
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/my-stories" element={<MyStories />} />
         <Route path="/update/:id" element={<UpdateNovel />} />
@@ -65,6 +67,10 @@ function App() {
         <Route path="/profile" element={<Perfil />} />
         <Route path="/profileperson/:username" element={<PerfilUsuario />} />
         <Route path="/admin-panel" element={<AdminPanel />} />
+        <Route path="/audio-dramasUp" element={<AudioDramaForm />} />
+        <Route path="/audio-dramas" element={<SeasonsPage />} />
+        <Route path="/audio-dramas/season/:season" element={<EpisodesPage />} />
+        <Route path="/audio-dramas/episode/:episodeId" element={<EpisodePlayerPage />} />
       </Routes>
       {!hideHeaderFooter && <FloatingButton />}
       {!hideHeaderFooter && <Footer />}
