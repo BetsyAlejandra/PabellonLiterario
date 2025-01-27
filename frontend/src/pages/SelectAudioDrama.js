@@ -11,16 +11,12 @@ const SelectAudioDrama = () => {
     const fetchAudioDramas = async () => {
       try {
         const response = await fetch('/api/audio-dramas');
-        if (!response.ok) throw new Error("Error al cargar los audiodramas");
         const data = await response.json();
         setAudioDramas(data);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
+      } catch (error) {
+        console.error('Error al cargar los audiodramas:', error);
       }
     };
-
     fetchAudioDramas();
   }, []);
 
