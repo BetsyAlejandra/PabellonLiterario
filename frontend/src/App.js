@@ -70,7 +70,7 @@ function App() {
         <Route path="/admin-panel" element={<AdminPanel />} />
         <Route path="/audiodramacreacion" element={<CreateAudioDrama />} />
         <Route path="/audiodramas" element={<AudioDramaList />} />
-        <Route path="/agregarcapaudiodrama" element={<SelectAudioDrama />} />
+        <Route path="/gestionaudiodrama" element={<SelectAudioDrama />} />
         <Route path="/audiodramas/:id" element={<AudioDramaDetails />} />
         <Route path="/manage-chapters/:id" element={<ManageChapters />} />
       </Routes>
