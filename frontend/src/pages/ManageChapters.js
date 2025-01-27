@@ -1,135 +1,89 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import '../styles/ManageChapters.css';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const ManageChapters = () => {
-  const { id } = useParams(); // ID del audiodrama
+  const { id } = useParams();
   const [audioDrama, setAudioDrama] = useState(null);
-  const [selectedSeason, setSelectedSeason] = useState(null);
-  const [chapterData, setChapterData] = useState({
-    episode: '',
-    title: '',
-    description: '',
-    videoLinks: '',
-  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchAudioDrama = async () => {
       try {
-        const response = await fetch(`/api/audio-dramas/${id}`);
+        const response = await fetch(`https://pabellonliterario.com/api/audio-dramas/${id}`);
+        if (!response.ok) throw new Error("Error al cargar el audiodrama");
         const data = await response.json();
         setAudioDrama(data);
-      } catch (error) {
-        console.error('Error al cargar los detalles del audiodrama:', error);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
       }
     };
 
     fetchAudioDrama();
   }, [id]);
 
-  const handleSeasonSelect = (seasonNumber) => {
-    setSelectedSeason(seasonNumber);
-  };
+  if (loading) return <p>Cargando audiodrama...</p>;
+  if (error) return <p>Error: {error}</p>;
 
-  const handleChange = (e) => {
-    setChapterData({ ...chapterData, [e.target.name]: e.target.value });
-  };
-
-  const handleAddChapter = async (e) => {
-    e.preventDefault();
-
-    if (!selectedSeason) {
-      alert('Selecciona una temporada primero.');
-      return;
-    }
-
+  const addChapter = async (seasonNumber, chapter) => {
     try {
-      const response = await fetch(`/api/audio-dramas/${id}/seasons/${selectedSeason}/chapters`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...chapterData,
-          videoLinks: [{ platform: 'Dailymotion', url: chapterData.videoLinks }],
-        }),
-      });
-
-      if (response.ok) {
-        alert('Capítulo agregado exitosamente.');
-        setChapterData({ episode: '', title: '', description: '', videoLinks: '' });
-      } else {
-        alert('Error al agregar el capítulo.');
-      }
-    } catch (error) {
-      console.error('Error al agregar el capítulo:', error);
+      const response = await fetch(
+        `/api/audio-dramas/${id}/seasons/${seasonNumber}/chapters`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(chapter),
+        }
+      );
+      if (!response.ok) throw new Error("Error al agregar capítulo");
+      const updatedDrama = await response.json();
+      setAudioDrama(updatedDrama);
+    } catch (err) {
+      alert(err.message);
     }
   };
-
-  if (!audioDrama) {
-    return <p>Cargando detalles...</p>;
-  }
 
   return (
-    <div className="manage-chapters container">
-      <h1 className="title">Administrar Capítulos de {audioDrama.title}</h1>
-      <h2>Temporadas</h2>
-      <div className="season-list">
-        {audioDrama.seasons.map((season) => (
-          <button
-            key={season.seasonNumber}
-            className={`season-button ${selectedSeason === season.seasonNumber ? 'active' : ''}`}
-            onClick={() => handleSeasonSelect(season.seasonNumber)}
-          >
-            Temporada {season.seasonNumber}
-          </button>
-        ))}
-      </div>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">{audioDrama.title}</h1>
+      <p>{audioDrama.description}</p>
 
-      {selectedSeason && (
-        <div className="add-chapter">
-          <h2>Agregar Capítulo a la Temporada {selectedSeason}</h2>
-          <form onSubmit={handleAddChapter}>
-            <div className="form-group">
-              <label>Episodio</label>
-              <input
-                type="number"
-                name="episode"
-                value={chapterData.episode}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Título</label>
-              <input
-                type="text"
-                name="title"
-                value={chapterData.title}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Descripción</label>
-              <textarea
-                name="description"
-                value={chapterData.description}
-                onChange={handleChange}
-              ></textarea>
-            </div>
-            <div className="form-group">
-              <label>Enlace de Video</label>
-              <input
-                type="url"
-                name="videoLinks"
-                value={chapterData.videoLinks}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <button type="submit" className="btn btn-primary">Agregar Capítulo</button>
+      {audioDrama.seasons.map((season) => (
+        <div key={season.seasonNumber} className="mt-6">
+          <h2 className="text-xl font-semibold">Temporada {season.seasonNumber}</h2>
+          <ul>
+            {season.chapters.map((chapter, index) => (
+              <li key={index} className="text-gray-600">
+                Episodio {chapter.episode}: {chapter.title}
+              </li>
+            ))}
+          </ul>
+
+          {/* Formulario para agregar capítulos */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const chapter = {
+                episode: e.target.episode.value,
+                title: e.target.title.value,
+                description: e.target.description.value,
+                videoLinks: [{ platform: "YouTube", url: e.target.url.value }],
+              };
+              addChapter(season.seasonNumber, chapter);
+              e.target.reset();
+            }}
+          >
+            <h3 className="text-lg font-semibold mt-4">Agregar Capítulo</h3>
+            <input name="episode" placeholder="Número de episodio" className="border p-2 mb-2 w-full" required />
+            <input name="title" placeholder="Título" className="border p-2 mb-2 w-full" required />
+            <textarea name="description" placeholder="Descripción" className="border p-2 mb-2 w-full"></textarea>
+            <input name="url" placeholder="URL del video" className="border p-2 mb-2 w-full" required />
+            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">Agregar</button>
           </form>
         </div>
-      )}
+      ))}
     </div>
   );
 };
