@@ -190,7 +190,10 @@ const Perfil = () => {
               <button className="admin-panel-button" onClick={() => navigate('/admin-panel')}>
                 ⚜ Ir al Panel de Administración ⚜
               </button>
-            </div>
+            <button className="admin-panel-button" onClick={() => navigate('/gestionaudiodrama')}>
+              ⚜ Audio Dramas ⚜
+            </button>
+          </div>
           )}
 
           {isEditing && (
