@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import '../styles/ManageChapters.css'
+import '../styles/ManageChapters.css';
 
 const ManageChapters = () => {
   const { id } = useParams();
@@ -64,9 +64,9 @@ const ManageChapters = () => {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">{audioDrama.title}</h1>
-      <p>{audioDrama.description}</p>
+    <div className="container py-4">
+      <h1 className="text-center mb-4">{audioDrama.title}</h1>
+      <p className="text-center">{audioDrama.description}</p>
 
       {/* Formulario para agregar temporada */}
       <form
@@ -80,29 +80,33 @@ const ManageChapters = () => {
           addSeason(season);
           e.target.reset();
         }}
+        className="mb-4"
       >
         <h3 className="text-lg font-semibold mt-4">Agregar Temporada</h3>
-        <input
-          name="seasonNumber"
-          placeholder="Número de temporada"
-          className="border p-2 mb-2 w-full"
-          required
-        />
-        <input
-          name="title"
-          placeholder="Título"
-          className="border p-2 mb-2 w-full"
-          required
-        />
-        <textarea
-          name="description"
-          placeholder="Descripción"
-          className="border p-2 mb-2 w-full"
-        ></textarea>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2"
-        >
+        <div className="mb-3">
+          <input
+            name="seasonNumber"
+            placeholder="Número de temporada"
+            className="form-control"
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            name="title"
+            placeholder="Título"
+            className="form-control"
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <textarea
+            name="description"
+            placeholder="Descripción"
+            className="form-control"
+          ></textarea>
+        </div>
+        <button type="submit" className="btn btn-primary">
           Agregar Temporada
         </button>
       </form>
@@ -133,41 +137,46 @@ const ManageChapters = () => {
                 description: e.target.description.value,
                 videoLinks: [
                   { platform: "YouTube", url: e.target.url.value },
-                  // Puedes agregar más plataformas de video aquí
                 ],
               };
               addChapter(season.seasonNumber, chapter);
               e.target.reset();
             }}
+            className="mb-4"
           >
             <h3 className="text-lg font-semibold mt-4">Agregar Capítulo</h3>
-            <input
-              name="episode"
-              placeholder="Número de episodio"
-              className="border p-2 mb-2 w-full"
-              required
-            />
-            <input
-              name="title"
-              placeholder="Título"
-              className="border p-2 mb-2 w-full"
-              required
-            />
-            <textarea
-              name="description"
-              placeholder="Descripción"
-              className="border p-2 mb-2 w-full"
-            ></textarea>
-            <input
-              name="url"
-              placeholder="URL del video"
-              className="border p-2 mb-2 w-full"
-              required
-            />
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2"
-            >
+            <div className="mb-3">
+              <input
+                name="episode"
+                placeholder="Número de episodio"
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <input
+                name="title"
+                placeholder="Título"
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <textarea
+                name="description"
+                placeholder="Descripción"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="mb-3">
+              <input
+                name="url"
+                placeholder="URL del video"
+                className="form-control"
+                required
+              />
+            </div>
+            <button type="submit" className="btn btn-primary">
               Agregar
             </button>
           </form>

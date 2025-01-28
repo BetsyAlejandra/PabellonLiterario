@@ -20,18 +20,47 @@ const AudioDramaList = () => {
   }, []);
 
   return (
-    <div className="audio-drama-list container">
-      <h1 className="title">Audiodramas Disponibles</h1>
-      <div className="grid">
-        {audioDramas.map((drama) => (
-          <div key={drama._id} className="card">
-            <h2>{drama.title}</h2>
-            <p>{drama.description}</p>
-            <Link to={`/audiodrama/${drama._id}`} className="btn btn-primary">
-              Ver detalles
-            </Link>
+    <div className="audio-drama-list container py-5">
+      <h1 className="title text-center mb-4">Audiodramas Disponibles</h1>
+
+      <div className="row">
+        {/* Lista de audiodramas */}
+        <div className="col-lg-8">
+          <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {audioDramas.map((drama) => (
+              <div key={drama._id} className="col">
+                <div className="card shadow-sm border-light rounded-3 h-100">
+                  <div className="card-body">
+                    <h5 className="card-title text-dark">{drama.title}</h5>
+                    <p className="card-text text-muted">{drama.description}</p>
+                    <Link to={`/audiodrama/${drama._id}`} className="btn btn-primary w-100">
+                      Ver detalles
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+
+        {/* Columna lateral con información sobre Patreon y suscripción */}
+        <div className="col-lg-4">
+          <div className="info-box shadow-sm rounded-3 p-3">
+            <h5 className="info-title">¿Cómo funciona el acceso a los episodios?</h5>
+            <p className="info-text">
+              Los episodios 0 y 1 siempre están disponibles de forma gratuita para todos. Los episodios posteriores estarán
+              disponibles para los patrocinadores de Patreon primero, y se liberarán de manera gratuita 8 días después.
+            </p>
+            <p className="info-text">
+              Los suscriptores de Patreon también pueden votar por los audiodramas que desean que sean traducidos según su nivel de suscripción.
+            </p>
+            <p className="text-center">
+              <a href="https://www.patreon.com/pabellonliterario" target="_blank" rel="noopener noreferrer" className="btn btn-info w-100">
+                Únete a Patreon
+              </a>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

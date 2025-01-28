@@ -1,58 +1,92 @@
 .audio-drama-list {
-    padding: 2rem 0;
-    color: #333;
-    background-color: #F1E4D1;
-  }
-  
+  background-color: #F1E4D1;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.audio-drama-list .title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #D6B4A1;
+}
+
+.audio-drama-list .card {
+  background-color: #FFF;
+  border: 1px solid #D3D0E1;
+  border-radius: 10px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.audio-drama-list .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.audio-drama-list .card-title {
+  font-size: 1.5rem;
+  color: #4F3B31;
+  margin-bottom: 0.75rem;
+}
+
+.audio-drama-list .card-text {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1.25rem;
+}
+
+.audio-drama-list .btn {
+  background-color: #D6B4A1;
+  color: white;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.audio-drama-list .btn:hover {
+  background-color: #B79B8F;
+}
+
+/* Estilo para la caja lateral de información */
+.audio-drama-list .info-box {
+  background-color: #FFF;
+  border: 1px solid #D3D0E1;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.audio-drama-list .info-title {
+  font-size: 1.5rem;
+  color: #4F3B31;
+  margin-bottom: 1rem;
+}
+
+.audio-drama-list .info-text {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.audio-drama-list .info-box .btn-info {
+  background-color: #4F3B31;
+  color: white;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.audio-drama-list .info-box .btn-info:hover {
+  background-color: #B79B8F;
+}
+
+@media (max-width: 768px) {
   .audio-drama-list .title {
     font-size: 2rem;
-    font-weight: bold;
-    color: #D6B4A1;
-    text-align: center;
-    margin-bottom: 1.5rem;
   }
-  
-  .audio-drama-list .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+
+  .audio-drama-list .card-title {
+    font-size: 1.25rem;
   }
-  
-  .audio-drama-list .card {
-    background-color: #FFF;
-    border: 1px solid #D3D0E1;
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  
-  .audio-drama-list .card:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
-  
-  .audio-drama-list .card h2 {
-    font-size: 1.5rem;
-    color: #C9D6D5;
-    margin-bottom: 0.5rem;
-  }
-  
-  .audio-drama-list .card p {
+
+  .audio-drama-list .card-text {
     font-size: 1rem;
-    color: #555;
-    margin-bottom: 1rem;
   }
-  
-  .audio-drama-list .btn {
-    background-color: #D6B4A1;
-    color: white;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-  }
-  
-  .audio-drama-list .btn:hover {
-    background-color: #B79B8F;
-  }  
+}
