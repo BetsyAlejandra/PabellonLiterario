@@ -193,6 +193,9 @@ const Perfil = () => {
             <button className="admin-panel-button" onClick={() => navigate('/gestionaudiodrama')}>
               ⚜ Audio Dramas ⚜
             </button>
+            <button className="admin-panel-button" onClick={() => navigate('/audiodramacreacion')}>
+              ⚜ Creación Audio Dramas ⚜
+            </button>
           </div>
           )}
 
