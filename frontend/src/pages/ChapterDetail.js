@@ -53,12 +53,27 @@ const ChapterDetail = () => {
     return previousEpisode;
   };
 
+  const getDailymotionVideoId = (videoUrl) => {
+    const regex = /(?:dai\.ly\/)([a-zA-Z0-9_-]+)/;
+    const match = videoUrl.match(regex);
+  
+    if (match) {
+      return match[1];
+    } else {
+      console.error('URL de Dailymotion no válida.');
+      return null;
+    }
+  };
+
+  const videoId = getDailymotionVideoId(chapter.videoLinks[0].url);
+  
+
   return (
     <div className="chapter-detail container">
       <h1 className="chapter-title">{chapter.title}</h1>
 
 
-      <DailymotionPlayer videoId={chapter.videoLinks[0].url.split("/")[4]} />
+      {videoId && <DailymotionPlayer videoId={videoId} />}
 
       {/* Botón de retroceso */}
       <Link to={`/audiodrama/${id}`} className="back-button">
