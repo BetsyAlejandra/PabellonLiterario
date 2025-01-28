@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import '../styles/AudioDramaDetails.css';
 
 const AudioDramaDetails = () => {
@@ -55,14 +55,12 @@ const AudioDramaDetails = () => {
                   <li key={chapter.episode}>
                     <strong>Ep. {chapter.episode}:</strong> {chapter.title}
                     {chapter.videoLinks && chapter.videoLinks.length > 0 ? (
-                      <a
-                        href={chapter.videoLinks[0]?.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <Link
+                        to={`/audio-dramas/${id}/seasons/${season.seasonNumber}/episodes/${chapter.episode}`}
                         className="video-link"
                       >
                         Ver episodio
-                      </a>
+                      </Link>
                     ) : (
                       <p>No hay enlaces de video disponibles.</p>
                     )}

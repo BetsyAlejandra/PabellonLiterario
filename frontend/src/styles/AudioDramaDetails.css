@@ -1,58 +1,77 @@
 .audio-drama-details {
-    padding: 2rem 0;
-    background-color: #F7E1D7;
-  }
-  
-  .audio-drama-details .title {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #D6B4A1;
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-  
-  .audio-drama-details .description {
-    font-size: 1.2rem;
-    color: #555;
-    margin-bottom: 1rem;
-  }
-  
-  .audio-drama-details .genres, .audio-drama-details .progress {
-    font-size: 1rem;
-    color: #333;
-    margin-bottom: 0.5rem;
-  }
-  
-  .audio-drama-details .season {
-    margin-top: 1.5rem;
-    background-color: #FFF;
-    padding: 1rem;
-    border-radius: 8px;
-    border: 1px solid #D3D0E1;
-  }
-  
-  .audio-drama-details .season h3 {
-    font-size: 1.5rem;
-    color: #C9D6D5;
-    margin-bottom: 1rem;
-  }
-  
-  .audio-drama-details ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .audio-drama-details li {
-    margin-bottom: 0.8rem;
-  }
-  
-  .audio-drama-details .video-link {
-    margin-left: 10px;
-    color: #D6B4A1;
-    text-decoration: none;
-  }
-  
-  .audio-drama-details .video-link:hover {
-    color: #B79B8F;
-  }
-  
+  padding: 3rem 2rem;
+  background-color: #f7e1d7;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.audio-drama-details .title {
+  font-size: 3rem;
+  font-weight: 600;
+  color: #4f3b31;
+  text-align: center;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.audio-drama-details .description {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.audio-drama-details .genres,
+.audio-drama-details .progress {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.audio-drama-details .season {
+  margin-top: 2rem;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  border: 1px solid #d3d0e1;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.audio-drama-details .season h3 {
+  font-size: 1.8rem;
+  color: #4f3b31;
+  margin-bottom: 1.2rem;
+  text-transform: capitalize;
+}
+
+.audio-drama-details ul {
+  list-style: none;
+  padding: 0;
+}
+
+.audio-drama-details li {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+.audio-drama-details .video-link {
+  margin-left: 10px;
+  color: #d6b4a1;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.audio-drama-details .video-link:hover {
+  color: #4f3b31;
+}
+
+.audio-drama-details .error-message {
+  color: #e74c3c;
+  text-align: center;
+  font-size: 1.2rem;
+}
