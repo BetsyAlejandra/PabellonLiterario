@@ -56,7 +56,7 @@ const ChapterDetail = () => {
   const getDailymotionVideoId = (videoUrl) => {
     const regex = /(?:dai\.ly\/)([a-zA-Z0-9_-]+)/;
     const match = videoUrl.match(regex);
-  
+
     if (match) {
       return match[1];
     } else {
@@ -69,29 +69,34 @@ const ChapterDetail = () => {
 
   return (
     <div className="chapter-detail container py-5">
-      <h1 className="chapter-title">{chapter.title}</h1>
+      <h1 className="chapter-title text-center mb-4">{chapter.title}</h1>
 
       {videoId && <DailymotionPlayer videoId={videoId} />}
 
       <div className="chapter-navigation d-flex justify-content-between mt-4">
         {getPreviousChapter() && (
-          <Link to={`/audio-dramas/${id}/seasons/${seasonNumber}/episodes/${getPreviousChapter().episode}`} className="btn btn-outline-secondary">
+          <Link to={`/audio-dramas/${id}/seasons/${seasonNumber}/episodes/${getPreviousChapter().episode}`} className="btn btn-outline-dark shadow-sm">
             Capítulo Anterior
           </Link>
         )}
         {getNextChapter() && (
-          <Link to={`/audio-dramas/${id}/seasons/${seasonNumber}/episodes/${getNextChapter().episode}`} className="btn btn-outline-secondary">
+          <Link to={`/audio-dramas/${id}/seasons/${seasonNumber}/episodes/${getNextChapter().episode}`} className="btn btn-outline-dark shadow-sm">
             Siguiente Capítulo
           </Link>
         )}
       </div>
 
-      <div className="patreon-info text-center my-4">
-        <p>Para ver capítulos más avanzados, únete a nuestro <a href="https://www.patreon.com/pabellonliterario" target="_blank" rel="noopener noreferrer" className="text-decoration-none">Patreon</a>.</p>
+      <div className="patreon-info text-center my-5">
+        <p className="font-weight-bold text-dark">
+          Para ver capítulos más avanzados, únete a nuestro{' '}
+          <a href="https://www.patreon.com/pabellonliterario" target="_blank" rel="noopener noreferrer" className="btn btn-danger btn-lg">
+            ¡Patreon!
+          </a>
+        </p>
       </div>
 
-      <div className="back-button text-center">
-        <Link to={`/audio-dramas/${id}`} className="btn btn-primary">
+      <div className="back-button text-center mt-5">
+        <Link to={`/audiodrama/${id}`} className="btn btn-primary btn-lg">
           Volver al Audiodrama
         </Link>
       </div>

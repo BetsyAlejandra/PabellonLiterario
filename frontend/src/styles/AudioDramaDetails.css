@@ -1,6 +1,6 @@
 .audio-drama-details {
   padding: 3rem 1rem;
-  background-color: #f7e1d7;
+  background-color: #f8f1e4;  /* Color más suave */
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
@@ -82,6 +82,41 @@
   font-size: 1.3rem;
   font-weight: bold;
   margin-top: 2rem;
+}
+
+/* Nueva barra de progreso */
+.audio-drama-details .progress-bar-container {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  background-color: #f3f3f3;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.audio-drama-details .progress-bar {
+  width: 100%;
+  background-color: #d6b4a1;
+  border-radius: 10px;
+}
+
+.audio-drama-details .progress-fill {
+  height: 100%;
+  background-color: #4f3b31;
+}
+
+.audio-drama-details .progress-label,
+.audio-drama-details .progress-percentage {
+  font-size: 1.1rem;
+  color: #333;
+  text-align: center;
+}
+
+.audio-drama-details .progress-percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @media (max-width: 768px) {

@@ -42,7 +42,16 @@ const AudioDramaDetails = () => {
           <p className="genres"><strong>Géneros:</strong> {audioDrama.genres.join(', ')}</p>
         </div>
         <div className="col">
-          <p className="progress"><strong>Progreso:</strong> {audioDrama.progress}</p>
+          <div className="progress-bar-container">
+            <p className="progress-label"><strong>Progreso:</strong></p>
+            <div className="progress-bar">
+              <div
+                className="progress-fill"
+                style={{ width: `${audioDrama.progress}%` }}
+              ></div>
+            </div>
+            <p className="progress-percentage">{audioDrama.progress}%</p>
+          </div>
         </div>
       </div>
 
