@@ -4,7 +4,7 @@ import { DiscussionEmbed } from 'disqus-react';
 import '../styles/ChapterDetail.css';
 
 const ChapterDetail = () => {
-  const { id, seasonNumber, episode } = useParams(); // Obtener el ID del audio drama, temporada y capítulo desde la URL
+  const { id, seasonNumber, episode } = useParams(); 
   const [chapter, setChapter] = useState(null);
   const [audioDrama, setAudioDrama] = useState(null);
 
@@ -15,7 +15,6 @@ const ChapterDetail = () => {
         const data = await response.json();
         setAudioDrama(data);
 
-        // Buscar el capítulo específico
         const season = data.seasons.find((season) => season.seasonNumber === parseInt(seasonNumber));
         const selectedChapter = season.chapters.find((chapter) => chapter.episode === parseInt(episode));
         setChapter(selectedChapter);
@@ -32,7 +31,7 @@ const ChapterDetail = () => {
   }
 
   const getDailymotionEmbedUrl = (videoUrl) => {
-    const videoId = videoUrl.split("/")[4]; // Extraer el ID del video
+    const videoId = videoUrl.split("/")[4]; 
     return `https://www.dailymotion.com/embed/video/${videoId}`;
   };
 
@@ -62,7 +61,6 @@ const ChapterDetail = () => {
     <div className="chapter-detail container">
       <h1 className="chapter-title">{chapter.title}</h1>
 
-      {/* Reproductor de Dailymotion */}
       <iframe
         width="100%"
         height="480"
@@ -73,7 +71,11 @@ const ChapterDetail = () => {
         title={chapter.title}
       />
 
-      {/* Navegación entre capítulos */}
+      {/* Botón de retroceso */}
+      <Link to={`/audiodrama/${id}`} className="back-button">
+        <button className="btn-back">Volver al Audiodrama</button>
+      </Link>
+
       <div className="chapter-navigation">
         {getPreviousChapter() && (
           <Link to={`/audio-dramas/${id}/seasons/${seasonNumber}/episodes/${getPreviousChapter().episode}`} className="nav-link">
@@ -87,7 +89,6 @@ const ChapterDetail = () => {
         )}
       </div>
 
-      {/* Sección de comentarios con Disqus */}
       <DiscussionEmbed {...disqusConfig} />
     </div>
   );
