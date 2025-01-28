@@ -71,7 +71,7 @@ function App() {
         <Route path="/audiodramacreacion" element={<CreateAudioDrama />} />
         <Route path="/audiodramas" element={<AudioDramaList />} />
         <Route path="/gestionaudiodrama" element={<SelectAudioDrama />} />
-        <Route path="/audiodramas/:id" element={<AudioDramaDetails />} />
+        <Route path="/audiodrama/:id" element={<AudioDramaDetails />} />
         <Route path="/manage-chapters/:id" element={<ManageChapters />} />
       </Routes>
       {!hideHeaderFooter && <FloatingButton />}
