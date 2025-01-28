@@ -19,6 +19,14 @@ const AudioDramaList = () => {
     fetchAudioDramas();
   }, []);
 
+  // Función para cortar la descripción
+  const truncateDescription = (description, length = 150) => {
+    if (description.length > length) {
+      return description.substring(0, length) + '...';
+    }
+    return description;
+  };
+
   return (
     <div className="audio-drama-list container py-5">
       <h1 className="title text-center mb-4">Audiodramas Disponibles</h1>
@@ -32,7 +40,9 @@ const AudioDramaList = () => {
                 <div className="card shadow-sm border-light rounded-3 h-100">
                   <div className="card-body">
                     <h5 className="card-title text-dark">{drama.title}</h5>
-                    <p className="card-text text-muted">{drama.description}</p>
+                    <p className="card-text text-muted">
+                      {truncateDescription(drama.description, 150)} {/* 150 caracteres */}
+                    </p>
                     <Link to={`/audiodrama/${drama._id}`} className="btn btn-primary w-100">
                       Ver detalles
                     </Link>
