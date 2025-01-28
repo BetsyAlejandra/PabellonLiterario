@@ -31,9 +31,10 @@ const ChapterDetail = () => {
   }
 
   const getDailymotionEmbedUrl = (videoUrl) => {
+    console.log("URL del video: ", videoUrl);
     const videoId = videoUrl.split("/")[4]; 
     return `https://www.dailymotion.com/embed/video/${videoId}`;
-  };
+  };  
 
   const disqusConfig = {
     shortname: 'pabellonliterario',
