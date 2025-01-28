@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import '../styles/ManageChapters.css'
 
 const ManageChapters = () => {
   const { id } = useParams();
@@ -27,6 +28,23 @@ const ManageChapters = () => {
   if (loading) return <p>Cargando audiodrama...</p>;
   if (error) return <p>Error: {error}</p>;
 
+  // Función para agregar temporada
+  const addSeason = async (season) => {
+    try {
+      const response = await fetch(`/api/audio-dramas/${id}/seasons`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(season),
+      });
+      if (!response.ok) throw new Error("Error al agregar temporada");
+      const updatedDrama = await response.json();
+      setAudioDrama(updatedDrama);
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  // Función para agregar capítulo
   const addChapter = async (seasonNumber, chapter) => {
     try {
       const response = await fetch(
@@ -50,6 +68,46 @@ const ManageChapters = () => {
       <h1 className="text-2xl font-bold mb-4">{audioDrama.title}</h1>
       <p>{audioDrama.description}</p>
 
+      {/* Formulario para agregar temporada */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const season = {
+            seasonNumber: e.target.seasonNumber.value,
+            title: e.target.title.value,
+            description: e.target.description.value,
+          };
+          addSeason(season);
+          e.target.reset();
+        }}
+      >
+        <h3 className="text-lg font-semibold mt-4">Agregar Temporada</h3>
+        <input
+          name="seasonNumber"
+          placeholder="Número de temporada"
+          className="border p-2 mb-2 w-full"
+          required
+        />
+        <input
+          name="title"
+          placeholder="Título"
+          className="border p-2 mb-2 w-full"
+          required
+        />
+        <textarea
+          name="description"
+          placeholder="Descripción"
+          className="border p-2 mb-2 w-full"
+        ></textarea>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2"
+        >
+          Agregar Temporada
+        </button>
+      </form>
+
+      {/* Mostrar temporadas existentes */}
       {audioDrama.seasons.map((season) => (
         <div key={season.seasonNumber} className="mt-6">
           <h2 className="text-xl font-semibold">Temporada {season.seasonNumber}</h2>
