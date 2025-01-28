@@ -35,7 +35,7 @@
   
   /* Estilo de las tarjetas de audiodrama */
   .audio-drama-card {
-    background-color: var(--crema-suave);
+    background-color: var(--rosa-claro-durazno);
     border: 1px solid var(--azul-pastel-palido);
     border-radius: 12px;
     padding: 1.25rem;
@@ -58,8 +58,15 @@
   
   /* Descripción de los dramas */
   .drama-description {
-    color: var(--verde-pastel-suave);
+    color: var(--marron-suave-arena);
     font-size: 1rem;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limita a 3 líneas */
+    -webkit-box-orient: vertical;
   }
   
   /* Estilos de carga y error */

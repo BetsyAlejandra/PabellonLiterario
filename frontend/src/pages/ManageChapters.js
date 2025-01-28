@@ -54,11 +54,15 @@ const ManageChapters = () => {
         <div key={season.seasonNumber} className="mt-6">
           <h2 className="text-xl font-semibold">Temporada {season.seasonNumber}</h2>
           <ul>
-            {season.chapters.map((chapter, index) => (
-              <li key={index} className="text-gray-600">
-                Episodio {chapter.episode}: {chapter.title}
-              </li>
-            ))}
+            {season.chapters.length > 0 ? (
+              season.chapters.map((chapter, index) => (
+                <li key={index} className="text-gray-600">
+                  Episodio {chapter.episode}: {chapter.title}
+                </li>
+              ))
+            ) : (
+              <p>No hay capítulos en esta temporada.</p>
+            )}
           </ul>
 
           {/* Formulario para agregar capítulos */}
@@ -69,18 +73,45 @@ const ManageChapters = () => {
                 episode: e.target.episode.value,
                 title: e.target.title.value,
                 description: e.target.description.value,
-                videoLinks: [{ platform: "YouTube", url: e.target.url.value }],
+                videoLinks: [
+                  { platform: "YouTube", url: e.target.url.value },
+                  // Puedes agregar más plataformas de video aquí
+                ],
               };
               addChapter(season.seasonNumber, chapter);
               e.target.reset();
             }}
           >
             <h3 className="text-lg font-semibold mt-4">Agregar Capítulo</h3>
-            <input name="episode" placeholder="Número de episodio" className="border p-2 mb-2 w-full" required />
-            <input name="title" placeholder="Título" className="border p-2 mb-2 w-full" required />
-            <textarea name="description" placeholder="Descripción" className="border p-2 mb-2 w-full"></textarea>
-            <input name="url" placeholder="URL del video" className="border p-2 mb-2 w-full" required />
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">Agregar</button>
+            <input
+              name="episode"
+              placeholder="Número de episodio"
+              className="border p-2 mb-2 w-full"
+              required
+            />
+            <input
+              name="title"
+              placeholder="Título"
+              className="border p-2 mb-2 w-full"
+              required
+            />
+            <textarea
+              name="description"
+              placeholder="Descripción"
+              className="border p-2 mb-2 w-full"
+            ></textarea>
+            <input
+              name="url"
+              placeholder="URL del video"
+              className="border p-2 mb-2 w-full"
+              required
+            />
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2"
+            >
+              Agregar
+            </button>
           </form>
         </div>
       ))}

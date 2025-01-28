@@ -37,7 +37,9 @@ const SelectAudioDrama = () => {
             onClick={() => navigate(`/manage-chapters/${drama._id}`)}
           >
             <h2 className="drama-title">{drama.title}</h2>
-            <p className="drama-description">{drama.description || "Sin descripción"}</p>
+            <p className="drama-description">
+              {drama.description ? drama.description.slice(0, 150) + '...' : "Sin descripción"}
+            </p>
           </li>
         ))}
       </ul>
