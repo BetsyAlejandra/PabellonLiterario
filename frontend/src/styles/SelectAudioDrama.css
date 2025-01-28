@@ -1,0 +1,76 @@
+/* Definimos la paleta de colores */
+:root {
+    --lavanda-claro: #D3D0E1;
+    --verde-pastel-suave: #C9D6D5;
+    --crema-suave: #E6D6C3;
+    --rosa-claro-durazno: #F0E1D6;
+    --marron-suave-arena: #D6B4A1;
+    --azul-pastel-palido: #D7E2E9;
+    --amarillo-palido-calido: #E8E2D6;
+    --verde-menta-suave: #C1D0B5;
+    --rosa-palido-coral: #F7E1D7;
+  }
+  
+  /* Estilos generales */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Título principal */
+  .title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--marron-suave-arena);
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Layout en grilla */
+  .grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  /* Estilo de las tarjetas de audiodrama */
+  .audio-drama-card {
+    background-color: var(--crema-suave);
+    border: 1px solid var(--azul-pastel-palido);
+    border-radius: 12px;
+    padding: 1.25rem;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .audio-drama-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Títulos de los dramas */
+  .drama-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--marron-suave-arena);
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Descripción de los dramas */
+  .drama-description {
+    color: var(--verde-pastel-suave);
+    font-size: 1rem;
+  }
+  
+  /* Estilos de carga y error */
+  .loading-text {
+    text-align: center;
+    font-size: 1.25rem;
+    color: var(--verde-menta-suave);
+  }
+  
+  .error-text {
+    text-align: center;
+    font-size: 1.25rem;
+    color: var(--rosa-palido-coral);
+  }  
