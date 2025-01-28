@@ -27,7 +27,6 @@ const AudioDramaList = () => {
           <div key={drama._id} className="card">
             <h2>{drama.title}</h2>
             <p>{drama.description}</p>
-            <p><strong>Temporada:</strong> {drama.season}</p>
             <Link to={`/audiodrama/${drama._id}`} className="btn btn-primary">
               Ver detalles
             </Link>

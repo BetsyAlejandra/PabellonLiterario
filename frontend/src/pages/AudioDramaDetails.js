@@ -5,20 +5,29 @@ import '../styles/AudioDramaDetails.css';
 const AudioDramaDetails = () => {
   const { id } = useParams(); // Obtener ID del audiodrama desde la URL
   const [audioDrama, setAudioDrama] = useState(null);
+  const [error, setError] = useState(null); // Para manejar errores
 
   useEffect(() => {
     const fetchAudioDrama = async () => {
       try {
         const response = await fetch(`/api/audio-dramas/${id}`);
+        if (!response.ok) {
+          throw new Error('No se pudo obtener el audio drama');
+        }
         const data = await response.json();
         setAudioDrama(data);
       } catch (error) {
+        setError(error.message); // Establecer el mensaje de error
         console.error('Error al cargar los detalles del audiodrama:', error);
       }
     };
 
     fetchAudioDrama();
   }, [id]);
+
+  if (error) {
+    return <p className="error-message">Error: {error}</p>;
+  }
 
   if (!audioDrama) {
     return <p>Cargando detalles...</p>;
@@ -32,21 +41,38 @@ const AudioDramaDetails = () => {
       <p className="progress"><strong>Progreso:</strong> {audioDrama.progress}</p>
 
       <h2>Temporadas</h2>
-      {audioDrama.seasons.map((season) => (
-        <div key={season.seasonNumber} className="season">
-          <h3>Temporada {season.seasonNumber}</h3>
-          <ul>
-            {season.chapters.map((chapter) => (
-              <li key={chapter.episode}>
-                <strong>Ep. {chapter.episode}:</strong> {chapter.title} 
-                <a href={chapter.videoLinks[0]?.url} target="_blank" rel="noopener noreferrer" className="video-link">
-                  Ver episodio
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      {audioDrama.seasons.length === 0 ? (
+        <p>No hay temporadas disponibles para este audiodrama.</p>
+      ) : (
+        audioDrama.seasons.map((season) => (
+          <div key={season.seasonNumber} className="season">
+            <h3>Temporada {season.seasonNumber}</h3>
+            <ul>
+              {season.chapters.length === 0 ? (
+                <p>No hay capítulos disponibles para esta temporada.</p>
+              ) : (
+                season.chapters.map((chapter) => (
+                  <li key={chapter.episode}>
+                    <strong>Ep. {chapter.episode}:</strong> {chapter.title}
+                    {chapter.videoLinks && chapter.videoLinks.length > 0 ? (
+                      <a
+                        href={chapter.videoLinks[0]?.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="video-link"
+                      >
+                        Ver episodio
+                      </a>
+                    ) : (
+                      <p>No hay enlaces de video disponibles.</p>
+                    )}
+                  </li>
+                ))
+              )}
+            </ul>
+          </div>
+        ))
+      )}
     </div>
   );
 };
