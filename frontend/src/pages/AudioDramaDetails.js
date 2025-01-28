@@ -3,9 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import '../styles/AudioDramaDetails.css';
 
 const AudioDramaDetails = () => {
-  const { id } = useParams(); // Obtener ID del audiodrama desde la URL
+  const { id } = useParams();
   const [audioDrama, setAudioDrama] = useState(null);
-  const [error, setError] = useState(null); // Para manejar errores
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchAudioDrama = async () => {
@@ -17,7 +17,7 @@ const AudioDramaDetails = () => {
         const data = await response.json();
         setAudioDrama(data);
       } catch (error) {
-        setError(error.message); // Establecer el mensaje de error
+        setError(error.message);
         console.error('Error al cargar los detalles del audiodrama:', error);
       }
     };
@@ -26,43 +26,49 @@ const AudioDramaDetails = () => {
   }, [id]);
 
   if (error) {
-    return <p className="error-message">Error: {error}</p>;
+    return <p className="error-message text-center">{error}</p>;
   }
 
   if (!audioDrama) {
-    return <p>Cargando detalles...</p>;
+    return <p className="text-center">Cargando detalles...</p>;
   }
 
   return (
-    <div className="audio-drama-details container">
-      <h1 className="title">{audioDrama.title}</h1>
-      <p className="description">{audioDrama.description}</p>
-      <p className="genres"><strong>Géneros:</strong> {audioDrama.genres.join(', ')}</p>
-      <p className="progress"><strong>Progreso:</strong> {audioDrama.progress}</p>
+    <div className="audio-drama-details container mt-5">
+      <h1 className="title text-center">{audioDrama.title}</h1>
+      <p className="description mx-auto">{audioDrama.description}</p>
+      <div className="row mb-3">
+        <div className="col">
+          <p className="genres"><strong>Géneros:</strong> {audioDrama.genres.join(', ')}</p>
+        </div>
+        <div className="col">
+          <p className="progress"><strong>Progreso:</strong> {audioDrama.progress}</p>
+        </div>
+      </div>
 
-      <h2>Temporadas</h2>
+      <h2 className="mt-5">Temporadas</h2>
       {audioDrama.seasons.length === 0 ? (
         <p>No hay temporadas disponibles para este audiodrama.</p>
       ) : (
         audioDrama.seasons.map((season) => (
-          <div key={season.seasonNumber} className="season">
-            <h3>Temporada {season.seasonNumber}</h3>
-            <ul>
+          <div key={season.seasonNumber} className="season mb-4">
+            <h3 className="season-title">{`Temporada ${season.seasonNumber}`}</h3>
+            <ul className="list-unstyled">
               {season.chapters.length === 0 ? (
                 <p>No hay capítulos disponibles para esta temporada.</p>
               ) : (
                 season.chapters.map((chapter) => (
-                  <li key={chapter.episode}>
-                    <strong>Ep. {chapter.episode}:</strong> {chapter.title}
+                  <li key={chapter.episode} className="d-flex justify-content-between align-items-center mb-3">
+                    <span><strong>Ep. {chapter.episode}:</strong> {chapter.title}</span>
                     {chapter.videoLinks && chapter.videoLinks.length > 0 ? (
                       <Link
                         to={`/audio-dramas/${id}/seasons/${season.seasonNumber}/episodes/${chapter.episode}`}
-                        className="video-link"
+                        className="btn btn-link video-link"
                       >
                         Ver episodio
                       </Link>
                     ) : (
-                      <p>No hay enlaces de video disponibles.</p>
+                      <span>No hay enlaces de video disponibles.</span>
                     )}
                   </li>
                 ))

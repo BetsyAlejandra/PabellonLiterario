@@ -1,18 +1,16 @@
 .audio-drama-details {
-  padding: 3rem 2rem;
+  padding: 3rem 1rem;
   background-color: #f7e1d7;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  max-width: 1200px;
-  margin: 3rem auto;
 }
 
 .audio-drama-details .title {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 700;
   color: #4f3b31;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -35,16 +33,14 @@
 }
 
 .audio-drama-details .season {
-  margin-top: 3rem;
   background-color: #fff;
   padding: 2.5rem;
   border-radius: 15px;
   border: 1px solid #d3d0e1;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
 }
 
-.audio-drama-details .season h3 {
+.audio-drama-details .season-title {
   font-size: 2rem;
   color: #4f3b31;
   margin-bottom: 1.5rem;
@@ -62,9 +58,6 @@
   font-size: 1.2rem;
   color: #666;
   line-height: 1.6;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .audio-drama-details .video-link {
@@ -104,7 +97,7 @@
     font-size: 1.1rem;
   }
 
-  .audio-drama-details .season h3 {
+  .audio-drama-details .season-title {
     font-size: 1.8rem;
   }
 

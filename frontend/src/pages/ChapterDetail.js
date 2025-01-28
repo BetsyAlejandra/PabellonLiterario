@@ -66,31 +66,34 @@ const ChapterDetail = () => {
   };
 
   const videoId = getDailymotionVideoId(chapter.videoLinks[0].url);
-  
 
   return (
-    <div className="chapter-detail container">
+    <div className="chapter-detail container py-5">
       <h1 className="chapter-title">{chapter.title}</h1>
-
 
       {videoId && <DailymotionPlayer videoId={videoId} />}
 
-      {/* Botón de retroceso */}
-      <Link to={`/audiodrama/${id}`} className="back-button">
-        <button className="btn-back">Volver al Audiodrama</button>
-      </Link>
-
-      <div className="chapter-navigation">
+      <div className="chapter-navigation d-flex justify-content-between mt-4">
         {getPreviousChapter() && (
-          <Link to={`/audio-dramas/${id}/seasons/${seasonNumber}/episodes/${getPreviousChapter().episode}`} className="nav-link">
+          <Link to={`/audio-dramas/${id}/seasons/${seasonNumber}/episodes/${getPreviousChapter().episode}`} className="btn btn-outline-secondary">
             Capítulo Anterior
           </Link>
         )}
         {getNextChapter() && (
-          <Link to={`/audio-dramas/${id}/seasons/${seasonNumber}/episodes/${getNextChapter().episode}`} className="nav-link">
+          <Link to={`/audio-dramas/${id}/seasons/${seasonNumber}/episodes/${getNextChapter().episode}`} className="btn btn-outline-secondary">
             Siguiente Capítulo
           </Link>
         )}
+      </div>
+
+      <div className="patreon-info text-center my-4">
+        <p>Para ver capítulos más avanzados, únete a nuestro <a href="https://www.patreon.com/pabellonliterario" target="_blank" rel="noopener noreferrer" className="text-decoration-none">Patreon</a>.</p>
+      </div>
+
+      <div className="back-button text-center">
+        <Link to={`/audio-dramas/${id}`} className="btn btn-primary">
+          Volver al Audiodrama
+        </Link>
       </div>
 
       <DiscussionEmbed {...disqusConfig} />
