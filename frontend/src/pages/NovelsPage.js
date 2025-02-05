@@ -1,15 +1,17 @@
 // src/components/NovelsPage.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import '../styles/NovelsPage.css'; // Asegúrate de que este archivo CSS contenga los estilos necesarios
 
 const NovelsPage = () => {
-  const [novels, setNovels] = useState([]);
+  const [novels, setNovels] = useState([]); // Todas las novelas
+  const [displayedNovels, setDisplayedNovels] = useState([]); // Novelas que se muestran
   const [currentPage, setCurrentPage] = useState(1);
-  const [novelsPerPage] = useState(8);
+  const novelsPerPage = 8; // Número de novelas a cargar por bloque
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const observerRef = useRef(null); // Referencia para detectar el scroll
 
   useEffect(() => {
     const fetchNovels = async () => {
@@ -25,6 +27,7 @@ const NovelsPage = () => {
 
         if (Array.isArray(data)) {
           setNovels(data);
+          setDisplayedNovels(data.slice(0, novelsPerPage)); // Muestra solo las primeras novelas
         } else {
           throw new Error('Respuesta inesperada: no es un arreglo');
         }
@@ -41,19 +44,32 @@ const NovelsPage = () => {
     fetchNovels();
   }, []);
 
-  const indexOfLastNovel = currentPage * novelsPerPage;
-  const indexOfFirstNovel = indexOfLastNovel - novelsPerPage;
-  const currentNovels = novels.slice(indexOfFirstNovel, indexOfLastNovel);
+  useEffect(() => {
+    if (!novels.length) return;
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const nextPage = () => {
-    if (currentPage < Math.ceil(novels.length / novelsPerPage)) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-  const prevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          loadMoreNovels();
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    if (observerRef.current) observer.observe(observerRef.current);
+
+    return () => {
+      if (observerRef.current) observer.unobserve(observerRef.current);
+    };
+  }, [novels, displayedNovels]);
+
+  const loadMoreNovels = () => {
+    const nextPage = currentPage + 1;
+    const nextNovels = novels.slice(0, nextPage * novelsPerPage);
+
+    if (nextNovels.length !== displayedNovels.length) {
+      setDisplayedNovels(nextNovels);
+      setCurrentPage(nextPage);
     }
   };
 
@@ -64,7 +80,7 @@ const NovelsPage = () => {
     <div className="novels-container">
       <h2 className="novels-title">Todas las Novelas</h2>
       <div className="novels-grid">
-        {currentNovels.map((novel) => (
+        {displayedNovels.map((novel) => (
           <div className="novels-card" key={novel._id}>
             <img
               src={novel.coverImage}
@@ -87,114 +103,11 @@ const NovelsPage = () => {
           </div>
         ))}
       </div>
-      <Pagination
-        novelsPerPage={novelsPerPage}
-        totalNovels={novels.length}
-        paginate={paginate}
-        currentPage={currentPage}
-        nextPage={nextPage}
-        prevPage={prevPage}
-      />
+
+      {/* Elemento invisible que activa la carga cuando el usuario se acerca */}
+      <div ref={observerRef} style={{ height: '50px' }}></div>
     </div>
   );
-};
-
-const Pagination = ({ novelsPerPage, totalNovels, paginate, currentPage, nextPage, prevPage }) => {
-  const totalPages = Math.ceil(totalNovels / novelsPerPage);
-  const pageNumbers = generatePageNumbers(totalPages, currentPage);
-
-  return (
-    <nav className="novels-pagination">
-      <button
-        onClick={prevPage}
-        className="novels-pagination-arrow"
-        disabled={currentPage === 1}
-        aria-label="Página anterior"
-      >
-        &#8592;
-      </button>
-      <ul className="novels-pagination-list">
-        {pageNumbers.map((number, index) =>
-          number === 'left-ellipsis' || number === 'right-ellipsis' ? (
-            <li key={index} className="novels-pagination-ellipsis">
-              &hellip;
-            </li>
-          ) : (
-            <li
-              key={number}
-              className={`novels-pagination-item ${currentPage === number ? 'active' : ''}`}
-            >
-              <button
-                onClick={() => paginate(number)}
-                className="novels-pagination-link"
-                aria-current={currentPage === number ? 'page' : undefined}
-              >
-                {number}
-              </button>
-            </li>
-          )
-        )}
-      </ul>
-      <button
-        onClick={nextPage}
-        className="novels-pagination-arrow"
-        disabled={currentPage === totalPages}
-        aria-label="Página siguiente"
-      >
-        &#8594;
-      </button>
-    </nav>
-  );
-};
-
-/**
- * Genera un arreglo de números de página y puntos suspensivos según la página actual y el total de páginas.
- * @param {number} totalPages - Total de páginas.
- * @param {number} currentPage - Página actual.
- * @returns {Array} - Arreglo de números de página y puntos suspensivos.
- */
-const generatePageNumbers = (totalPages, currentPage) => {
-  const pageNumbers = [];
-  const siblingCount = 1; // Número de páginas a mostrar a cada lado de la página actual
-  const totalPageNumbers = siblingCount * 2 + 5; // Primero, último, actual, y los hermanos
-
-  if (totalPages <= totalPageNumbers) {
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(i);
-    }
-  } else {
-    const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
-    const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPages);
-
-    const showLeftEllipsis = leftSiblingIndex > 2;
-    const showRightEllipsis = rightSiblingIndex < totalPages - 1;
-
-    if (!showLeftEllipsis && showRightEllipsis) {
-      const leftItemCount = 3 + 2 * siblingCount;
-      for (let i = 1; i <= leftItemCount; i++) {
-        pageNumbers.push(i);
-      }
-      pageNumbers.push('right-ellipsis');
-      pageNumbers.push(totalPages);
-    } else if (showLeftEllipsis && !showRightEllipsis) {
-      pageNumbers.push(1);
-      pageNumbers.push('left-ellipsis');
-      const rightItemCount = 3 + 2 * siblingCount;
-      for (let i = totalPages - rightItemCount + 1; i <= totalPages; i++) {
-        pageNumbers.push(i);
-      }
-    } else if (showLeftEllipsis && showRightEllipsis) {
-      pageNumbers.push(1);
-      pageNumbers.push('left-ellipsis');
-      for (let i = leftSiblingIndex; i <= rightSiblingIndex; i++) {
-        pageNumbers.push(i);
-      }
-      pageNumbers.push('right-ellipsis');
-      pageNumbers.push(totalPages);
-    }
-  }
-
-  return pageNumbers;
 };
 
 export default NovelsPage;
