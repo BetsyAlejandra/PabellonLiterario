@@ -227,14 +227,9 @@ const StoryDetail = () => {
 
     return (
         <div className="story-detail-container">
-            {/* Espacio para Anuncio 1 */}
             {story && (
-                <section className="ad-section my-4">
-                    <Container>
-                    <script async="async" data-cfasync="false" src="//pl25525481.profitablecpmrate.com/e5a63efee8994ddc9df064551436e92b/invoke.js"></script>
-                    <div id="container-e5a63efee8994ddc9df064551436e92b"></div>
-                    </Container>
-                </section>
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3101266953328074"
+                    crossorigin="anonymous"></script>
             )}
 
             {/* Fila para Portada y Tarjeta de Información */}
@@ -396,8 +391,8 @@ const StoryDetail = () => {
             {/* Espacio para Anuncio 2 */}
             <section className="ad-section my-4">
                 <Container>
-                <script async="async" data-cfasync="false" src="//pl25525481.profitablecpmrate.com/e5a63efee8994ddc9df064551436e92b/invoke.js"></script>
-                <div id="container-e5a63efee8994ddc9df064551436e92b"></div>
+                    <script async="async" data-cfasync="false" src="//pl25525481.profitablecpmrate.com/e5a63efee8994ddc9df064551436e92b/invoke.js"></script>
+                    <div id="container-e5a63efee8994ddc9df064551436e92b"></div>
                 </Container>
             </section>
 

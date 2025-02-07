@@ -35,6 +35,8 @@ const AudioDramaDetails = () => {
 
   return (
     <div className="audio-drama-details container mt-5">
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3101266953328074"
+        crossorigin="anonymous"></script>
       <h1 className="title text-center">{audioDrama.title}</h1>
       <p className="description mx-auto">{audioDrama.description}</p>
       <div className="row mb-3">

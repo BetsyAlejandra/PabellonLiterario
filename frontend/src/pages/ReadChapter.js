@@ -428,33 +428,13 @@ const ReadChapter = () => {
 
                     {/* Espacio para Anuncio 1: Antes del contenido del capítulo */}
                     {chapter?.content && (
-                        <section className="ad-section my-4">
-                            <div className="ad-section-container">
-                                <AdSense
-                                    adClient="ca-pub-3101266953328074"
-                                    adSlot="6455860659"
-                                    style={{ display: "block" }}
-                                />
-                            </div>
-                        </section>
+                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3101266953328074"
+                            crossorigin="anonymous"></script>
                     )}
 
                     <div className="chapter-content">
                         {chapter && parse(sanitizedContent, options)}
                     </div>
-
-                    {/* Espacio para Anuncio 2: Al final del contenido del capítulo */}
-                    {chapter?.content && (
-                        <section className="ad-section my-4">
-                            <div className="ad-section-container">
-                                <AdSense
-                                    adClient="ca-pub-3101266953328074"
-                                    adSlot="5093282296"
-                                    style={{ display: "block" }}
-                                />
-                            </div>
-                        </section>
-                    )}
                 </Container>
 
                 {/* Botón de ajustes */}

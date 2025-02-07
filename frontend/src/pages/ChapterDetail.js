@@ -71,6 +71,9 @@ const ChapterDetail = () => {
     <div className="chapter-detail container py-5">
       <h1 className="chapter-title text-center mb-4">{chapter.title}</h1>
 
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3101266953328074"
+        crossorigin="anonymous"></script>
+
       {videoId && <DailymotionPlayer videoId={videoId} />}
 
       <div className="chapter-navigation d-flex justify-content-between mt-4">

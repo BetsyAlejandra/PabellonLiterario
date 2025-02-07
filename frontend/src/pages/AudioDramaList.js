@@ -29,6 +29,8 @@ const AudioDramaList = () => {
 
   return (
     <div className="audio-drama-list container py-5">
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3101266953328074"
+        crossorigin="anonymous"></script>
       <h1 className="title text-center mb-4">Audiodramas Disponibles</h1>
 
       <div className="row">
