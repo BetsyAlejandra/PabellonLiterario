@@ -67,24 +67,39 @@ const NovelsPage = () => {
 
       {/* Paginación */}
       <Pagination className="novels-pagination">
-        <Pagination.Prev
-          onClick={() => setCurrentPage(currentPage - 1)}
-          disabled={currentPage === 1}
-        />
-        {[...Array(totalPages)].map((_, index) => (
-          <Pagination.Item
-            key={index + 1}
-            active={index + 1 === currentPage}
-            onClick={() => setCurrentPage(index + 1)}
-          >
-            {index + 1}
-          </Pagination.Item>
-        ))}
-        <Pagination.Next
-          onClick={() => setCurrentPage(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        />
+        <Pagination.Prev onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} />
+
+        {currentPage > 3 && (
+          <>
+            <Pagination.Item onClick={() => setCurrentPage(1)}>1</Pagination.Item>
+            {currentPage > 4 && <Pagination.Ellipsis />}
+          </>
+        )}
+
+        {[...Array(totalPages)]
+          .map((_, index) => index + 1)
+          .filter(
+            (page) =>
+              page === 1 ||
+              page === totalPages ||
+              (page >= currentPage - 2 && page <= currentPage + 2)
+          )
+          .map((page) => (
+            <Pagination.Item key={page} active={page === currentPage} onClick={() => setCurrentPage(page)}>
+              {page}
+            </Pagination.Item>
+          ))}
+
+        {currentPage < totalPages - 2 && (
+          <>
+            {currentPage < totalPages - 3 && <Pagination.Ellipsis />}
+            <Pagination.Item onClick={() => setCurrentPage(totalPages)}>{totalPages}</Pagination.Item>
+          </>
+        )}
+
+        <Pagination.Next onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages} />
       </Pagination>
+
     </div>
   );
 };
