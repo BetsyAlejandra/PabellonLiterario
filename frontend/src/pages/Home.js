@@ -26,8 +26,8 @@ const Home = () => {
 
         const data = await response.json();
 
-        if (Array.isArray(data)) {
-          setNovels(data.slice(0, 10)); // Cargamos solo las primeras 10 novelas inicialmente
+        if (Array.isArray(data.novels)) {
+          setNovels(data.novels.slice(0, 10));
         } else {
           throw new Error('Respuesta inesperada: no es un arreglo');
         }
