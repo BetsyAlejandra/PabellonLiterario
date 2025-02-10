@@ -1,4 +1,5 @@
 const AudioDrama = require('../models/AudioDrama');
+const { sendUpdate } = require('../bot/bot')
 
 // Crear un nuevo audio drama
 exports.createAudioDrama = async (req, res) => {

@@ -294,6 +294,7 @@ const Header = () => {
               placeholder="Buscar"
               className="me-2 search-input"
               aria-label="Buscar"
+              onKeyDown={(e) => e.key === "Enter" && handleSearchClick()}
             />
             <Button
               variant="outline-secondary"

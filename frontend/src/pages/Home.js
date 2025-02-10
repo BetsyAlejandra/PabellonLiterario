@@ -27,7 +27,7 @@ const Home = () => {
         const data = await response.json();
 
         if (Array.isArray(data)) {
-          setNovels(data); // Asegúrate de que sea un arreglo
+          setNovels(data.slice(0, 10)); // Cargamos solo las primeras 10 novelas inicialmente
         } else {
           throw new Error('Respuesta inesperada: no es un arreglo');
         }
@@ -36,7 +36,7 @@ const Home = () => {
       } catch (error) {
         console.error('Error en fetchNovels:', error.message);
         setError(error.message);
-        setNovels([]); // Asegúrate de que novels siempre sea un arreglo
+        setNovels([]);
         setLoading(false);
       }
     };
@@ -64,17 +64,24 @@ const Home = () => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
+    lazyLoad: "ondemand", // Carga diferida
     responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 2, // Mostrar 2 tarjetas en pantallas medianas
+          slidesToShow: 2,
         },
       },
       {
         breakpoint: 576,
         settings: {
-          slidesToShow: 1, // Mostrar 1 tarjeta en pantallas pequeñas
+          slidesToShow: 1,
         },
       },
     ],
@@ -111,31 +118,39 @@ const Home = () => {
         <Container>
           <h2 className="section-title">Galería de Obras Traducidas</h2>
           {loading ? (
-            <p className="text-center text-light">Cargando novelas...</p>
-          ) : (
-            <Slider {...settings}>
-              {novels.map((novel) => (
-                <Card key={novel._id} className="gallery-card">
-                  <Card.Img
-                    variant="top"
-                    src={novel.coverImage}
-                    alt={`Portada de ${novel.title}`}
-                    className="gallery-card-img"
-                  />
-                  <Card.Body className="gallery-card-body">
-                    <Card.Title className="gallery-card-title">{novel.title}</Card.Title>
-                    <Button
-                      as={Link}
-                      to={`/story-detail/${novel._id}`}
-                      className="gallery-card-btn"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      Ver más
-                    </Button>
+            <div className="loading-skeleton">
+              {[...Array(4)].map((_, index) => (
+                <Card key={index} className="gallery-card">
+                  <div className="skeleton-img" />
+                  <Card.Body>
+                    <div className="skeleton-text"></div>
+                    <div className="skeleton-btn"></div>
                   </Card.Body>
                 </Card>
               ))}
-            </Slider>
+            </div>
+          ) : (
+            novels.length > 0 && (
+              <Slider {...settings}>
+                {novels.map((novel) => (
+                  <Card key={novel._id} className="gallery-card">
+                    <Card.Img
+                      variant="top"
+                      src={novel.coverImage}
+                      alt={`Portada de ${novel.title}`}
+                      className="gallery-card-img"
+                      loading="lazy"
+                    />
+                    <Card.Body className="gallery-card-body">
+                      <Card.Title className="gallery-card-title">{novel.title}</Card.Title>
+                      <Button as={Link} to={`/story-detail/${novel._id}`} className="gallery-card-btn">
+                        Ver más
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                ))}
+              </Slider>
+            )
           )}
         </Container>
       </section>

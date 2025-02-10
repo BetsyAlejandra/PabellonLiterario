@@ -3,6 +3,7 @@ const Novel = require('../models/Novel');
 const User = require('../models/User');
 const { sendDiscordNotification } = require('../services/discordService');
 const bcrypt = require('bcryptjs');
+const { sendUpdate } = require('../bot/bot')
 
 const createNovel = async (req, res) => {
   try {
@@ -78,6 +79,26 @@ const createNovel = async (req, res) => {
       progress,
     });
 
+    const discordMessage = {
+      "content": "<@&1310810841414762516>",
+      embeds: [
+        {
+          title: `📖 Nueva novela publicada: **${title}**`,
+          description: description,
+          color: 0x7289da,
+          fields: [
+            { name: '📌 Clasificación', value: classification, inline: true },
+            { name: '🏷 Géneros', value: genresArray.join(', '), inline: true },
+            { name: '👤 Autor', value: req.session.user.username, inline: true },
+          ],
+          image: { url: `https://pabellonliterario.com/uploads/${req.file.filename}` },
+          url: `https://pabellonliterario.com/novels/${newNovel._id}`,
+        },
+      ],
+    };
+    await sendUpdate(discordMessage);
+
+
     res.status(201).json(newNovel);
   } catch (error) {
     console.error('Error al crear la novela:', error);
@@ -88,13 +109,29 @@ const createNovel = async (req, res) => {
 // Obtener todas las novelas
 const getNovels = async (req, res) => {
   try {
-    const novels = await Novel.find().sort({ createdAt: -1 }); // Ordena por fecha de creación (más recientes primero)
-    res.status(200).json(novels);
+    let { page, limit } = req.query;
+
+    page = parseInt(page) || 1; // Página actual
+    limit = parseInt(limit) || 8;
+    const skip = (page - 1) * limit;
+
+    const totalNovels = await Novel.countDocuments(); // Obtener el total de novelas
+    const novels = await Novel.find()
+      .sort({ createdAt: -1 }) // Orden descendente por fecha
+      .skip(skip)
+      .limit(limit);
+
+    res.status(200).json({
+      totalPages: Math.ceil(totalNovels / limit),
+      currentPage: page,
+      novels,
+    });
   } catch (error) {
-    console.error('Error al obtener todas las novelas:', error.message);
+    console.error('Error al obtener novelas paginadas:', error.message);
     res.status(500).json({ message: 'Error al obtener las novelas', error });
   }
 };
+
 
 // Obtener las últimas 5 novelas
 const getLatestNovels = async (req, res) => {
@@ -163,15 +200,19 @@ const addChapter = async (req, res) => {
     // Obtener el último capítulo agregado (el recién creado)
     const newChapterSaved = savedNovel.chapters[savedNovel.chapters.length - 1];
 
-    // Preparar los detalles para Discord
-    const updateDetails = {
-      titulo: `${title}`,
-      descripcion: `Se ha agregado un nuevo capítulo a la novela **${novel.title}**. <@&1310810841414762516>`, // Mención de un rol de Discord
-      link: `https://pabellonliterario.com/read-chapter/${id}/${newChapterSaved._id}`, // Enlace al capítulo
+    const discordMessage = {
+      "content": "<@&1310810841414762516>",
+      embeds: [
+        {
+          title: `📖 **Nuevo capítulo en ${novel.title}**`,
+          description: `**Capítulo:** ${title}`,
+          color: 0x43b581,
+          url: `https://pabellonliterario.com/read-chapter/${id}/${newChapterSaved._id}`,
+          footer: { text: '¡Disfruta la lectura!' },
+        },
+      ],
     };
-
-    // Enviar la notificación a Discord
-    await sendDiscordNotification(updateDetails);
+    await sendUpdate(discordMessage);
 
     res.status(201).json({ message: 'Capítulo agregado con éxito', chapter: newChapter });
   } catch (error) {
@@ -268,25 +309,33 @@ const addReview = async (req, res) => {
 };
 
 const searchNovels = async (req, res) => {
-  const { query } = req.query;
-  console.log('Término de búsqueda recibido:', query); // Log para depuración
+  const { query, page, limit } = req.query;
 
   if (!query || query.trim() === '') {
-    console.log('Término de búsqueda vacío.');
     return res.status(400).json({ message: 'El término de búsqueda no puede estar vacío.' });
   }
 
+  const pageNumber = parseInt(page) || 1;
+  const limitNumber = parseInt(limit) || 10;
+  const skip = (pageNumber - 1) * limitNumber;
+
   try {
-    const novels = await Novel.find({
-      title: { $regex: query, $options: 'i' },
+    const totalResults = await Novel.countDocuments({ title: { $regex: query, $options: 'i' } });
+    const novels = await Novel.find({ title: { $regex: query, $options: 'i' } })
+      .skip(skip)
+      .limit(limitNumber);
+
+    res.status(200).json({
+      totalPages: Math.ceil(totalResults / limitNumber),
+      currentPage: pageNumber,
+      novels,
     });
-    console.log('Resultados encontrados:', novels);
-    res.status(200).json(novels);
   } catch (error) {
     console.error('Error al buscar novelas:', error.message);
     res.status(500).json({ message: 'Error al buscar novelas.', error });
   }
 };
+
 
 const getChapterById = async (req, res) => {
   const { storyId, chapterId } = req.params;
