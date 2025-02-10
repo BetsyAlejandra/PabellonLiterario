@@ -47,14 +47,29 @@ router.get('/my-stories', isAuthenticated, async (req, res) => {
       return res.status(401).json({ message: 'No autorizado. Inicia sesión.' });
     }
 
-    // Filtrar novelas por el nombre de usuario del autor
-    const stories = await Novel.find({ author: user.username });
-    res.status(200).json(stories);
+    const { page = 1, limit = 5 } = req.query; // Valores predeterminados (página 1, 5 historias por página)
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+
+    // Obtener total de historias del usuario
+    const totalStories = await Novel.countDocuments({ author: user.username });
+
+    // Obtener historias paginadas
+    const stories = await Novel.find({ author: user.username })
+      .skip((pageNumber - 1) * limitNumber)
+      .limit(limitNumber);
+
+    res.status(200).json({
+      stories,
+      totalPages: Math.ceil(totalStories / limitNumber),
+      currentPage: pageNumber,
+    });
   } catch (err) {
     console.error('Error al obtener las historias del usuario:', err.message);
     res.status(500).json({ message: 'Error al cargar las historias.' });
   }
 });
+
 router.get('/latest', getLatestNovels);
 router.get('/', getNovels);
 router.post('/create', isAuthenticated, upload, handleMulterError, createNovel);

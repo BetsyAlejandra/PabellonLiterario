@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Modal, Button, Card, Form } from 'react-bootstrap';
+import { Modal, Button, Card, Form, Pagination } from 'react-bootstrap';
 import '../styles/MyStories.css'; // Importa el archivo CSS específico
 
 const MyStories = () => {
@@ -20,21 +20,28 @@ const MyStories = () => {
     const [confirmDeleteChapterModalShow, setConfirmDeleteChapterModalShow] = useState(false); // Modal de confirmación de eliminación de capítulo
     const [userRoles, setUserRoles] = useState([]);
     const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+
+    const storiesPerPage = 6; // Cantidad de historias por página
 
     useEffect(() => {
-        const fetchUserStories = async () => {
+        const fetchUserStories = async (page = 1) => {
             try {
-                const res = await axios.get('/api/novels/my-stories', {
+                setLoading(true);
+                const res = await axios.get(`/api/novels/my-stories?page=${page}&limit=${storiesPerPage}`, {
                     withCredentials: true,
                 });
-                setStories(res.data);
-                setLoading(false);
+
+                setStories(res.data.stories);
+                setTotalPages(res.data.totalPages);
+                setCurrentPage(res.data.currentPage);
             } catch (err) {
                 setError(err.response?.data?.message || 'Error al cargar las historias.');
+            } finally {
                 setLoading(false);
             }
         };
-
         // Obtener roles del usuario
         const fetchUserRoles = async () => {
             try {
@@ -44,9 +51,9 @@ const MyStories = () => {
                 console.error('Error al obtener roles del usuario:', err);
             }
         };
-        fetchUserStories();
+        fetchUserStories(currentPage);
         fetchUserRoles();
-    }, []);
+    }, [currentPage]);
 
     const handleEditClick = (id) => {
         navigate(`/update/${id}`);
@@ -284,6 +291,32 @@ const MyStories = () => {
                     </Modal.Footer>
                 </Modal>
             )}
+
+            <Pagination>
+                <Pagination.Prev
+                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                />
+
+                {[...Array(Math.max(totalPages, 1))].map((_, index) => {
+                    const page = index + 1;
+                    return (
+                        <Pagination.Item
+                            key={page}
+                            active={page === currentPage}
+                            onClick={() => setCurrentPage(page)}
+                        >
+                            {page}
+                        </Pagination.Item>
+                    );
+                })}
+
+                <Pagination.Next
+                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                    disabled={totalPages === 0 || currentPage === totalPages}
+                />
+            </Pagination>
+
 
             {/* Modal para mostrar descripción completa */}
             <Modal

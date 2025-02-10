@@ -118,10 +118,32 @@
 /* Contenedor de la paginación */
 .novels-pagination {
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin: 20px 0;
+  margin-top: 20px;
 }
+
+.novels-pagination .page-item {
+  margin: 0 5px;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+}
+
+.novels-pagination .page-item.active .page-link {
+  background-color: #7a5cfa;
+  border-color: #7a5cfa;
+  color: white;
+}
+
+.novels-pagination .page-item .page-link {
+  color: #7a5cfa;
+  border: 1px solid #7a5cfa;
+}
+
+.novels-pagination .page-item .page-link:hover {
+  background-color: #5c47d6;
+  color: white;
+}
+
 
 .novels-pagination-arrow {
   background-color: transparent;
