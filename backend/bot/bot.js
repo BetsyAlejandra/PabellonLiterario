@@ -23,7 +23,7 @@ const sendUpdate = async (message) => {
     console.error("❌ Error enviando mensaje al canal:", error);
   }
 };
-
+console.log("TOKEN:", process.env.DISCORD_BOT_TOKEN ? "Cargado correctamente" : "No se encontró el token");
 client.login(process.env.DISCORD_BOT_TOKEN);
 
 module.exports = { sendUpdate };
