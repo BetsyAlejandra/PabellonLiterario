@@ -28,7 +28,20 @@ client.once('ready', async () => {
   }
 });
 
-client.login(token);
+// Agregar evento de error
+client.on('error', (error) => {
+  console.error("❌ Error en el bot:", error);
+});
+
+// Agregar evento para ver si el token es inválido
+client.on('invalidated', () => {
+  console.error("❌ Token inválido o la sesión fue cerrada.");
+  process.exit(1);
+});
+
+client.login(token)
+  .then(() => console.log("🔹 Login exitoso"))
+  .catch((error) => console.error("❌ Error en login:", error));
 
 const sendUpdate = async (message) => {
   try {
