@@ -210,13 +210,14 @@ const Header = () => {
               Postularme
             </Nav.Link>
           </Nav>
+          
           <Nav className="ms-auto align-items-center">
-            <Button
+            {/*<Button
               className="search-icon me-2 custom-button"
               onClick={() => setShowSearchModal(true)}
             >
               <FaSearch />
-            </Button>
+            </Button>*/}
             {isLoggedIn === null ? (
               <Spinner animation="border" variant="light" />
             ) : (
