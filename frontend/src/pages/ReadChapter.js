@@ -497,18 +497,20 @@ const ReadChapter = () => {
                                         <>
                                             <button
                                                 className="comment-button"
-                                                onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}
+                                                onClick={() => setShowCommentBox(null)}
                                             >
                                                 💬
                                             </button>
 
                                             <div className="comment-modal">
-                                                <textarea
-                                                    value={comment}
-                                                    onChange={(e) => setComment(e.target.value)}
-                                                    placeholder="Escribe tu comentario..."
-                                                />
-                                                <button onClick={() => handleComment(index)}>Enviar</button>
+                                                <div className="modal-content">
+                                                    <textarea
+                                                        value={comment}
+                                                        onChange={(e) => setComment(e.target.value)}
+                                                        placeholder="Escribe tu comentario..."
+                                                    />
+                                                    <button onClick={() => handleComment(index)}>Enviar</button>
+                                                </div>
                                             </div>
                                         </>
                                     )}
