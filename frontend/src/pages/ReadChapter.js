@@ -275,12 +275,15 @@ const ReadChapter = () => {
     };
 
     const navigateToNext = () => {
-        markChapterAsRead(chapter._id);
-
         if (chapter.next) {
             navigate(`/read-chapter/${storyId}/${chapter.next}`);
         }
     };
+
+
+    useEffect(() => {
+        markChapterAsRead(chapter._id);
+    }, [location.pathname]);
 
     const handleDownload = async () => {
         if (!selectedText) return;
