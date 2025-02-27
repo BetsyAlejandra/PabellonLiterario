@@ -9,7 +9,7 @@ import '../styles/StoryDetail.css';
 const StoryDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { markChapterAsRead } = useReadChapter();
+    const { markChapterAsRead, isChapterRead } = useReadChapter();
 
     const [story, setStory] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -182,10 +182,6 @@ const StoryDetail = () => {
                 navigate(`/read-chapter/${id}/${chapterId}`);
             }
         }
-    };
-
-    const isChapterRead = (chapterId) => {
-        return readChapters.includes(chapterId);
     };
 
     const handlePasswordSubmit = async () => {

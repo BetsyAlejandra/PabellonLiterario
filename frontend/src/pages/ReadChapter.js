@@ -16,8 +16,7 @@ import { useLocation } from "react-router-dom";
 const ReadChapter = () => {
     const { storyId, chapterId } = useParams();
     const navigate = useNavigate();
-    const { markChapterAsRead } = useReadChapter();
-
+    const { markChapterAsRead, isChapterRead } = useReadChapter();
 
     const [chapter, setChapter] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -432,23 +431,23 @@ const ReadChapter = () => {
 
     const handleComment = async (index) => {
         if (comment.trim()) {
-          try {
-            await axios.post(`/api/novels/${storyId}/chapter/${chapterId}/comments`, {
-              paragraphIndex: index,
-              comment: comment,
-              selectedText: selectedText, 
-            });
-      
-            fetchComments();
-            setComment('');
-            setSelectedText('');
-            setShowModal(null);
-          } catch (error) {
-            console.error("Error al enviar comentario:", error);
-          }
+            try {
+                await axios.post(`/api/novels/${storyId}/chapter/${chapterId}/comments`, {
+                    paragraphIndex: index,
+                    comment: comment,
+                    selectedText: selectedText,
+                });
+
+                fetchComments();
+                setComment('');
+                setSelectedText('');
+                setShowModal(null);
+            } catch (error) {
+                console.error("Error al enviar comentario:", error);
+            }
         }
-      };
-      
+    };
+
 
 
     if (loading) return <p className="read-chapter-loading">Cargando...</p>;
