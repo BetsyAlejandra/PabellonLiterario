@@ -197,22 +197,22 @@ const ReadChapter = () => {
     const handleTextSelection = (e, index) => {
         const selection = window.getSelection();
         const selectedText = selection.toString();
-
+      
         if (selectedText.trim().length > 0) {
-            setShowCommentBox(index);
-
-            const range = selection.getRangeAt(0);
-            const rect = range.getBoundingClientRect();
-
-            setButtonPosition({
-                top: rect.bottom + window.scrollY - 10,
-                left: rect.left + window.scrollX + (rect.width / 2) - 20,
-            });
+          setShowCommentBox(index);
+      
+          const range = selection.getRangeAt(0);
+          const rect = range.getBoundingClientRect();
+      
+          setButtonPosition({
+            top: `${window.scrollY + rect.top - 40}px`,
+            left: `${window.scrollX + rect.left + rect.width / 2 - 20}px`
+          });
         } else {
-            setShowCommentBox(null);
-            setShowModal(null);
+          setShowCommentBox(null);
+          setShowModal(null);
         }
-    };
+      };
 
     const handleBrightnessChange = (value) => {
         const newBrightness = Number(value);
@@ -413,32 +413,32 @@ const ReadChapter = () => {
 
     const fetchComments = async () => {
         try {
-            const { data } = await axios.get(`/api/novels/${storyId}/chapter/${chapterId}/comments`);
-            setComments(data.comments.reduce((acc, comment) => {
-                acc[comment.paragraphIndex] = acc[comment.paragraphIndex] || [];
-                acc[comment.paragraphIndex].push(comment.text);
-                return acc;
-            }, {}));
+          const { data } = await axios.get(`/api/novels/${storyId}/chapter/${chapterId}/comments`);
+          setComments(data.comments.reduce((acc, comment) => {
+            acc[comment.paragraphIndex] = acc[comment.paragraphIndex] || [];
+            acc[comment.paragraphIndex].push(comment.text);
+            return acc;
+          }, {}));
         } catch (error) {
-            console.error("Error al cargar comentarios:", error);
+          console.error("Error al cargar comentarios:", error);
         }
-    };
-
-    useEffect(() => {
+      };
+      
+      useEffect(() => {
         fetchComments();
-    }, []);
+      }, []);
 
-    const handleComment = (index) => {
+      const handleComment = (index) => {
         if (comment.trim()) {
-            const updatedComments = { ...comments };
-            if (!updatedComments[index]) updatedComments[index] = [];
-            updatedComments[index].push(comment);
-
-            setComments(updatedComments);
-            setComment('');
-            setShowModal(null);
+          const updatedComments = { ...comments };
+          if (!updatedComments[index]) updatedComments[index] = [];
+          updatedComments[index].push(comment);
+      
+          setComments(updatedComments);
+          setComment('');
+          setShowModal(null);
         }
-    };
+      };
 
     if (loading) return <p className="read-chapter-loading">Cargando...</p>;
     if (error) return <p className="read-chapter-error">{error}</p>;
@@ -513,43 +513,39 @@ const ReadChapter = () => {
                                     ></p>
 
                                     {showCommentBox === index && (
-                                        <>
-                                            <div
-                                                className="comment-button"
-                                                style={{
-                                                    top: buttonPosition.top,
-                                                    left: buttonPosition.left,
-                                                }}
-                                            >
-                                                <button onClick={() => setShowModal(index)}>
-                                                    💬 {comments[index]?.length > 0 && (
-                                                        <span className="comment-counter">
-                                                            {comments[index].length}
-                                                        </span>
-                                                    )}
-                                                </button>
-                                            </div>
+                                        <div
+                                            className="comment-button"
+                                            style={{
+                                                position: 'absolute',
+                                                top: buttonPosition.top,
+                                                left: buttonPosition.left,
+                                                zIndex: 99
+                                            }}
+                                        >
+                                            <button onClick={() => setShowModal(index)}>
+                                                💬 {comments[index]?.length > 0 && (
+                                                    <span className="comment-counter">
+                                                        {comments[index].length}
+                                                    </span>
+                                                )}
+                                            </button>
+                                        </div>
+                                    )}
 
-                                            {showModal === index && (
-                                                <div className="comment-modal">
-                                                    <div className="modal-content">
-                                                        <textarea
-                                                            value={comment}
-                                                            onChange={(e) => setComment(e.target.value)}
-                                                            placeholder="Escribe tu comentario..."
-                                                        />
-                                                        <div className="modal-buttons">
-                                                            <button onClick={() => handleComment(index)}>
-                                                                Enviar
-                                                            </button>
-                                                            <button onClick={() => setShowModal(null)}>
-                                                                Cancelar
-                                                            </button>
-                                                        </div>
-                                                    </div>
+                                    {showModal === index && (
+                                        <div className="comment-modal" onClick={(e) => e.stopPropagation()}>
+                                            <div className="modal-content">
+                                                <textarea
+                                                    value={comment}
+                                                    onChange={(e) => setComment(e.target.value)}
+                                                    placeholder="Escribe tu comentario..."
+                                                />
+                                                <div className="modal-buttons">
+                                                    <button onClick={() => handleComment(index)}>Enviar</button>
+                                                    <button onClick={() => setShowModal(null)}>Cancelar</button>
                                                 </div>
-                                            )}
-                                        </>
+                                            </div>
+                                        </div>
                                     )}
                                 </div>
 
@@ -557,7 +553,7 @@ const ReadChapter = () => {
                                     <div className="comment-list">
                                         {comments[index].map((com, i) => (
                                             <div key={i} className="comment">
-                                                {com}
+                                                🗨️ {com}
                                             </div>
                                         ))}
                                     </div>
@@ -565,7 +561,6 @@ const ReadChapter = () => {
                             </div>
                         ))}
                     </div>
-
                 </Container>
 
                 {/* Botón de ajustes */}
