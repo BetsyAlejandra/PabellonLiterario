@@ -76,7 +76,7 @@ const ReadChapter = () => {
                 }
                 const dataChapter = await resChapter.json();
                 setChapter(dataChapter);
-                setParagraphs(dataChapter.content.split("\n").filter((p) => p.trim() !== ""));
+                setParagraphs(dataChapter.content.split(/\n|\r\n|\r/).filter((p) => p.trim() !== ""));
                 setLoading(false);
 
                 if (dataChapter.novelTitle) {
@@ -483,9 +483,10 @@ const ReadChapter = () => {
                     <div className="chapter-content">
                         {paragraphs.map((para, index) => (
                             <div key={index} className="paragraph">
-                                <p onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}>
-                                    {para}
-                                </p>
+                                <p
+                                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(para, sanitizeOptions) }}
+                                    onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}
+                                />
 
                                 {showCommentBox === index && (
                                     <div className="comment-box">
@@ -506,6 +507,7 @@ const ReadChapter = () => {
                             </div>
                         ))}
                     </div>
+
                 </Container>
 
                 {/* Botón de ajustes */}
