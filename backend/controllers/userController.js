@@ -91,7 +91,7 @@ exports.logout = (req, res) => {
 
 exports.getSavedNovels = async (req, res) => {
     try {
-      const userId = req.user.id; // El ID del usuario autenticado obtenido del token
+      const userId = req.session.user.id;
 
       // Buscar al usuario y poblar la información de las novelas guardadas
       const user = await User.findById(userId).populate('savedNovels');
