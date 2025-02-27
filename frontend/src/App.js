@@ -52,7 +52,6 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/password-reset-request" element={<PasswordResetRequest />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
-        <Route path="/library" element={<Library />} />
         <Route path="/Novelas" element={<NovelsPage />} />
         <Route path="/traductores" element={<TranslatorsPage />} />
         <Route path="/editores" element={<EditorsPage />} />

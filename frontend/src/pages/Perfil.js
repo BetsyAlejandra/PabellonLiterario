@@ -180,6 +180,11 @@ const Perfil = () => {
           >
             Mis Traducciones
           </button>
+          <button
+            onClick={() => navigate('/library')}
+          >
+            Biblioteca
+          </button>
           <button onClick={handleEditToggle} className="fantasy-btn">
             {isEditing ? 'Cancelar' : 'Editar'}
           </button>

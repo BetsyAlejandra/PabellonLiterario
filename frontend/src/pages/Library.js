@@ -9,7 +9,7 @@ const Library = () => {
     useEffect(() => {
         const fetchLibrary = async () => {
             try {
-                const res = await axios.get('/api/user/saved-novels', { withCredentials: true });
+                const res = await axios.get('/api/user/library', { withCredentials: true });
                 setLibrary(res.data);
             } catch (error) {
                 console.error('Error al obtener la biblioteca', error);
