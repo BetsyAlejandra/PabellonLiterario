@@ -282,8 +282,10 @@ const ReadChapter = () => {
 
 
     useEffect(() => {
-        markChapterAsRead(chapter._id);
-    }, [location.pathname]);
+        if (chapter && chapter._id) {
+          markChapterAsRead(chapter._id);
+        }
+      }, [location.pathname, chapter]); // Ahora solo se ejecuta si hay capítulo
 
     const handleDownload = async () => {
         if (!selectedText) return;
