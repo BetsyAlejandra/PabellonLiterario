@@ -537,3 +537,9 @@
   line-height: 1.6;
   color: #000;
 }
+
+.chapter-read {
+  color: grey;
+  text-decoration: line-through; /* Opcional */
+  opacity: 0.7; /* Opcional */
+}

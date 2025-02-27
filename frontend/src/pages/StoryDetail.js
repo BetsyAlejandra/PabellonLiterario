@@ -4,7 +4,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Modal, Button, Card, Form, Container, Pagination, Row, Col } from 'react-bootstrap';
 import '../styles/StoryDetail.css';
-import AdSense from '../Components/AdSense';
 
 const StoryDetail = () => {
     const { id } = useParams();
@@ -24,6 +23,7 @@ const StoryDetail = () => {
     const [enteredPassword, setEnteredPassword] = useState('');
     const [chapterToRead, setChapterToRead] = useState(null);
     const [passwordError, setPasswordError] = useState(''); // Para mostrar errores de contraseña
+    const [readChapters, setReadChapters] = useState([]);
 
     // Estado para manejar la autorización de capítulos
     const [authorizedChapters, setAuthorizedChapters] = useState({});
@@ -103,6 +103,9 @@ const StoryDetail = () => {
             }
         };
         checkIfSaved();
+
+        const storedChapters = JSON.parse(localStorage.getItem(`readChapters-${id}`)) || [];
+        setReadChapters(storedChapters);
     }, [id]);
 
     const handleSaveStory = async () => {
@@ -157,6 +160,11 @@ const StoryDetail = () => {
     };
 
     const handleReadChapter = (chapterId) => {
+        const readChapters = JSON.parse(localStorage.getItem(`readChapters_${id}`)) || [];
+        if (!readChapters.includes(chapterId)) {
+            readChapters.push(chapterId);
+            localStorage.setItem(`readChapters_${id}`, JSON.stringify(readChapters));
+        }
         // Verificar si la clasificación es +18
         if (story.classification === '+18') {
             // Almacenar el capítulo que el usuario quiere acceder
@@ -176,6 +184,11 @@ const StoryDetail = () => {
                 navigate(`/read-chapter/${id}/${chapterId}`);
             }
         }
+    };
+
+    const isChapterRead = (chapterId) => {
+        const readChapters = JSON.parse(localStorage.getItem(`readChapters_${id}`)) || [];
+        return readChapters.includes(chapterId);
     };
 
     const handlePasswordSubmit = async () => {
@@ -383,7 +396,7 @@ const StoryDetail = () => {
                         {currentChapters.map((chapter) => (
                             <Card
                                 key={chapter._id}
-                                className="shadow-sm mb-3 story-detail-chapter-card"
+                                className={`shadow-sm mb-3 story-detail-chapter-card ${readChapters.includes(chapter._id) ? 'chapter-read' : ''}`}
                                 onClick={() => handleReadChapter(chapter._id)}
                                 style={{ cursor: 'pointer' }}
                             >
@@ -395,6 +408,7 @@ const StoryDetail = () => {
                                 </Card.Body>
                             </Card>
                         ))}
+
 
                         {/* Control de paginación */}
                         {totalPages > 1 && (
