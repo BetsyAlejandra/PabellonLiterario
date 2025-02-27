@@ -89,7 +89,7 @@ exports.logout = (req, res) => {
     });
 };
 
-eexports.getSavedNovels = async (req, res) => {
+exports.getSavedNovels = async (req, res) => {
   try {
     const userId = req.session.user.id;
     const user = await User.findById(userId).populate('savedNovels');
