@@ -32,6 +32,7 @@ const ReadChapter = () => {
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState({});
     const [buttonPosition, setButtonPosition] = useState({ top: 0, left: 0 });
+    const [showModal, setShowModal] = useState(null);
 
     const location = useLocation();
 
@@ -197,18 +198,19 @@ const ReadChapter = () => {
         const selection = window.getSelection();
         const selectedText = selection.toString();
 
-        if (selectedText.length > 0) {
+        if (selectedText.trim().length > 0) {
             setShowCommentBox(index);
 
             const range = selection.getRangeAt(0);
             const rect = range.getBoundingClientRect();
 
             setButtonPosition({
-                top: rect.top + window.scrollY - 30,
-                left: rect.left + window.scrollX,
+                top: rect.bottom + window.scrollY - 10,
+                left: rect.left + window.scrollX + (rect.width / 2) - 20,
             });
         } else {
             setShowCommentBox(null);
+            setShowModal(null);
         }
     };
 
@@ -426,19 +428,15 @@ const ReadChapter = () => {
         fetchComments();
     }, []);
 
-    const handleComment = async (index) => {
-        if (!comment.trim()) return;
+    const handleComment = (index) => {
+        if (comment.trim()) {
+            const updatedComments = { ...comments };
+            if (!updatedComments[index]) updatedComments[index] = [];
+            updatedComments[index].push(comment);
 
-        try {
-            await axios.post(`/api/novels/${storyId}/chapter/${chapterId}/comment`, {
-                paragraphIndex: index,
-                comment,
-            });
+            setComments(updatedComments);
             setComment('');
-            setShowCommentBox(null);
-            fetchComments();
-        } catch (error) {
-            console.error("Error al enviar comentario:", error);
+            setShowModal(null);
         }
     };
 
@@ -511,35 +509,47 @@ const ReadChapter = () => {
                                     <p
                                         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(para, sanitizeOptions) }}
                                         onMouseUp={(e) => handleTextSelection(e, index)}
+                                        onTouchEnd={(e) => handleTextSelection(e, index)} // Para móviles
                                     ></p>
 
                                     {showCommentBox === index && (
-                                        <div
-                                            className="comment-button"
-                                            style={{
-                                                top: buttonPosition.top,
-                                                left: buttonPosition.left,
-                                            }}
-                                        >
-                                            <button onClick={() => setShowCommentBox(index)}>
-                                                💬 Comentar
-                                            </button>
-                                        </div>
-                                    )}
-
-                                    {showCommentBox === index && (
-                                        <div className="comment-modal">
-                                            <div className="modal-content">
-                                                <textarea
-                                                    value={comment}
-                                                    onChange={(e) => setComment(e.target.value)}
-                                                    placeholder="Escribe tu comentario..."
-                                                />
-                                                <button onClick={() => handleComment(index)}>
-                                                    Enviar
+                                        <>
+                                            <div
+                                                className="comment-button"
+                                                style={{
+                                                    top: buttonPosition.top,
+                                                    left: buttonPosition.left,
+                                                }}
+                                            >
+                                                <button onClick={() => setShowModal(index)}>
+                                                    💬 {comments[index]?.length > 0 && (
+                                                        <span className="comment-counter">
+                                                            {comments[index].length}
+                                                        </span>
+                                                    )}
                                                 </button>
                                             </div>
-                                        </div>
+
+                                            {showModal === index && (
+                                                <div className="comment-modal">
+                                                    <div className="modal-content">
+                                                        <textarea
+                                                            value={comment}
+                                                            onChange={(e) => setComment(e.target.value)}
+                                                            placeholder="Escribe tu comentario..."
+                                                        />
+                                                        <div className="modal-buttons">
+                                                            <button onClick={() => handleComment(index)}>
+                                                                Enviar
+                                                            </button>
+                                                            <button onClick={() => setShowModal(null)}>
+                                                                Cancelar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </>
                                     )}
                                 </div>
 
@@ -555,6 +565,7 @@ const ReadChapter = () => {
                             </div>
                         ))}
                     </div>
+
                 </Container>
 
                 {/* Botón de ajustes */}
