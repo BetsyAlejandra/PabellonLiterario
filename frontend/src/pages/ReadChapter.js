@@ -31,6 +31,7 @@ const ReadChapter = () => {
     const [showCommentBox, setShowCommentBox] = useState(null);
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState({});
+    const [buttonPosition, setButtonPosition] = useState({ top: 0, left: 0 });
 
     const location = useLocation();
 
@@ -190,6 +191,25 @@ const ReadChapter = () => {
         const newSize = Number(size);
         setFontSize(newSize);
         localStorage.setItem('fontSize', newSize);
+    };
+
+    const handleTextSelection = (e, index) => {
+        const selection = window.getSelection();
+        const selectedText = selection.toString();
+
+        if (selectedText.length > 0) {
+            setShowCommentBox(index);
+
+            const range = selection.getRangeAt(0);
+            const rect = range.getBoundingClientRect();
+
+            setButtonPosition({
+                top: rect.top + window.scrollY - 30,
+                left: rect.left + window.scrollX,
+            });
+        } else {
+            setShowCommentBox(null);
+        }
     };
 
     const handleBrightnessChange = (value) => {
@@ -490,29 +510,36 @@ const ReadChapter = () => {
                                 <div className="paragraph-container">
                                     <p
                                         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(para, sanitizeOptions) }}
-                                        onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}
+                                        onMouseUp={(e) => handleTextSelection(e, index)}
                                     ></p>
 
                                     {showCommentBox === index && (
-                                        <>
-                                            <button
-                                                className="comment-button"
-                                                onClick={() => setShowCommentBox(null)}
-                                            >
-                                                💬
+                                        <div
+                                            className="comment-button"
+                                            style={{
+                                                top: buttonPosition.top,
+                                                left: buttonPosition.left,
+                                            }}
+                                        >
+                                            <button onClick={() => setShowCommentBox(index)}>
+                                                💬 Comentar
                                             </button>
+                                        </div>
+                                    )}
 
-                                            <div className="comment-modal">
-                                                <div className="modal-content">
-                                                    <textarea
-                                                        value={comment}
-                                                        onChange={(e) => setComment(e.target.value)}
-                                                        placeholder="Escribe tu comentario..."
-                                                    />
-                                                    <button onClick={() => handleComment(index)}>Enviar</button>
-                                                </div>
+                                    {showCommentBox === index && (
+                                        <div className="comment-modal">
+                                            <div className="modal-content">
+                                                <textarea
+                                                    value={comment}
+                                                    onChange={(e) => setComment(e.target.value)}
+                                                    placeholder="Escribe tu comentario..."
+                                                />
+                                                <button onClick={() => handleComment(index)}>
+                                                    Enviar
+                                                </button>
                                             </div>
-                                        </>
+                                        </div>
                                     )}
                                 </div>
 

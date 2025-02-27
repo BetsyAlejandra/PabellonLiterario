@@ -462,12 +462,14 @@
 }
 
 .comment-button {
+  position: absolute;
+  background: #C9D6D5; /* Verde pastel */
+  padding: 8px 12px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  background: transparent;
-  border: none;
-  font-size: 1.2em;
-  margin-left: 10px;
-  color: #D3D0E1; /* Lavanda claro */
+  animation: fadeIn 0.3s ease-in-out;
+  z-index: 10;
 }
 
 .comment-button:hover {
@@ -476,15 +478,13 @@
 
 .comment-modal {
   position: absolute;
-  right: -250px;
+  right: -260px;
   top: 0;
   background: #F1E4D1; /* Beige suave */
-  border: 1px solid #D6B4A1; /* Marrón suave arena */
   padding: 15px;
+  border: 1px solid #D6B4A1; /* Arena */
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-  width: 220px;
 }
 
 .modal-content {
@@ -531,4 +531,15 @@ button:hover {
   border-radius: 8px;
   margin-bottom: 5px;
   border: 1px solid #D6B4A1;
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: scale(0.8);
+  }
+  to {
+      opacity: 1;
+      transform: scale(1);
+  }
 }
