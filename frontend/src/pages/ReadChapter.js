@@ -25,8 +25,12 @@ const ReadChapter = () => {
 
     const [progress, setProgress] = useState(0);
     const [generalComment, setGeneralComment] = useState('');
-    const [generalComments, setGeneralComments] = useState([]);
     const [showSettings, setShowSettings] = useState(false);
+
+    const [paragraphs, setParagraphs] = useState([]);
+    const [showCommentBox, setShowCommentBox] = useState(null);
+    const [comment, setComment] = useState('');
+    const [comments, setComments] = useState({});
 
     const location = useLocation();
 
@@ -72,6 +76,7 @@ const ReadChapter = () => {
                 }
                 const dataChapter = await resChapter.json();
                 setChapter(dataChapter);
+                setParagraphs(dataChapter.content.split("\n").filter((p) => p.trim() !== ""));
                 setLoading(false);
 
                 if (dataChapter.novelTitle) {
@@ -203,12 +208,6 @@ const ReadChapter = () => {
         localStorage.setItem('fontFamily', family);
     };
 
-    const handleGeneralCommentSubmit = () => {
-        if (generalComment.trim()) {
-            setGeneralComments((prev) => [...prev, generalComment]);
-            setGeneralComment('');
-        }
-    };
 
     const renderPopover = (annotation) => (
         <Popover id={`popover-${popoverIdRef.current++}`}>
@@ -390,42 +389,33 @@ const ReadChapter = () => {
         };
     };
 
-    const ChapterContent = ({ storyId, chapter }) => {
-        const [showCommentBox, setShowCommentBox] = useState(null);
-        const [comment, setComment] = useState("");
-        const [comments, setComments] = useState([]);
+    const fetchComments = async () => {
+        try {
+            const { data } = await axios.get(`/api/novels/${storyId}/chapter/${chapterId}/comments`);
+            setComments(data.comments);
+        } catch (error) {
+            console.error("Error al cargar comentarios:", error);
+        }
+    };
 
-        const paragraphs = chapter.content.split("\n").filter((p) => p.trim() !== "");
+    useEffect(() => {
+        fetchComments(); // Cargar comentarios al iniciar el componente
+    }, []);
 
-        // Función para obtener los comentarios actualizados
-        const fetchComments = async () => {
-            try {
-                const { data } = await axios.get(`/api/stories/${storyId}/chapter/${chapter._id}/comments`);
-                setComments(data.comments);
-            } catch (error) {
-                console.error("Error al cargar comentarios:", error);
-            }
-        };
+    const handleComment = async (index) => {
+        if (!comment.trim()) return;
 
-        useEffect(() => {
-            fetchComments(); // Cargar comentarios al iniciar el componente
-        }, []);
-
-        const handleComment = async (index) => {
-            if (!comment.trim()) return;
-
-            try {
-                await axios.post(`/api/novels/${storyId}/chapter/${chapter._id}/comment`, {
-                    paragraphIndex: index,
-                    comment,
-                });
-                setComment("");
-                setShowCommentBox(null);
-                fetchComments(); // Actualizar comentarios después de enviar
-            } catch (error) {
-                console.error("Error al enviar comentario:", error);
-            }
-        };
+        try {
+            await axios.post(`/api/novels/${storyId}/chapter/${chapterId}/comment`, {
+                paragraphIndex: index,
+                comment,
+            });
+            setComment('');
+            setShowCommentBox(null);
+            fetchComments(); // Actualizar comentarios después de enviar
+        } catch (error) {
+            console.error("Error al enviar comentario:", error);
+        }
     };
 
     if (loading) return <p className="read-chapter-loading">Cargando...</p>;
@@ -491,16 +481,10 @@ const ReadChapter = () => {
                     )}
 
                     <div className="chapter-content">
-                        {paragraphs.map((paragraph, index) => (
+                        {paragraphs.map((para, index) => (
                             <div key={index} className="paragraph">
-                                <p>
-                                    {parse(paragraph)}
-                                    <button
-                                        className="btn-comment"
-                                        onClick={() => setShowCommentBox(showCommentBox === index ? null : index)}
-                                    >
-                                        💬
-                                    </button>
+                                <p onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}>
+                                    {para}
                                 </p>
 
                                 {showCommentBox === index && (
@@ -514,13 +498,11 @@ const ReadChapter = () => {
                                     </div>
                                 )}
 
-                                {comments
-                                    .filter((c) => c.paragraphIndex === index)
-                                    .map((c, i) => (
-                                        <div key={i} className="comment">
-                                            <small>{c.comment}</small>
-                                        </div>
-                                    ))}
+                                {comments[index]?.map((com, i) => (
+                                    <div key={i} className="comment">
+                                        {com}
+                                    </div>
+                                ))}
                             </div>
                         ))}
                     </div>
