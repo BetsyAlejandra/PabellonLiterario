@@ -76,7 +76,7 @@ const ReadChapter = () => {
                 }
                 const dataChapter = await resChapter.json();
                 setChapter(dataChapter);
-                setParagraphs(dataChapter.content.split(/\n|\r\n|\r/).filter((p) => p.trim() !== ""));
+                setParagraphs(dataChapter.content.split("\n").filter((p) => p.trim() !== ""));
                 setLoading(false);
 
                 if (dataChapter.novelTitle) {
@@ -392,14 +392,18 @@ const ReadChapter = () => {
     const fetchComments = async () => {
         try {
             const { data } = await axios.get(`/api/novels/${storyId}/chapter/${chapterId}/comments`);
-            setComments(data.comments);
+            setComments(data.comments.reduce((acc, comment) => {
+                acc[comment.paragraphIndex] = acc[comment.paragraphIndex] || [];
+                acc[comment.paragraphIndex].push(comment.text);
+                return acc;
+            }, {}));
         } catch (error) {
             console.error("Error al cargar comentarios:", error);
         }
     };
 
     useEffect(() => {
-        fetchComments(); // Cargar comentarios al iniciar el componente
+        fetchComments();
     }, []);
 
     const handleComment = async (index) => {
@@ -412,7 +416,7 @@ const ReadChapter = () => {
             });
             setComment('');
             setShowCommentBox(null);
-            fetchComments(); // Actualizar comentarios después de enviar
+            fetchComments();
         } catch (error) {
             console.error("Error al enviar comentario:", error);
         }
@@ -483,28 +487,30 @@ const ReadChapter = () => {
                     <div className="chapter-content">
                         {paragraphs.map((para, index) => (
                             <div key={index} className="paragraph">
-                                <p
-                                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(para, sanitizeOptions) }}
-                                    onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}
-                                />
-
-                                {showCommentBox === index && (
-                                    <div className="comment-box">
-                                        <textarea
-                                            value={comment}
-                                            onChange={(e) => setComment(e.target.value)}
-                                            placeholder="Escribe tu comentario..."
-                                        />
-                                        <button onClick={() => handleComment(index)}>Enviar</button>
-                                    </div>
-                                )}
+                                <div className="paragraph-container">
+                                    <p onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}>
+                                        {para}
+                                    </p>
+                                    <button className="comment-button" onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}>
+                                        Comentar
+                                    </button>
+                                    {showCommentBox === index && (
+                                        <div className="comment-modal">
+                                            <textarea
+                                                value={comment}
+                                                onChange={(e) => setComment(e.target.value)}
+                                                placeholder="Escribe tu comentario..."
+                                            />
+                                            <button onClick={() => handleComment(index)}>Enviar</button>
+                                        </div>
+                                    )}
+                                </div>
 
                                 {Array.isArray(comments[index]) && comments[index].map((com, i) => (
                                     <div key={i} className="comment">
                                         {com}
                                     </div>
                                 ))}
-
                             </div>
                         ))}
                     </div>
