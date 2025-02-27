@@ -9,6 +9,16 @@
     font-family: 'Garamond', serif; /* Fuente con estilo clásico */
 }
 
+img {
+    cursor: pointer;
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  img:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+
 /* Título del Capítulo */
 .add-chapter-title {
     color: #ffd700; /* Dorado */

@@ -7,6 +7,9 @@ import FloatingButton from './Components/FloatingButton';
 import Footer from './Components/Footer';
 import Header from './Components/Header';
 
+//Contexto
+import { ReadChapterProvider } from './context/ReadChapterContext';
+
 // Páginas
 import AddChapter from './pages/AddChapter';
 import AdminPanel from './pages/AdminPanel';
@@ -46,6 +49,7 @@ function App() {
   return (
     <div className="App">
       {!hideHeaderFooter && <Header />}
+      <ReadChapterProvider>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -76,6 +80,7 @@ function App() {
         <Route path="/manage-chapters/:id" element={<ManageChapters />} />
         <Route path="/audio-dramas/:id/seasons/:seasonNumber/episodes/:episode" element={<ChapterDetail />} />
       </Routes>
+      </ReadChapterProvider>
       {!hideHeaderFooter && <FloatingButton />}
       {!hideHeaderFooter && <Footer />}
     </div>

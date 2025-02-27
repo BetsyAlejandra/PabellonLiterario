@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Modal, Button, Card, Form, Container, Pagination, Row, Col } from 'react-bootstrap';
+import { useReadChapter } from "../context/ReadChapterContext";
 import '../styles/StoryDetail.css';
 
 const StoryDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { markChapterAsRead } = useReadChapter();
 
     const [story, setStory] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -160,11 +162,7 @@ const StoryDetail = () => {
     };
 
     const handleReadChapter = (chapterId) => {
-        const readChapters = JSON.parse(localStorage.getItem(`readChapters_${id}`)) || [];
-        if (!readChapters.includes(chapterId)) {
-            readChapters.push(chapterId);
-            localStorage.setItem(`readChapters_${id}`, JSON.stringify(readChapters));
-        }
+        markChapterAsRead(chapterId);
         // Verificar si la clasificación es +18
         if (story.classification === '+18') {
             // Almacenar el capítulo que el usuario quiere acceder
@@ -187,7 +185,6 @@ const StoryDetail = () => {
     };
 
     const isChapterRead = (chapterId) => {
-        const readChapters = JSON.parse(localStorage.getItem(`readChapters_${id}`)) || [];
         return readChapters.includes(chapterId);
     };
 
@@ -393,24 +390,17 @@ const StoryDetail = () => {
                 {story.chapters.length ? (
                     // Mostrar capítulos paginados
                     <>
-                        {currentChapters.map((chapter, index) => (
+                        {currentChapters.map((chapter) => (
                             <Card key={chapter._id} className="shadow-sm mb-2 story-chapter-card">
                                 <Card.Body className="d-flex justify-content-between align-items-center">
                                     <span>{chapter.title}</span>
                                     {isChapterRead(chapter._id) && (
-                                        <span className="badge bg-success ms-2">
-                                            ✔ Leído
-                                        </span>
+                                        <span className="badge bg-success ms-2">✔ Leído</span>
                                     )}
                                     <Button
                                         variant="outline-secondary"
                                         size="sm"
-                                        onClick={() => {
-                                            handleReadChapter(chapter._id);
-                                            navigate(`/read-chapter/${chapter._id}`, {
-                                                state: { handleReadChapter },
-                                            });
-                                        }}
+                                        onClick={() => handleReadChapter(chapter._id)}
                                     >
                                         Leer
                                     </Button>

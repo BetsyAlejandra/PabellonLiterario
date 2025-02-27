@@ -140,6 +140,51 @@ router.put('/:storyId/chapters/:chapterId', async (req, res) => {
   }
 });
 
+router.post("/:storyId/chapter/:chapterId/comment", async (req, res) => {
+  const { storyId, chapterId } = req.params;
+  const { paragraphIndex, comment } = req.body;
+
+  try {
+    const novel = await Novel.findById(storyId);
+    const chapter = novel.chapters.id(chapterId);
+
+    if (!chapter) {
+      return res.status(404).json({ message: "Capítulo no encontrado" });
+    }
+
+    chapter.paragraphComments.push({
+      paragraphIndex,
+      comment,
+    });
+
+    await novel.save();
+    res.status(200).json({ message: "Comentario agregado" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al agregar comentario" });
+  }
+});
+
+router.get("/:storyId/chapter/:chapterId/comments", async (req, res) => {
+  const { storyId, chapterId } = req.params;
+
+  try {
+    const novel = await Novel.findById(storyId);
+    const chapter = novel.chapters.id(chapterId);
+
+    if (!chapter) {
+      return res.status(404).json({ message: "Capítulo no encontrado" });
+    }
+
+    res.status(200).json({ comments: chapter.paragraphComments });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al obtener comentarios" });
+  }
+});
+
+
+
 // Añade la ruta para verificar la contraseña
 router.post('/:id/verify-password', verifyPassword);
 router.post('/:id/reviews', isAuthenticated, addReview);

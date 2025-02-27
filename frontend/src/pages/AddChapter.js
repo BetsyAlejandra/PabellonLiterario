@@ -38,9 +38,10 @@ const AddChapter = () => {
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
             Image,
             HorizontalRule,
-            Annotation, // Añade la extensión de anotación aquí
+            Annotation,
+            CustomImage,
         ],
-        content: '',
+        content: "<p>Haz clic en la imagen para redimensionarla</p>",
         editorProps: {
             handleDOMEvents: {
                 mouseup: (view, event) => {
@@ -116,6 +117,38 @@ const AddChapter = () => {
             reader.readAsDataURL(file);
         }
     };
+
+    const CustomImage = Image.extend({
+        addAttributes() {
+          return {
+            src: { default: null },
+            width: {
+              default: "300",
+              renderHTML: (attributes) => ({ width: attributes.width }),
+            },
+            height: {
+              default: "auto",
+              renderHTML: (attributes) => ({ height: attributes.height }),
+            },
+          };
+        },
+      
+        addNodeView() {
+          return ({ node, HTMLAttributes, getPos, editor }) => {
+            const img = document.createElement("img");
+            img.src = node.attrs.src;
+            img.style.width = node.attrs.width;
+            img.style.height = node.attrs.height;
+            img.onclick = () => {
+              const newWidth = prompt("Introduce el nuevo ancho (px):", node.attrs.width);
+              if (newWidth) {
+                editor.commands.setNodeAttributes(getPos(), { width: newWidth });
+              }
+            };
+            return img;
+          };
+        },
+      });
 
 
     // Función para insertar un separador de texto

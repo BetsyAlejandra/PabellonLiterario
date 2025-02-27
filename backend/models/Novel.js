@@ -54,7 +54,7 @@ const novelSchema = new mongoose.Schema(
     author: {
       type: String,
       required: [true, 'El autor es obligatorio'],
-    },       
+    },
     collaborators: [
       {
         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Relación con el modelo User
@@ -103,11 +103,21 @@ const novelSchema = new mongoose.Schema(
     ],
 
     // Capítulos de la novela
-    chapters: [{
-      title: String,
-      content: String,
-      publishedAt: Date,
-    }],
+    chapters: [
+      {
+        title: String,
+        content: String,
+        publishedAt: Date,
+        paragraphComments: [
+          {
+            paragraphIndex: Number, // Índice del párrafo
+            user: { type: mongoose.Schema.Types.ObjectId },
+            comment: String,
+            createdAt: { type: Date, default: Date.now },
+          },
+        ],
+      },
+    ],
 
     // Reseñas de los usuarios
     reviews: [{

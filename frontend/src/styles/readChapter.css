@@ -460,3 +460,34 @@
 .story-detail-modal .text-danger {
   color: #e74c3c !important; /* Rojo para errores */
 }
+
+.paragraph {
+  margin-bottom: 1em;
+  position: relative;
+}
+
+.btn-comment {
+  margin-left: 10px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1.2em;
+}
+
+.comment-box {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-box textarea {
+  width: 100%;
+  padding: 0.5em;
+}
+
+.comment-box button {
+  background: #6a1b9a;
+  color: white;
+  padding: 0.3em 1em;
+  cursor: pointer;
+}

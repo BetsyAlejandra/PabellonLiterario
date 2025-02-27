@@ -1,12 +1,13 @@
 // src/components/ReadChapter.jsx
 import React, { useState, useEffect, useRef } from 'react';
+import axios from "axios";
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Container, Form, OverlayTrigger, Popover, Toast, ToastContainer, Modal } from 'react-bootstrap';
 import { FaArrowLeft, FaBook, FaArrowRight, FaCog, FaQuoteRight } from 'react-icons/fa';
 import DOMPurify from 'dompurify';
 import parse, { domToReact } from 'html-react-parser';
 import '../styles/readChapter.css';
-import AdSense from '../Components/AdSense';
+import { useReadChapter } from "../context/ReadChapterContext";
 import html2canvas from 'html2canvas';
 import backgroundImage from '../assets/background.png';
 import { DiscussionEmbed, CommentCount } from 'disqus-react';
@@ -15,6 +16,9 @@ import { useLocation } from "react-router-dom";
 const ReadChapter = () => {
     const { storyId, chapterId } = useParams();
     const navigate = useNavigate();
+    const { markChapterAsRead } = useReadChapter();
+
+
     const [chapter, setChapter] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -25,7 +29,6 @@ const ReadChapter = () => {
     const [showSettings, setShowSettings] = useState(false);
 
     const location = useLocation();
-    const handleReadChapter = location.state?.handleReadChapter;
 
     // Inicialización de estados desde localStorage
     const [fontSize, setFontSize] = useState(() => {
@@ -214,6 +217,8 @@ const ReadChapter = () => {
         </Popover>
     );
 
+
+
     const sanitizeOptions = {
         ADD_ATTR: ['data-annotation', 'class', 'src', 'alt'],
     };
@@ -245,6 +250,14 @@ const ReadChapter = () => {
                 return <hr />;
             }
         },
+    };
+
+    const navigateToNext = () => {
+        markChapterAsRead(chapter._id); // Marca como leído
+
+        if (chapter.next) {
+            navigate(`/read-chapter/${storyId}/${chapter.next}`);
+        }
     };
 
     const handleDownload = async () => {
@@ -377,6 +390,44 @@ const ReadChapter = () => {
         };
     };
 
+    const ChapterContent = ({ storyId, chapter }) => {
+        const [showCommentBox, setShowCommentBox] = useState(null);
+        const [comment, setComment] = useState("");
+        const [comments, setComments] = useState([]);
+
+        const paragraphs = chapter.content.split("\n").filter((p) => p.trim() !== "");
+
+        // Función para obtener los comentarios actualizados
+        const fetchComments = async () => {
+            try {
+                const { data } = await axios.get(`/api/stories/${storyId}/chapter/${chapter._id}/comments`);
+                setComments(data.comments);
+            } catch (error) {
+                console.error("Error al cargar comentarios:", error);
+            }
+        };
+
+        useEffect(() => {
+            fetchComments(); // Cargar comentarios al iniciar el componente
+        }, []);
+
+        const handleComment = async (index) => {
+            if (!comment.trim()) return;
+
+            try {
+                await axios.post(`/api/novels/${storyId}/chapter/${chapter._id}/comment`, {
+                    paragraphIndex: index,
+                    comment,
+                });
+                setComment("");
+                setShowCommentBox(null);
+                fetchComments(); // Actualizar comentarios después de enviar
+            } catch (error) {
+                console.error("Error al enviar comentario:", error);
+            }
+        };
+    };
+
     if (loading) return <p className="read-chapter-loading">Cargando...</p>;
     if (error) return <p className="read-chapter-error">{error}</p>;
 
@@ -440,7 +491,38 @@ const ReadChapter = () => {
                     )}
 
                     <div className="chapter-content">
-                        {chapter && parse(sanitizedContent, options)}
+                        {paragraphs.map((paragraph, index) => (
+                            <div key={index} className="paragraph">
+                                <p>
+                                    {parse(paragraph)}
+                                    <button
+                                        className="btn-comment"
+                                        onClick={() => setShowCommentBox(showCommentBox === index ? null : index)}
+                                    >
+                                        💬
+                                    </button>
+                                </p>
+
+                                {showCommentBox === index && (
+                                    <div className="comment-box">
+                                        <textarea
+                                            value={comment}
+                                            onChange={(e) => setComment(e.target.value)}
+                                            placeholder="Escribe tu comentario..."
+                                        />
+                                        <button onClick={() => handleComment(index)}>Enviar</button>
+                                    </div>
+                                )}
+
+                                {comments
+                                    .filter((c) => c.paragraphIndex === index)
+                                    .map((c, i) => (
+                                        <div key={i} className="comment">
+                                            <small>{c.comment}</small>
+                                        </div>
+                                    ))}
+                            </div>
+                        ))}
                     </div>
                 </Container>
 
@@ -539,16 +621,7 @@ const ReadChapter = () => {
                     <Button
                         variant="link"
                         aria-label="Capítulo siguiente"
-                        onClick={() => {
-                            if (chapter.next) {
-                                if (handleReadChapter) {
-                                    handleReadChapter(chapter._id); // Marca como leído antes de navegar
-                                }
-                                navigate(`/read-chapter/${storyId}/${chapter.next}`, {
-                                    state: { handleReadChapter },
-                                });
-                            }
-                        }}
+                        onClick={navigateToNext}
                         disabled={!chapter.next}
                         className="nav-btn"
                     >
