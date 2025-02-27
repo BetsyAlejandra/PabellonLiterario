@@ -88,3 +88,23 @@ exports.logout = (req, res) => {
         res.status(200).json({ message: 'Sesión cerrada exitosamente' });
     });
 };
+
+const getSavedNovels = async (req, res) => {
+  try {
+    const userId = req.user.id; // El ID del usuario autenticado obtenido del token
+
+    // Buscar al usuario y poblar la información de las novelas guardadas
+    const user = await User.findById(userId).populate('savedNovels');
+
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    res.status(200).json(user.savedNovels);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener las historias guardadas' });
+  }
+};
+
+module.exports = { getSavedNovels };

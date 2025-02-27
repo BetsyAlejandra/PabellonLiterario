@@ -93,17 +93,35 @@ const StoryDetail = () => {
             }
         };
         fetchStory();
+
+        const checkIfSaved = async () => {
+            try {
+                const res = await axios.get('/api/user/library', { withCredentials: true });
+                setSaved(res.data.includes(id));
+            } catch (error) {
+                console.error('Error al verificar si la novela está en la biblioteca', error);
+            }
+        };
+        checkIfSaved();
     }, [id]);
 
     const handleSaveStory = async () => {
         try {
-            await axios.post(`/api/novels/${id}/follow`, {}, {
-                withCredentials: true,
-            });
+            await axios.post(`/api/novels/${id}/follow`, {}, { withCredentials: true });
             setSaved(true);
             alert('Historia guardada en tu biblioteca.');
         } catch (err) {
-            alert('Error al guardar la historia.');
+            alert(err.response?.data?.message || 'Error al guardar la historia.');
+        }
+    };
+
+    const handleUnsaveStory = async () => {
+        try {
+            await axios.delete(`/api/novels/${id}/unfollow`, { withCredentials: true });
+            setSaved(false);
+            alert('Historia eliminada de tu biblioteca.');
+        } catch (err) {
+            alert('Error al eliminar la historia.');
         }
     };
 
@@ -253,6 +271,12 @@ const StoryDetail = () => {
                                 disabled={!story.chapters.length}
                             >
                                 Leer
+                            </Button>
+                            <Button
+                                className="btn btn-secondary mt-2"
+                                onClick={saved ? handleUnsaveStory : handleSaveStory}
+                            >
+                                {saved ? "Eliminar de la Biblioteca" : "Guardar en la Biblioteca"}
                             </Button>
                             {/* Mostrar autor (usuario encargado) */}
                             <div className="mt-3 story-detail-author">

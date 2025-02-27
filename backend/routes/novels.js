@@ -16,7 +16,7 @@ const isAuthenticated = (req, res, next) => {
     return next();
   }
   return res.status(401).json({ message: 'No autorizado. Inicia sesión.' });
-}; 
+};
 
 const getGenres = (req, res) => {
   console.log('Ruta /genres alcanzada');
@@ -71,6 +71,43 @@ router.get('/my-stories', isAuthenticated, async (req, res) => {
 });
 
 router.get('/latest', getLatestNovels);
+// Guardar una novela en la biblioteca del usuario
+router.post('/:id/follow', verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id; // ID del usuario autenticado
+    const novelId = req.params.id;
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+    if (user.savedNovels.includes(novelId)) {
+      return res.status(400).json({ message: 'Ya has guardado esta novela' });
+    }
+
+    user.savedNovels.push(novelId);
+    await user.save();
+
+    res.status(200).json({ message: 'Novela guardada correctamente' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al guardar la novela', error });
+  }
+});
+
+// Eliminar una novela de la biblioteca del usuario
+router.delete('/:id/unfollow', async (req, res) => {
+  try {
+      const userId = req.user.id;
+      const novelId = req.params.id;
+
+      // Actualiza la base de datos para quitar la novela de la biblioteca del usuario
+      await User.findByIdAndUpdate(userId, { $pull: { library: novelId } });
+
+      res.json({ message: 'Novela eliminada de tu biblioteca.' });
+  } catch (error) {
+      res.status(500).json({ error: 'Error al eliminar la novela.' });
+  }
+});
+
 router.get('/', getNovels);
 router.post('/create', isAuthenticated, upload, handleMulterError, createNovel);
 

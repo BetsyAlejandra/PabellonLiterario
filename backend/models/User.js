@@ -28,8 +28,8 @@ const userSchema = new mongoose.Schema(
     coverPhoto: { type: String, default: 'https://defaultimage.com/cover.jpg' },
     description: { type: String, default: '' },
     socialLinks: {
-      type: [String], // Arreglo de URLs para redes sociales
-      default: [], // Por defecto, un arreglo vacío
+      type: [String],
+      default: [],
       validate: {
         validator: function (links) {
           return links.every((link) =>
@@ -43,8 +43,14 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    savedNovels: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Novel', // Referencia al modelo de novelas
+      },
+    ],
   },
-  { timestamps: true } // Registra creación y actualización
+  { timestamps: true }
 );
 
 // Middleware para encriptar la contraseña antes de guardar

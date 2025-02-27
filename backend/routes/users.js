@@ -5,6 +5,7 @@ const User = require('../models/User');
 const Novel = require('../models/Novel'); // Ajusta la ruta según la estructura de tu proyecto
 const router = express.Router();
 const userController = require('../controllers/userController');
+const { getSavedNovels } = require('../controllers/userController');
 
 
 const isAuthenticated = (req, res, next) => {
@@ -264,6 +265,8 @@ router.get('/profileperson/:username', async (req, res) => {
     res.status(500).json({ message: 'Error interno del servidor', error: error.message });
   }
 });
+
+router.get('/saved-novels', getSavedNovels);
 
 // En el archivo de rutas de usuarios
 router.get('/users/:id', async (req, res) => {

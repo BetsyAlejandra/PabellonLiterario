@@ -59,6 +59,7 @@ function App() {
         <Route path="/postular" element={<Postulacion />} />
         <Route path="/generos" element={<BuscarPorFiltros />} />
         <Route path="/story-detail/:id" element={<StoryDetail />} />
+        <Route path="/library" element={<Library />} />
         <Route path="/read-chapter/:storyId/:chapterId" element={<ReadChapter />} />
         <Route path="/add-chapter/:id" element={<AddChapter />} />
         <Route path="/search-results" element={<SearchResults />} />

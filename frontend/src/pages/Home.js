@@ -4,58 +4,31 @@ import { Link } from 'react-router-dom';
 import '../styles/homeStyles.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import headerImage from '../assets/Encabezado.png'; // Imagen de encabezado
-
 import Slider from "react-slick";
+import headerImage from '../assets/Encabezado.png';
 
 const Home = () => {
-  const [novels, setNovels] = useState([]); // Estado para almacenar las novelas
-  const [loading, setLoading] = useState(true); // Estado para indicar si los datos están cargando
-  const [latestNovels, setLatestNovels] = useState([]); // Estado para las últimas traducciones
-  const [error, setError] = useState(null); // Estado para manejar errores
+  const [novels, setNovels] = useState([]);
+  const [latestNovels, setLatestNovels] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchNovels = async () => {
+    const fetchData = async (url, setter) => {
       try {
-        const response = await fetch('/api/novels');
-        const contentType = response.headers.get('content-type');
-
-        if (!contentType || !contentType.includes('application/json')) {
-          throw new Error('Respuesta no es JSON');
-        }
-
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Error en la petición');
         const data = await response.json();
-
-        if (Array.isArray(data.novels)) {
-          setNovels(data.novels.slice(0, 10));
-        } else {
-          throw new Error('Respuesta inesperada: no es un arreglo');
-        }
-
-        setLoading(false);
+        setter(Array.isArray(data.novels) ? data.novels.slice(0, 10) : []);
       } catch (error) {
-        console.error('Error en fetchNovels:', error.message);
+        console.error('Fetch error:', error);
         setError(error.message);
-        setNovels([]);
-        setLoading(false);
       }
     };
 
-    const fetchLatestNovels = async () => {
-      try {
-        const response = await fetch('/api/novels/latest');
-        if (!response.ok) throw new Error('Error al obtener últimas novelas');
-        const data = await response.json();
-        setLatestNovels(data); // Actualiza el estado
-      } catch (error) {
-        console.error('Error en fetchLatestNovels:', error.message);
-        setError(error.message);
-        setLatestNovels([]);
-      }
-    };
-
-    fetchNovels();
-    fetchLatestNovels(); // Llama a ambas funciones al montar el componente
+    fetchData('/api/novels', setNovels);
+    fetchData('/api/novels/latest', setLatestNovels);
+    setLoading(false);
   }, []);
 
   const settings = {
@@ -64,233 +37,104 @@ const Home = () => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
-    lazyLoad: "ondemand", // Carga diferida
+    lazyLoad: "ondemand",
     responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 576,
-        settings: {
-          slidesToShow: 1,
-        },
-      },
+      { breakpoint: 1024, settings: { slidesToShow: 3 } },
+      { breakpoint: 768, settings: { slidesToShow: 2 } },
+      { breakpoint: 576, settings: { slidesToShow: 1 } }
     ],
   };
 
   return (
     <div className="home-page">
       {/* Encabezado */}
-      <header
-        className="header-section"
-        style={{
-          backgroundImage: `url(${headerImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="header-content text-center">
-          <h1 className="header-title">Pabellón Literario</h1>
-          <p className="header-subtitle">Únete a nuestra comunidad para más sorpresas</p>
-          <Button href="https://discord.gg/Np8prZDgwX" variant="light" className="header-button">
-            ¡ÚNETE!
-          </Button>
-        </div>
+      <header className="header-section" style={{ backgroundImage: `url(${headerImage})` }}>
+        <Container className="text-center py-5">
+          <h1>Pabellón Literario</h1>
+          <p>Únete a nuestra comunidad para más sorpresas</p>
+          <Button href="https://discord.gg/Np8prZDgwX" variant="light">¡ÚNETE!</Button>
+        </Container>
       </header>
 
-      {/* Espacio para Anuncio 1 */}
-      {novels.length > 0 && (
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3101266953328074"
-          crossorigin="anonymous"></script>
-      )}
-
       {/* Galería de Obras Traducidas */}
-      <section className="translated-works-gallery">
+      <section className="translated-works-gallery py-5">
         <Container>
-          <h2 className="section-title">Galería de Obras Traducidas</h2>
-          {loading ? (
-            <div className="loading-skeleton">
-              {[...Array(4)].map((_, index) => (
-                <Card key={index} className="gallery-card">
-                  <div className="skeleton-img" />
-                  <Card.Body>
-                    <div className="skeleton-text"></div>
-                    <div className="skeleton-btn"></div>
+          <h2 className="text-center mb-4">Galería de Obras Traducidas</h2>
+          {loading ? <p className="text-center">Cargando...</p> : (
+            <Slider {...settings}>
+              {novels.map(novel => (
+                <Card key={novel._id} className="gallery-card mx-2">
+                  <Card.Img variant="top" src={novel.coverImage} alt={novel.title} loading="lazy" />
+                  <Card.Body className="text-center">
+                    <Card.Title>{novel.title}</Card.Title>
+                    <Button as={Link} to={`/story-detail/${novel._id}`}>Ver más</Button>
                   </Card.Body>
                 </Card>
               ))}
-            </div>
-          ) : (
-            novels.length > 0 && (
-              <Slider {...settings}>
-                {novels.map((novel) => (
-                  <Card key={novel._id} className="gallery-card">
-                    <Card.Img
-                      variant="top"
-                      src={novel.coverImage}
-                      alt={`Portada de ${novel.title}`}
-                      className="gallery-card-img"
-                      loading="lazy"
-                    />
-                    <Card.Body className="gallery-card-body">
-                      <Card.Title className="gallery-card-title">{novel.title}</Card.Title>
-                      <Button as={Link} to={`/story-detail/${novel._id}`} className="gallery-card-btn">
-                        Ver más
-                      </Button>
-                    </Card.Body>
-                  </Card>
-                ))}
-              </Slider>
-            )
+            </Slider>
           )}
         </Container>
       </section>
 
       {/* Últimas Traducciones */}
-      <section className="latest-translations">
+      <section className="latest-translations py-5 bg-dark">
         <Container>
-          <h2 className="section-title">Últimas Traducciones</h2>
+          <h2 className="text-center mb-4">Últimas Traducciones</h2>
           <Row>
-            {latestNovels.map((novel) => (
-              <Col key={novel._id} md={4} className="latest-translation-card">
-                <Card className="latest-card">
-                  <Card.Img
-                    variant="top"
-                    src={novel.coverImage}
-                    alt={`Portada de ${novel.title}`}
-                    className="latest-card-img"
-                  />
-                  <Card.Body>
+            {latestNovels.map(novel => (
+              <Col key={novel._id} md={4} className="mb-4">
+                <Card>
+                  <Card.Img variant="top" src={novel.coverImage} alt={novel.title} loading="lazy" />
+                  <Card.Body className="text-center">
                     <Card.Title>{novel.title}</Card.Title>
                     <Card.Text>{novel.genre}</Card.Text>
-                    <Button as={Link} to={`/story-detail/${novel._id}`} className="latest-card-btn">
-                      Leer más
-                    </Button>
+                    <Button as={Link} to={`/story-detail/${novel._id}`}>Leer más</Button>
                   </Card.Body>
                 </Card>
               </Col>
             ))}
           </Row>
         </Container>
+      </section>
 
+      {/* Soporte y Reclutamiento */}
+      <section className="support-and-apply py-5">
         <Container>
-          {/* Sección de Soporte y Discord */}
-          <Row className="support-and-apply-section">
-            <Col md={6} className="support-section text-black">
+          <Row>
+            <Col md={6} className="text-center mb-4">
               <h2>¡Apóyanos!</h2>
-              <p>
-                Si te gustan nuestras traducciones y quieres ayudarnos a seguir, puedes hacerlo con una pequeña donación en
-                nuestro perfil de Ko-fi.
-              </p>
-              <Button
-                href="https://ko-fi.com/betsyalejandra"
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="outline-light"
-              >
-                ¡Apóyanos en Ko-fi!
-              </Button>
-
-              <h2 className="mt-4">¡Únete a Nuestro Discord!</h2>
-              <p>
-                Si eres amante de las letras, las historias cautivadoras y las traducciones literarias, Pabellón Literario es el
-                lugar perfecto para ti. ¡Únete y haz de nuestro servidor tu rincón literario favorito!
-                <br></br>En Pabellón Literario, las palabras tienen el poder de unirnos. ¡Te esperamos para que formes parte de esta
-                comunidad única! 💕
-              </p>
-              <Button
-                href="https://discord.gg/Np8prZDgwX"
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="outline-light"
-              >
-                ¡Únete al Discord!
-              </Button>
+              <p>Ayúdanos con una donación en Ko-fi.</p>
+              <Button href="https://ko-fi.com/betsyalejandra" target="_blank" rel="noopener noreferrer">¡Apóyanos en Ko-fi!</Button>
             </Col>
-
-            {/* Anuncio de Postulación */}
-            <Col md={6} className="apply-section text-light">
+            <Col md={6} className="text-center">
               <h2>¡Únete a Nuestro Equipo!</h2>
-              <p>
-                ¿Te apasionan las letras? Buscamos traductores (de cualquier idioma), escritores y editores.
-                Forma parte de nuestro equipo y comparte tu talento con la comunidad.
-              </p>
-              <Button
-                as={Link}
-                to="/postular"
-                variant="outline-light"
-              >
-                Postúlate Aquí
-              </Button>
+              <p>Buscamos traductores y editores. Postúlate aquí.</p>
+              <Button as={Link} to="/postular">Postúlate</Button>
             </Col>
           </Row>
         </Container>
       </section>
 
       {/* Historia y Logros */}
-      <section className="history-and-achievements py-5">
+      <section className="history-and-achievements py-5 bg-dark">
         <Container>
-          <h2 className="text-center text-white mb-5">Historia y Logros del Proyecto</h2>
-          <p className="text-center text-white mb-5">
-            Esta línea del tiempo resalta los hitos clave que marcaron el desarrollo de nuestro proyecto, desde su
-            conceptualización hasta su primera versión lanzada al público.
-          </p>
+          <h2 className="text-center mb-4">Historia y Logros</h2>
           <Row>
             <Col md={12}>
               <div className="timeline">
-                {/* Timeline Items */}
-                <div className="timeline-item">
-                  <div className="timeline-icon">📅</div>
-                  <div className="timeline-content">
-                    <h5>21 de Noviembre del 2024</h5>
-                    <p>
-                      Creación del servidor: Este día marcó el nacimiento de nuestra comunidad. Creamos un espacio en Discord para
-                      unir a personas apasionadas por la literatura, con el objetivo de compartir ideas y colaborar en la creación del
-                      proyecto.
-                    </p>
-                  </div>
-                </div>
-                <div className="timeline-item">
-                  <div className="timeline-icon">💻</div>
-                  <div className="timeline-content">
-                    <h5>25 de Noviembre del 2024</h5>
-                    <p>
-                      Inicio de la programación: Después de días de planificación, comenzamos a trabajar en la estructura técnica del
-                      proyecto, incluyendo el diseño del frontend y backend con el stack MERN.
-                    </p>
-                  </div>
-                </div>
-                <div className="timeline-item">
-                  <div className="timeline-icon">🤝</div>
-                  <div className="timeline-content">
-                    <h5>24 de Noviembre del 2024</h5>
-                    <p>
-                      Primera reunión entre las 7 iniciadoras: Las mentes detrás del proyecto se reunieron por primera vez para alinear
-                      objetivos, discutir el alcance y definir roles clave. Esta colaboración sentó las bases para el éxito del
-                      proyecto.
-                    </p>
-                  </div>
-                </div>
-                <div className="timeline-item">
-                  <div className="timeline-icon">🎉</div>
-                  <div className="timeline-content">
-                    <h5>3 de Diciembre del 2024</h5>
-                    <p>
-                      Lanzamiento de la primera versión: Después de semanas intensas de trabajo, presentamos al público la primera
-                      versión de nuestra plataforma, que incluye funcionalidades básicas como subir traducciones, guardar progreso de
-                      lectura y dejar comentarios.
-                    </p>
-                  </div>
-                </div>
+                {[{ date: "21 Nov 2024", text: "Creación del servidor" },
+                  { date: "25 Nov 2024", text: "Inicio de la programación" },
+                  { date: "24 Nov 2024", text: "Primera reunión del equipo" },
+                  { date: "3 Dic 2024", text: "Lanzamiento de la primera versión" }]
+                  .map((event, index) => (
+                    <div key={index} className="timeline-item d-flex align-items-center mb-3">
+                      <div className="timeline-icon mr-3">📅</div>
+                      <div>
+                        <h5>{event.date}</h5>
+                        <p>{event.text}</p>
+                      </div>
+                    </div>
+                ))}
               </div>
             </Col>
           </Row>
