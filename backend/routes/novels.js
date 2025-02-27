@@ -72,7 +72,7 @@ router.get('/my-stories', isAuthenticated, async (req, res) => {
 
 router.get('/latest', getLatestNovels);
 // Guardar una novela en la biblioteca del usuario
-router.post('/:id/follow', verifyToken, async (req, res) => {
+router.post('/:id/follow', async (req, res) => {
   try {
     const userId = req.user.id; // ID del usuario autenticado
     const novelId = req.params.id;

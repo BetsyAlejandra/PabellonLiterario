@@ -14,21 +14,47 @@ const Home = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async (url, setter) => {
+    const fetchNovels = async () => {
       try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Error en la petición');
+        const response = await fetch('/api/novels');
+        const contentType = response.headers.get('content-type');
+
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Respuesta no es JSON');
+        }
+
         const data = await response.json();
-        setter(Array.isArray(data.novels) ? data.novels.slice(0, 10) : []);
+
+        if (Array.isArray(data.novels)) {
+          setNovels(data.novels.slice(0, 10));
+        } else {
+          throw new Error('Respuesta inesperada: no es un arreglo');
+        }
+
+        setLoading(false);
       } catch (error) {
-        console.error('Fetch error:', error);
+        console.error('Error en fetchNovels:', error.message);
         setError(error.message);
+        setNovels([]);
+        setLoading(false);
       }
     };
 
-    fetchData('/api/novels', setNovels);
-    fetchData('/api/novels/latest', setLatestNovels);
-    setLoading(false);
+    const fetchLatestNovels = async () => {
+      try {
+        const response = await fetch('/api/novels/latest');
+        if (!response.ok) throw new Error('Error al obtener últimas novelas');
+        const data = await response.json();
+        setLatestNovels(data); // Actualiza el estado
+      } catch (error) {
+        console.error('Error en fetchLatestNovels:', error.message);
+        setError(error.message);
+        setLatestNovels([]);
+      }
+    };
+
+    fetchNovels();
+    fetchLatestNovels(); // Llama a ambas funciones al montar el componente
   }, []);
 
   const settings = {
@@ -123,9 +149,9 @@ const Home = () => {
             <Col md={12}>
               <div className="timeline">
                 {[{ date: "21 Nov 2024", text: "Creación del servidor" },
-                  { date: "25 Nov 2024", text: "Inicio de la programación" },
-                  { date: "24 Nov 2024", text: "Primera reunión del equipo" },
-                  { date: "3 Dic 2024", text: "Lanzamiento de la primera versión" }]
+                { date: "25 Nov 2024", text: "Inicio de la programación" },
+                { date: "24 Nov 2024", text: "Primera reunión del equipo" },
+                { date: "3 Dic 2024", text: "Lanzamiento de la primera versión" }]
                   .map((event, index) => (
                     <div key={index} className="timeline-item d-flex align-items-center mb-3">
                       <div className="timeline-icon mr-3">📅</div>
@@ -134,7 +160,7 @@ const Home = () => {
                         <p>{event.text}</p>
                       </div>
                     </div>
-                ))}
+                  ))}
               </div>
             </Col>
           </Row>
