@@ -265,7 +265,7 @@ router.get('/profileperson/:username', async (req, res) => {
   }
 });
 
-router.get('/library', isAuthenticated, getSavedNovels);
+router.get('/library', isAuthenticated, userController.getSavedNovels);
 
 // En el archivo de rutas de usuarios
 router.get('/users/:id', async (req, res) => {
