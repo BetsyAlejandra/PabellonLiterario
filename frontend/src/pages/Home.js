@@ -26,7 +26,7 @@ const Home = () => {
         const data = await response.json();
 
         if (Array.isArray(data.novels)) {
-          setNovels(data.novels.slice(0, 10));
+          setNovels(data.novels.slice(0, 20));
         } else {
           throw new Error('Respuesta inesperada: no es un arreglo');
         }
