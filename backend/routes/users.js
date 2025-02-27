@@ -4,8 +4,7 @@ const path = require('path');
 const User = require('../models/User');
 const Novel = require('../models/Novel'); // Ajusta la ruta según la estructura de tu proyecto
 const router = express.Router();
-const userController = require('../controllers/userController');
-const { getSavedNovels } = require('../controllers/userController');
+const { register, login, logout, getSavedNovels } = require('../controllers/userController');
 
 
 const isAuthenticated = (req, res, next) => {
@@ -136,9 +135,9 @@ router.put('/assign-roles/:id', isAdmin, async (req, res) => {
 });
 
 // Rutas de usuario
-router.post('/register', userController.register);
-router.post('/login', userController.login);
-router.post('/logout', userController.logout);
+router.post('/register', register);
+router.post('/login', login);
+router.post('/logout', logout);
 
 // Endpoint para obtener el perfil del usuario
 router.get('/profile', async (req, res) => {
