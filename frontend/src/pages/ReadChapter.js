@@ -32,6 +32,7 @@ const ReadChapter = () => {
     const [comments, setComments] = useState({});
     const [buttonPosition, setButtonPosition] = useState({ top: 0, left: 0 });
     const [showModal, setShowModal] = useState(null);
+    const [paragraphIndex, setParagraphIndex] = useState(null);
 
     const location = useLocation();
 
@@ -196,14 +197,15 @@ const ReadChapter = () => {
     const handleTextSelection = (e, index) => {
         const selection = window.getSelection();
         const selectedText = selection.toString();
-
+    
         if (selectedText.trim().length > 0) {
-            setSelectedText(selectedText); // Guardar el texto seleccionado
+            setSelectedText(selectedText);
             setShowCommentBox(index);
-
+            setParagraphIndex(index);
+    
             const range = selection.getRangeAt(0);
             const rect = range.getBoundingClientRect();
-
+    
             setButtonPosition({
                 top: rect.bottom + window.scrollY - 10,
                 left: rect.left + window.scrollX + (rect.width / 2) - 20,
@@ -212,8 +214,10 @@ const ReadChapter = () => {
             setShowCommentBox(null);
             setShowModal(null);
             setSelectedText("");
+            setParagraphIndex(null);
         }
     };
+    
 
     const handleBrightnessChange = (value) => {
         const newBrightness = Number(value);
@@ -283,9 +287,9 @@ const ReadChapter = () => {
 
     useEffect(() => {
         if (chapter && chapter._id) {
-          markChapterAsRead(chapter._id);
+            markChapterAsRead(chapter._id);
         }
-      }, [location.pathname, chapter]); // Ahora solo se ejecuta si hay capítulo
+    }, [location.pathname, chapter]); // Ahora solo se ejecuta si hay capítulo
 
     const handleDownload = async () => {
         if (!selectedText) return;
@@ -434,24 +438,28 @@ const ReadChapter = () => {
         fetchComments();
     }, []);
 
-    const handleComment = async (index) => {
-        if (comment.trim()) {
+    const handleComment = async () => {
+        if (comment.trim() && paragraphIndex !== null) {
             try {
-                await axios.post(`/api/novels/${storyId}/chapter/${chapterId}/comments`, {
-                    paragraphIndex: index,
-                    comment: comment,
-                    selectedText: selectedText,
+                await axios.post(`/api/novels/${storyId}/chapter/${chapterId}/comment`, {
+                    paragraphIndex,
+                    comment,
+                    selectedText,
                 });
-
+    
                 fetchComments();
                 setComment('');
                 setSelectedText('');
+                setParagraphIndex(null);
                 setShowModal(null);
             } catch (error) {
                 console.error("Error al enviar comentario:", error);
             }
+        } else {
+            console.warn("No se ha seleccionado texto o el comentario está vacío");
         }
     };
+    
 
 
 
