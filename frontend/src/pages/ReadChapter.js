@@ -492,7 +492,7 @@ const ReadChapter = () => {
                                         {para}
                                     </p>
                                     <button className="comment-button" onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}>
-                                        Comentar
+                                        💬
                                     </button>
                                     {showCommentBox === index && (
                                         <div className="comment-modal">
