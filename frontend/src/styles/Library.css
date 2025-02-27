@@ -1,80 +1,115 @@
 /* Library.css */
 
-.min-h-screen {
+.library-container {
+    min-height: 100vh;
     background-color: #F1E4D1; /* Fondo de la página */
     color: #4A4A4A; /* Texto oscuro */
-  }
-  
-  h2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+.library-title {
     color: #D6B4A1; /* Color del título */
-  }
-  
-  .grid {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.library-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    max-width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
     padding: 20px;
-  }
-  
-  .card {
+    box-sizing: border-box;
+    justify-items: center;
+}
+
+.library-card {
     background-color: #D3D0E1; /* Fondo de las tarjetas */
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     overflow: hidden;
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .card:hover {
-    transform: scale(1.05); /* Efecto de hover para las tarjetas */
-  }
-  
-  .card img {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    width: 100%;
+    max-width: 300px;
+}
+
+.library-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.library-card-image {
     width: 100%;
     height: 200px;
     object-fit: cover;
-  }
-  
-  .card .content {
-    padding: 16px;
-  }
-  
-  .card .content h3 {
-    color: #D6B4A1; /* Título dentro de la tarjeta */
-    font-size: 1.1rem;
-    margin-bottom: 8px;
-  }
-  
-  .card .content p {
-    color: #4A4A4A; /* Descripción */
-    font-size: 0.9rem;
-    margin-bottom: 12px;
-    line-clamp: 2;
-    -webkit-line-clamp: 2;
+    border-bottom: 4px solid #D6B4A1;
+}
+
+.library-card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 200px;
+}
+
+.library-card-title {
+    color: #D6B4A1;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.library-card-description {
+    color: #4A4A4A;
+    font-size: 1rem;
+    margin-bottom: 16px;
+    line-height: 1.5;
+    text-align: justify;
     overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
     text-overflow: ellipsis;
-  }
-  
-  .card .content button {
+}
+
+.library-card-button {
     width: 100%;
     padding: 12px;
-    background-color: #C1D0B5; /* Color del botón */
+    background-color: #C1D0B5;
     color: #4A4A4A;
     font-weight: 600;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .card .content button:hover {
-    background-color: #D7E2E9; /* Color del botón en hover */
-  }
-  
-  /* Texto cuando no hay novelas */
-  .no-library-text {
-    font-size: 1.1rem;
-    color: #4A4A4A;
-    margin-top: 20px;
     text-align: center;
-  }  
+    transition: background-color 0.3s ease;
+}
+
+.library-card-button:hover {
+    background-color: #D7E2E9;
+}
+
+.library-empty {
+    font-size: 1.2rem;
+    color: #4A4A4A;
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    border: 2px dashed #D6B4A1;
+    border-radius: 15px;
+    background-color: rgba(211, 208, 225, 0.3);
+    width: 100%;
+    max-width: 600px;
+}
