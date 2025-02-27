@@ -105,12 +105,18 @@ const AddChapter = () => {
     };
 
     // Función para insertar una imagen
-    const insertImage = () => {
-        const url = prompt("Ingrese la URL de la imagen:");
-        if (url) {
-            editor.chain().focus().setImage({ src: url }).run();
+    const insertImage = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const imageUrl = reader.result;
+                editor.chain().focus().setImage({ src: imageUrl }).run();
+            };
+            reader.readAsDataURL(file);
         }
     };
+
 
     // Función para insertar un separador de texto
     const insertSeparator = () => {
@@ -203,14 +209,15 @@ const AddChapter = () => {
                             </button>
 
                             {/* Botón para insertar imagen */}
-                            <button
-                                className="btn btn-tool add-chapter-btn"
-                                onClick={insertImage}
-                                disabled={!editor}
-                                title="Insertar Imagen"
-                            >
+                            <label className="btn btn-tool add-chapter-btn" title="Insertar Imagen">
                                 🖼️
-                            </button>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    style={{ display: "none" }}
+                                    onChange={insertImage}
+                                />
+                            </label>
 
                             {/* Botón para insertar separador */}
                             <button

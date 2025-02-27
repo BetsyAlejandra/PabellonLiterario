@@ -260,3 +260,10 @@
     padding: 10px 20px;
     border-radius: 10px;
 }
+
+hr {
+    margin: 1em 0;
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, #ccc, #333, #ccc);
+}

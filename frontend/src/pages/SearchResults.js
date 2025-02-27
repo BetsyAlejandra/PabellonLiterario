@@ -10,10 +10,13 @@ const SearchResults = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const query = new URLSearchParams(location.search).get("query");
+
+  // Obtener la consulta desde location.state
+  const query = location.state?.query || new URLSearchParams(location.search).get("query");
 
   useEffect(() => {
     const fetchResults = async () => {
+      if (!query) return;
       setLoading(true);
       try {
         const response = await axios.get(`/api/novels/search?query=${query}&page=${currentPage}`);
@@ -26,9 +29,7 @@ const SearchResults = () => {
       }
     };
 
-    if (query) {
-      fetchResults();
-    }
+    fetchResults();
   }, [query, currentPage]);
 
   const handlePageChange = (page) => {
