@@ -393,22 +393,25 @@ const StoryDetail = () => {
                 {story.chapters.length ? (
                     // Mostrar capítulos paginados
                     <>
-                        {currentChapters.map((chapter) => (
-                            <Card
-                                key={chapter._id}
-                                className={`shadow-sm mb-3 story-detail-chapter-card ${readChapters.includes(chapter._id) ? 'chapter-read' : ''}`}
-                                onClick={() => handleReadChapter(chapter._id)}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                <Card.Body>
-                                    <h5 className="story-detail-chapter-title">{chapter.title}</h5>
-                                    <p className="story-detail-chapter-date">
-                                        Publicado el {new Date(chapter.publishedAt).toLocaleDateString()}
-                                    </p>
+                        {currentChapters.map((chapter, index) => (
+                            <Card key={chapter._id} className="shadow-sm mb-2 story-chapter-card">
+                                <Card.Body className="d-flex justify-content-between align-items-center">
+                                    <span>{chapter.title}</span>
+                                    {isChapterRead(chapter._id) && (
+                                        <span className="badge bg-success ms-2">
+                                            ✔ Leído
+                                        </span>
+                                    )}
+                                    <Button
+                                        variant="outline-secondary"
+                                        size="sm"
+                                        onClick={() => handleReadChapter(chapter._id)}
+                                    >
+                                        Leer
+                                    </Button>
                                 </Card.Body>
                             </Card>
                         ))}
-
 
                         {/* Control de paginación */}
                         {totalPages > 1 && (
@@ -425,14 +428,6 @@ const StoryDetail = () => {
                     <p className="story-detail-no-chapters">No hay capítulos disponibles.</p>
                 )}
             </div>
-
-            {/* Espacio para Anuncio 2 */}
-            <section className="ad-section my-4">
-                <Container>
-                    <script async="async" data-cfasync="false" src="//pl25525481.profitablecpmrate.com/e5a63efee8994ddc9df064551436e92b/invoke.js"></script>
-                    <div id="container-e5a63efee8994ddc9df064551436e92b"></div>
-                </Container>
-            </section>
 
             {/* Sección de Comentarios */}
             <div className="mt-5">
