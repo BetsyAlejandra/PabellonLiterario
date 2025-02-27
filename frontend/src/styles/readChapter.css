@@ -491,3 +491,29 @@
   padding: 0.3em 1em;
   cursor: pointer;
 }
+
+.comment-button {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  font-size: 1.2em;
+  margin-left: 10px;
+}
+
+.comment-modal {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comment-list {
+  margin-top: 10px;
+}
+
+.comment {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}

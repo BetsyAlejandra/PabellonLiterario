@@ -488,33 +488,44 @@ const ReadChapter = () => {
                         {paragraphs.map((para, index) => (
                             <div key={index} className="paragraph">
                                 <div className="paragraph-container">
-                                    <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(para, sanitizeOptions) }}
-                                        onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}>
-                                    </p>
-                                    <button className="comment-button" onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}>
-                                        💬
-                                    </button>
+                                    <p
+                                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(para, sanitizeOptions) }}
+                                        onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}
+                                    ></p>
+
                                     {showCommentBox === index && (
-                                        <div className="comment-modal">
-                                            <textarea
-                                                value={comment}
-                                                onChange={(e) => setComment(e.target.value)}
-                                                placeholder="Escribe tu comentario..."
-                                            />
-                                            <button onClick={() => handleComment(index)}>Enviar</button>
-                                        </div>
+                                        <>
+                                            <button
+                                                className="comment-button"
+                                                onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}
+                                            >
+                                                💬
+                                            </button>
+
+                                            <div className="comment-modal">
+                                                <textarea
+                                                    value={comment}
+                                                    onChange={(e) => setComment(e.target.value)}
+                                                    placeholder="Escribe tu comentario..."
+                                                />
+                                                <button onClick={() => handleComment(index)}>Enviar</button>
+                                            </div>
+                                        </>
                                     )}
                                 </div>
 
-                                {Array.isArray(comments[index]) && comments[index].map((com, i) => (
-                                    <div key={i} className="comment">
-                                        {com}
+                                {Array.isArray(comments[index]) && comments[index].length > 0 && (
+                                    <div className="comment-list">
+                                        {comments[index].map((com, i) => (
+                                            <div key={i} className="comment">
+                                                {com}
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
+                                )}
                             </div>
                         ))}
                     </div>
-
                 </Container>
 
                 {/* Botón de ajustes */}
