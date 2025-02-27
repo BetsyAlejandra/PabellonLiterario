@@ -488,7 +488,8 @@ const ReadChapter = () => {
                         {paragraphs.map((para, index) => (
                             <div key={index} className="paragraph">
                                 <div className="paragraph-container">
-                                    <p onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}>
+                                    <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(para, sanitizeOptions) }}
+                                    onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}>
                                         {para}
                                     </p>
                                     <button className="comment-button" onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}>
