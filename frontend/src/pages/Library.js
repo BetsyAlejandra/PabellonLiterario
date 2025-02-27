@@ -9,7 +9,7 @@ const Library = () => {
     useEffect(() => {
         const fetchLibrary = async () => {
             try {
-                const res = await axios.get('/api/user/library', { withCredentials: true });
+                const res = await axios.get('/api/users/library', { withCredentials: true });
                 console.log('Respuesta de la biblioteca:', res.data); // Para depurar
 
                 if (Array.isArray(res.data)) {
