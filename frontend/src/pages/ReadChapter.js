@@ -10,6 +10,7 @@ import AdSense from '../Components/AdSense';
 import html2canvas from 'html2canvas';
 import backgroundImage from '../assets/background.png';
 import { DiscussionEmbed, CommentCount } from 'disqus-react';
+import { useLocation } from "react-router-dom";
 
 const ReadChapter = () => {
     const { storyId, chapterId } = useParams();
@@ -22,6 +23,9 @@ const ReadChapter = () => {
     const [generalComment, setGeneralComment] = useState('');
     const [generalComments, setGeneralComments] = useState([]);
     const [showSettings, setShowSettings] = useState(false);
+
+    const location = useLocation();
+    const handleReadChapter = location.state?.handleReadChapter;
 
     // Inicialización de estados desde localStorage
     const [fontSize, setFontSize] = useState(() => {
@@ -537,7 +541,12 @@ const ReadChapter = () => {
                         aria-label="Capítulo siguiente"
                         onClick={() => {
                             if (chapter.next) {
-                                navigate(`/read-chapter/${storyId}/${chapter.next}`);
+                                if (handleReadChapter) {
+                                    handleReadChapter(chapter._id); // Marca como leído antes de navegar
+                                }
+                                navigate(`/read-chapter/${storyId}/${chapter.next}`, {
+                                    state: { handleReadChapter },
+                                });
                             }
                         }}
                         disabled={!chapter.next}

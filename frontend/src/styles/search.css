@@ -1,48 +1,74 @@
 .search-results {
-    padding: 20px;
-    background-color: #F1E4D1;
-    color: #4A4A4A;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .search-results h2 {
-    color: #D3D0E1;
-    margin-bottom: 20px;
+    padding: 30px;
+    background: #f6f1eb;
+    color: #4a4a4a;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
     text-align: center;
   }
   
-  .search-results ul {
-    list-style: none;
-    padding: 0;
+  .search-results h2 {
+    color: #8c6a5d;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    font-family: "Playfair Display", serif;
+  }
+  
+  .search-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
   }
   
   .novel-card {
-    padding: 15px;
-    background: #C9D6D5;
-    border: 1px solid #D6B4A1;
-    border-radius: 10px;
-    transition: background 0.3s ease-in-out;
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid #d6b4a1;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #e9e4dd;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   }
   
   .novel-card:hover {
-    background: #E6D6C3;
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
   }
   
-  .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+  .novel-cover img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-bottom: 1px solid #d6b4a1;
   }
   
-  .pagination .page-item.active .page-link {
-    background-color: #D7E2E9;
-    border-color: #D6B4A1;
+  .novel-info {
+    padding: 15px;
+    text-align: center;
   }
   
-  .pagination .page-link {
-    color: #4A4A4A;
+  .novel-info h3 {
+    font-size: 1.4rem;
+    color: #4a4a4a;
+    margin-bottom: 10px;
   }
+  
+  .novel-info p {
+    margin-bottom: 10px;
+    color: #8c6a5d;
+    font-style: italic;
+  }
+  
+  .read-btn {
+    background: #d6b4a1;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .read-btn:hover {
+    background: #b58b72;
+  }  

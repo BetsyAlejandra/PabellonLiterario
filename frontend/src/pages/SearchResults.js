@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/search.css";
 import Pagination from "react-bootstrap/Pagination";
+import { FaBookOpen } from "react-icons/fa";
 
 const SearchResults = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [novels, setNovels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
-  // Obtener la consulta desde location.state
   const query = location.state?.query || new URLSearchParams(location.search).get("query");
 
   useEffect(() => {
@@ -36,21 +36,38 @@ const SearchResults = () => {
     setCurrentPage(page);
   };
 
+  const goToNovel = (id) => {
+    navigate(`/story-detail/${id}`);
+  };
+
   return (
     <div className="search-results">
       <h2>Resultados para: "{query}"</h2>
       {loading ? (
-        <p>Cargando...</p>
+        <div className="loading">Cargando...</div>
       ) : novels.length > 0 ? (
         <div>
-          <ul>
+          <div className="search-grid">
             {novels.map((novel) => (
-              <li key={novel._id} className="novel-card">
-                <h3>{novel.title}</h3>
-                <p>{novel.author}</p>
-              </li>
+              <div
+                key={novel._id}
+                className="novel-card"
+                onClick={() => goToNovel(novel._id)}
+                title={`Ver "${novel.title}"`}
+              >
+                <div className="novel-cover">
+                  <img src={novel.cover || "/default-cover.jpg"} alt={novel.title} />
+                </div>
+                <div className="novel-info">
+                  <h3>{novel.title}</h3>
+                  <p>{novel.author}</p>
+                  <button className="read-btn">
+                    <FaBookOpen /> Leer más
+                  </button>
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
           <Pagination className="pagination">
             {Array.from({ length: totalPages }, (_, index) => (
               <Pagination.Item

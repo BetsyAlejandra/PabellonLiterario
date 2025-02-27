@@ -405,7 +405,12 @@ const StoryDetail = () => {
                                     <Button
                                         variant="outline-secondary"
                                         size="sm"
-                                        onClick={() => handleReadChapter(chapter._id)}
+                                        onClick={() => {
+                                            handleReadChapter(chapter._id);
+                                            navigate(`/read-chapter/${chapter._id}`, {
+                                                state: { handleReadChapter },
+                                            });
+                                        }}
                                     >
                                         Leer
                                     </Button>

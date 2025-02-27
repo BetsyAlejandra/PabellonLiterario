@@ -159,16 +159,26 @@ const Header = () => {
           <Nav className="ms-auto align-items-center">
             {isLoggedIn === null ? (
               <Spinner animation="border" variant="light" />
-            ) : isLoggedIn ? (
-              <>
-                <Nav.Link as="div" className="custom-link d-flex flex-column align-items-center me-2" onClick={handleProfileClick}>
-                  <img src={profilePic} alt="Foto de perfil" className="rounded-circle profile-pic" width="40" height="40" style={{ cursor: "pointer" }} />
-                  <span className="ms-2 profile-name">{userName}</span>
-                </Nav.Link>
-                <Button className="logout-btn custom-button" variant="outline-danger" onClick={handleLogout}>Cerrar Sesión</Button>
-              </>
             ) : (
-              <Button className="login-btn custom-button" variant="primary" onClick={() => navigate("/login")}>Iniciar Sesión</Button>
+              <>
+                {isLoggedIn ? (
+                  <>
+                    <Nav.Link as="div" className="custom-link d-flex flex-column align-items-center me-2" onClick={handleProfileClick}>
+                      <img src={profilePic} alt="Foto de perfil" className="rounded-circle profile-pic" width="40" height="40" style={{ cursor: "pointer" }} />
+                      <span className="ms-2 profile-name">{userName}</span>
+                    </Nav.Link>
+                    {isLoggedIn && hasRole(userRoles) && (
+                      <Button className="upload-btn me-2 custom-button" onClick={handleUploadClick}>Subir Novela</Button>
+                    )}
+                    <Button className="logout-btn custom-button" variant="outline-danger" onClick={handleLogout}>Cerrar Sesión</Button>
+                  </>
+                ) : (
+                  <>
+                    <Button className="register-btn me-2 custom-button" variant="outline-primary" onClick={() => navigate("/register")}>Registrarse</Button>
+                    <Button className="login-btn custom-button" variant="primary" onClick={() => navigate("/login")}>Iniciar Sesión</Button>
+                  </>
+                )}
+              </>
             )}
           </Nav>
         </Navbar.Collapse>
