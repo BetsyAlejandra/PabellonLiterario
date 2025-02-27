@@ -489,8 +489,7 @@ const ReadChapter = () => {
                             <div key={index} className="paragraph">
                                 <div className="paragraph-container">
                                     <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(para, sanitizeOptions) }}
-                                    onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}>
-                                        {para}
+                                        onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}>
                                     </p>
                                     <button className="comment-button" onClick={() => setShowCommentBox(index === showCommentBox ? null : index)}>
                                         💬
