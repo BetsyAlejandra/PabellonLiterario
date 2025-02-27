@@ -1,0 +1,48 @@
+.search-results {
+    padding: 20px;
+    background-color: #F1E4D1;
+    color: #4A4A4A;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-results h2 {
+    color: #D3D0E1;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .search-results ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .novel-card {
+    padding: 15px;
+    background: #C9D6D5;
+    border: 1px solid #D6B4A1;
+    border-radius: 10px;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .novel-card:hover {
+    background: #E6D6C3;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination .page-item.active .page-link {
+    background-color: #D7E2E9;
+    border-color: #D6B4A1;
+  }
+  
+  .pagination .page-link {
+    color: #4A4A4A;
+  }
