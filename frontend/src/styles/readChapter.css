@@ -28,17 +28,19 @@
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 1000;
   height: 5px;
   background-color: hsla(22, 39%, 74%, 0.219) ;
-  z-index: 1000;
 }
 
 .progress-bar {
   height: 100%;
   background-color: #E6D6C3;
-  /* Dorado */
-  width: 0%;
   transition: width 0.2s ease;
+}
+
+.read-chapter {
+  padding-top: 5px; /* Ajusta la cantidad según la altura de la barra */
 }
 
 /* Títulos y Textos */

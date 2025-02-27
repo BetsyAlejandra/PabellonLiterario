@@ -378,6 +378,9 @@ const ReadChapter = () => {
 
     return (
         <div className="read-chapter-wrapper" style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
+            <div className="progress-bar-container">
+                <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+            </div>
             <div
                 className="read-chapter"
                 ref={chapterContainerRef}
@@ -506,15 +509,11 @@ const ReadChapter = () => {
                     )}
                 </div>
 
-                {/* Barra de progreso fija */}
-                <div className="progress-bar-container">
-                    <div className="progress-bar" style={{ width: `${progress}%` }}></div>
-                </div>
-
                 {/* Navegación entre capítulos */}
                 <div className="chapter-navigation">
                     <Button
                         variant="link"
+                        aria-label="Capítulo anterior"
                         onClick={() => {
                             if (chapter.previous) {
                                 navigate(`/read-chapter/${storyId}/${chapter.previous}`);
@@ -527,6 +526,7 @@ const ReadChapter = () => {
                     </Button>
                     <Button
                         variant="link"
+                        aria-label="Contenido"
                         onClick={() => navigate(`/story-detail/${storyId}`)}
                         className="nav-btn"
                     >
@@ -534,6 +534,7 @@ const ReadChapter = () => {
                     </Button>
                     <Button
                         variant="link"
+                        aria-label="Capítulo siguiente"
                         onClick={() => {
                             if (chapter.next) {
                                 navigate(`/read-chapter/${storyId}/${chapter.next}`);

@@ -55,10 +55,16 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+    collectionName: 'sessions',
+    ttl: 30 * 24 * 60 * 60,
+  }),
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // HTTPS en producción
-    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Política de cookies
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+    maxAge: 30 * 24 * 60 * 60 * 1000,
   },
 }));
 
