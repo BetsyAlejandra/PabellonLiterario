@@ -499,11 +499,12 @@ const ReadChapter = () => {
                                     </div>
                                 )}
 
-                                {comments[index]?.map((com, i) => (
+                                {Array.isArray(comments[index]) && comments[index].map((com, i) => (
                                     <div key={i} className="comment">
                                         {com}
                                     </div>
                                 ))}
+
                             </div>
                         ))}
                     </div>
