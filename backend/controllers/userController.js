@@ -89,20 +89,19 @@ exports.logout = (req, res) => {
     });
 };
 
-exports.getSavedNovels = async (req, res) => {
-    try {
-      const userId = req.session.user.id;
+eexports.getSavedNovels = async (req, res) => {
+  try {
+    const userId = req.session.user.id;
+    const user = await User.findById(userId).populate('savedNovels');
 
-      // Buscar al usuario y poblar la información de las novelas guardadas
-      const user = await User.findById(userId).populate('savedNovels');
-
-      if (!user) {
-        return res.status(404).json({ message: 'Usuario no encontrado' });
-      }
-
-      res.status(200).json(user.savedNovels);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Error al obtener las historias guardadas' });
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
     }
-  };
+
+    const novels = user.savedNovels || [];
+    res.status(200).json(novels);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener la biblioteca' });
+  }
+};

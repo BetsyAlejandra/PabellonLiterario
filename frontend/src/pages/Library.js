@@ -10,13 +10,23 @@ const Library = () => {
         const fetchLibrary = async () => {
             try {
                 const res = await axios.get('/api/user/library', { withCredentials: true });
-                setLibrary(res.data);
+                console.log('Respuesta de la biblioteca:', res.data); // Para depurar
+
+                if (Array.isArray(res.data)) {
+                    setLibrary(res.data);
+                } else {
+                    console.error('La respuesta no es un array', res.data);
+                    setLibrary([]);
+                }
             } catch (error) {
                 console.error('Error al obtener la biblioteca', error);
+                setLibrary([]);
             }
         };
+
         fetchLibrary();
     }, []);
+
 
     return (
         <div className="min-h-screen bg-[#F1E4D1] text-gray-800 p-6 flex flex-col items-center">
