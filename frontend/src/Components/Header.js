@@ -142,13 +142,14 @@ const Header = () => {
             <Nav.Link as="div" className="custom-link" onClick={() => navigate("/postular")}>Postularme</Nav.Link>
           </Nav>
 
-          <Form className="d-flex" onSubmit={handleSearch}>
+          <Form className="d-flex search-form flex-nowrap" onSubmit={handleSearch} style={{ maxWidth: "300px" }}>
             <FormControl
               type="search"
               placeholder="Buscar novela..."
               className="me-2"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ minWidth: "200px" }}
             />
             <Button variant="outline-light" type="submit" disabled={searchLoading}>
               {searchLoading ? <Spinner animation="border" size="sm" /> : "Buscar"}
@@ -160,29 +161,19 @@ const Header = () => {
               <Spinner animation="border" variant="light" />
             ) : (
               <>
-                {isLoggedIn && hasRole(userRoles) && (
-                  <Button className="upload-btn me-2 custom-button" onClick={handleUploadClick}>Subir Novela</Button>
-                )}
-                {isLoggedIn ? (
-                  <>
-                    <Nav.Link as="div" className="custom-link d-flex flex-column align-items-center me-2" onClick={handleProfileClick}>
-                      <img src={profilePic} alt="Foto de perfil" className="rounded-circle profile-pic" width="40" height="40" style={{ cursor: "pointer" }} />
-                      <span className="ms-2 profile-name">{userName}</span>
-                    </Nav.Link>
-                    <Button className="logout-btn custom-button" variant="outline-danger" onClick={handleLogout}>Cerrar Sesión</Button>
-                  </>
-                ) : (
-                  <>
-                    <Button className="register-btn me-2 custom-button" variant="outline-primary" onClick={() => navigate("/register")}>Registrarse</Button>
-                    <Button className="login-btn custom-button" variant="primary" onClick={() => navigate("/login")}>Iniciar Sesión</Button>
-                  </>
-                )}
+                <Button className="register-btn me-2 custom-button" variant="outline-primary" onClick={() => navigate("/register")}>Registrarse</Button>
+                <Nav.Link as="div" className="custom-link d-flex flex-column align-items-center me-2" onClick={handleProfileClick}>
+                  <img src={profilePic} alt="Foto de perfil" className="rounded-circle profile-pic" width="40" height="40" style={{ cursor: "pointer" }} />
+                  <span className="ms-2 profile-name">{userName}</span>
+                </Nav.Link>
+                <Button className="logout-btn custom-button" variant="outline-danger" onClick={handleLogout}>Cerrar Sesión</Button>
+                <Button className="login-btn custom-button" variant="primary" onClick={() => navigate("/login")}>Iniciar Sesión</Button>
               </>
             )}
           </Nav>
         </Navbar.Collapse>
       </Container>
-    </Navbar>
+    </Navbar >
   );
 };
 
