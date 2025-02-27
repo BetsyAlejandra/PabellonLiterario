@@ -142,7 +142,7 @@ router.put('/:storyId/chapters/:chapterId', async (req, res) => {
 
 router.post("/:storyId/chapter/:chapterId/comment", async (req, res) => {
   const { storyId, chapterId } = req.params;
-  const { paragraphIndex, comment } = req.body;
+  const { paragraphIndex, comment, selectedText } = req.body;
 
   try {
     const novel = await Novel.findById(storyId);
@@ -155,6 +155,7 @@ router.post("/:storyId/chapter/:chapterId/comment", async (req, res) => {
     chapter.paragraphComments.push({
       paragraphIndex,
       comment,
+      selectedText,
     });
 
     await novel.save();
@@ -166,7 +167,7 @@ router.post("/:storyId/chapter/:chapterId/comment", async (req, res) => {
 });
 
 router.get("/:storyId/chapter/:chapterId/comments", async (req, res) => {
-  const { storyId, chapterId } = req.params;
+  const { storyId, chapterId, } = req.params;
 
   try {
     const novel = await Novel.findById(storyId);

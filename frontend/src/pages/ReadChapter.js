@@ -199,18 +199,20 @@ const ReadChapter = () => {
         const selectedText = selection.toString();
 
         if (selectedText.trim().length > 0) {
+            setSelectedText(selectedText); // Guardar el texto seleccionado
             setShowCommentBox(index);
 
             const range = selection.getRangeAt(0);
             const rect = range.getBoundingClientRect();
 
             setButtonPosition({
-                top: `${window.scrollY + rect.top - 40}px`,
-                left: `${window.scrollX + rect.left + rect.width / 2 - 20}px`
+                top: rect.bottom + window.scrollY - 10,
+                left: rect.left + window.scrollX + (rect.width / 2) - 20,
             });
         } else {
             setShowCommentBox(null);
             setShowModal(null);
+            setSelectedText("");
         }
     };
 
@@ -274,7 +276,7 @@ const ReadChapter = () => {
     };
 
     const navigateToNext = () => {
-        markChapterAsRead(chapter._id); // Marca como leído
+        markChapterAsRead(chapter._id);
 
         if (chapter.next) {
             navigate(`/read-chapter/${storyId}/${chapter.next}`);
@@ -428,17 +430,26 @@ const ReadChapter = () => {
         fetchComments();
     }, []);
 
-    const handleComment = (index) => {
+    const handleComment = async (index) => {
         if (comment.trim()) {
-            const updatedComments = { ...comments };
-            if (!updatedComments[index]) updatedComments[index] = [];
-            updatedComments[index].push(comment);
-
-            setComments(updatedComments);
+          try {
+            await axios.post(`/api/novels/${storyId}/chapter/${chapterId}/comments`, {
+              paragraphIndex: index,
+              comment: comment,
+              selectedText: selectedText, 
+            });
+      
+            fetchComments();
             setComment('');
+            setSelectedText('');
             setShowModal(null);
+          } catch (error) {
+            console.error("Error al enviar comentario:", error);
+          }
         }
-    };
+      };
+      
+
 
     if (loading) return <p className="read-chapter-loading">Cargando...</p>;
     if (error) return <p className="read-chapter-error">{error}</p>;
@@ -564,16 +575,6 @@ const ReadChapter = () => {
                                     )}
 
                                 </div>
-
-                                {Array.isArray(comments[index]) && comments[index].length > 0 && (
-                                    <div className="comment-list">
-                                        {comments[index].map((com, i) => (
-                                            <div key={i} className="comment">
-                                                🗨️ {com}
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
                             </div>
                         ))}
                     </div>

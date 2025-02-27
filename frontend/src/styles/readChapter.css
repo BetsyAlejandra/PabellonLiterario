@@ -567,3 +567,11 @@
   word-wrap: break-word;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+.comment-item strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #D6B4A1; /* Marrón suave */
+  font-weight: bold;
+  font-style: italic;
+}

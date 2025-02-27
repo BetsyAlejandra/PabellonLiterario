@@ -49,7 +49,6 @@ function App() {
   return (
     <div className="App">
       {!hideHeaderFooter && <Header />}
-      <ReadChapterProvider>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -80,7 +79,6 @@ function App() {
         <Route path="/manage-chapters/:id" element={<ManageChapters />} />
         <Route path="/audio-dramas/:id/seasons/:seasonNumber/episodes/:episode" element={<ChapterDetail />} />
       </Routes>
-      </ReadChapterProvider>
       {!hideHeaderFooter && <FloatingButton />}
       {!hideHeaderFooter && <Footer />}
     </div>

@@ -110,9 +110,10 @@ const novelSchema = new mongoose.Schema(
         publishedAt: Date,
         paragraphComments: [
           {
-            paragraphIndex: Number, // Índice del párrafo
+            paragraphIndex: Number, 
             user: { type: mongoose.Schema.Types.ObjectId },
             comment: String,
+            selectedText: String,
             createdAt: { type: Date, default: Date.now },
           },
         ],
