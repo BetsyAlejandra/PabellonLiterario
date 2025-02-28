@@ -252,7 +252,7 @@ const ReadChapter = () => {
 
     const renderPopover = (annotation) => {
         popoverIdRef.current += 1;
-        console.log(annotation)
+        console.log(`Renderizando Popover con id: popover-${popoverIdRef.current}`, annotation);
         return (
             <Popover id={`popover-${popoverIdRef.current}`}>
                 <Popover.Header as="h3">Anotación</Popover.Header>
@@ -267,7 +267,7 @@ const ReadChapter = () => {
 
     const sanitizeOptions = {
         ADD_ATTR: ['data-annotation', 'class', 'src', 'alt']
-    };    
+    };
 
 
     const sanitizedContent = chapter ? DOMPurify.sanitize(chapter.content, sanitizeOptions) : '';
@@ -279,15 +279,15 @@ const ReadChapter = () => {
                 const annotationText = decodeURIComponent(attribs['data-annotation']);
                 return (
                     <OverlayTrigger
-                        trigger="focus"
+                        trigger="click"
                         placement="bottom"
                         overlay={renderPopover(annotationText)}
                         onToggle={(show) => console.log("OverlayTrigger se disparó", show)}
                         rootCloseEvent="mousedown"
                     >
                         <span className="annotation" onClick={() => console.log('PopOver Activado')}
-                        style={{ cursor: 'pointer', textDecoration: 'underline', color: '#007bff' }}
-                            >
+                            style={{ cursor: 'pointer', textDecoration: 'underline', color: '#007bff' }}
+                        >
                             {domToReact(children, options)}
                         </span>
                     </OverlayTrigger>
@@ -537,6 +537,8 @@ const ReadChapter = () => {
                     </Button>
                 </div>
 
+                {/*
+
                 {chapter.annotations && chapter.annotations.length > 0 && (
                     <Container className="annotations-list mt-4">
                         <h3>Anotaciones</h3>
@@ -549,6 +551,8 @@ const ReadChapter = () => {
                         </ul>
                     </Container>
                 )}
+
+                */}
 
                 <Container>
                     {/* Título de la Novela */}
@@ -754,6 +758,8 @@ const ReadChapter = () => {
                     />
                 </Container>
 
+                {/*
+
                 {chapter.annotations && chapter.annotations.length > 0 && (
                     <Container className="annotations-list mt-4">
                         <h3>Anotaciones</h3>
@@ -766,6 +772,7 @@ const ReadChapter = () => {
                         </ul>
                     </Container>
                 )}
+                    */}
 
                 {/* Contenedor de Toasts */}
                 <ToastContainer position="bottom-end" className="p-3">
