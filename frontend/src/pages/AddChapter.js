@@ -27,6 +27,38 @@ const AddChapter = () => {
     const [showAnnotationButton, setShowAnnotationButton] = useState(false);
     const [buttonPosition, setButtonPosition] = useState({ top: 0, left: 0 });
 
+    const CustomImage = Image.extend({
+        addAttributes() {
+            return {
+                src: { default: null },
+                width: {
+                    default: "300",
+                    renderHTML: (attributes) => ({ width: attributes.width }),
+                },
+                height: {
+                    default: "auto",
+                    renderHTML: (attributes) => ({ height: attributes.height }),
+                },
+            };
+        },
+
+        addNodeView() {
+            return ({ node, HTMLAttributes, getPos, editor }) => {
+                const img = document.createElement("img");
+                img.src = node.attrs.src;
+                img.style.width = node.attrs.width;
+                img.style.height = node.attrs.height;
+                img.onclick = () => {
+                    const newWidth = prompt("Introduce el nuevo ancho (px):", node.attrs.width);
+                    if (newWidth) {
+                        editor.commands.setNodeAttributes(getPos(), { width: newWidth });
+                    }
+                };
+                return img;
+            };
+        },
+    });
+
     // Configuración del editor Tiptap
     const editor = useEditor({
         extensions: [
@@ -118,37 +150,6 @@ const AddChapter = () => {
         }
     };
 
-    const CustomImage = Image.extend({
-        addAttributes() {
-          return {
-            src: { default: null },
-            width: {
-              default: "300",
-              renderHTML: (attributes) => ({ width: attributes.width }),
-            },
-            height: {
-              default: "auto",
-              renderHTML: (attributes) => ({ height: attributes.height }),
-            },
-          };
-        },
-      
-        addNodeView() {
-          return ({ node, HTMLAttributes, getPos, editor }) => {
-            const img = document.createElement("img");
-            img.src = node.attrs.src;
-            img.style.width = node.attrs.width;
-            img.style.height = node.attrs.height;
-            img.onclick = () => {
-              const newWidth = prompt("Introduce el nuevo ancho (px):", node.attrs.width);
-              if (newWidth) {
-                editor.commands.setNodeAttributes(getPos(), { width: newWidth });
-              }
-            };
-            return img;
-          };
-        },
-      });
 
 
     // Función para insertar un separador de texto
