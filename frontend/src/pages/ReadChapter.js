@@ -505,7 +505,7 @@ const ReadChapter = () => {
     if (error) return <p className="read-chapter-error">{error}</p>;
 
     return (
-        <div className={`read-chapter-wrapper ${darkMode ? 'dark-mode' : ''}`} style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
+        <div className={`read-chapter-wrapper ${darkMode ? 'dark-mode' : ''}`} style={{ position: 'relative', height: '100vh', overflow: 'visible' }}>
             <div className="progress-bar-container">
                 <div className="progress-bar" style={{ width: `${progress}%` }}></div>
             </div>
@@ -556,12 +556,6 @@ const ReadChapter = () => {
                     {/* Título del Capítulo */}
                     <h2 className="chapter-title">{chapter.title}</h2>
                     <p className="chapter-date">{new Date(chapter.publishedAt).toLocaleDateString()}</p>
-
-                    {/* Espacio para Anuncio 1: Antes del contenido del capítulo */}
-                    {chapter?.content && (
-                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3101266953328074"
-                            crossorigin="anonymous"></script>
-                    )}
 
                     <div className="chapter-content">
                         {paragraphs.map((para, index) => (
