@@ -251,7 +251,8 @@ const ReadChapter = () => {
 
 
     const renderPopover = (annotation) => (
-        <Popover id={`popover-${popoverIdRef.current++}`}>
+        
+        <Popover id={`popover-${popoverIdRef.current++}` } >
             <Popover.Header as="h3">Anotación</Popover.Header>
             <Popover.Body>{annotation}</Popover.Body>
         </Popover>
@@ -272,7 +273,11 @@ const ReadChapter = () => {
         replace: ({ name, attribs, children }) => {
             if (!attribs) return;
             if (name === 'span' && attribs.class === 'annotation') {
+                console.log('Annotation:', attribs['data-annotation']);
+            }            
+            if (name === 'span' && attribs.class === 'annotation') {
                 const annotationText = decodeURIComponent(attribs['data-annotation']);
+                console.log(children)
                 return (
                     <OverlayTrigger
                         trigger="click"
