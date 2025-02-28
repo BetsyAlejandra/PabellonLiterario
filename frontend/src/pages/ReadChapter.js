@@ -282,6 +282,7 @@ const ReadChapter = () => {
                         placement="bottom"
                         overlay={renderPopover(annotationText)}
                         onToggle={(show) => console.log("OverlayTrigger se disparó", show)}
+                        rootCloseEvent="mousedown"
                     >
                         <span className="annotation" onClick={() => console.log('PopOver Activado')}
                         style={{ cursor: 'pointer', textDecoration: 'underline', color: '#007bff' }}
