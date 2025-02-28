@@ -26,6 +26,10 @@ const EditChapter = () => {
     const [error, setError] = useState(null);
     const [showAnnotationButton, setShowAnnotationButton] = useState(false);
     const [buttonPosition, setButtonPosition] = useState({ top: 0, left: 0 });
+    const [imageModalShow, setImageModalShow] = useState(false);
+    const [imageWidth, setImageWidth] = useState('');
+    const [imageHeight, setImageHeight] = useState('');
+    const [imageNode, setImageNode] = useState(null);
 
     const editor = useEditor({
         extensions: [
@@ -35,7 +39,12 @@ const EditChapter = () => {
             Underline,
             Link,
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
-            Image,
+            Image.configure({
+                allowBase64: true,
+                HTMLAttributes: {
+                  class: 'editable-image',
+                },
+              }),
             HorizontalRule,
             Annotation, // Añade la extensión de anotación aquí
         ],
@@ -64,6 +73,16 @@ const EditChapter = () => {
                         setShowAnnotationButton(false);
                     }
                 },
+
+                handleClickOn: (view, pos, node, nodePos, event) => {
+                    if (node.type.name === 'image') {
+                        const currentWidth = node.attrs.width || '';
+                        const currentHeight = node.attrs.height || '';
+                        setSelectedText(node.attrs.src);
+                        setAnnotationText(`Ancho: ${currentWidth}, Alto: ${currentHeight}`);
+                        setModalShow(true);
+                    }
+                }
             },
         },
     });
@@ -160,6 +179,21 @@ const EditChapter = () => {
     // Función para insertar un separador de texto
     const insertSeparator = () => {
         editor.chain().focus().setHorizontalRule().run();
+    };
+
+    const handleSaveImageAttributes = () => {
+        if (imageNode) {
+            editor
+                .chain()
+                .focus()
+                .setNodeMarkup(imageNode.pos, undefined, {
+                    ...imageNode.node.attrs,
+                    width: imageWidth,
+                    height: imageHeight,
+                })
+                .run();
+            setImageModalShow(false);
+        }
     };
 
     if (loading) return <p className="text-center edit-chapter-loading">Cargando datos del capítulo...</p>;
@@ -336,6 +370,42 @@ const EditChapter = () => {
                         Guardar
                     </Button>
                     <Button variant="secondary" onClick={() => setModalShow(false)}>
+                        Cancelar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={imageModalShow} onHide={() => setImageModalShow(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Editar Imagen</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="mb-3">
+                        <label>Ancho</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            value={imageWidth}
+                            onChange={(e) => setImageWidth(e.target.value)}
+                            placeholder="Ej: 300px"
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label>Alto</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            value={imageHeight}
+                            onChange={(e) => setImageHeight(e.target.value)}
+                            placeholder="Ej: 200px"
+                        />
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="success" onClick={handleSaveImageAttributes}>
+                        Guardar
+                    </Button>
+                    <Button variant="secondary" onClick={() => setImageModalShow(false)}>
                         Cancelar
                     </Button>
                 </Modal.Footer>

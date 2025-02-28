@@ -11,6 +11,7 @@ import TextAlign from '@tiptap/extension-text-align';
 import Image from '@tiptap/extension-image';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import Annotation from '../extensions/Annotation'; // Asegúrate de que la ruta sea correcta
+import imageCompression from 'browser-image-compression';
 import { Modal, Button } from 'react-bootstrap';
 import '../styles/AddChapter.css'; // Importa el archivo CSS específico
 
@@ -26,6 +27,9 @@ const AddChapter = () => {
     const [error, setError] = useState(null);
     const [showAnnotationButton, setShowAnnotationButton] = useState(false);
     const [buttonPosition, setButtonPosition] = useState({ top: 0, left: 0 });
+    const [imageModalShow, setImageModalShow] = useState(false);
+    const [imageWidth, setImageWidth] = useState('300');
+    const [currentImageNode, setCurrentImageNode] = useState(null);
 
     const CustomImage = Image.extend({
         addAttributes() {
@@ -54,12 +58,9 @@ const AddChapter = () => {
                 img.style.height = node.attrs.height;
 
                 img.onclick = () => {
-                    const newWidth = prompt("Introduce el nuevo ancho (px):", node.attrs.width);
-                    if (newWidth) {
-                        editor.commands.updateAttributes(node.type.name, {
-                            width: newWidth,
-                        });
-                    }
+                    setImageWidth(node.attrs.width);
+                    setCurrentImageNode({ node, getPos });
+                    setImageModalShow(true);
                 };
 
                 return img;
@@ -67,8 +68,6 @@ const AddChapter = () => {
         },
     });
 
-
-    // Configuración del editor Tiptap
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -77,7 +76,12 @@ const AddChapter = () => {
             Underline,
             Link,
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
-            Image,
+            Image.configure({
+                allowBase64: true,
+                HTMLAttributes: {
+                    class: 'editable-image',
+                },
+            }),
             HorizontalRule,
             Annotation,
             CustomImage,
@@ -95,8 +99,8 @@ const AddChapter = () => {
 
                         setSelectedText(selectedText);
                         setButtonPosition({
-                            top: rect.top + window.scrollY - 40, // Ajuste para posición flotante
-                            left: rect.left + window.scrollX + rect.width / 2, // Centrado horizontal
+                            top: rect.top + window.scrollY - 40,
+                            left: rect.left + window.scrollX + rect.width / 2,
                         });
                         setShowAnnotationButton(true);
                     } else {
@@ -105,7 +109,7 @@ const AddChapter = () => {
                 },
             },
         },
-    },);
+    });
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
@@ -146,22 +150,42 @@ const AddChapter = () => {
         setShowAnnotationButton(false);
     };
 
-    // Función para insertar una imagen
-    const insertImage = (e) => {
+    const handleImageSizeSave = () => {
+        if (currentImageNode) {
+            editor.commands.updateAttributes(currentImageNode.node.type.name, {
+                width: imageWidth,
+            });
+        }
+        setImageModalShow(false);
+    };
+
+    const insertImage = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                const imageUrl = reader.result;
-                editor.chain().focus().setImage({ src: imageUrl }).run();
+            const options = {
+                maxSizeMB: 0.3, // Tamaño máximo (en MB)
+                maxWidthOrHeight: 1024, // Máximo ancho o alto
+                useWebWorker: true,
+                initialQuality: 0.7, // Calidad inicial
             };
-            reader.readAsDataURL(file);
+
+            try {
+                const compressedFile = await imageCompression(file, options);
+                const reader = new FileReader();
+
+                reader.onload = () => {
+                    const imageUrl = reader.result;
+                    editor.chain().focus().setImage({ src: imageUrl }).run();
+                };
+
+                reader.readAsDataURL(compressedFile);
+            } catch (error) {
+                console.error("Error al comprimir la imagen:", error);
+            }
         }
     };
 
 
-
-    // Función para insertar un separador de texto
     const insertSeparator = () => {
         editor.chain().focus().setHorizontalRule().run();
     };
@@ -354,6 +378,25 @@ const AddChapter = () => {
                     <Button variant="secondary" onClick={() => setModalShow(false)}>
                         Cancelar
                     </Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={imageModalShow} onHide={() => setImageModalShow(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modificar Tamaño de Imagen</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <input
+                        type="number"
+                        className="form-control"
+                        value={imageWidth}
+                        onChange={(e) => setImageWidth(e.target.value)}
+                        placeholder="Introduce el ancho en píxeles"
+                    />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="success" onClick={handleImageSizeSave}>Guardar</Button>
+                    <Button variant="secondary" onClick={() => setImageModalShow(false)}>Cancelar</Button>
                 </Modal.Footer>
             </Modal>
         </div>
