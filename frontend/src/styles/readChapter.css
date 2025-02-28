@@ -17,9 +17,12 @@
 .chapter-content {
   line-height: 1.8;
   word-wrap: break-word;
-  font-family: inherit; /* Heredar fuente del contenedor */
-  font-size: inherit; /* Heredar tamaño de fuente del contenedor */
-  color: inherit; /* Heredar color del contenedor */
+  font-family: inherit;
+  /* Heredar fuente del contenedor */
+  font-size: inherit;
+  /* Heredar tamaño de fuente del contenedor */
+  color: inherit;
+  /* Heredar color del contenedor */
 }
 
 /* Barra de Progreso */
@@ -30,7 +33,7 @@
   width: 100%;
   z-index: 1000;
   height: 5px;
-  background-color: hsla(22, 39%, 74%, 0.219) ;
+  background-color: hsla(22, 39%, 74%, 0.219);
 }
 
 .progress-bar {
@@ -40,7 +43,10 @@
 }
 
 .read-chapter {
-  padding-top: 5px; /* Ajusta la cantidad según la altura de la barra */
+  padding-top: 5px;
+  position: relative;
+  z-index: 1;
+  overflow: visible;
 }
 
 /* Títulos y Textos */
@@ -63,11 +69,12 @@
   position: fixed;
   top: 20px;
   left: 20px;
-  z-index: 1000; /* Asegura que el botón esté por encima del contenido */
+  z-index: 1000;
+  /* Asegura que el botón esté por encima del contenido */
 }
 
 .go-to-content-btn {
-  background-color: #E8E2D6 ;
+  background-color: #E8E2D6;
   color: #2C3E50;
   border: none;
   padding: 10px 15px;
@@ -79,7 +86,8 @@
 
 .go-to-content-btn:hover {
   background-color: #E8E2D6;
-  transform: scale(1.05); /* Efecto de zoom */
+  transform: scale(1.05);
+  /* Efecto de zoom */
   color: #2C3E50;
 }
 
@@ -88,21 +96,29 @@
   position: fixed;
   bottom: 20px;
   left: 20px;
-  z-index: 1000; /* Asegura que el botón esté por encima de otros elementos */
+  z-index: 1000;
+  /* Asegura que el botón esté por encima de otros elementos */
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 10px 15px;
-  border-radius: 50px; /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para darle profundidad */
-  transition: opacity 0.3s ease, transform 0.3s ease; /* Suaviza la aparición y desaparición */
-  opacity: 0.9; /* Ajusta la opacidad según prefieras */
-  background-color: #D6B4A1 ; /* Color de fondo verde para indicar éxito */
+  border-radius: 50px;
+  /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Sombra para darle profundidad */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  /* Suaviza la aparición y desaparición */
+  opacity: 0.9;
+  /* Ajusta la opacidad según prefieras */
+  background-color: #D6B4A1;
+  /* Color de fondo verde para indicar éxito */
 }
 
 .floating-download-button:hover {
-  opacity: 1; /* Aumenta la opacidad al pasar el cursor */
-  transform: scale(1.05); /* Agranda ligeramente el botón al pasar el cursor */
+  opacity: 1;
+  /* Aumenta la opacidad al pasar el cursor */
+  transform: scale(1.05);
+  /* Agranda ligeramente el botón al pasar el cursor */
 }
 
 /* Botón de Ajustes */
@@ -144,7 +160,8 @@
 /* Panel de Ajustes */
 .settings-panel {
   position: absolute;
-  top: 70px; /* Ajusta este valor según el tamaño del botón de ajustes */
+  top: 70px;
+  /* Ajusta este valor según el tamaño del botón de ajustes */
   right: 0px;
   background-color: rgba(0, 0, 0, 0.95);
   padding: 15px;
@@ -175,7 +192,7 @@
   gap: 5px;
   padding: 10px 20px;
   background-color: hsla(40, 28%, 87%, 0.239);
-  border: 2px solid #E6D6C3 ;
+  border: 2px solid #E6D6C3;
   border-radius: 10px;
   text-decoration: none;
   font-family: 'Cinzel', serif;
@@ -269,7 +286,7 @@
 
 .popover-header {
   background: #2C3E50;
-  color: #A0B5B1 ;
+  color: #A0B5B1;
   border-bottom: 1px solid #5F7D8B;
   font-family: 'Cinzel', serif;
 }
@@ -282,7 +299,7 @@
 /* Anotaciones estilo */
 .annotation {
   background-color: rgba(255, 215, 0, 0.2);
-  border-bottom: 2px dashed #E8E2D6 ;
+  border-bottom: 2px dashed #E8E2D6;
   padding: 2px 6px;
   border-radius: 4px;
   cursor: pointer;
@@ -319,36 +336,37 @@
 /* Responsive */
 @media (max-width: 768px) {
   .floating-download-button {
-      bottom: 10px;
-      left: 10px;
-      padding: 8px 12px;
-      font-size: 14px;
+    bottom: 10px;
+    left: 10px;
+    padding: 8px 12px;
+    font-size: 14px;
   }
 
   .floating-top-button {
-      top: 10px;
-      right: 10px;
+    top: 10px;
+    right: 10px;
   }
 
   .settings-panel {
-      width: 200px;
-      top: 70px; /* Mantener consistencia */
-      right: 0px;
+    width: 200px;
+    top: 70px;
+    /* Mantener consistencia */
+    right: 0px;
   }
 
   .chapter-navigation {
-      bottom: 10px;
-      right: 10px;
-      flex-direction: column;
-      gap: 5px;
+    bottom: 10px;
+    right: 10px;
+    flex-direction: column;
+    gap: 5px;
   }
 
   .progress-bar-container {
-      height: 3px;
+    height: 3px;
   }
 
   .chapter-content {
-      padding: 10px;
+    padding: 10px;
   }
 }
 
@@ -357,12 +375,15 @@
   position: fixed;
   top: 20px;
   left: 20px;
-  z-index: 1000; /* Asegura que el botón esté por encima del contenido */
+  z-index: 1000;
+  /* Asegura que el botón esté por encima del contenido */
 }
 
 .go-to-content-btn {
-  background-color: #ffd700; /* Fondo dorado */
-  color: #1a1a1a; /* Texto oscuro */
+  background-color: #ffd700;
+  /* Fondo dorado */
+  color: #1a1a1a;
+  /* Texto oscuro */
   border: none;
   padding: 10px 15px;
   border-radius: 10px;
@@ -373,7 +394,8 @@
 
 .go-to-content-btn:hover {
   background-color: #e6c200;
-  transform: scale(1.05); /* Efecto de zoom */
+  transform: scale(1.05);
+  /* Efecto de zoom */
   color: #1a1a1a;
 }
 
@@ -382,37 +404,52 @@
   position: fixed;
   bottom: 20px;
   left: 20px;
-  z-index: 1000; /* Asegura que el botón esté por encima de otros elementos */
+  z-index: 1000;
+  /* Asegura que el botón esté por encima de otros elementos */
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 10px 15px;
-  border-radius: 50px; /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para darle profundidad */
-  transition: opacity 0.3s ease, transform 0.3s ease; /* Suaviza la aparición y desaparición */
-  opacity: 0.9; /* Ajusta la opacidad según prefieras */
-  background-color: #28a745; /* Color de fondo verde para indicar éxito */
+  border-radius: 50px;
+  /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Sombra para darle profundidad */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  /* Suaviza la aparición y desaparición */
+  opacity: 0.9;
+  /* Ajusta la opacidad según prefieras */
+  background-color: #28a745;
+  /* Color de fondo verde para indicar éxito */
 }
 
 .floating-download-button:hover {
-  opacity: 1; /* Aumenta la opacidad al pasar el cursor */
-  transform: scale(1.05); /* Agranda ligeramente el botón al pasar el cursor */
+  opacity: 1;
+  /* Aumenta la opacidad al pasar el cursor */
+  transform: scale(1.05);
+  /* Agranda ligeramente el botón al pasar el cursor */
 }
 
 /* readChapter.css */
 
 /* Estilos generales para los modales */
 .story-detail-modal .modal-content {
-  background-color: #1e1e1e; /* Fondo oscuro */
-  color: #FBFCFC; /* Texto claro */
-  border: 2px solid #FFD700; /* Borde dorado */
-  border-radius: 15px; /* Bordes redondeados */
+  background-color: #1e1e1e;
+  /* Fondo oscuro */
+  color: #FBFCFC;
+  /* Texto claro */
+  border: 2px solid #FFD700;
+  /* Borde dorado */
+  border-radius: 15px;
+  /* Bordes redondeados */
 }
 
 .story-detail-modal .modal-header {
-  background-color: #FFD700; /* Fondo dorado */
-  color: #1c1c1c; /* Texto oscuro */
-  border-bottom: 1px solid #FFD700; /* Borde inferior dorado */
+  background-color: #FFD700;
+  /* Fondo dorado */
+  color: #1c1c1c;
+  /* Texto oscuro */
+  border-bottom: 1px solid #FFD700;
+  /* Borde inferior dorado */
   font-family: 'Cinzel', serif;
 }
 
@@ -422,19 +459,22 @@
 
 .story-detail-modal .modal-body {
   font-family: 'Merriweather', serif;
-  background-color: #2c3e50; /* Fondo ligeramente más oscuro dentro del modal */
+  background-color: #2c3e50;
+  /* Fondo ligeramente más oscuro dentro del modal */
   padding: 20px;
   border-radius: 10px;
 }
 
 .story-detail-modal .modal-footer .btn-secondary {
-  background-color: #555; /* Botón de cancelar con fondo gris oscuro */
+  background-color: #555;
+  /* Botón de cancelar con fondo gris oscuro */
   border-color: #555;
   color: #FBFCFC;
 }
 
 .story-detail-modal .modal-footer .btn-primary {
-  background-color: #FFD700; /* Botón de confirmar con fondo dorado */
+  background-color: #FFD700;
+  /* Botón de confirmar con fondo dorado */
   border-color: #FFD700;
   color: #1c1c1a;
 }
@@ -446,21 +486,26 @@
 
 /* Ajustes para inputs dentro del modal */
 .story-detail-modal .form-control {
-  background-color: #34495e; /* Fondo oscuro para inputs */
-  color: #FBFCFC; /* Texto claro */
-  border: 1px solid #FFD700; /* Borde dorado */
+  background-color: #34495e;
+  /* Fondo oscuro para inputs */
+  color: #FBFCFC;
+  /* Texto claro */
+  border: 1px solid #FFD700;
+  /* Borde dorado */
   border-radius: 10px;
 }
 
 .story-detail-modal .form-control:focus {
-  background-color: #3e556e; /* Cambio de fondo al enfocar */
+  background-color: #3e556e;
+  /* Cambio de fondo al enfocar */
   border-color: #e6c200;
   box-shadow: none;
 }
 
 /* Texto de error en el modal */
 .story-detail-modal .text-danger {
-  color: #e74c3c !important; /* Rojo para errores */
+  color: #e74c3c !important;
+  /* Rojo para errores */
 }
 
 
@@ -470,7 +515,8 @@
   align-items: center;
   gap: 5px;
   padding: 8px 12px;
-  background: #C9D6D5; /* Verde pastel */
+  background: #C9D6D5;
+  /* Verde pastel */
   border: none;
   border-radius: 20px;
   cursor: pointer;
@@ -480,11 +526,13 @@
 }
 
 .comment-button button:hover {
-  background: #D7E2E9; /* Azul pastel */
+  background: #D7E2E9;
+  /* Azul pastel */
 }
 
 .comment-counter {
-  background: #D6B4A1; /* Marrón suave */
+  background: #D6B4A1;
+  /* Marrón suave */
   color: #fff;
   padding: 2px 8px;
   border-radius: 50%;
@@ -498,7 +546,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #F1E4D1; /* Beige suave */
+  background: #F1E4D1;
+  /* Beige suave */
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
   border-radius: 16px;
   padding: 20px;
@@ -514,7 +563,8 @@
   border: none;
   padding: 10px;
   border-radius: 8px;
-  background: #E6D6C3; /* Crema suave */
+  background: #E6D6C3;
+  /* Crema suave */
   font-family: 'Inter', sans-serif;
   resize: none;
   outline: none;
@@ -531,22 +581,25 @@
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  background: #C9D6D5; /* Verde pastel */
+  background: #C9D6D5;
+  /* Verde pastel */
   transition: background 0.3s ease;
 }
 
 .modal-buttons button:hover {
-  background: #D7E2E9; /* Azul pastel */
+  background: #D7E2E9;
+  /* Azul pastel */
 }
 
 @keyframes fadeIn {
   from {
-      opacity: 0;
-      transform: translate(-50%, -55%);
+    opacity: 0;
+    transform: translate(-50%, -55%);
   }
+
   to {
-      opacity: 1;
-      transform: translate(-50%, -50%);
+    opacity: 1;
+    transform: translate(-50%, -50%);
   }
 }
 
@@ -554,7 +607,8 @@
   margin-top: 20px;
   max-height: 200px;
   overflow-y: auto;
-  background: #2b2b2b; /* Lavanda claro */
+  background: #2b2b2b;
+  /* Lavanda claro */
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -563,7 +617,8 @@
 .comment-item {
   padding: 10px;
   margin-bottom: 8px;
-  background: #E6D6C3; /* Crema suave */
+  background: #E6D6C3;
+  /* Crema suave */
   border-radius: 10px;
   font-size: 14px;
   word-wrap: break-word;
@@ -573,13 +628,15 @@
 .comment-item strong {
   display: block;
   margin-bottom: 5px;
-  color: #D6B4A1; /* Marrón suave */
+  color: #D6B4A1;
+  /* Marrón suave */
   font-weight: bold;
   font-style: italic;
 }
 
 .highlighted-text {
-  background-color: rgba(255, 223, 186, 0.8); /* Color suave */
+  background-color: rgba(255, 223, 186, 0.8);
+  /* Color suave */
   padding: 0 4px;
   border-radius: 4px;
 }
@@ -614,13 +671,17 @@
 }
 
 body.dark-mode {
-  background-color: #121212; /* Fondo oscuro */
-  color: #e0e0e0; /* Texto claro */
+  background-color: #121212;
+  /* Fondo oscuro */
+  color: #e0e0e0;
+  /* Texto claro */
 }
 
 body.dark-mode .read-chapter {
-  background-color: #1e1e1e; /* Fondo de lectura */
-  color: #e0e0e0; /* Color del texto */
+  background-color: #1e1e1e;
+  /* Fondo de lectura */
+  color: #e0e0e0;
+  /* Color del texto */
 }
 
 body.dark-mode .annotations-list {
@@ -637,7 +698,8 @@ body.dark-mode button {
 }
 
 body.dark-mode .progress-bar {
-  background-color: #ffd700; /* Barra de progreso en dorado */
+  background-color: #ffd700;
+  /* Barra de progreso en dorado */
 }
 
 body.dark-mode .toast-container {
@@ -663,5 +725,6 @@ img {
 }
 
 .fixed-label {
-  color: #fff !important; /* Blanco fijo */
+  color: #fff !important;
+  /* Blanco fijo */
 }

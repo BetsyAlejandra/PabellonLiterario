@@ -282,7 +282,6 @@ const ReadChapter = () => {
                         placement="bottom"
                         overlay={renderPopover(annotationText)}
                         onToggle={(show) => console.log("OverlayTrigger se disparó", show)}
-                        rootClose
                     >
                         <span className="annotation" onClick={() => console.log('PopOver Activado')}
                         style={{ cursor: 'pointer', textDecoration: 'underline', color: '#007bff' }}
@@ -505,7 +504,7 @@ const ReadChapter = () => {
     if (error) return <p className="read-chapter-error">{error}</p>;
 
     return (
-        <div className={`read-chapter-wrapper ${darkMode ? 'dark-mode' : ''}`} style={{ position: 'relative', height: '100vh', overflow: 'visible' }}>
+        <div className={`read-chapter-wrapper ${darkMode ? 'dark-mode' : ''}`} style={{ position: 'relative', height: '100vh', overflow: 'visible', color: 'black' }}>
             <div className="progress-bar-container">
                 <div className="progress-bar" style={{ width: `${progress}%` }}></div>
             </div>
