@@ -610,3 +610,49 @@
   color: #ccc;
   border: 1px solid #444;
 }
+
+body.dark-mode {
+  background-color: #121212; /* Fondo oscuro */
+  color: #e0e0e0; /* Texto claro */
+}
+
+body.dark-mode .read-chapter {
+  background-color: #1e1e1e; /* Fondo de lectura */
+  color: #e0e0e0; /* Color del texto */
+}
+
+body.dark-mode .annotations-list {
+  background-color: #252525;
+  color: #e0e0e0;
+  border: 1px solid #333;
+}
+
+
+body.dark-mode button {
+  background-color: #333;
+  color: #e0e0e0;
+  border: 1px solid #555;
+}
+
+body.dark-mode .progress-bar {
+  background-color: #ffd700; /* Barra de progreso en dorado */
+}
+
+body.dark-mode .toast-container {
+  background-color: #252525;
+  color: #e0e0e0;
+}
+
+body.dark-mode .form-select {
+  background-color: #252525;
+  color: #e0e0e0;
+}
+
+.dark-mode * {
+  background-color: inherit;
+  color: inherit;
+}
+
+.fixed-label {
+  color: #fff !important; /* Blanco fijo */
+}

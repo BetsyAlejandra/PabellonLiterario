@@ -55,9 +55,6 @@ const SearchResults = () => {
                 onClick={() => goToNovel(novel._id)}
                 title={`Ver "${novel.title}"`}
               >
-                <div className="novel-cover">
-                  <img src={novel.cover || "/default-cover.jpg"} alt={novel.title} />
-                </div>
                 <div className="novel-info">
                   <h3>{novel.title}</h3>
                   <p>{novel.author}</p>

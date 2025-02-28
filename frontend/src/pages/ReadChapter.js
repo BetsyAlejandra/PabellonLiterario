@@ -485,7 +485,7 @@ const ReadChapter = () => {
             document.body.classList.remove('dark-mode');
         }
     }, [darkMode]);
-    
+
 
     if (loading) return <p className="read-chapter-loading">Cargando...</p>;
     if (error) return <p className="read-chapter-error">{error}</p>;
@@ -631,7 +631,7 @@ const ReadChapter = () => {
                     {showSettings && (
                         <div className="settings-panel">
                             <Form.Group className="mb-3">
-                                <Form.Label>Tamaño de Letra</Form.Label>
+                                <Form.Label className="fixed-label">Tamaño de Letra</Form.Label>
                                 <Form.Range
                                     min="12"
                                     max="32"
@@ -642,7 +642,7 @@ const ReadChapter = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-3">
-                                <Form.Label>Color de Fuente</Form.Label>
+                                <Form.Label className="fixed-label">Color de Fuente</Form.Label>
                                 <Form.Select
                                     value={fontColor}
                                     onChange={(e) => handleFontColorChange(e.target.value)}
@@ -657,7 +657,7 @@ const ReadChapter = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-3">
-                                <Form.Label>Fuente</Form.Label>
+                                <Form.Label className="fixed-label">Fuente</Form.Label>
                                 <Form.Select
                                     value={fontFamily}
                                     onChange={(e) => handleFontFamilyChange(e.target.value)}
@@ -674,7 +674,7 @@ const ReadChapter = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-3">
-                                <Form.Label>Brillo</Form.Label>
+                                <Form.Label className="fixed-label">Brillo</Form.Label>
                                 <Form.Range
                                     min="50"
                                     max="150"

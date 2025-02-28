@@ -181,7 +181,7 @@ const Perfil = () => {
             Mis Traducciones
           </button>
           <button
-            onClick={() => navigate('/library')}
+            onClick={() => navigate('/library') } className="fantasy-btn"
           >
             Biblioteca
           </button>
