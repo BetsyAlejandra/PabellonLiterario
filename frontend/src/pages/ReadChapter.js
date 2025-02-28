@@ -197,15 +197,15 @@ const ReadChapter = () => {
     const handleTextSelection = (e, index) => {
         const selection = window.getSelection();
         const selectedText = selection.toString();
-    
+
         if (selectedText.trim().length > 0) {
             setSelectedText(selectedText);
             setShowCommentBox(index);
             setParagraphIndex(index);
-    
+
             const range = selection.getRangeAt(0);
             const rect = range.getBoundingClientRect();
-    
+
             setButtonPosition({
                 top: rect.bottom + window.scrollY - 10,
                 left: rect.left + window.scrollX + (rect.width / 2) - 20,
@@ -217,7 +217,7 @@ const ReadChapter = () => {
             setParagraphIndex(null);
         }
     };
-    
+
 
     const handleBrightnessChange = (value) => {
         const newBrightness = Number(value);
@@ -426,7 +426,10 @@ const ReadChapter = () => {
             const { data } = await axios.get(`/api/novels/${storyId}/chapter/${chapterId}/comments`);
             setComments(data.comments.reduce((acc, comment) => {
                 acc[comment.paragraphIndex] = acc[comment.paragraphIndex] || [];
-                acc[comment.paragraphIndex].push(comment.text);
+                acc[comment.paragraphIndex].push({
+                    comment: comment.comment,
+                    selectedText: comment.selectedText
+                });
                 return acc;
             }, {}));
         } catch (error) {
@@ -446,7 +449,7 @@ const ReadChapter = () => {
                     comment,
                     selectedText,
                 });
-    
+
                 fetchComments();
                 setComment('');
                 setSelectedText('');
@@ -459,7 +462,7 @@ const ReadChapter = () => {
             console.warn("No se ha seleccionado texto o el comentario está vacío");
         }
     };
-    
+
 
 
 
@@ -577,7 +580,8 @@ const ReadChapter = () => {
                                                         <h4>Comentarios:</h4>
                                                         {comments[index].map((com, i) => (
                                                             <div key={i} className="comment-item">
-                                                                {com}
+                                                                <div className="highlighted-text">{com.selectedText}</div>
+                                                                <div className="comment-text">{com.comment}</div>
                                                             </div>
                                                         ))}
                                                     </div>
@@ -590,6 +594,7 @@ const ReadChapter = () => {
                             </div>
                         ))}
                     </div>
+
                 </Container>
 
                 {/* Botón de ajustes */}

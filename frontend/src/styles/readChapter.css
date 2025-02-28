@@ -575,3 +575,16 @@
   font-weight: bold;
   font-style: italic;
 }
+
+.highlighted-text {
+  background-color: rgba(255, 223, 186, 0.8); /* Color suave */
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+.comment {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #666;
+}
