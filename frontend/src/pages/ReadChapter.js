@@ -1,4 +1,3 @@
-// src/components/ReadChapter.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import axios from "axios";
 import { useParams, useNavigate } from 'react-router-dom';
@@ -281,14 +280,13 @@ const ReadChapter = () => {
                     <OverlayTrigger
                         trigger="click"
                         placement="bottom"
-                        show={true}
                         overlay={renderPopover(annotationText)}
-                        container={document.body}
                         onToggle={(show) => console.log("OverlayTrigger se disparó", show)}
                         rootClose
                     >
-                        <span className="annotation" style={{ cursor: 'pointer', textDecoration: 'underline', color: '#007bff' }}
-                            onClick={() => console.log('PopOver Activado')}>
+                        <span className="annotation" onClick={() => console.log('PopOver Activado')}
+                        style={{ cursor: 'pointer', textDecoration: 'underline', color: '#007bff' }}
+                            >
                             {domToReact(children, options)}
                         </span>
                     </OverlayTrigger>
