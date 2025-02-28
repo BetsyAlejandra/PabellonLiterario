@@ -250,16 +250,12 @@ const ReadChapter = () => {
     };
 
 
-    const renderPopover = (annotation) => {
-        popoverIdRef.current += 1;
-        console.log(`Renderizando Popover con id: popover-${popoverIdRef.current}`, annotation);
-        return (
-            <Popover id={`popover-${popoverIdRef.current}`}>
-                <Popover.Header as="h3">Anotación</Popover.Header>
-                <Popover.Body>{annotation}</Popover.Body>
-            </Popover>
-        );
-    };
+    const renderPopover = (annotation) => (
+        <Popover id={`popover-${popoverIdRef.current++}`}>
+            <Popover.Header as="h3">Anotación</Popover.Header>
+            <Popover.Body>{annotation}</Popover.Body>
+        </Popover>
+    );
 
 
 
@@ -270,7 +266,7 @@ const ReadChapter = () => {
     };
 
 
-    const sanitizedContent = chapter ? DOMPurify.sanitize(chapter.content, sanitizeOptions) : '';
+    const sanitizedContent = DOMPurify.sanitize(chapter.content, sanitizeOptions);
 
     const options = {
         replace: ({ name, attribs, children }) => {
@@ -280,12 +276,11 @@ const ReadChapter = () => {
                 return (
                     <OverlayTrigger
                         trigger="click"
-                        placement="bottom"
+                        placement="top"
                         overlay={renderPopover(annotationText)}
-                        onToggle={(show) => console.log("OverlayTrigger se disparó", show)}
-                        rootCloseEvent="mousedown"
+                        rootClose
                     >
-                        <span className="annotation" onClick={() => console.log('PopOver Activado')}
+                        <span className="annotation"
                             style={{ cursor: 'pointer', textDecoration: 'underline', color: '#007bff' }}
                         >
                             {domToReact(children, options)}
@@ -506,7 +501,7 @@ const ReadChapter = () => {
     if (error) return <p className="read-chapter-error">{error}</p>;
 
     return (
-        <div className={`read-chapter-wrapper ${darkMode ? 'dark-mode' : ''}`} style={{ position: 'relative', height: '100vh', overflow: 'visible', color: 'black' }}>
+        <div className={`read-chapter-wrapper ${darkMode ? 'dark-mode' : ''}`}>
             <div className="progress-bar-container">
                 <div className="progress-bar" style={{ width: `${progress}%` }}></div>
             </div>
@@ -537,22 +532,6 @@ const ReadChapter = () => {
                     </Button>
                 </div>
 
-                {/*
-
-                {chapter.annotations && chapter.annotations.length > 0 && (
-                    <Container className="annotations-list mt-4">
-                        <h3>Anotaciones</h3>
-                        <ul>
-                            {chapter.annotations.map((ann, idx) => (
-                                <li key={idx}>
-                                    <strong>{ann.text}:</strong> {ann.meaning}
-                                </li>
-                            ))}
-                        </ul>
-                    </Container>
-                )}
-
-                */}
 
                 <Container>
                     {/* Título de la Novela */}
@@ -758,7 +737,6 @@ const ReadChapter = () => {
                     />
                 </Container>
 
-                {/*
 
                 {chapter.annotations && chapter.annotations.length > 0 && (
                     <Container className="annotations-list mt-4">
@@ -772,7 +750,6 @@ const ReadChapter = () => {
                         </ul>
                     </Container>
                 )}
-                    */}
 
                 {/* Contenedor de Toasts */}
                 <ToastContainer position="bottom-end" className="p-3">
