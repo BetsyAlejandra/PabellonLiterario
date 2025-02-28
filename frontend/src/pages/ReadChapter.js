@@ -252,6 +252,7 @@ const ReadChapter = () => {
 
     const renderPopover = (annotation) => {
         popoverIdRef.current += 1;
+        console.log(annotation)
         return (
             <Popover id={`popover-${popoverIdRef.current}`}>
                 <Popover.Header as="h3">Anotación</Popover.Header>
@@ -278,7 +279,7 @@ const ReadChapter = () => {
                 const annotationText = decodeURIComponent(attribs['data-annotation']);
                 return (
                     <OverlayTrigger
-                        trigger="click"
+                        trigger="focus"
                         placement="bottom"
                         overlay={renderPopover(annotationText)}
                         onToggle={(show) => console.log("OverlayTrigger se disparó", show)}

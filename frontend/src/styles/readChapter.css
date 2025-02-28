@@ -280,7 +280,7 @@
   color: #C2B4D6;
   border: 2px solid #5F7D8B;
   border-radius: 15px;
-  z-index: 1050;
+  z-index: 9999;
   display: block;
 }
 
