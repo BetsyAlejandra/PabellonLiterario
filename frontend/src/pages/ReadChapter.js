@@ -252,7 +252,7 @@ const ReadChapter = () => {
 
 
     const renderPopover = (annotation) => {
-        popoverIdRef.current += 1;    
+        popoverIdRef.current += 1;
         return (
             <Popover id={`popover-${popoverIdRef.current}`}>
                 <Popover.Header as="h3">Anotación</Popover.Header>
@@ -266,8 +266,9 @@ const ReadChapter = () => {
 
 
     const sanitizeOptions = {
-        ADD_ATTR: ['data-annotation', 'class', 'src', 'alt'],
+        ADD_ATTR: ['data-annotation', 'class', 'src', 'alt', 'title', 'style'],
     };
+
 
     const sanitizedContent = chapter ? DOMPurify.sanitize(chapter.content, sanitizeOptions) : '';
 
@@ -280,10 +281,13 @@ const ReadChapter = () => {
                     <OverlayTrigger
                         trigger="click"
                         placement="bottom"
+                        show={true}
                         overlay={renderPopover(annotationText)}
+                        container={document.body}
                         rootClose
                     >
-                        <span className="annotation" style={{ cursor: 'pointer', textDecoration: 'underline', color: '#007bff' }}>
+                        <span className="annotation" style={{ cursor: 'pointer', textDecoration: 'underline', color: '#007bff' }}
+                            onClick={() => console.log('PopOver Activado')}>
                             {domToReact(children, options)}
                         </span>
                     </OverlayTrigger>
@@ -315,7 +319,7 @@ const ReadChapter = () => {
         if (chapter && chapter._id) {
             markChapterAsRead(chapter._id);
         }
-    }, [location.pathname, chapter]); // Ahora solo se ejecuta si hay capítulo
+    }, [location.pathname, chapter]);
 
     const handleDownload = async () => {
         if (!selectedText) return;
