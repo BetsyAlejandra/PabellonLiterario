@@ -114,15 +114,40 @@ const EditChapter = () => {
 
     const handleSaveAnnotation = () => {
         if (!selectedText || !annotationText) return;
+    
+        const { state, view } = editor;
+        const { selection } = state;
+        const { from, to } = selection;
+    
+        let existingAnnotation = false;
+        state.doc.nodesBetween(from, to, (node, pos) => {
+            if (node.marks?.some(mark => mark.type.name === 'annotation')) {
+                existingAnnotation = true;
+            }
+        });
+    
+        if (existingAnnotation) {
 
-        // Utiliza el comando definido en la extensión para establecer una anotación
-        editor.chain().focus().setAnnotation({ text: annotationText }).run();
+            editor
+                .chain()
+                .focus()
+                .updateAttributes('annotation', { text: annotationText })
+                .run();
+        } else {
 
+            editor
+                .chain()
+                .focus()
+                .setAnnotation({ text: annotationText })
+                .run();
+        }
+    
         setSelectedText('');
         setAnnotationText('');
         setModalShow(false);
         setShowAnnotationButton(false);
     };
+    
 
     // Función para insertar una imagen
     const insertImage = () => {

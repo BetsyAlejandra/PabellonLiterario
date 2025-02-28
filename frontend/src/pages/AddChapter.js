@@ -33,11 +33,15 @@ const AddChapter = () => {
                 src: { default: null },
                 width: {
                     default: "300",
-                    renderHTML: (attributes) => ({ width: attributes.width }),
+                    renderHTML: (attributes) => ({
+                        width: attributes.width,
+                    }),
                 },
                 height: {
                     default: "auto",
-                    renderHTML: (attributes) => ({ height: attributes.height }),
+                    renderHTML: (attributes) => ({
+                        height: attributes.height,
+                    }),
                 },
             };
         },
@@ -48,16 +52,21 @@ const AddChapter = () => {
                 img.src = node.attrs.src;
                 img.style.width = node.attrs.width;
                 img.style.height = node.attrs.height;
+
                 img.onclick = () => {
                     const newWidth = prompt("Introduce el nuevo ancho (px):", node.attrs.width);
                     if (newWidth) {
-                        editor.commands.setNodeAttributes(getPos(), { width: newWidth });
+                        editor.commands.updateAttributes(node.type.name, {
+                            width: newWidth,
+                        });
                     }
                 };
+
                 return img;
             };
         },
     });
+
 
     // Configuración del editor Tiptap
     const editor = useEditor({
@@ -73,7 +82,7 @@ const AddChapter = () => {
             Annotation,
             CustomImage,
         ],
-        content: "<p>Haz clic en la imagen para redimensionarla</p>",
+        content: "",
         editorProps: {
             handleDOMEvents: {
                 mouseup: (view, event) => {
