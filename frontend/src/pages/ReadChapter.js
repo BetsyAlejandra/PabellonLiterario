@@ -265,11 +265,6 @@ const ReadChapter = () => {
         ADD_ATTR: ['data-annotation', 'class', 'src', 'alt']
     };
 
-    useEffect(() => {
-        console.log("Chapter Data:", chapter);
-    }, [chapter]);
-    
-
 
     const sanitizedContent = chapter ? DOMPurify.sanitize(chapter.content, sanitizeOptions) : '';
     console.log("Sanitized Content:", sanitizedContent);
@@ -559,10 +554,12 @@ const ReadChapter = () => {
                             <div key={index} className="paragraph">
                                 <div className="paragraph-container">
                                     <p
-                                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(para, sanitizeOptions) }}
                                         onMouseUp={(e) => handleTextSelection(e, index)}
-                                        onTouchEnd={(e) => handleTextSelection(e, index)} // Para móviles
-                                    ></p>
+                                        onTouchEnd={(e) => handleTextSelection(e, index)}
+                                    >
+                                        {parse(DOMPurify.sanitize(para, sanitizeOptions), options)}
+                                    </p>
+
 
                                     {showCommentBox === index && (
                                         <div
