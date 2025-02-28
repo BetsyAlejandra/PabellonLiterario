@@ -252,11 +252,12 @@ const ReadChapter = () => {
 
 
     const renderPopover = (annotation) => (
-        <Popover id={`popover-${popoverIdRef.current++}`}>
+        <Popover id={`popover-${popoverIdRef.current}`}>
             <Popover.Header as="h3">Anotación</Popover.Header>
             <Popover.Body>{annotation}</Popover.Body>
         </Popover>
     );
+
 
 
 
@@ -278,15 +279,21 @@ const ReadChapter = () => {
                         overlay={renderPopover(annotationText)}
                         rootClose
                     >
-                        <span className="annotation">
+                        <span className="annotation" style={{ cursor: 'pointer', textDecoration: 'underline', color: '#007bff' }}>
                             {domToReact(children, options)}
                         </span>
                     </OverlayTrigger>
                 );
-            }
+            }            
             if (name === 'img') {
-                return <img src={attribs.src} alt={attribs.alt || 'Imagen'} style={{ maxWidth: '100%' }} />;
-            }
+                return (
+                    <img
+                        src={attribs.src}
+                        alt={attribs.alt || 'Imagen'}
+                        style={{ width: '100%', height: 'auto', maxWidth: '100%' }}
+                    />
+                );
+            }            
             if (name === 'hr') {
                 return <hr />;
             }
