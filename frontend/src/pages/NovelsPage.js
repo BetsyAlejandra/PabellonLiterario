@@ -69,28 +69,25 @@ const NovelsPage = () => {
       <Pagination className="novels-pagination">
         <Pagination.Prev onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} />
 
-        {/* Siempre mostrar la primera página si no está en el rango visible */}
-        {currentPage > 3 && (
+        {currentPage > 2 && (
           <>
             <Pagination.Item onClick={() => setCurrentPage(1)}>1</Pagination.Item>
-            {currentPage > 4 && <Pagination.Ellipsis />}
+            {currentPage > 3 && <Pagination.Ellipsis />}
           </>
         )}
 
-        {/* Mostrar un rango de 4 números alrededor de la página actual */}
         {[...Array(totalPages)]
           .map((_, index) => index + 1)
-          .filter((page) => page >= currentPage - 2 && page <= currentPage + 2)
+          .filter((page) => page >= currentPage - 1 && page <= currentPage + 1)
           .map((page) => (
             <Pagination.Item key={page} active={page === currentPage} onClick={() => setCurrentPage(page)}>
               {page}
             </Pagination.Item>
           ))}
 
-        {/* Siempre mostrar la última página si no está en el rango visible */}
-        {currentPage < totalPages - 2 && (
+        {currentPage < totalPages - 1 && (
           <>
-            {currentPage < totalPages - 3 && <Pagination.Ellipsis />}
+            {currentPage < totalPages - 2 && <Pagination.Ellipsis />}
             <Pagination.Item onClick={() => setCurrentPage(totalPages)}>{totalPages}</Pagination.Item>
           </>
         )}

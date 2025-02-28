@@ -552,7 +552,7 @@
   margin-top: 20px;
   max-height: 200px;
   overflow-y: auto;
-  background: #D3D0E1; /* Lavanda claro */
+  background: #2b2b2b; /* Lavanda claro */
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -586,5 +586,27 @@
   display: block;
   margin-top: 8px;
   font-size: 0.9rem;
-  color: #666;
+  color: #222222;
+}
+
+.dark-mode {
+  background-color: #1e1e1e;
+  color: #ccc;
+}
+
+.dark-mode .chapter-content {
+  background-color: #2b2b2b;
+  color: #ddd;
+}
+
+.dark-mode .settings-panel {
+  background-color: #333;
+  color: #ddd;
+  border: 1px solid #555;
+}
+
+.dark-mode .comment-modal {
+  background-color: #292929;
+  color: #ccc;
+  border: 1px solid #444;
 }

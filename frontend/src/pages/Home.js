@@ -45,7 +45,7 @@ const Home = () => {
         const response = await fetch('/api/novels/latest');
         if (!response.ok) throw new Error('Error al obtener últimas novelas');
         const data = await response.json();
-        setLatestNovels(data); // Actualiza el estado
+        setLatestNovels(data);
       } catch (error) {
         console.error('Error en fetchLatestNovels:', error.message);
         setError(error.message);
@@ -54,7 +54,7 @@ const Home = () => {
     };
 
     fetchNovels();
-    fetchLatestNovels(); // Llama a ambas funciones al montar el componente
+    fetchLatestNovels();
   }, []);
 
   const settings = {
@@ -87,12 +87,14 @@ const Home = () => {
         <Container>
           <h2 className="text-center mb-4">Galería de Obras Traducidas</h2>
           {loading ? <p className="text-center">Cargando...</p> : (
-            <Slider {...settings}>
+            <Slider {...settings} className="carousel-slider">
               {novels.map(novel => (
                 <Card key={novel._id} className="gallery-card mx-2">
-                  <Card.Img variant="top" src={novel.coverImage} alt={novel.title} loading="lazy" />
+                  <div className="thumbnail-container">
+                    <Card.Img variant="top" src={novel.coverImage} alt={novel.title} loading="lazy" className="thumbnail-image" />
+                  </div>
                   <Card.Body className="text-center">
-                    <Card.Title>{novel.title}</Card.Title>
+                    <Card.Title>{novel.title.length > 30 ? `${novel.title.slice(0, 30)}...` : novel.title}</Card.Title>
                     <Button as={Link} to={`/story-detail/${novel._id}`}>Ver más</Button>
                   </Card.Body>
                 </Card>
