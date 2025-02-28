@@ -251,8 +251,8 @@ const ReadChapter = () => {
 
 
     const renderPopover = (annotation) => (
-        
-        <Popover id={`popover-${popoverIdRef.current++}` } >
+
+        <Popover id={`popover-${popoverIdRef.current++}`} >
             <Popover.Header as="h3">Anotación</Popover.Header>
             <Popover.Body>{annotation}</Popover.Body>
         </Popover>
@@ -272,12 +272,11 @@ const ReadChapter = () => {
     const options = {
         replace: ({ name, attribs, children }) => {
             if (!attribs) return;
-            if (name === 'span' && attribs.class === 'annotation') {
-                console.log('Annotation:', attribs['data-annotation']);
-            }            
-            if (name === 'span' && attribs.class === 'annotation') {
-                const annotationText = decodeURIComponent(attribs['data-annotation']);
-                console.log(children)
+            if (name === 'span' && attribs['data-annotation']) {
+                console.log("Anotación encontrada:", attribs['data-annotation']);
+            }
+            if (name === 'span' && attribs['data-annotation']) {
+                const annotationText = attribs['data-annotation'];
                 return (
                     <OverlayTrigger
                         trigger="click"
@@ -293,6 +292,7 @@ const ReadChapter = () => {
                     </OverlayTrigger>
                 );
             }
+
             if (name === 'img') {
                 return (
                     <img
@@ -302,11 +302,13 @@ const ReadChapter = () => {
                     />
                 );
             }
+
             if (name === 'hr') {
                 return <hr />;
             }
-        },
+        }
     };
+
 
     const navigateToNext = () => {
         if (chapter.next) {
