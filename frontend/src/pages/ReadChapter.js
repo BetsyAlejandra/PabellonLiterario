@@ -266,8 +266,8 @@ const ReadChapter = () => {
 
 
     const sanitizeOptions = {
-        ADD_ATTR: ['data-annotation', 'class', 'src', 'alt', 'title', 'style'],
-    };
+        ADD_ATTR: ['data-annotation', 'class', 'src', 'alt']
+    };    
 
 
     const sanitizedContent = chapter ? DOMPurify.sanitize(chapter.content, sanitizeOptions) : '';
@@ -284,6 +284,7 @@ const ReadChapter = () => {
                         show={true}
                         overlay={renderPopover(annotationText)}
                         container={document.body}
+                        onToggle={(show) => console.log("OverlayTrigger se disparó", show)}
                         rootClose
                     >
                         <span className="annotation" style={{ cursor: 'pointer', textDecoration: 'underline', color: '#007bff' }}
