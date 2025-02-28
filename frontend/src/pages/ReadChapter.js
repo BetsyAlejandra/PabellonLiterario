@@ -33,6 +33,16 @@ const ReadChapter = () => {
     const [showModal, setShowModal] = useState(null);
     const [paragraphIndex, setParagraphIndex] = useState(null);
 
+    const [selectedText, setSelectedText] = useState('');
+    const [showDownloadButton, setShowDownloadButton] = useState(false);
+    const [novelName, setNovelName] = useState('');
+
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+
+    const chapterContainerRef = useRef(null);
+    const popoverIdRef = useRef(0);
+
     const location = useLocation();
 
     const [darkMode, setDarkMode] = useState(() => {
@@ -71,17 +81,6 @@ const ReadChapter = () => {
         const storedFontFamily = localStorage.getItem('fontFamily');
         return storedFontFamily || 'Serif';
     });
-
-    // Estados para la selección de texto y descarga de imagen
-    const [selectedText, setSelectedText] = useState('');
-    const [showDownloadButton, setShowDownloadButton] = useState(false);
-    const [novelName, setNovelName] = useState('');
-
-    const [showToast, setShowToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState('');
-
-    const chapterContainerRef = useRef(null);
-    const popoverIdRef = useRef(0);
 
     useEffect(() => {
         const fetchChapterAndStory = async () => {
@@ -266,8 +265,14 @@ const ReadChapter = () => {
         ADD_ATTR: ['data-annotation', 'class', 'src', 'alt']
     };
 
+    useEffect(() => {
+        console.log("Chapter Data:", chapter);
+    }, [chapter]);
+    
+
 
     const sanitizedContent = chapter ? DOMPurify.sanitize(chapter.content, sanitizeOptions) : '';
+    console.log("Sanitized Content:", sanitizedContent);
 
     const options = {
         replace: ({ name, attribs, children }) => {
@@ -282,6 +287,7 @@ const ReadChapter = () => {
                         trigger="click"
                         placement="top"
                         overlay={renderPopover(annotationText)}
+                        container={chapterContainerRef.current}
                         rootClose
                     >
                         <span className="annotation"
