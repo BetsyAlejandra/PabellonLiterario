@@ -251,12 +251,16 @@ const ReadChapter = () => {
     };
 
 
-    const renderPopover = (annotation) => (
-        <Popover id={`popover-${popoverIdRef.current}`}>
-            <Popover.Header as="h3">Anotación</Popover.Header>
-            <Popover.Body>{annotation}</Popover.Body>
-        </Popover>
-    );
+    const renderPopover = (annotation) => {
+        popoverIdRef.current += 1;    
+        return (
+            <Popover id={`popover-${popoverIdRef.current}`}>
+                <Popover.Header as="h3">Anotación</Popover.Header>
+                <Popover.Body>{annotation}</Popover.Body>
+            </Popover>
+        );
+    };
+
 
 
 
@@ -275,7 +279,7 @@ const ReadChapter = () => {
                 return (
                     <OverlayTrigger
                         trigger="click"
-                        placement="top"
+                        placement="bottom"
                         overlay={renderPopover(annotationText)}
                         rootClose
                     >
@@ -284,7 +288,7 @@ const ReadChapter = () => {
                         </span>
                     </OverlayTrigger>
                 );
-            }            
+            }
             if (name === 'img') {
                 return (
                     <img
@@ -293,7 +297,7 @@ const ReadChapter = () => {
                         style={{ width: '100%', height: 'auto', maxWidth: '100%' }}
                     />
                 );
-            }            
+            }
             if (name === 'hr') {
                 return <hr />;
             }
