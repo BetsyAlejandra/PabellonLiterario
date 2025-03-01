@@ -223,7 +223,9 @@
 
 .annotation {
   cursor: pointer;
-  color: #2A2A2A;
+  color: #707070;
+  background-color: #2a2a2a62;
+  border-radius: 5px; 
   position: relative;
   display: inline-block;
   transition: color 0.3s ease, background-color 0.3s ease;
@@ -231,8 +233,8 @@
 
 .annotation:hover {
   color: #2A2A2A;
-  background-color: rgba(253, 188, 151, 0.118); /* Efecto sutil de resaltado */
-  border-radius: 5px; /* Bordes redondeados */
+  background-color: rgba(253, 188, 151, 0.118);
+  border-radius: 5px; 
 }
 
 .annotation:active {

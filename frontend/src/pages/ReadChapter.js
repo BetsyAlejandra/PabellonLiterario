@@ -281,7 +281,7 @@ const ReadChapter = () => {
                         rootClose
                     >
                         <span className="annotation"
-                            style={{ cursor: 'pointer', color: '#2A2A2A' }}
+                            style={{ cursor: 'pointer', color: '#2A2A2A',  }}
                         >
                             {domToReact(children, options)}
                         </span>
