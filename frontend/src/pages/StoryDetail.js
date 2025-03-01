@@ -26,6 +26,7 @@ const StoryDetail = () => {
     const [chapterToRead, setChapterToRead] = useState(null);
     const [passwordError, setPasswordError] = useState(''); // Para mostrar errores de contraseña
     const [readChapters, setReadChapters] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     // Estado para manejar la autorización de capítulos
     const [authorizedChapters, setAuthorizedChapters] = useState({});
@@ -163,14 +164,11 @@ const StoryDetail = () => {
 
     const handleReadChapter = (chapterId) => {
         markChapterAsRead(chapterId);
-        // Verificar si la clasificación es +18
+
         if (story.classification === '+18') {
-            // Almacenar el capítulo que el usuario quiere acceder
             setChapterToAccess(chapterId);
-            // Mostrar el modal de advertencia
             setShow18Warning(true);
         } else {
-            // Proceder normalmente si la clasificación no es +18
             if (story.languageOrigin === 'Coreano') {
                 if (authorizedChapters[chapterId]) {
                     navigate(`/read-chapter/${id}/${chapterId}`);
@@ -190,24 +188,27 @@ const StoryDetail = () => {
             return;
         }
 
+        setIsLoading(true);
+        setPasswordError('');
+
         try {
             const res = await axios.post(`/api/novels/${id}/verify-password`, {
                 password: enteredPassword
             }, { withCredentials: true });
 
             if (res.data.authorized) {
-                // Autorizar el acceso al capítulo
                 setAuthorizedChapters(prev => ({ ...prev, [chapterToRead]: true }));
                 setShowPasswordModal(false);
                 setEnteredPassword('');
-                setPasswordError('');
                 navigate(`/read-chapter/${id}/${chapterToRead}`);
             } else {
                 setPasswordError('Contraseña incorrecta.');
             }
         } catch (err) {
-            console.error(err);
+            console.error('Error al verificar la contraseña:', err);
             setPasswordError('Error al verificar la contraseña.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -404,6 +405,7 @@ const StoryDetail = () => {
                             </Card>
                         ))}
 
+
                         {/* Control de paginación */}
                         {totalPages > 1 && (
                             <Pagination className="pagination">
@@ -519,8 +521,8 @@ const StoryDetail = () => {
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={handlePasswordSubmit} className="story-detail-modal-submit-btn">
-                        Leer
+                    <Button variant="primary" onClick={handlePasswordSubmit} disabled={isLoading} className="story-detail-modal-submit-btn">
+                        {isLoading ? 'Verificando...' : 'Leer'}
                     </Button>
                     <Button variant="secondary" onClick={() => setShowPasswordModal(false)} className="story-detail-modal-cancel-btn">
                         Cancelar
