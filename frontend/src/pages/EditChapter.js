@@ -10,9 +10,10 @@ import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
 import Image from '@tiptap/extension-image';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
-import Annotation from '../extensions/Annotation'; // Asegúrate de que la ruta sea correcta
+import Annotation from '../extensions/Annotation'; 
+import imageCompression from 'browser-image-compression';
 import { Modal, Button } from 'react-bootstrap';
-import '../styles/EditChapter.css'; // Importa el archivo CSS específico
+import '../styles/EditChapter.css';
 
 const EditChapter = () => {
     const { storyId, chapterId } = useParams();
@@ -168,11 +169,29 @@ const EditChapter = () => {
     };
     
 
-    // Función para insertar una imagen
-    const insertImage = () => {
-        const url = prompt("Ingrese la URL de la imagen:");
-        if (url) {
-            editor.chain().focus().setImage({ src: url }).run();
+    const insertImage = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const options = {
+                maxSizeMB: 0.3, // Tamaño máximo (en MB)
+                maxWidthOrHeight: 1024, // Máximo ancho o alto
+                useWebWorker: true,
+                initialQuality: 0.7, // Calidad inicial
+            };
+
+            try {
+                const compressedFile = await imageCompression(file, options);
+                const reader = new FileReader();
+
+                reader.onload = () => {
+                    const imageUrl = reader.result;
+                    editor.chain().focus().setImage({ src: imageUrl }).run();
+                };
+
+                reader.readAsDataURL(compressedFile);
+            } catch (error) {
+                console.error("Error al comprimir la imagen:", error);
+            }
         }
     };
 
@@ -220,7 +239,7 @@ const EditChapter = () => {
                     <div className="form-group mb-3">
                         <label htmlFor="content" className="edit-chapter-label">Contenido del Capítulo</label>
                         {/* Barra de herramientas */}
-                        <div className="toolbar mb-2 edit-chapter-toolbar">
+                        <div className="toolbar edit-chapter-toolbar sticky-toolbar mb-2">
                             <button
                                 className="btn btn-tool edit-chapter-btn"
                                 onClick={() => editor.chain().focus().toggleBold().run()}
