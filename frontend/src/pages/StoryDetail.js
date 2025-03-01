@@ -164,22 +164,33 @@ const StoryDetail = () => {
 
     const handleReadChapter = (chapterId) => {
         markChapterAsRead(chapterId);
-
         if (story.classification === '+18') {
             setChapterToAccess(chapterId);
             setShow18Warning(true);
-        } else {
-            if (story.languageOrigin === 'Coreano') {
-                if (authorizedChapters[chapterId]) {
-                    navigate(`/read-chapter/${id}/${chapterId}`);
-                } else {
-                    setChapterToRead(chapterId);
-                    setShowPasswordModal(true);
-                }
-            } else {
+        } else if (story.languageOrigin === 'Coreano') {
+            if (authorizedChapters[chapterId]) {
                 navigate(`/read-chapter/${id}/${chapterId}`);
+            } else {
+                setChapterToRead(chapterId);
+                setShowPasswordModal(true);
             }
+        } else {
+            navigate(`/read-chapter/${id}/${chapterId}`);
         }
+    };
+
+    const handle18Accept = () => {
+        if (story.languageOrigin === 'Coreano') {
+            if (authorizedChapters[chapterToAccess]) {
+                navigate(`/read-chapter/${id}/${chapterToAccess}`);
+            } else {
+                setChapterToRead(chapterToAccess);
+                setShowPasswordModal(true);
+            }
+        } else {
+            navigate(`/read-chapter/${id}/${chapterToAccess}`);
+        }
+        setShow18Warning(false);
     };
 
     const handlePasswordSubmit = async () => {
@@ -187,9 +198,6 @@ const StoryDetail = () => {
             setPasswordError('Por favor, ingresa una contraseña.');
             return;
         }
-
-        setIsLoading(true);
-        setPasswordError('');
 
         try {
             const res = await axios.post(`/api/novels/${id}/verify-password`, {
@@ -200,15 +208,14 @@ const StoryDetail = () => {
                 setAuthorizedChapters(prev => ({ ...prev, [chapterToRead]: true }));
                 setShowPasswordModal(false);
                 setEnteredPassword('');
+                setPasswordError('');
                 navigate(`/read-chapter/${id}/${chapterToRead}`);
             } else {
                 setPasswordError('Contraseña incorrecta.');
             }
         } catch (err) {
-            console.error('Error al verificar la contraseña:', err);
+            console.error(err);
             setPasswordError('Error al verificar la contraseña.');
-        } finally {
-            setIsLoading(false);
         }
     };
 
@@ -545,10 +552,11 @@ const StoryDetail = () => {
                     <Button variant="secondary" onClick={() => setShow18Warning(false)} className="story-detail-modal-cancel-btn">
                         Cancelar
                     </Button>
-                    <Button variant="primary" onClick={() => {
-                        setShow18Warning(false);
-                        navigate(`/read-chapter/${id}/${chapterToAccess}`);
-                    }} className="story-detail-modal-confirm-btn">
+                    <Button
+                        variant="primary"
+                        onClick={handle18Accept}
+                        className="story-detail-modal-confirm-btn"
+                    >
                         Continuar
                     </Button>
                 </Modal.Footer>
