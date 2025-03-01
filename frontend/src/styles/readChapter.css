@@ -221,6 +221,27 @@
   font-family: 'Arial', sans-serif;
 }
 
+.annotation {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #C9D6D5;
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.annotation:hover {
+  color: #C9D6D5;
+  background-color: hsla(175, 100%, 93%, 0.658); /* Efecto sutil de resaltado */
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+.annotation:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+
 .annotations-list h3 {
   color: #F0E1D6;
   margin-bottom: 20px;

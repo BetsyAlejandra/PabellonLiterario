@@ -265,16 +265,11 @@ const ReadChapter = () => {
         ADD_ATTR: ['data-annotation', 'class', 'src', 'alt']
     };
 
-
     const sanitizedContent = chapter ? DOMPurify.sanitize(chapter.content, sanitizeOptions) : '';
-    console.log("Sanitized Content:", sanitizedContent);
 
     const options = {
         replace: ({ name, attribs, children }) => {
             if (!attribs) return;
-            if (name === 'span' && attribs['data-annotation']) {
-                console.log("Anotación encontrada:", attribs['data-annotation']);
-            }
             if (name === 'span' && attribs['data-annotation']) {
                 const annotationText = attribs['data-annotation'];
                 return (
