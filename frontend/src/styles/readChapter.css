@@ -224,15 +224,15 @@
 .annotation {
   cursor: pointer;
   text-decoration: underline;
-  color: #C9D6D5;
+  color: #D6B4A1;
   position: relative;
   display: inline-block;
   transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 .annotation:hover {
-  color: #C9D6D5;
-  background-color: hsla(175, 100%, 93%, 0.658); /* Efecto sutil de resaltado */
+  color: #D6B4A1;
+  background-color: rgba(253, 188, 151, 0.118); /* Efecto sutil de resaltado */
   border-radius: 5px; /* Bordes redondeados */
 }
 
