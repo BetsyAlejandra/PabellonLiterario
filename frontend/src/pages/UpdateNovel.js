@@ -64,7 +64,18 @@ const UpdateNovel = () => {
 
     const handleCollaboratorChange = async (index, key, value) => {
         const updatedCollaborators = [...collaborators];
-        updatedCollaborators[index][key] = value;
+
+        if (key === 'username') {
+            const selectedUser = userSuggestions.find(user => user.username === value);
+            updatedCollaborators[index] = {
+                ...updatedCollaborators[index],
+                username: value,
+                user: selectedUser ? selectedUser._id : null,
+            };
+        } else {
+            updatedCollaborators[index][key] = value;
+        }
+
 
         if (key === 'role') {
             try {

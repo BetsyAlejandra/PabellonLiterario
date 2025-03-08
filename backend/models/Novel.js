@@ -57,9 +57,10 @@ const novelSchema = new mongoose.Schema(
     },
     collaborators: [
       {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Relación con el modelo User
-        role: String, // Rol libre
-      },
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        username: String,
+        role: String
+      }
     ],
 
     // Imagen de la portada

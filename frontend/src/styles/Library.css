@@ -63,8 +63,13 @@
 
 .library-card-title {
     color: #D6B4A1;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 10ch;
+    display: inline-block;
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;

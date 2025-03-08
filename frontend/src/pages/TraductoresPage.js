@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Button, Container, Row, Col, Pagination } from 'react-bootstrap';
+import { Card, Button, Row, Col, Pagination } from 'react-bootstrap';
 import '../styles/TranslatorsPage.css';
 
 const TranslatorsPage = () => {
@@ -9,8 +9,9 @@ const TranslatorsPage = () => {
   const [error, setError] = useState('');
 
   // Estados de paginación
-  const [currentPage, setCurrentPage] = useState(1);
   const translatorsPerPage = 8;
+  const initialPage = parseInt(localStorage.getItem('currentPage')) || 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
 
   useEffect(() => {
     const fetchTranslators = async () => {
@@ -32,25 +33,42 @@ const TranslatorsPage = () => {
     fetchTranslators();
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll automático al cambiar de página
+    localStorage.setItem('currentPage', currentPage); // Guardar página actual en localStorage
+  }, [currentPage]);
+
   const indexOfLastTranslator = currentPage * translatorsPerPage;
   const indexOfFirstTranslator = indexOfLastTranslator - translatorsPerPage;
   const currentTranslators = translators.slice(indexOfFirstTranslator, indexOfLastTranslator);
-
-  // Calcular el número total de páginas
   const totalPages = Math.ceil(translators.length / translatorsPerPage);
 
-  // Crear los elementos de paginación
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   const paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {
-    paginationItems.push(
-      <Pagination.Item
-        key={number}
-        active={number === currentPage}
-        onClick={() => setCurrentPage(number)}
-      >
-        {number}
-      </Pagination.Item>,
-    );
+    if (
+      number === 1 ||
+      number === totalPages ||
+      (number >= currentPage - 1 && number <= currentPage + 1)
+    ) {
+      paginationItems.push(
+        <Pagination.Item
+          key={number}
+          active={number === currentPage}
+          onClick={() => handlePageChange(number)}
+        >
+          {number}
+        </Pagination.Item>
+      );
+    } else if (
+      (number === currentPage - 2 && number > 1) ||
+      (number === currentPage + 2 && number < totalPages)
+    ) {
+      paginationItems.push(<Pagination.Ellipsis key={`ellipsis-${number}`} />);
+    }
   }
 
   if (loading) return <div className="loading-text">Cargando traductores...</div>;
@@ -63,13 +81,13 @@ const TranslatorsPage = () => {
         <p className="translators-subtitle">Explora los perfiles de nuestros talentosos traductores</p>
       </header>
 
-      {/* Controles de Paginación en la parte superior */}
+      {/* Paginación superior */}
       <Pagination className="justify-content-center mb-4">
-        <Pagination.First onClick={() => setCurrentPage(1)} disabled={currentPage === 1} />
-        <Pagination.Prev onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} />
+        <Pagination.First onClick={() => handlePageChange(1)} disabled={currentPage === 1} />
+        <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
         {paginationItems}
-        <Pagination.Next onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} />
-        <Pagination.Last onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} />
+        <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
+        <Pagination.Last onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages} />
       </Pagination>
 
       <Row className="g-4">
@@ -100,13 +118,13 @@ const TranslatorsPage = () => {
         ))}
       </Row>
 
-      {/* Controles de Paginación en la parte inferior */}
+      {/* Paginación inferior */}
       <Pagination className="justify-content-center mt-4">
-        <Pagination.First onClick={() => setCurrentPage(1)} disabled={currentPage === 1} />
-        <Pagination.Prev onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} />
+        <Pagination.First onClick={() => handlePageChange(1)} disabled={currentPage === 1} />
+        <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
         {paginationItems}
-        <Pagination.Next onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} />
-        <Pagination.Last onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} />
+        <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
+        <Pagination.Last onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages} />
       </Pagination>
     </div>
   );

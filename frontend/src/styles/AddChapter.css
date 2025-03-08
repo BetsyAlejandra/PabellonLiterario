@@ -55,7 +55,7 @@ img {
 /* Inputs y Textareas */
 .add-chapter-input,
 .add-chapter-textarea {
-    background-color: #1c1c1c; /* Fondo más oscuro */
+    background-color: white; /* Fondo más oscuro */
     border: 1px solid #ffd700; /* Borde dorado */
     border-radius: 10px;
     color: #ffd700; /* Texto claro */
@@ -66,10 +66,9 @@ img {
 
 .add-chapter-input::placeholder,
 .add-chapter-textarea::placeholder {
-    color: #a9a9a9; /* Gris claro */
+    color: black;
 }
 
-/* Enfoque de Inputs y Textareas */
 .add-chapter-input:focus,
 .add-chapter-textarea:focus {
     border-color: #50c878; /* Esmeralda */

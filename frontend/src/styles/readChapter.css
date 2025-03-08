@@ -268,7 +268,6 @@
   color: #C2B4D6;
   border: 2px solid #5F7D8B;
   border-radius: 15px;
-  z-index: 9999 !important;
   display: block !important;
 }; 
 
@@ -578,11 +577,6 @@ body.dark-mode .toast-container {
 body.dark-mode .form-select {
   background-color: #252525;
   color: #e0e0e0;
-}
-
-.dark-mode * {
-  background-color: inherit;
-  color: inherit;
 }
 
 img {

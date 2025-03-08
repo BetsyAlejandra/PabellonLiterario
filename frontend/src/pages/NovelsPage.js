@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Pagination } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import '../styles/NovelsPage.css';
 
 const NovelsPage = () => {
-  const [novels, setNovels] = useState([]); // Novelas actuales en la página
-  const [currentPage, setCurrentPage] = useState(1);
+  const [novels, setNovels] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const novelsPerPage = 8;
 
-  const novelsPerPage = 8; // Número de novelas por página
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialPage = parseInt(searchParams.get('page')) || 1; // Lee la página desde la URL
+  const [currentPage, setCurrentPage] = useState(initialPage);
 
   useEffect(() => {
     const fetchNovels = async () => {
@@ -33,6 +35,11 @@ const NovelsPage = () => {
 
     fetchNovels();
   }, [currentPage]);
+
+  useEffect(() => {
+    setSearchParams({ page: currentPage }); // Actualiza la URL cada vez que cambia la página
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage, setSearchParams]);
 
   if (loading) return <div className="novels-loading">Cargando novelas...</div>;
   if (error) return <div className="novels-error">{error}</div>;
@@ -80,7 +87,11 @@ const NovelsPage = () => {
           .map((_, index) => index + 1)
           .filter((page) => page >= currentPage - 1 && page <= currentPage + 1)
           .map((page) => (
-            <Pagination.Item key={page} active={page === currentPage} onClick={() => setCurrentPage(page)}>
+            <Pagination.Item
+              key={page}
+              active={page === currentPage}
+              onClick={() => setCurrentPage(page)}
+            >
               {page}
             </Pagination.Item>
           ))}

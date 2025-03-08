@@ -1,7 +1,7 @@
 // src/components/MyStories.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Modal, Button, Card, Form, Pagination } from 'react-bootstrap';
 import '../styles/MyStories.css'; // Importa el archivo CSS específico
 
@@ -20,13 +20,19 @@ const MyStories = () => {
     const [confirmDeleteChapterModalShow, setConfirmDeleteChapterModalShow] = useState(false); // Modal de confirmación de eliminación de capítulo
     const [userRoles, setUserRoles] = useState([]);
     const navigate = useNavigate();
-    const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
-    const storiesPerPage = 6; // Cantidad de historias por página
+    const [currentPage, setCurrentPage] = useState(1);
+    const storiesPerPage = 6;
+    const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
-        const fetchUserStories = async (page = 1) => {
+        const page = parseInt(searchParams.get('page')) || 1;
+        setCurrentPage(page);
+      }, [searchParams]);
+
+    useEffect(() => {
+        const fetchUserStories = async (page) => {
             try {
                 setLoading(true);
                 const res = await axios.get(`/api/novels/my-stories?page=${page}&limit=${storiesPerPage}`, {
@@ -35,7 +41,6 @@ const MyStories = () => {
 
                 setStories(res.data.stories);
                 setTotalPages(res.data.totalPages);
-                setCurrentPage(res.data.currentPage);
             } catch (err) {
                 setError(err.response?.data?.message || 'Error al cargar las historias.');
             } finally {
@@ -140,6 +145,11 @@ const MyStories = () => {
             console.error(err);
             setConfirmDeleteChapterModalShow(false); // Cierra el modal de confirmación
         }
+    };
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        setSearchParams({ page: page.toString() });
     };
 
     if (loading) return <p className="my-stories-loading">Cargando historias...</p>;

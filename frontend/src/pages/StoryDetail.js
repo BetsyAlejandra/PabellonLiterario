@@ -353,7 +353,7 @@ const StoryDetail = () => {
                                                     onClick={() => navigate(`/profileperson/${col.username}`)}
                                                     className="collaborator-link btn btn-link p-0 story-detail-collaborator-link"
                                                 >
-                                                    {col.username} ({col.role})
+                                                    {col.user ? col.user.username : col.username} ({col.role})
                                                 </button>
                                             ) : (
                                                 <span>{col.username} ({col.role})</span>

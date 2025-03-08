@@ -11,7 +11,7 @@
 
 /* Títulos */
 .story-detail-title {
-  color: #2A2F3B;
+  color: #D6B4A1;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   font-size: 2.5rem;
   font-weight: bold;
@@ -20,7 +20,7 @@
 
 .story-detail-chapters-title,
 .story-detail-comments-title {
-  color: #2C3E50;
+  color: #D6B4A1;
   margin-bottom: 20px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
@@ -189,7 +189,7 @@
 }
 
 .story-detail-raw-origin a.story-detail-link {
-  color: #2A2F3B;
+  color: #C9D6D5;
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -199,7 +199,7 @@
 }
 
 .story-detail-collaborators .story-detail-collaborator-link {
-  color: #2A2F3B;
+  color: #C9D6D5;
   text-decoration: none;
 }
 
@@ -208,13 +208,13 @@
 }
 
 .story-detail-adaptations a.story-detail-link {
-  color: #2A2F3B;
+  color: #C9D6D5;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .story-detail-adaptations a.story-detail-link:hover {
-  color: #2A2F3B;
+  color: #C9D6D5;
 }
 
 .story-detail-chapter-title {
