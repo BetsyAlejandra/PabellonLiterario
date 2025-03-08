@@ -6,6 +6,14 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import FloatingButton from './Components/FloatingButton';
 import Footer from './Components/Footer';
 import Header from './Components/Header';
+import TerminosServicios from './Components/Terminos';
+import PoliticaPrivacidad from './Components/Politica';
+import Disclaimer from './Components/Disclaimer';
+import Contactanos from './Components/Contactanos';
+import Unete from './Components/Unete';
+import Preguntas from './Components/Preguntas';
+import AvisoCookies from './Components/Cookies';
+import SobreNosotros from './Components/SobreNosotros';
 
 //Contexto
 import { ReadChapterProvider } from './context/ReadChapterContext';
@@ -69,6 +77,13 @@ function App() {
         <Route path="/update/:id" element={<UpdateNovel />} />
         <Route path="/edit-chapter/:storyId/:chapterId" element={<EditChapter />} />
         <Route path="/upload" element={<NovelForm />} />
+        <Route path="/preguntas" element={<Preguntas />} />
+        <Route path="/unete" element={<Unete />} />
+        <Route path="/contactanos" element={<Contactanos />} />
+        <Route path="/politica" element={<PoliticaPrivacidad />} />
+        <Route path="/terminos" element={<TerminosServicios />} />
+        <Route path="/disclaimer" element={<Disclaimer />} />
+        <Route path="/sobrenosotros" element={<SobreNosotros />} />
         <Route path="/profile" element={<Perfil />} />
         <Route path="/profileperson/:username" element={<PerfilUsuario />} />
         <Route path="/admin-panel" element={<AdminPanel />} />
@@ -81,6 +96,7 @@ function App() {
       </Routes>
       {!hideHeaderFooter && <FloatingButton />}
       {!hideHeaderFooter && <Footer />}
+      <AvisoCookies />
     </div>
   );
 }
