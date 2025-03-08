@@ -41,12 +41,15 @@ const EditorsPage = () => {
     setSearchParams({ page });
   };
 
+  const isMobile = window.innerWidth < 768;
   const paginationItems = [];
+
   for (let number = 1; number <= totalPages; number++) {
     if (
-      number === 1 || 
-      number === totalPages || 
-      (number >= currentPage - 1 && number <= currentPage + 1)
+      number === 1 ||
+      number === totalPages ||
+      (!isMobile && (number >= currentPage - 1 && number <= currentPage + 1)) ||
+      (isMobile && number === currentPage)
     ) {
       paginationItems.push(
         <Pagination.Item
@@ -58,12 +61,13 @@ const EditorsPage = () => {
         </Pagination.Item>
       );
     } else if (
-      (number === currentPage - 2 && number > 1) || 
-      (number === currentPage + 2 && number < totalPages)
+      (!isMobile && (number === currentPage - 2 || number === currentPage + 2)) ||
+      (isMobile && (number === currentPage - 1 || number === currentPage + 1))
     ) {
       paginationItems.push(<Pagination.Ellipsis key={`ellipsis-${number}`} />);
     }
   }
+
 
   if (loading) return <div className="loading-text">Cargando editores...</div>;
   if (error) return <div className="error-text">{error}</div>;
@@ -75,7 +79,7 @@ const EditorsPage = () => {
         <p className="editors-subtitle">Explora los perfiles de nuestros talentosos editores</p>
       </header>
       <Container>
-        <Pagination className="justify-content-center mb-4">
+        <Pagination className="justify-content-center mb-4 flex-wrap">
           <Pagination.First
             onClick={() => handlePageChange(1)}
             disabled={currentPage === 1}
@@ -119,7 +123,7 @@ const EditorsPage = () => {
           ))}
         </Row>
 
-        <Pagination className="justify-content-center mt-4">
+        <Pagination className="justify-content-center mt-4 flex-wrap">
           <Pagination.First
             onClick={() => handlePageChange(1)}
             disabled={currentPage === 1}
