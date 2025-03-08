@@ -151,14 +151,14 @@ const Header = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ minWidth: "200px" }}
             />
-            <Button variant="outline-light" type="submit" disabled={searchLoading}>
+            <Button variant="outline-dark" type="submit" disabled={searchLoading}>
               {searchLoading ? <Spinner animation="border" size="sm" /> : "Buscar"}
             </Button>
           </Form>
 
           <Nav className="ms-auto align-items-center">
             {isLoggedIn === null ? (
-              <Spinner animation="border" variant="light" />
+              <Spinner animation="border" variant="dark" />
             ) : (
               <>
                 {isLoggedIn ? (

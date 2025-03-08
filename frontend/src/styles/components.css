@@ -80,7 +80,7 @@ body {
 /* Enlaces del Navbar */
 .custom-link {
   color: #2C3E50 !important;
-  margin-right: 15px;
+  margin-right: 10px;
   font-weight: bold;
   transition: color 0.3s ease, text-shadow 0.3s ease;
   cursor: pointer;
@@ -95,7 +95,7 @@ body {
   background-color: #E6D6C3 ;
   border: none;
   color: #1a1a1a;
-  padding: 8px 15px;
+  padding: 6px 10px;
   border-radius: 10px;
   font-weight: bold;
   transition: background-color 0.3s ease, transform 0.2s ease;
