@@ -156,31 +156,36 @@ const Header = () => {
             </Button>
           </Form>
 
-          <Nav className="ms-auto align-items-center d-flex flex-column gap-2">
+          <Nav className="ms-auto d-flex align-items-center justify-content-between profile-container">
             {isLoggedIn === null ? (
               <Spinner animation="border" variant="dark" />
             ) : (
               <>
                 {isLoggedIn ? (
-                  <>
-                    <Nav.Link as="div" className="custom-link d-flex flex-column align-items-center me-2" onClick={handleProfileClick}>
-                      <img src={profilePic} alt="Foto de perfil" className="rounded-circle profile-pic" width="40" height="40" style={{ cursor: "pointer" }} />
-                      <span className="ms-2 profile-name">{userName}</span>
+                  <div className="d-flex align-items-center profile-section">
+                    <Nav.Link as="div" className="d-flex align-items-center" onClick={handleProfileClick}>
+                      <img src={profilePic} alt="Foto de perfil" className="rounded-circle profile-pic" width="40" height="40" />
+                      <span className="profile-name">{userName}</span>
                     </Nav.Link>
-                    {isLoggedIn && hasRole(userRoles) && (
-                      <Button className="upload-btn custom-button w-100" onClick={handleUploadClick}>Subir Novela</Button>
-                    )}
-                    <Button className="logout-btn custom-button w-100" variant="outline-danger" onClick={handleLogout}>Cerrar Sesión</Button>
-                  </>
+
+                    {/* Contenedor de los botones apilados */}
+                    <div className="d-flex flex-column button-group">
+                      {hasRole(userRoles) && (
+                        <Button className="upload-btn custom-button" onClick={handleUploadClick}>Subir Novela</Button>
+                      )}
+                      <Button className="logout-btn custom-button" variant="outline-danger" onClick={handleLogout}>Cerrar Sesión</Button>
+                    </div>
+                  </div>
                 ) : (
-                  <>
-                    <Button className="register-btn custom-button w-100" variant="outline-primary" onClick={() => navigate("/register")}>Registrarse</Button>
-                    <Button className="login-btn custom-button w-100" variant="primary" onClick={() => navigate("/login")}>Iniciar Sesión</Button>
-                  </>
+                  <div className="d-flex flex-column button-group">
+                    <Button className="register-btn custom-button" variant="outline-primary" onClick={() => navigate("/register")}>Registrarse</Button>
+                    <Button className="login-btn custom-button" variant="primary" onClick={() => navigate("/login")}>Iniciar Sesión</Button>
+                  </div>
                 )}
               </>
             )}
           </Nav>
+
 
         </Navbar.Collapse>
       </Container>
