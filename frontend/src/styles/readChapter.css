@@ -210,22 +210,11 @@
 }
 
 
-/* Anotaciones */
-.annotations-list {
-  margin-top: 40px;
-  background: rgba(30, 30, 30, 0.95);
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
-  color: #FBFCFC;
-  font-family: 'Arial', sans-serif;
-}
-
 .annotation {
   cursor: pointer;
   color: #707070;
   background-color: #2a2a2a62;
-  border-radius: 5px; 
+  border-radius: 5px;
   position: relative;
   display: inline-block;
   transition: color 0.3s ease, background-color 0.3s ease;
@@ -234,7 +223,7 @@
 .annotation:hover {
   color: #2A2A2A;
   background-color: rgba(253, 188, 151, 0.118);
-  border-radius: 5px; 
+  border-radius: 5px;
 }
 
 .annotation:active {
@@ -269,7 +258,9 @@
   border: 2px solid #5F7D8B;
   border-radius: 15px;
   display: block !important;
-}; 
+}
+
+;
 
 .popover-header {
   background: #2C3E50;
@@ -542,9 +533,27 @@ body.dark-mode .read-chapter {
   color: #e0e0e0;
 }
 
-body.dark-mode .annotations-list {
+body.dark-mode .annotation {
+  cursor: pointer;
+  color: #1e1e1e;
   background-color: #e0e0e0;
+  border-radius: 5px;
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
+
+body.dark-mode .annotation:hover {
+  color: #2A2A2A;
+  background-color: rgba(255, 234, 222, 0.118);
+  border-radius: 5px;
+}
+
+body.dark-mode .annotation:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
 
 
 body.dark-mode .progress-bar {
