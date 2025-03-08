@@ -156,7 +156,7 @@ const Header = () => {
             </Button>
           </Form>
 
-          <Nav className="ms-auto align-items-center">
+          <Nav className="ms-auto align-items-center d-flex flex-column gap-2">
             {isLoggedIn === null ? (
               <Spinner animation="border" variant="dark" />
             ) : (
@@ -168,19 +168,20 @@ const Header = () => {
                       <span className="ms-2 profile-name">{userName}</span>
                     </Nav.Link>
                     {isLoggedIn && hasRole(userRoles) && (
-                      <Button className="upload-btn me-2 custom-button" onClick={handleUploadClick}>Subir Novela</Button>
+                      <Button className="upload-btn custom-button w-100" onClick={handleUploadClick}>Subir Novela</Button>
                     )}
-                    <Button className="logout-btn custom-button" variant="outline-danger" onClick={handleLogout}>Cerrar Sesión</Button>
+                    <Button className="logout-btn custom-button w-100" variant="outline-danger" onClick={handleLogout}>Cerrar Sesión</Button>
                   </>
                 ) : (
                   <>
-                    <Button className="register-btn me-2 custom-button" variant="outline-primary" onClick={() => navigate("/register")}>Registrarse</Button>
-                    <Button className="login-btn custom-button" variant="primary" onClick={() => navigate("/login")}>Iniciar Sesión</Button>
+                    <Button className="register-btn custom-button w-100" variant="outline-primary" onClick={() => navigate("/register")}>Registrarse</Button>
+                    <Button className="login-btn custom-button w-100" variant="primary" onClick={() => navigate("/login")}>Iniciar Sesión</Button>
                   </>
                 )}
               </>
             )}
           </Nav>
+
         </Navbar.Collapse>
       </Container>
     </Navbar >

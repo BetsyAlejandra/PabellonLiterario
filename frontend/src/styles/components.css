@@ -1,11 +1,12 @@
 body {
-  background: linear-gradient(135deg, #D3D0E1, #D7E2E9); 
+  background: linear-gradient(135deg, #D3D0E1, #D7E2E9);
   color: #2C3E50;
   font-family: Arial, sans-serif;
-  min-height: 100vh; 
+  min-height: 100vh;
   margin: 0;
   padding: 0;
-  transition: background 0.5s ease; /* Transición suave para cambios de fondo */
+  transition: background 0.5s ease;
+  /* Transición suave para cambios de fondo */
 }
 
 /* Clase para ocultar el navbar */
@@ -16,15 +17,16 @@ body {
 
 /* Clase visible */
 .custom-navbar {
+  padding: 10px 20px;
   transition: transform 0.3s ease-in-out;
 }
 
 /* Navbar con transición de color inspirada en el logo */
 .custom-navbar {
-  background: linear-gradient(90deg, #D3D0E1, #D7E2E9, #C1D0B5); 
-  border-bottom: 2px solid #D6B4A1; 
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-  transition: background 1.5s ease; 
+  background: linear-gradient(90deg, #D3D0E1, #D7E2E9, #C1D0B5);
+  border-bottom: 2px solid #D6B4A1;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background 1.5s ease;
   animation: gradient-animation 5s infinite;
 }
 
@@ -32,9 +34,11 @@ body {
   0% {
     background: linear-gradient(90deg, #D3D0E1, #D7E2E9, #C1D0B5);
   }
+
   50% {
     background: linear-gradient(90deg, #C1D0B5, #D7E2E9, #D3D0E1);
   }
+
   100% {
     background: linear-gradient(90deg, #D7E2E9, #D3D0E1, #C1D0B5);
   }
@@ -45,22 +49,26 @@ body {
   width: 70px;
   height: 70px;
   object-fit: cover;
-  border-radius: 50%; /* Hace que el logo sea redondeado */
+  border-radius: 50%;
+  /* Hace que el logo sea redondeado */
   transition: transform 0.5s ease, filter 0.5s ease;
 }
 
 .logo-img:hover {
   transform: rotate(360deg) scale(1.2);
-  filter: drop-shadow(0 0 10px #E8E2D6 );
+  filter: drop-shadow(0 0 10px #E8E2D6);
 }
 
 /* Animación de brillo continuo */
 @keyframes logo-glow {
-  0%, 100% {
-    filter: drop-shadow(0 0 10px #D4A5A5 );
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 10px #D4A5A5);
   }
+
   50% {
-    filter: drop-shadow(0 0 20px #D4A5A5 );
+    filter: drop-shadow(0 0 20px #D4A5A5);
   }
 }
 
@@ -69,7 +77,7 @@ body {
 }
 
 .custom-toggler {
-  border-color: #2C3E50; 
+  border-color: #2C3E50;
 }
 
 .custom-toggler:focus,
@@ -80,8 +88,9 @@ body {
 /* Enlaces del Navbar */
 .custom-link {
   color: #2C3E50 !important;
-  margin-right: 10px;
-  font-weight: bold;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 5px;
   transition: color 0.3s ease, text-shadow 0.3s ease;
   cursor: pointer;
 }
@@ -92,19 +101,19 @@ body {
 
 /* Botones Personalizados */
 .custom-button {
-  background-color: #E6D6C3 ;
+  background-color: #E6D6C3;
   border: none;
   color: #1a1a1a;
-  padding: 6px 10px;
-  border-radius: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
   font-weight: bold;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.custom-button:hover {
-  background-color: #3a9d63; 
-  transform: scale(1.05);
-  color: #1a1a1a;
+.search-form {
+  max-width: 300px;
+  width: 100%;
 }
 
 .upload-btn {
@@ -119,30 +128,34 @@ body {
 
 /* Perfil */
 .profile-pic {
-  border: 2px solid #E6D6C3 ;
+  border: 2px solid #E6D6C3;
+  padding: 2px;
 }
 
 .profile-name {
   color: #2C3E50;
-  font-size: 0.9rem;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* Botón Cerrar Sesión */
 .logout-btn {
-  background-color: #ff6347; /* Tomate */
-  color: black !important; 
+  background-color: #ff6347;
+  color: black !important;
   border: none;
 }
 
-.logout-btn:hover {
-  background-color: #e5533d; /* Tomate más oscuro al hover */
-  transform: scale(1.05);
+.upload-btn,
+.logout-btn {
+  margin-top: 5px;
 }
 
 /* Botones Registrarse e Iniciar Sesión */
 .register-btn {
-  background-color: #D6B4A1; /* Dorado */
+  background-color: #D6B4A1;
+  /* Dorado */
   color: #000000 !important;
 }
 
@@ -156,9 +169,12 @@ body {
   color: #000000;
 }
 
-.login-btn:hover {
-  background-color: #e6c200;
-  transform: scale(1.05);
+
+@media (max-width: 992px) {
+  .nav {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 /* Modal de Búsqueda */
@@ -264,9 +280,9 @@ body {
 
 /* Modales del Footer */
 .footer-modal .modal-content {
-  background-color: #5F7D8B ;
+  background-color: #5F7D8B;
   color: #f0f0f0;
-  border: 2px solid #5A3D42 ;
+  border: 2px solid #5A3D42;
   border-radius: 15px;
 }
 
@@ -276,7 +292,7 @@ body {
 }
 
 .footer-modal .modal-title-gold {
-  color: #3E2A47 ;
+  color: #3E2A47;
   font-weight: bold;
 }
 
@@ -310,19 +326,21 @@ body {
 
 /* Botones dentro de los Modales */
 .footer-modal .btn-primary {
-  background-color: #D6B4A1 ; /* Esmeralda */
+  background-color: #D6B4A1;
+  /* Esmeralda */
   border: none;
   color: #5F7D8B;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .footer-modal .btn-primary:hover {
-  background-color: #D6B4A1 ;
+  background-color: #D6B4A1;
   transform: scale(1.05);
 }
 
 .footer-modal .btn-outline-secondary {
-  background-color: #ff6347; /* Tomate */
+  background-color: #ff6347;
+  /* Tomate */
   border: none;
   color: #5F7D8B;
   transition: background-color 0.3s ease, transform 0.2s ease;
@@ -338,15 +356,15 @@ body {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #D6B4A1 ; 
+  background-color: #D6B4A1;
   border: none;
   border-radius: 50%;
-  width: 60px; 
-  height: 60px; 
-  padding: 0; 
-  font-size: 30px; 
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  font-size: 30px;
   color: #1a1a1a;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   z-index: 10;
   transition: background-color 0.3s ease, transform 0.2s ease;
@@ -377,7 +395,8 @@ body {
 }
 
 .donate-modal .modal-close-btn {
-  background-color: #ff6347; /* Tomate */
+  background-color: #ff6347;
+  /* Tomate */
   border: none;
   color: #1a1a1a;
   transition: background-color 0.3s ease, transform 0.2s ease;
@@ -400,8 +419,9 @@ body {
   }
 
   .custom-button {
-    padding: 6px 12px;
-    font-size: 0.8rem;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
   }
 
   .search-button,
