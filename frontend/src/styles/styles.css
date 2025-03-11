@@ -84,6 +84,11 @@
     background-color: #2A2A2A !important;
     color: #F1E4D1 !important;
 }
+.dark-mode .chapter-card {
+    background-color: #1e1e1e; /* Fondo oscuro */
+    color: #f1e4d1; /* Texto claro */
+    border: 1px solid #333;
+}
 
 .dark-mode .chapter-content {
     background-color: #2b2b2b !important;

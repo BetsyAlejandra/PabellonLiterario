@@ -45,9 +45,9 @@ const Home = () => {
       try {
         const response = await fetch('/api/novels');
         const data = await response.json();
-    
+
         if (!data.novels) return;
-    
+
         let allChapters = data.novels.flatMap(novel =>
           novel.chapters.map(chap => ({
             ...chap,
@@ -55,24 +55,39 @@ const Home = () => {
             novelId: novel._id,
           }))
         );
-    
+
         allChapters.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
-    
+
         const latestChaptersMap = new Map();
+
         allChapters.forEach(chapter => {
-          if (!latestChaptersMap.has(chapter.novelTitle)) {
-            latestChaptersMap.set(chapter.novelTitle, chapter);
+          const key = `${chapter.novelTitle}-${new Date(chapter.publishedAt).toLocaleDateString()}`;
+          if (!latestChaptersMap.has(key)) {
+            latestChaptersMap.set(key, {
+              novelTitle: chapter.novelTitle,
+              novelId: chapter.novelId,
+              date: new Date(chapter.publishedAt).toLocaleDateString(),
+              chapters: [chapter.chapterNumber], // Guarda el número del capítulo
+            });
+          } else {
+            latestChaptersMap.get(key).chapters.push(chapter.chapterNumber);
           }
         });
-    
-        const latestChapters = Array.from(latestChaptersMap.values());
-    
+
+        const latestChapters = Array.from(latestChaptersMap.values()).map(entry => ({
+          ...entry,
+          chapterRange: entry.chapters.length > 1
+            ? `Capítulos ${Math.min(...entry.chapters)} - ${Math.max(...entry.chapters)}`
+            : `Capítulo ${entry.chapters[0]}`
+        }));
+
         setLatestChapters(latestChapters);
       } catch (error) {
         console.error('Error al obtener los últimos capítulos:', error);
       }
     };
-    
+
+
 
     const fetchLatestNovels = async () => {
       try {
@@ -139,23 +154,23 @@ const Home = () => {
         </Container>
       </section>
 
-      <section className="latest-chapters container my-5">
-        <h2 className="text-center section-title">📖 Últimos capítulos publicados</h2>
-        <div className="chapters-wrapper">
-          {latestChapters.map((chapter) => (
-            <div key={chapter._id} className="chapter-card">
-              <div className="card-content">
-                <h5 className="chapter-title">{chapter.title}</h5>
-                <p className="novel-title">📚 <strong>{chapter.novelTitle}</strong></p>
-                <p className="date">📅 {new Date(chapter.publishedAt).toLocaleDateString()}</p>
-                <a href={`/read-chapter/${chapter.novelId}/${chapter._id}`} className="btn-read">
-                  Leer capítulo →
+      <div class="row g-4 mt-3">
+        {latestChapters.map((entry, index) => (
+          <div key={index} class="col-md-6">
+            <div class="card chapter-card h-100">
+              <div class="card-body">
+                <h5 class="card-title">{entry.novelTitle}</h5>
+                <p class="card-text date">📅 {entry.date}</p>
+                <p class="card-text chapter-range">📖 {entry.chapterRange}</p>
+                <a href={`/story-detail/${entry.novelId}`} class="btn btn-read">
+                  Leer novela →
                 </a>
+
               </div>
             </div>
-          ))}
-        </div>
-      </section>
+          </div>
+        ))}
+      </div>
 
 
 

@@ -45,10 +45,6 @@ const ReadChapter = () => {
 
     const location = useLocation();
 
-    const [darkMode, setDarkMode] = useState(() => {
-        const storedMode = localStorage.getItem('darkMode');
-        return storedMode === 'true';
-    });
 
 
     // Inicialización de estados desde localStorage
@@ -56,14 +52,6 @@ const ReadChapter = () => {
         const storedFontSize = localStorage.getItem('fontSize');
         return storedFontSize ? Number(storedFontSize) : 16;
     });
-
-    const handleDarkModeToggle = () => {
-        setDarkMode((prev) => {
-            const newMode = !prev;
-            localStorage.setItem('darkMode', newMode);
-            return newMode;
-        });
-    };
 
 
     const [brightness, setBrightness] = useState(() => {
@@ -491,20 +479,13 @@ const ReadChapter = () => {
         }
     };
 
-    useEffect(() => {
-        if (darkMode) {
-            document.body.classList.add('dark-mode');
-        } else {
-            document.body.classList.remove('dark-mode');
-        }
-    }, [darkMode]);
 
 
     if (loading) return <p className="read-chapter-loading">Cargando...</p>;
     if (error) return <p className="read-chapter-error">{error}</p>;
 
     return (
-        <div className={`read-chapter-wrapper ${darkMode ? 'dark-mode' : ''}`}>
+        <div className="read-chapter-wrapper">
             <div className="progress-bar-container">
                 <div className="progress-bar" style={{ width: `${progress}%` }}></div>
             </div>
