@@ -189,6 +189,30 @@ body {
   color: #000000;
 }
 
+body.dark-mode {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.dark-mode .navbar {
+  background-color: #2a2a2a;
+}
+
+.dark-mode .custom-link {
+  color: #ffffff !important;
+}
+
+.dark-mode .profile-name,
+.dark-mode .custom-button {
+  color: #ffffff;
+}
+
+.dark-mode .search-form input {
+  background-color: #333;
+  color: #ffffff;
+  border: 1px solid #555;
+}
+
 
 
 @media (max-width: 768px) {

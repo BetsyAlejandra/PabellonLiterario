@@ -25,6 +25,21 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [searchLoading, setSearchLoading] = useState(false);
+
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("darkMode") === "true";
+  });
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+    localStorage.setItem("darkMode", darkMode);
+  }, [darkMode]);
+
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -151,6 +166,14 @@ const Header = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ minWidth: "200px" }}
             />
+            <Button
+              className="dark-mode-toggle"
+              variant={darkMode ? "light" : "dark"}
+              onClick={() => setDarkMode(!darkMode)}
+            >
+              {darkMode ? "☀️ Modo Claro" : "🌙 Modo Oscuro"}
+            </Button>
+
             <Button variant="outline-dark" type="submit" disabled={searchLoading}>
               {searchLoading ? <Spinner animation="border" size="sm" /> : "Buscar"}
             </Button>
