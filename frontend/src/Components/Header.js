@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 import "../styles/components.css"; // Archivo CSS para personalización
 import axios from "axios";
 import {
@@ -26,19 +27,7 @@ const Header = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchLoading, setSearchLoading] = useState(false);
 
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem("darkMode") === "true";
-  });
-
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
-    localStorage.setItem("darkMode", darkMode);
-  }, [darkMode]);
-
+  const { darkMode, setDarkMode } = useContext(ThemeContext);
 
   const navigate = useNavigate();
 
@@ -166,13 +155,11 @@ const Header = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ minWidth: "200px" }}
             />
-            <Button
-              className="dark-mode-toggle"
-              variant={darkMode ? "light" : "dark"}
-              onClick={() => setDarkMode(!darkMode)}
-            >
-              {darkMode ? "☀️" : "🌙"}
-            </Button>
+            <Navbar expand="lg" className={`custom-navbar ${darkMode ? "dark-mode-navbar" : ""}`}>
+              <Button onClick={() => setDarkMode(!darkMode)}>
+                {darkMode ? "☀️" : "🌙"}
+              </Button>
+            </Navbar>
 
             <Button variant="outline-dark" type="submit" disabled={searchLoading}>
               {searchLoading ? <Spinner animation="border" size="sm" /> : "Buscar"}
