@@ -45,9 +45,9 @@ const Home = () => {
       try {
         const response = await fetch('/api/novels');
         const data = await response.json();
-
+    
         if (!data.novels) return;
-
+    
         let allChapters = data.novels.flatMap(novel =>
           novel.chapters.map(chap => ({
             ...chap,
@@ -55,16 +55,24 @@ const Home = () => {
             novelId: novel._id,
           }))
         );
-
+    
         allChapters.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
-
-        const latestChapters = allChapters.slice(0, 10);
-
+    
+        const latestChaptersMap = new Map();
+        allChapters.forEach(chapter => {
+          if (!latestChaptersMap.has(chapter.novelTitle)) {
+            latestChaptersMap.set(chapter.novelTitle, chapter);
+          }
+        });
+    
+        const latestChapters = Array.from(latestChaptersMap.values());
+    
         setLatestChapters(latestChapters);
       } catch (error) {
         console.error('Error al obtener los últimos capítulos:', error);
       }
     };
+    
 
     const fetchLatestNovels = async () => {
       try {
