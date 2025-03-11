@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import '../styles/homeStyles.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Calendar, BookOpen, ArrowRight } from "lucide-react";
 import Slider from "react-slick";
 import headerImage from '../assets/Encabezado.png';
 
@@ -45,9 +46,9 @@ const Home = () => {
       try {
         const response = await fetch('/api/novels');
         const data = await response.json();
-    
+
         if (!data.novels) return;
-    
+
         let allChapters = data.novels.flatMap(novel =>
           novel.chapters.map(chap => ({
             ...chap,
@@ -56,11 +57,11 @@ const Home = () => {
             date: new Date(chap.publishedAt).toISOString().split('T')[0],
           }))
         );
-    
+
         allChapters.sort((a, b) => new Date(b.date) - new Date(a.date));
-    
+
         const latestChaptersMap = new Map();
-    
+
         allChapters.forEach(chapter => {
           const key = `${chapter.novelTitle}-${chapter.date}`;
           if (!latestChaptersMap.has(key)) {
@@ -74,26 +75,26 @@ const Home = () => {
             latestChaptersMap.get(key).chapters.push(chapter.title);
           }
         });
-    
+
         const latestChapters = Array.from(latestChaptersMap.values())
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 10)
-        .map(entry => {
-          const { chapters } = entry;
-          const chapterRange = chapters.length > 1
-            ? `Capítulos: "${chapters[0]}" - "${chapters[chapters.length - 1]}"`
-            : `Capítulo: "${chapters[0]}"`;
-      
-          return { ...entry, chapterRange };
-        });
-      
-      setLatestChapters(latestChapters);
-      
+          .sort((a, b) => new Date(b.date) - new Date(a.date))
+          .slice(0, 12)
+          .map(entry => {
+            const { chapters } = entry;
+            const chapterRange = chapters.length > 1
+              ? `Capítulos: "${chapters[0]}" - "${chapters[chapters.length - 1]}"`
+              : `Capítulo: "${chapters[0]}"`;
+
+            return { ...entry, chapterRange };
+          });
+
+        setLatestChapters(latestChapters);
+
       } catch (error) {
         console.error('Error al obtener los últimos capítulos:', error);
       }
     };
-    
+
 
 
 
@@ -169,11 +170,17 @@ const Home = () => {
             <div key={index} className="col-md-6 col-lg-4 d-flex">
               <div className="card chapter-card flex-fill shadow-sm">
                 <div className="card-body">
-                  <h5 className="card-title">{entry.novelTitle}</h5>
-                  <p className="card-text date">📅 {entry.date}</p>
-                  <p className="card-text chapter-range">📖 {entry.chapterRange}</p>
-                  <a href={`/story-detail/${entry.novelId}`} className="btn btn-read">
-                    Leer novela →
+                  <h5 className="card-title">
+                    <BookOpen size={20} className="me-2" /> {entry.novelTitle}
+                  </h5>
+                  <p className="card-text date">
+                    <Calendar size={18} className="me-2" /> {entry.date}
+                  </p>
+                  <p className="card-text chapter-range">
+                    <BookOpen size={18} className="me-2" /> {entry.chapterRange}
+                  </p>
+                  <a href={`/story-detail/${entry.novelId}`} className="btn btn-read d-flex align-items-center">
+                    Leer novela <ArrowRight size={18} className="ms-2" />
                   </a>
                 </div>
               </div>
