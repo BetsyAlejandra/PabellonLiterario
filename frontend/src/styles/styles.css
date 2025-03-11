@@ -37,6 +37,14 @@
     border: 1px solid #555 !important;
 }
 
+.dark-mode .custom-link.nav-link {
+    color: #3A3A3A;
+}
+
+.dark-mode .footer-link{
+    color: #3A3A3A;
+}
+
 .dark-mode input::placeholder,
 .dark-mode textarea::placeholder {
     color: #C9D6D5 !important;
@@ -55,7 +63,6 @@
 }
 
 .dark-mode .card,
-.dark-mode .container,
 .dark-mode .section {
     background-color: rgba(255, 255, 255, 0.05) !important;
 }
@@ -74,10 +81,64 @@
 .dark-mode .editors-page-container,
 .dark-mode .profile-container-fantasy,
 .dark-mode .library-container,
-.dark-mode .support-and-apply {
+.dark-mode .support-and-apply,
+.dark-mode .read-chapter-wrapper {
     background-color: #2A2A2A !important;
     color: #F1E4D1 !important;
 }
+
+.dark-mode .chapter-content {
+    background-color: #2b2b2b;
+    color: #ddd;
+  }
+  
+  .dark-mode .settings-panel {
+    background-color: #333;
+    color: #ddd;
+    border: 1px solid #555;
+  }
+  
+  .dark-mode .comment-modal {
+    background-color: #292929;
+    color: #ccc;
+    border: 1px solid #444;
+  }
+  
+  body.dark-mode .annotation {
+    cursor: pointer;
+    color: #1e1e1e !important;
+    background-color: #e0e0e0 !important;
+    border-radius: 5px;
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
+  
+  body.dark-mode .annotation:hover {
+    color: #2A2A2A !important;
+    background-color: rgba(255, 234, 222, 0.118) !important;
+    border-radius: 5px;
+  }
+  
+  body.dark-mode .annotation:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+  
+  
+  body.dark-mode .progress-bar {
+    background-color: #ffd700 !important;
+  }
+  
+  body.dark-mode .toast-container {
+    background-color: #252525;
+    color: #e0e0e0;
+  }
+  
+  body.dark-mode .form-select {
+    background-color: #252525;
+    color: #e0e0e0;
+  }
 
 
 .dark-mode .pagination .page-item .page-link {

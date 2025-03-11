@@ -681,16 +681,6 @@ const ReadChapter = () => {
                                 <div className="text-end">{brightness}%</div>
                             </Form.Group>
 
-                            <Form.Group className="mb-3">
-                                <Form.Check
-                                    type="switch"
-                                    id="dark-mode-toggle"
-                                    label="Modo Oscuro"
-                                    checked={darkMode}
-                                    onChange={handleDarkModeToggle}
-                                />
-                            </Form.Group>
-
                         </div>
                     )}
                 </div>
