@@ -53,21 +53,24 @@ const Home = () => {
             ...chap,
             novelTitle: novel.title,
             novelId: novel._id,
+            date: new Date(chap.publishedAt).toISOString().split('T')[0],
           }))
         );
 
-        allChapters.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+
+        allChapters.sort((a, b) => new Date(b.date) - new Date(a.date));
+
 
         const latestChaptersMap = new Map();
 
         allChapters.forEach(chapter => {
-          const key = `${chapter.novelTitle}-${new Date(chapter.publishedAt).toLocaleDateString()}`;
+          const key = `${chapter.novelTitle}-${chapter.date}`;
           if (!latestChaptersMap.has(key)) {
             latestChaptersMap.set(key, {
               novelTitle: chapter.novelTitle,
               novelId: chapter.novelId,
-              date: new Date(chapter.publishedAt).toLocaleDateString(),
-              chapters: [chapter.chapterNumber], // Guarda el número del capítulo
+              date: chapter.date,
+              chapters: [chapter.chapterNumber],
             });
           } else {
             latestChaptersMap.get(key).chapters.push(chapter.chapterNumber);
@@ -86,6 +89,7 @@ const Home = () => {
         console.error('Error al obtener los últimos capítulos:', error);
       }
     };
+
 
 
 
@@ -154,23 +158,25 @@ const Home = () => {
         </Container>
       </section>
 
-      <div class="row g-4 mt-3">
-        {latestChapters.map((entry, index) => (
-          <div key={index} class="col-md-6">
-            <div class="card chapter-card h-100">
-              <div class="card-body">
-                <h5 class="card-title">{entry.novelTitle}</h5>
-                <p class="card-text date">📅 {entry.date}</p>
-                <p class="card-text chapter-range">📖 {entry.chapterRange}</p>
-                <a href={`/story-detail/${entry.novelId}`} class="btn btn-read">
-                  Leer novela →
-                </a>
-
+      <div className="container mt-4">
+        <div className="row g-3 justify-content-center">
+          {latestChapters.map((entry, index) => (
+            <div key={index} className="col-md-6 col-lg-4 d-flex">
+              <div className="card chapter-card flex-fill shadow-sm">
+                <div className="card-body">
+                  <h5 className="card-title">{entry.novelTitle}</h5>
+                  <p className="card-text date">📅 {entry.date}</p>
+                  <p className="card-text chapter-range">📖 {entry.chapterRange}</p>
+                  <a href={`/story-detail/${entry.novelId}`} className="btn btn-read">
+                    Leer novela →
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
+
 
 
 
