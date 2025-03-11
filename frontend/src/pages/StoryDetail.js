@@ -97,19 +97,24 @@ const StoryDetail = () => {
         };
         fetchStory();
 
-        const checkIfSaved = async () => {
-            try {
-                const res = await axios.get('/api/user/library', { withCredentials: true });
-                setSaved(res.data.includes(id));
-            } catch (error) {
-                console.error('Error al verificar si la novela está en la biblioteca', error);
-            }
-        };
-        checkIfSaved();
-
         const storedChapters = JSON.parse(localStorage.getItem(`readChapters-${id}`)) || [];
         setReadChapters(storedChapters);
     }, [id]);
+
+    useEffect(() => {
+        const checkIfSaved = async () => {
+            try {
+                const res = await axios.get('/api/users/profile', { withCredentials: true });
+                if (res.data.savedNovels?.includes(id)) {
+                    setSaved(true);
+                }
+            } catch (err) {
+                console.error('Error al verificar si la historia está guardada:', err);
+            }
+        };
+        checkIfSaved();
+    }, [id]);
+
 
     const handleSaveStory = async () => {
         try {
@@ -120,7 +125,7 @@ const StoryDetail = () => {
             alert(err.response?.data?.message || 'Error al guardar la historia.');
         }
     };
-
+    
     const handleUnsaveStory = async () => {
         try {
             await axios.delete(`/api/novels/${id}/unfollow`, { withCredentials: true });

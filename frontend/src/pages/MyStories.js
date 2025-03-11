@@ -21,7 +21,6 @@ const MyStories = () => {
     const [userRoles, setUserRoles] = useState([]);
     const navigate = useNavigate();
     const [totalPages, setTotalPages] = useState(1);
-
     const [currentPage, setCurrentPage] = useState(1);
     const storiesPerPage = 6;
     const [searchParams, setSearchParams] = useSearchParams();
@@ -29,7 +28,12 @@ const MyStories = () => {
     useEffect(() => {
         const page = parseInt(searchParams.get('page')) || 1;
         setCurrentPage(page);
-      }, [searchParams]);
+    }, [searchParams]);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        setSearchParams({ page });
+    };
 
     useEffect(() => {
         const fetchUserStories = async (page) => {
@@ -47,15 +51,16 @@ const MyStories = () => {
                 setLoading(false);
             }
         };
-        // Obtener roles del usuario
+
         const fetchUserRoles = async () => {
             try {
                 const res = await axios.get('/api/users/profile', { withCredentials: true });
-                setUserRoles(res.data.roles || []); // Suponiendo que `roles` es un array
+                setUserRoles(res.data.roles || []);
             } catch (err) {
                 console.error('Error al obtener roles del usuario:', err);
             }
         };
+
         fetchUserStories(currentPage);
         fetchUserRoles();
     }, [currentPage]);
@@ -145,11 +150,6 @@ const MyStories = () => {
             console.error(err);
             setConfirmDeleteChapterModalShow(false); // Cierra el modal de confirmación
         }
-    };
-
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-        setSearchParams({ page: page.toString() });
     };
 
     if (loading) return <p className="my-stories-loading">Cargando historias...</p>;
@@ -304,25 +304,23 @@ const MyStories = () => {
 
             <Pagination>
                 <Pagination.Prev
-                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
                     disabled={currentPage === 1}
                 />
-
                 {[...Array(Math.max(totalPages, 1))].map((_, index) => {
                     const page = index + 1;
                     return (
                         <Pagination.Item
                             key={page}
                             active={page === currentPage}
-                            onClick={() => setCurrentPage(page)}
+                            onClick={() => handlePageChange(page)}
                         >
                             {page}
                         </Pagination.Item>
                     );
                 })}
-
                 <Pagination.Next
-                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                    onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
                     disabled={totalPages === 0 || currentPage === totalPages}
                 />
             </Pagination>

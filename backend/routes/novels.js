@@ -99,14 +99,21 @@ router.delete('/:id/unfollow', isAuthenticated, async (req, res) => {
     const userId = req.session.user.id;
     const novelId = req.params.id;
 
-    // Actualiza la base de datos para quitar la novela de la biblioteca del usuario
-    await User.findByIdAndUpdate(userId, { $pull: { library: novelId } });
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+    if (!user.savedNovels.includes(novelId)) {
+      return res.status(400).json({ message: 'Esta novela no está en tu biblioteca.' });
+    }
+
+    await User.findByIdAndUpdate(userId, { $pull: { savedNovels: novelId } });
 
     res.json({ message: 'Novela eliminada de tu biblioteca.' });
   } catch (error) {
     res.status(500).json({ error: 'Error al eliminar la novela.' });
   }
 });
+
 
 router.get('/', getNovels);
 router.post('/create', isAuthenticated, upload, handleMulterError, createNovel);

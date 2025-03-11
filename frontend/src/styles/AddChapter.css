@@ -55,10 +55,10 @@ img {
 /* Inputs y Textareas */
 .add-chapter-input,
 .add-chapter-textarea {
-    background-color: white; /* Fondo más oscuro */
+    background-color: white; 
     border: 1px solid #ffd700; /* Borde dorado */
     border-radius: 10px;
-    color: #ffd700; /* Texto claro */
+    color: black !important; /* Texto claro */
     padding: 10px;
     font-size: 1rem;
     transition: border-color 0.3s ease, background-color 0.3s ease;
@@ -66,13 +66,13 @@ img {
 
 .add-chapter-input::placeholder,
 .add-chapter-textarea::placeholder {
-    color: black;
+    color: #3f3f3f;
 }
 
 .add-chapter-input:focus,
 .add-chapter-textarea:focus {
-    border-color: #50c878; /* Esmeralda */
     background-color: #2a2a2a;
+    color: white !important;
     outline: none;
 }
 
