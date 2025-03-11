@@ -3,6 +3,10 @@
     color: #F1E4D1 !important;
 }
 
+.dark-mode div {
+    background-color: transparent !important;
+    border: none !important;
+}
 
 .dark-mode p,
 .dark-mode span,
@@ -51,6 +55,12 @@
 }
 
 .dark-mode .card,
+.dark-mode .container,
+.dark-mode .section {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.dark-mode .card,
 .dark-mode .novels-card,
 .dark-mode .profile-card-fantasy,
 .dark-mode .library-card {
@@ -94,5 +104,9 @@
 .dark-mode .alert-warning {
     background-color: #D7E2E9 !important;
     color: #2A2A2A !important;
+}
+
+.dark-mode .home-page {
+    background-color: #1E1E1E !important; /* Fondo oscuro */
 }
 
