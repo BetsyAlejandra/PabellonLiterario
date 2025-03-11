@@ -195,51 +195,74 @@ body {
 
 .latest-chapters {
   padding: 40px 0;
-  background-color: #f5f3f7; 
+  background-color: #F1E4D1; /* Beige suave */
   border-radius: 10px;
+  text-align: center;
 }
-
 
 .section-title {
   font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
-  color: #8a6d9f;
+  color: #8A6D9F; /* Lavanda oscuro */
+  margin-bottom: 20px;
 }
 
+/* Contenedor de tarjetas */
+.chapters-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
 
+/* Tarjeta de capítulo */
 .chapter-card {
   background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 280px; 
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
+  border: 1px solid #C9D6D5; /* Verde pastel suave */
 }
 
 .chapter-card:hover {
   transform: translateY(-5px);
 }
 
+/* Contenido de la tarjeta */
+.card-content {
+  text-align: left;
+}
+
+.chapter-title {
+  font-size: 1.1rem;
+  color: #70587C; /* Lavanda grisáceo */
+  font-weight: bold;
+}
 
 .novel-title {
   font-size: 1rem;
-  color: #70587c;
+  color: #D6B4A1; /* Marrón suave */
 }
 
 .date {
   font-size: 0.9rem;
-  color: #9583a7; 
+  color: #9583A7; /* Lavanda claro */
 }
 
-
+/* Botón */
 .btn-read {
-  background-color: #b388eb; 
+  display: inline-block;
+  background-color: #C1D0B5; /* Verde menta suave */
   color: #fff;
-  border-radius: 5px;
+  border-radius: 8px;
   padding: 8px 15px;
   text-decoration: none;
   transition: background 0.3s ease-in-out;
 }
 
 .btn-read:hover {
-  background-color: #9b71d0;
+  background-color: #B388EB; /* Lavanda más intensa */
 }
+
