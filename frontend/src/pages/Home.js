@@ -10,6 +10,7 @@ import headerImage from '../assets/Encabezado.png';
 const Home = () => {
   const [novels, setNovels] = useState([]);
   const [latestNovels, setLatestNovels] = useState([]);
+  const [latestChapters, setLatestChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -40,6 +41,31 @@ const Home = () => {
       }
     };
 
+    const fetchLatestChapters = async () => {
+      try {
+        const response = await fetch('/api/novels');
+        const data = await response.json();
+
+        if (!data.novels) return;
+
+        let allChapters = data.novels.flatMap(novel =>
+          novel.chapters.map(chap => ({
+            ...chap,
+            novelTitle: novel.title,
+            novelId: novel._id,
+          }))
+        );
+
+        allChapters.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+
+        const latestChapters = allChapters.slice(0, 10);
+
+        setLatestChapters(latestChapters);
+      } catch (error) {
+        console.error('Error al obtener los últimos capítulos:', error);
+      }
+    };
+
     const fetchLatestNovels = async () => {
       try {
         const response = await fetch('/api/novels/latest');
@@ -54,6 +80,7 @@ const Home = () => {
     };
 
     fetchNovels();
+    fetchLatestChapters();
     fetchLatestNovels();
   }, []);
 
@@ -103,6 +130,31 @@ const Home = () => {
           )}
         </Container>
       </section>
+
+      <section class="latest-chapters container my-5">
+        <h2 class="text-center section-title">📖 Últimos capítulos publicados</h2>
+        <div class="row g-4 mt-3">
+          {latestChapters.map((chapter) => (
+            <div key={chapter._id} class="col-md-6">
+              <div class="card chapter-card h-100">
+                <div class="card-body">
+                  <h5 class="card-title">{chapter.title}</h5>
+                  <p class="card-text novel-title">
+                    📚 <strong>{chapter.novelTitle}</strong>
+                  </p>
+                  <p class="card-text date">
+                    📅 {new Date(chapter.publishedAt).toLocaleDateString()}
+                  </p>
+                  <a href={`/read-chapter/${chapter.novelId}/${chapter._id}`} class="btn btn-read">
+                    Leer capítulo →
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
 
       {/* Últimas Traducciones */}
       <section className="latest-translations py-5 bg-dark">

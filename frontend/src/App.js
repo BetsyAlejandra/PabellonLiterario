@@ -14,6 +14,7 @@ import Unete from './Components/Unete';
 import Preguntas from './Components/Preguntas';
 import AvisoCookies from './Components/Cookies';
 import SobreNosotros from './Components/SobreNosotros';
+import DarkModeToggle from './Components/DarkModeToggle';
 
 //Contexto
 import { ReadChapterProvider } from './context/ReadChapterContext';
@@ -94,6 +95,7 @@ function App() {
         <Route path="/manage-chapters/:id" element={<ManageChapters />} />
         <Route path="/audio-dramas/:id/seasons/:seasonNumber/episodes/:episode" element={<ChapterDetail />} />
       </Routes>
+      <DarkModeToggle />
       {!hideHeaderFooter && <FloatingButton />}
       {!hideHeaderFooter && <Footer />}
       <AvisoCookies />
