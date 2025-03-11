@@ -166,6 +166,7 @@ const Home = () => {
 
       <div className="container mt-4">
         <div className="row g-3 justify-content-center">
+        <h2 className="text-center mb-4">Últimas Actualizaciones</h2>
           {latestChapters.map((entry, index) => (
             <div key={index} className="col-md-6 col-lg-4 d-flex">
               <div className="card chapter-card flex-fill shadow-sm">
