@@ -82,7 +82,8 @@
 .dark-mode .profile-container-fantasy,
 .dark-mode .library-container,
 .dark-mode .support-and-apply,
-.dark-mode .read-chapter-wrapper {
+.dark-mode .read-chapter-wrapper,
+.dark-mode .read-chapter {
     background-color: #2A2A2A !important;
     color: #F1E4D1 !important;
 }
