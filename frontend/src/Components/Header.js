@@ -171,7 +171,7 @@ const Header = () => {
               variant={darkMode ? "light" : "dark"}
               onClick={() => setDarkMode(!darkMode)}
             >
-              {darkMode ? "☀️ Modo Claro" : "🌙 Modo Oscuro"}
+              {darkMode ? "☀️" : "🌙"}
             </Button>
 
             <Button variant="outline-dark" type="submit" disabled={searchLoading}>
