@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ThemeContext } from "../context/ThemeContext";
 import "../styles/components.css"; // Archivo CSS para personalización
 import axios from "axios";
 import {
@@ -26,8 +25,6 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [searchLoading, setSearchLoading] = useState(false);
-
-  const { darkMode, setDarkMode } = useContext(ThemeContext);
 
   const navigate = useNavigate();
 
@@ -155,11 +152,6 @@ const Header = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ minWidth: "200px" }}
             />
-            <Navbar expand="lg" className={`custom-navbar ${darkMode ? "dark-mode-navbar" : ""}`}>
-              <Button onClick={() => setDarkMode(!darkMode)}>
-                {darkMode ? "☀️" : "🌙"}
-              </Button>
-            </Navbar>
 
             <Button variant="outline-dark" type="submit" disabled={searchLoading}>
               {searchLoading ? <Spinner animation="border" size="sm" /> : "Buscar"}
