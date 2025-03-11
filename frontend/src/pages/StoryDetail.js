@@ -105,7 +105,9 @@ const StoryDetail = () => {
         const checkIfSaved = async () => {
             try {
                 const res = await axios.get('/api/users/profile', { withCredentials: true });
-                if (res.data.savedNovels?.includes(id)) {
+                const savedNovels = res.data.savedNovels || [];
+
+                if (savedNovels.includes(id)) {
                     setSaved(true);
                 }
             } catch (err) {
@@ -114,7 +116,6 @@ const StoryDetail = () => {
         };
         checkIfSaved();
     }, [id]);
-
 
     const handleSaveStory = async () => {
         try {
@@ -125,7 +126,7 @@ const StoryDetail = () => {
             alert(err.response?.data?.message || 'Error al guardar la historia.');
         }
     };
-    
+
     const handleUnsaveStory = async () => {
         try {
             await axios.delete(`/api/novels/${id}/unfollow`, { withCredentials: true });
