@@ -146,9 +146,8 @@ router.get('/profile', async (req, res) => {
       return res.status(401).json({ message: 'No autorizado. Inicia sesión.' });
     }
 
-    const user = await User.findById(req.session.user.id).select(
-      'username profilePhoto coverPhoto description roles socialLinks'
-    );
+    const user = await User.findById(req.session.user.id)
+      .select('username profilePhoto coverPhoto description roles socialLinks savedNovels');
 
     console.log('Usuario cargado:', user);
 
@@ -161,15 +160,17 @@ router.get('/profile', async (req, res) => {
       username: user.username,
       profilePhoto: `${req.protocol}://${req.get('host')}${user.profilePhoto}`,
       coverPhoto: user.coverPhoto || 'https://defaultimage.com/cover.jpg',
-      roles: user.roles || [], // Devuelve roles como un array
+      roles: user.roles || [],
       description: user.description || 'No hay descripción disponible',
       socialLinks: user.socialLinks || [],
+      savedNovels: user.savedNovels || [],
     });
   } catch (error) {
     console.error('Error al cargar el perfil:', error);
     res.status(500).json({ message: 'Error al cargar el perfil', error: error.message });
   }
 });
+
 
 router.put('/profile', isAuthenticated, upload.single('profilePhoto'), async (req, res) => {
 
