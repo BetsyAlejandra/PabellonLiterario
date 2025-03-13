@@ -21,6 +21,7 @@ setTimeout(() => {
   import('./serviceWorkerRegistration')
     .then(({ register }) => {
       if (typeof register === 'function') {
+        console.log('Intentando registrar SW...');
         register();
       } else {
         console.error('⚠️ No se encontró la función register en serviceWorkerRegistration.');
