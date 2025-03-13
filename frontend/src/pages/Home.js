@@ -164,9 +164,49 @@ const Home = () => {
         </Container>
       </section>
 
+      <div class="ranking-container">
+        <h2 class="ranking-title">🌟 Reconocimiento a Nuestro Equipo 🌟</h2>
+
+        <div class="ranking-sections">
+          <div class="ranking-category">
+            <h3 class="category-title">📖 Traductores</h3>
+            <ul class="ranking-list">
+              <li><span class="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Ji%20Shenn" target="_blank">Ji Shenn</a></li>
+              <li><span class="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/Bezy" target="_blank">Bezy</a></li>
+              <li><span class="medal bronze">🥉</span> <a href="https://pabellonliterario.com/profileperson/Rajesh%20Rouv" target="_blank">Rajesh Rouv</a></li>
+              <li><a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
+              <li><a href="https://pabellonliterario.com/profileperson/Yrehil" target="_blank">Yrehil</a></li>
+            </ul>
+          </div>
+
+          <div class="ranking-category">
+            <h3 class="category-title">✍️ Editores</h3>
+            <ul class="ranking-list">
+              <li><span class="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Japonnesa" target="_blank">Japonnesa</a></li>
+              <li><span class="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/Hikari" target="_blank">Hikari</a></li>
+              <li><span class="medal bronze">🥉</span> <a href="https://pabellonliterario.com/profileperson/Hualianxo" target="_blank">Hualianxo</a></li>
+              <li><a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
+              <li><a href="https://pabellonliterario.com/profileperson/Luo_Wild" target="_blank">Luo_Wild</a></li>
+            </ul>
+          </div>
+
+          <div class="ranking-category">
+            <h3 class="category-title">💖 Patrocinadores</h3>
+            <ul class="ranking-list">
+              <li class="sponsor"><span class="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Japonnesa">Japonnesa</a></li>
+              <li class="sponsor"><span class="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/ShiniGreis">Shini Grace</a></li>
+              <li class="sponsor"><span class="medal bronze">🥉</span> <a>Whitney</a></li>
+              <li class="sponsor"><a href="https://pabellonliterario.com/profileperson/Casandra%20de%20Troya#">Casandra De Troya</a></li>
+              <li class="sponsor"><a href="https://pabellonliterario.com/profileperson/Flansas">Flansas</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
       <div className="container mt-4">
         <div className="row g-3 justify-content-center">
-        <h2 className="text-center mb-4">Últimas Actualizaciones</h2>
+          <h2 className="text-center mb-4">Últimas Actualizaciones</h2>
           {latestChapters.map((entry, index) => (
             <div key={index} className="col-md-6 col-lg-4 d-flex">
               <div className="card chapter-card flex-fill shadow-sm">
@@ -240,9 +280,11 @@ const Home = () => {
             <Col md={12}>
               <div className="timeline">
                 {[{ date: "21 Nov 2024", text: "Creación del servidor" },
-                { date: "25 Nov 2024", text: "Inicio de la programación" },
                 { date: "24 Nov 2024", text: "Primera reunión del equipo" },
-                { date: "3 Dic 2024", text: "Lanzamiento de la primera versión" }]
+                { date: "25 Nov 2024", text: "Inicio de la programación" },
+                { date: "3 Dic 2024", text: "Lanzamiento de la primera versión" },
+                { date: "7 Dic 2024", text: "Primera Funa de Pabellón." },
+                { date: "28 Feb 2025", text: "Lanzamiento de la segunda versión" }]
                   .map((event, index) => (
                     <div key={index} className="timeline-item d-flex align-items-center mb-3">
                       <div className="timeline-icon mr-3">📅</div>

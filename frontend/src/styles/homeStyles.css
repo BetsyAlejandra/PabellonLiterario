@@ -266,3 +266,81 @@ body {
   background-color: #B388EB; /* Lavanda más intensa */
 }
 
+/* Estilos generales */
+.ranking-container {
+  text-align: center;
+  padding: 30px;
+  background: #F7E1D7;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ranking-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #6D5B4F;
+}
+
+.ranking-sections {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Categorías */
+.ranking-category {
+  background: #E8E2D6;
+  padding: 15px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.category-title {
+  font-size: 20px;
+  color: #5A4E45;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #C9D6D5;
+  padding-bottom: 5px;
+}
+
+/* Lista */
+.ranking-list {
+  list-style: none;
+  padding: 0;
+}
+
+.ranking-list li {
+  font-size: 16px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Enlaces */
+.ranking-list a {
+  text-decoration: none;
+  color: #6D5B4F;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+
+.ranking-list a:hover {
+  color: #D3D0E1;
+}
+
+/* Medallas */
+.medal {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Estilos especiales para patrocinadores */
+.sponsor {
+  background: rgba(255, 215, 0, 0.2);
+  border-radius: 8px;
+  padding: 6px;
+}
