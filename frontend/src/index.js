@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import { ReadChapterProvider } from "./context/ReadChapterContext";
 import { ThemeProvider } from "./context/ThemeContext";
-import serviceWorkerRegistration from './serviceWorkerRegistration';
 import "./styles/styles.css";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -18,4 +17,8 @@ root.render(
   </React.StrictMode>
 );
 
-serviceWorkerRegistration.register();
+setTimeout(() => {
+  import('./serviceWorkerRegistration').then((sw) => {
+      sw.register();
+  }).catch((err) => console.error('Error al cargar el Service Worker:', err));
+}, 3000);
