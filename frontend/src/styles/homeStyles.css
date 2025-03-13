@@ -266,44 +266,60 @@ body {
   background-color: #B388EB; /* Lavanda más intensa */
 }
 
-/* Estilos generales */
+/* Contenedor principal */
 .ranking-container {
   text-align: center;
   padding: 30px;
   background: #F7E1D7;
   border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s ease-in-out;
 }
 
+/* Animación de entrada */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Título principal */
 .ranking-title {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   color: #6D5B4F;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Secciones */
 .ranking-sections {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 25px;
   flex-wrap: wrap;
 }
 
 /* Categorías */
 .ranking-category {
   background: #E8E2D6;
-  padding: 15px;
-  border-radius: 10px;
-  width: 300px;
+  padding: 20px;
+  border-radius: 12px;
+  width: 320px;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+}
+
+.ranking-category:hover {
+  transform: translateY(-5px);
+  box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .category-title {
   font-size: 20px;
   color: #5A4E45;
-  margin-bottom: 10px;
-  border-bottom: 2px solid #C9D6D5;
-  padding-bottom: 5px;
+  margin-bottom: 12px;
+  border-bottom: 3px solid #C9D6D5;
+  padding-bottom: 6px;
 }
 
 /* Lista */
@@ -314,10 +330,15 @@ body {
 
 .ranking-list li {
   font-size: 16px;
-  padding: 8px;
+  padding: 10px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+.ranking-list li:last-child {
+  border-bottom: none;
 }
 
 /* Enlaces */
@@ -330,17 +351,22 @@ body {
 
 .ranking-list a:hover {
   color: #D3D0E1;
+  text-decoration: underline;
 }
 
-/* Medallas */
+/* Medallas con degradado */
 .medal {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
 }
 
-/* Estilos especiales para patrocinadores */
+.medal.gold { background: linear-gradient(45deg, #FFD700, #FFA500); padding: 5px 8px; border-radius: 50%; }
+.medal.silver { background: linear-gradient(45deg, #C0C0C0, #A9A9A9); padding: 5px 8px; border-radius: 50%; }
+.medal.bronze { background: linear-gradient(45deg, #CD7F32, #B87333); padding: 5px 8px; border-radius: 50%; }
+
+
 .sponsor {
-  background: rgba(255, 215, 0, 0.2);
+  background: rgba(255, 215, 0, 0.15);
   border-radius: 8px;
-  padding: 6px;
+  padding: 8px;
 }

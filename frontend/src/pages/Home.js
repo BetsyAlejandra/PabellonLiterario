@@ -193,15 +193,16 @@ const Home = () => {
           <div class="ranking-category">
             <h3 class="category-title">💖 Patrocinadores</h3>
             <ul class="ranking-list">
-              <li class="sponsor"><span class="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Japonnesa">Japonnesa</a></li>
-              <li class="sponsor"><span class="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/ShiniGreis">Shini Grace</a></li>
+              <li class="sponsor"><span class="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Japonnesa" target="_blank">Japonnesa</a></li>
+              <li class="sponsor"><span class="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/ShiniGreis" target="_blank">Shini Grace</a></li>
               <li class="sponsor"><span class="medal bronze">🥉</span> <a>Whitney</a></li>
-              <li class="sponsor"><a href="https://pabellonliterario.com/profileperson/Casandra%20de%20Troya#">Casandra De Troya</a></li>
-              <li class="sponsor"><a href="https://pabellonliterario.com/profileperson/Flansas">Flansas</a></li>
+              <li class="sponsor"><a href="https://pabellonliterario.com/profileperson/Casandra%20de%20Troya" target="_blank">Casandra De Troya</a></li>
+              <li class="sponsor"><a href="https://pabellonliterario.com/profileperson/Flansas" target="_blank">Flansas</a></li>
             </ul>
           </div>
         </div>
       </div>
+
 
 
       <div className="container mt-4">
