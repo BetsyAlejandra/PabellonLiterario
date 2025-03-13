@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkfrontend=self.webpackChunkfrontend||[]).push([[60],{1060:(e,s,t)=>{e.exports=t.p+"static/media/serviceWorkerRegistration.d97131341db39a499958"}}]);
