@@ -29,28 +29,39 @@ export async function initDB() {
 
 export async function saveLibrary(books) {
   const db = await initDB();
+  if (!db) {
+    console.error("❌ No se pudo inicializar IndexedDB.");
+    return;
+  }
+
   const tx = db.transaction(STORE_LIBRARY, 'readwrite');
   const store = tx.objectStore(STORE_LIBRARY);
 
   console.log("💾 Guardando en IndexedDB:", books);
 
   for (const book of books) {
-    store.put(book);
+    await store.put(book); 
   }
+
   await tx.done;
+  console.log("✅ Biblioteca guardada en IndexedDB.");
 }
 
 
 export async function getLibrary() {
   const db = await initDB();
-  const library = await db.getAll(STORE_LIBRARY);
+  if (!db) {
+    console.error("❌ No se pudo inicializar IndexedDB.");
+    return [];
+  }
 
+  const tx = db.transaction(STORE_LIBRARY, 'readonly');
+  const store = tx.objectStore(STORE_LIBRARY);
+  const library = await store.getAll();
+  
   console.log("📂 Recuperando biblioteca de IndexedDB:", library);
-
   return library;
 }
-
-
 
 export async function saveChapters(chapters) {
   const db = await initDB();
