@@ -15,6 +15,7 @@ import Preguntas from './Components/Preguntas';
 import AvisoCookies from './Components/Cookies';
 import SobreNosotros from './Components/SobreNosotros';
 import DarkModeToggle from './Components/DarkModeToggle';
+import DonationPopup from './Components/DonationPopup';
 
 //Contexto
 import { ReadChapterProvider } from './context/ReadChapterContext';
@@ -54,10 +55,13 @@ function App() {
 
   // Condición para ocultar Header y Footer
   const hideHeaderFooter = location.pathname.startsWith('/read-chapter/');
+  const showDonationPopup = location.pathname === "/" || location.pathname.startsWith("/story-detail/");
 
   return (
     <div className="App">
       {!hideHeaderFooter && <Header />}
+
+      {showDonationPopup && <DonationPopup />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
