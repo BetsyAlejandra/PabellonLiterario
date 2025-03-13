@@ -46,5 +46,9 @@ export async function saveChapters(chapters) {
 
 export async function getChapter(chapterId) {
   const db = await initDB();
-  return db.get(STORE_CHAPTERS, chapterId);
+  const chapter = await db.get(STORE_CHAPTERS, chapterId);
+  if (!chapter) {
+      console.warn(`⚠️ Capítulo ${chapterId} no encontrado en IndexedDB.`);
+  }
+  return chapter;
 }

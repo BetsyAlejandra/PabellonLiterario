@@ -10,18 +10,23 @@ const Library = () => {
     useEffect(() => {
         const fetchLibrary = async () => {
             try {
-                const res = await axios.get('/api/users/library', { withCredentials: true });
-                const novels = res.data;
-                setLibrary(novels);
+                const offlineLibrary = await getLibrary();
+                if (offlineLibrary.length > 0) {
+                    console.log("📚 Cargando biblioteca desde IndexedDB.");
+                    setLibrary(offlineLibrary);
+                } else {
+                    console.log("🌐 Descargando biblioteca desde API...");
+                    const res = await axios.get('/api/users/library', { withCredentials: true });
+                    const novels = res.data;
+                    setLibrary(novels);
+                    await saveLibrary(novels);
 
-                await saveLibrary(novels);
-
-                for (const novel of novels) {
-                    await fetchAndSaveChapters(novel._id);
+                    for (const novel of novels) {
+                        await fetchAndSaveChapters(novel._id);
+                    }
                 }
-
             } catch (error) {
-                console.warn('No hay conexión. Cargando biblioteca desde IndexedDB.');
+                console.warn('⚠️ No hay conexión. Mostrando datos offline.');
                 const offlineLibrary = await getLibrary();
                 setLibrary(offlineLibrary);
             }

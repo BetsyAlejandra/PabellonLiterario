@@ -20,15 +20,21 @@ self.addEventListener('install', event => {
 
 self.addEventListener('fetch', event => {
     event.respondWith(
-        caches.match(event.request).then(response => {
-            return response || fetch(event.request).catch(() => {
-                if (event.request.destination === 'document') {
-                    return caches.match('/offline.html');
-                }
-            });
+        caches.open(CACHE_NAME).then(cache => {
+            return fetch(event.request)
+                .then(response => {
+                    if (event.request.url.includes('/api/')) { 
+                        cache.put(event.request, response.clone());
+                    }
+                    return response;
+                })
+                .catch(() => caches.match(event.request).then(cachedResponse => {
+                    return cachedResponse || caches.match('/offline.html');
+                }));
         })
     );
 });
+
 
 self.addEventListener('activate', event => {
     event.waitUntil(
