@@ -18,14 +18,7 @@ root.render(
 );
 
 setTimeout(() => {
-  import('./serviceWorkerRegistration')
-    .then(({ register }) => {
-      if (typeof register === 'function') {
-        console.log('Intentando registrar SW...');
-        register();
-      } else {
-        console.error('⚠️ No se encontró la función register en serviceWorkerRegistration.');
-      }
-    })
-    .catch((err) => console.error('❌ Error al cargar el Service Worker:', err));
+  import('./serviceWorkerRegistration').then((sw) => {
+      sw.register();
+  }).catch((err) => console.error('❌ Error al cargar el Service Worker:', err));
 }, 3000);

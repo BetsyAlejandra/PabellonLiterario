@@ -35,20 +35,30 @@ function registerValidSW(swUrl) {
 
 export function register() {
     if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || isLocalhost)) {
-        window.addEventListener('load', () => {
+        window.addEventListener('load', async () => {
             console.log('🌐 Intentando registrar el Service Worker...');
-            navigator.serviceWorker.register('/service-worker.js')
-                .then(registration => {
-                    console.log('✅ SW registrado con éxito:', registration);
-                })
-                .catch(error => {
-                    console.error('❌ Error al registrar el SW:', error);
-                });
+
+            try {
+                const registration = await navigator.serviceWorker.register('/service-worker.js');
+
+                console.log('✅ SW registrado con éxito:', registration);
+                
+                if (registration.installing) {
+                    console.log('📦 Instalando SW...');
+                } else if (registration.waiting) {
+                    console.log('⏳ SW en espera...');
+                } else if (registration.active) {
+                    console.log('🚀 SW activo y funcionando.');
+                }
+            } catch (error) {
+                console.error('❌ Error al registrar el SW:', error);
+            }
         });
     } else {
-        console.log('⚠️ No se registró el SW (HTTPS requerido).');
+        console.warn('⚠️ SW no registrado. Requiere HTTPS.');
     }
 }
+
 
 export function unregister() {
     if ('serviceWorker' in navigator) {
