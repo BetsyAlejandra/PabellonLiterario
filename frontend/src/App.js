@@ -49,6 +49,8 @@ import AudioDramaDetails from './pages/AudioDramaDetails';
 import AudioDramaList from './pages/AudioDramaList';
 import SelectAudioDrama from './pages/SelectAudioDrama';
 import ChapterDetail from './pages/ChapterDetail';
+import Error404 from './pages/Error404';
+import Error500 from './pages/Error500';
 
 function App() {
   const location = useLocation(); // Hook para obtener la ubicación actual
@@ -98,6 +100,9 @@ function App() {
         <Route path="/audiodrama/:id" element={<AudioDramaDetails />} />
         <Route path="/manage-chapters/:id" element={<ManageChapters />} />
         <Route path="/audio-dramas/:id/seasons/:seasonNumber/episodes/:episode" element={<ChapterDetail />} />
+        <Route path="*" element={<Error404 />} />
+
+        <Route path="/error500" element={<Error500 />} />
       </Routes>
       <DarkModeToggle />
       {!hideHeaderFooter && <FloatingButton />}

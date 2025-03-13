@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sin Conexión</title>
+  <link rel="stylesheet" href="/css/offline.css">
+</head>
+<body>
+  <h1>Estás sin conexión</h1>
+  <p>Parece que no tienes acceso a internet. Pero puedes seguir leyendo tus capítulos guardados en la biblioteca.</p>
+
+  <div id="library-container">
+    <h2>Tu Biblioteca Offline</h2>
+    <div id="library-list">
+      <p>Cargando historias guardadas...</p>
+    </div>
+  </div>
+
+  <script>
+    // Intenta cargar la biblioteca desde IndexedDB
+    async function loadLibrary() {
+      if (!('indexedDB' in window)) {
+        document.getElementById('library-list').innerHTML = "<p>Tu navegador no soporta almacenamiento offline.</p>";
+        return;
+      }
+
+      const dbRequest = indexedDB.open("PabellonLiterarioDB", 1);
+      dbRequest.onsuccess = (event) => {
+        const db = event.target.result;
+        const tx = db.transaction("library", "readonly");
+        const store = tx.objectStore("library");
+        const getAllRequest = store.getAll();
+
+        getAllRequest.onsuccess = () => {
+          const libraryList = document.getElementById('library-list');
+          libraryList.innerHTML = "";
+
+          if (getAllRequest.result.length === 0) {
+            libraryList.innerHTML = "<p>No tienes novelas guardadas en tu biblioteca.</p>";
+          } else {
+            getAllRequest.result.forEach(story => {
+              const storyElement = document.createElement("div");
+              storyElement.classList.add("library-card");
+              storyElement.innerHTML = `
+                <h3>${story.title}</h3>
+                <p>${story.description}</p>
+                <button onclick="openStory('${story.id}')">Leer</button>
+              `;
+              libraryList.appendChild(storyElement);
+            });
+          }
+        };
+      };
+
+      dbRequest.onerror = () => {
+        document.getElementById('library-list').innerHTML = "<p>Error al cargar la biblioteca offline.</p>";
+      };
+    }
+
+    function openStory(storyId) {
+      window.location.href = `/read-chapter/${storyId}/offline`;
+    }
+
+    loadLibrary();
+  </script>
+</body>
+</html>

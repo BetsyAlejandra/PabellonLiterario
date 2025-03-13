@@ -11,6 +11,7 @@ import html2canvas from 'html2canvas';
 import backgroundImage from '../assets/background.png';
 import { DiscussionEmbed, CommentCount } from 'disqus-react';
 import { useLocation } from "react-router-dom";
+import { getChapter } from '../utils/db';
 
 const ReadChapter = () => {
     const { storyId, chapterId } = useParams();
@@ -74,9 +75,8 @@ const ReadChapter = () => {
         const fetchChapterAndStory = async () => {
             try {
                 const resChapter = await fetch(`/api/novels/${storyId}/chapters/${chapterId}`);
-                if (!resChapter.ok) {
-                    throw new Error('Error al cargar el capítulo.');
-                }
+                if (!resChapter.ok) throw new Error('Error al cargar el capítulo.');
+
                 const dataChapter = await resChapter.json();
                 setChapter(dataChapter);
                 setParagraphs(dataChapter.content.split("\n").filter((p) => p.trim() !== ""));
@@ -86,18 +86,24 @@ const ReadChapter = () => {
                     setNovelName(dataChapter.novelTitle);
                 } else {
                     const resStory = await fetch(`/api/novels/${storyId}`);
-                    if (!resStory.ok) {
-                        throw new Error('Error al cargar los detalles de la novela.');
-                    }
+                    if (!resStory.ok) throw new Error('Error al cargar los detalles de la novela.');
                     const dataStory = await resStory.json();
                     setNovelName(dataStory.title);
                 }
             } catch (err) {
-                console.error(err);
-                setError('Error al cargar los datos.');
+                console.warn('No hay conexión. Cargando capítulo desde IndexedDB.');
+
+                const offlineChapter = await getChapter(chapterId);
+                if (offlineChapter) {
+                    setChapter(offlineChapter);
+                    setParagraphs(offlineChapter.content.split("\n").filter((p) => p.trim() !== ""));
+                } else {
+                    setError('No se pudo cargar el capítulo.');
+                }
                 setLoading(false);
             }
         };
+
         fetchChapterAndStory();
     }, [storyId, chapterId]);
 
@@ -269,7 +275,7 @@ const ReadChapter = () => {
                         rootClose
                     >
                         <span className="annotation"
-                            style={{ cursor: 'pointer', color: '#2A2A2A',  }}
+                            style={{ cursor: 'pointer', color: '#2A2A2A', }}
                         >
                             {domToReact(children, options)}
                         </span>
@@ -522,8 +528,8 @@ const ReadChapter = () => {
                     <h1 className="story-title">{novelName}</h1>
 
                     {/* Título del Capítulo */}
-                    <h2 className="chapter-title">{chapter.title}</h2>
-                    <p className="chapter-date">{new Date(chapter.publishedAt).toLocaleDateString()}</p>
+                    <h2 className="chapter-title">{chapter?.title}</h2>
+                    <p className="chapter-date">{chapter?.publishedAt && new Date(chapter.publishedAt).toLocaleDateString()}</p>
 
                     <div className="chapter-content">
                         {paragraphs.map((para, index) => (
@@ -533,9 +539,8 @@ const ReadChapter = () => {
                                         onMouseUp={(e) => handleTextSelection(e, index)}
                                         onTouchEnd={(e) => handleTextSelection(e, index)}
                                     >
-                                        {parse(DOMPurify.sanitize(para, sanitizeOptions), options)}
+                                        {parse(DOMPurify.sanitize(para))}
                                     </p>
-
 
                                     {showCommentBox === index && (
                                         <div
@@ -593,7 +598,6 @@ const ReadChapter = () => {
                             </div>
                         ))}
                     </div>
-
                 </Container>
 
                 {/* Botón de ajustes */}

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Library.css'; // Asegúrate de que el archivo CSS esté correctamente importado.
+import axios from 'axios';
+import { saveLibrary, getLibrary, saveChapters } from '../utils/db';
 
 const Library = () => {
     const [library, setLibrary] = useState([]);
@@ -11,13 +11,35 @@ const Library = () => {
         const fetchLibrary = async () => {
             try {
                 const res = await axios.get('/api/users/library', { withCredentials: true });
-                setLibrary(res.data);
+                const novels = res.data;
+                setLibrary(novels);
+
+                await saveLibrary(novels);
+
+                for (const novel of novels) {
+                    await fetchAndSaveChapters(novel._id);
+                }
+
             } catch (error) {
-                console.error('Error al obtener la biblioteca', error);
+                console.warn('No hay conexión. Cargando biblioteca desde IndexedDB.');
+                const offlineLibrary = await getLibrary();
+                setLibrary(offlineLibrary);
             }
         };
+
         fetchLibrary();
     }, []);
+
+    const fetchAndSaveChapters = async (novelId) => {
+        try {
+            const res = await axios.get(`/api/novels/${novelId}/chapters`, { withCredentials: true });
+            if (res.data) {
+                await saveChapters(res.data);
+            }
+        } catch (error) {
+            console.warn(`No se pudieron descargar los capítulos de la novela ${novelId}`);
+        }
+    };
 
     return (
         <div className="library-container">
