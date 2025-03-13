@@ -6,14 +6,14 @@ const STORE_CHAPTERS = 'chapters';
 
 export async function initDB() {
   return openDB(DB_NAME, 1, {
-    upgrade(db) {
-      if (!db.objectStoreNames.contains(STORE_LIBRARY)) {
-        db.createObjectStore(STORE_LIBRARY, { keyPath: '_id' });
-      }
-      if (!db.objectStoreNames.contains(STORE_CHAPTERS)) {
-        db.createObjectStore(STORE_CHAPTERS, { keyPath: 'chapterId' }); 
-      }
-    },
+      upgrade(db) {
+          if (!db.objectStoreNames.contains('library')) {
+              db.createObjectStore('library', { keyPath: '_id' });
+          }
+          if (!db.objectStoreNames.contains('chapters')) {
+              db.createObjectStore('chapters', { keyPath: 'chapterId' });
+          }
+      },
   });
 }
 

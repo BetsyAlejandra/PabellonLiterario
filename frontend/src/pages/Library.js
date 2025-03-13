@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { saveLibrary, getLibrary, saveChapters } from '../utils/db';
+import { saveLibrary, getLibrary, saveChapters, initDB } from '../utils/db';
+import '../styles/Library.css'
 
 const Library = () => {
     const [library, setLibrary] = useState([]);
@@ -10,27 +11,29 @@ const Library = () => {
     useEffect(() => {
         const fetchLibrary = async () => {
             try {
+                await initDB();
                 const offlineLibrary = await getLibrary();
                 console.log("📚 Datos en IndexedDB:", offlineLibrary);
-        
+
                 if (offlineLibrary.length > 0) {
                     console.log("📚 Cargando biblioteca desde IndexedDB.");
                     setLibrary(offlineLibrary);
                 } else {
                     console.log("🌐 Descargando biblioteca desde API...");
                     const res = await axios.get('/api/users/library', { withCredentials: true });
-        
+
                     console.log("🔍 Respuesta API:", res.data);
-        
+
                     if (!res.data || res.data.length === 0) {
                         console.warn("⚠️ La API no devolvió datos.");
                         return;
                     }
-        
+
                     const novels = res.data;
                     setLibrary(novels);
                     await saveLibrary(novels);
-        
+                    console.log("✅ Biblioteca guardada en IndexedDB:", await getLibrary());
+
                     for (const novel of novels) {
                         await fetchAndSaveChapters(novel._id);
                     }
