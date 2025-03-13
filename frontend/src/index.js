@@ -17,8 +17,6 @@ root.render(
   </React.StrictMode>
 );
 
-setTimeout(() => {
-  import('./serviceWorkerRegistration').then((sw) => {
-      sw.register();
-  }).catch((err) => console.error('❌ Error al cargar el Service Worker:', err));
-}, 3000);
+import('./serviceWorkerRegistration')
+    .then(({ register }) => register())
+    .catch((err) => console.error('❌ Error al registrar el SW:', err));

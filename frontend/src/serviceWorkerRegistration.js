@@ -35,29 +35,45 @@ function registerValidSW(swUrl) {
 
 export function register() {
     if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || isLocalhost)) {
-        window.addEventListener('load', async () => {
-            console.log('🌐 Intentando registrar el Service Worker...');
+        console.log('🌍 SW soportado. Intentando registrar...');
 
-            try {
-                const registration = await navigator.serviceWorker.register('/service-worker.js');
-
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
                 console.log('✅ SW registrado con éxito:', registration);
-                
+
                 if (registration.installing) {
-                    console.log('📦 Instalando SW...');
+                    console.log('📦 SW instalándose...');
                 } else if (registration.waiting) {
-                    console.log('⏳ SW en espera...');
+                    console.log('⏳ SW esperando para activarse...');
                 } else if (registration.active) {
                     console.log('🚀 SW activo y funcionando.');
                 }
-            } catch (error) {
+
+                registration.onupdatefound = () => {
+                    console.log('🔄 Nueva versión encontrada...');
+                    const installingWorker = registration.installing;
+                    if (installingWorker) {
+                        installingWorker.onstatechange = () => {
+                            if (installingWorker.state === 'installed') {
+                                if (navigator.serviceWorker.controller) {
+                                    console.log('♻️ Nueva versión lista. Recargando...');
+                                    window.location.reload();
+                                } else {
+                                    console.log('⚡ SW listo para modo offline.');
+                                }
+                            }
+                        };
+                    }
+                };
+            })
+            .catch(error => {
                 console.error('❌ Error al registrar el SW:', error);
-            }
-        });
+            });
     } else {
-        console.warn('⚠️ SW no registrado. Requiere HTTPS.');
+        console.warn('⚠️ SW no registrado. Requiere HTTPS o localhost.');
     }
 }
+
 
 
 export function unregister() {
