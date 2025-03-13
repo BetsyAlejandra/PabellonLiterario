@@ -40,10 +40,17 @@ const Library = () => {
                 }
             } catch (error) {
                 console.error("⚠️ Error al obtener la biblioteca:", error);
+
+                // Si estamos offline, intenta cargar desde IndexedDB
                 const offlineLibrary = await getLibrary();
-                console.log("📚 Cargando biblioteca desde IndexedDB en modo offline:", offlineLibrary);
-                setLibrary(offlineLibrary);
+                if (offlineLibrary.length > 0) {
+                    console.log("📚 Cargando biblioteca offline desde IndexedDB:", offlineLibrary);
+                    setLibrary(offlineLibrary);
+                } else {
+                    console.warn("⚠️ No hay datos en IndexedDB, mostrando mensaje.");
+                }
             }
+
         };
         fetchLibrary();
     }, []);

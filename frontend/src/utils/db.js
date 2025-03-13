@@ -15,15 +15,17 @@ export async function initDB() {
           console.log("📚 Creando store 'library'");
           db.createObjectStore(STORE_LIBRARY, { keyPath: '_id' });
         } else {
-          console.log("✅ El store 'library' ya existe.");
+          console.log("✅ Store 'library' ya existe en IndexedDB.");
         }
 
         if (!db.objectStoreNames.contains(STORE_CHAPTERS)) {
           console.log("📖 Creando store 'chapters'");
           db.createObjectStore(STORE_CHAPTERS, { keyPath: 'chapterId' });
         } else {
-          console.log("✅ El store 'chapters' ya existe.");
+          console.log("✅ Store 'chapters' ya existe en IndexedDB.");
         }
+
+        console.log("📜 Stores en IndexedDB:", db.objectStoreNames);
       },
     });
 
