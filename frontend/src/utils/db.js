@@ -85,10 +85,16 @@ export const saveChapters = async (chapters) => {
     const store = tx.objectStore("chapters");
 
     for (const chapter of chapters) {
-      if (!chapter._id) {
-        console.error("🚨 Capítulo sin _id:", chapter);
+      if (!chapter || typeof chapter !== "object") {
+        console.error("🚨 Capítulo inválido:", chapter);
         continue;
       }
+
+      if (!chapter._id || typeof chapter._id !== "string") {
+        console.error("🚨 Capítulo sin _id válido:", chapter);
+        continue;
+      }
+
       await store.put(chapter);
     }
 

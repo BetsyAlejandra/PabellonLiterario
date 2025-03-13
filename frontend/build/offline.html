@@ -4,14 +4,73 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sin Conexión</title>
-  <link rel="stylesheet" href="/css/offline.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, #f5e6ff, #e3d1f8);
+      color: #4a3b5d;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    p {
+      font-size: 1.2rem;
+    }
+
+    #library-container {
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      display: inline-block;
+    }
+
+    .library-card {
+      background: #ffffff;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      text-align: left;
+    }
+
+    .library-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+
+    .library-card p {
+      font-size: 1rem;
+      color: #6c5b7b;
+    }
+
+    .library-card button {
+      background: #6c5b7b;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .library-card button:hover {
+      background: #4a3b5d;
+    }
+  </style>
 </head>
 <body>
-  <h1>Estás sin conexión</h1>
-  <p>Parece que no tienes acceso a internet. Pero puedes seguir leyendo tus capítulos guardados en la biblioteca.</p>
+  <h1>📴 Estás sin conexión</h1>
+  <p>Parece que no tienes acceso a internet. Pero puedes seguir leyendo tus capítulos guardados en la biblioteca. (En proceso)</p>
 
   <div id="library-container">
-    <h2>Tu Biblioteca Offline</h2>
+    <h2>📚 Tu Biblioteca Offline</h2>
     <div id="library-list">
       <p>Cargando historias guardadas...</p>
     </div>
@@ -44,7 +103,7 @@
               storyElement.innerHTML = `
                 <h3>${story.title}</h3>
                 <p>${story.description}</p>
-                <button onclick="openStory('${story.id}')">Leer</button>
+                <button onclick="openStory('${story.id}')">📖 Leer</button>
               `;
               libraryList.appendChild(storyElement);
             });
