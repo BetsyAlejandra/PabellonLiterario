@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { saveLibrary, getLibrary, saveChapters, initDB } from '../utils/db';
+import { saveLibrary, getLibrary, saveChapters, initDB, deleteOldDB } from '../utils/db';
 import '../styles/Library.css'
 
 const Library = () => {
@@ -11,10 +11,11 @@ const Library = () => {
     useEffect(() => {
         const fetchLibrary = async () => {
             try {
+                await deleteOldDB();
                 const db = await initDB();
                 console.log("📚 Base de datos inicializada:", db);
-                const offlineLibrary = await getLibrary();
 
+                const offlineLibrary = await getLibrary();
                 if (offlineLibrary.length > 0) {
                     setLibrary(offlineLibrary);
                 } else {
@@ -36,6 +37,7 @@ const Library = () => {
 
         fetchLibrary();
     }, []);
+
 
 
     const fetchAndSaveChapters = async (novelId) => {

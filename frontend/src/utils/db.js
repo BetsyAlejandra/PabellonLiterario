@@ -4,7 +4,7 @@ const DB_NAME = 'pabellon-literario';
 const STORE_LIBRARY = 'library';
 const STORE_CHAPTERS = 'chapters';
 
-async function deleteOldDB() {
+export async function deleteOldDB() {
   await indexedDB.deleteDatabase(DB_NAME);
   console.log("🗑️ Base de datos eliminada. Se creará una nueva.");
 }
@@ -16,14 +16,15 @@ export const initDB = () => {
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
 
-      // Verifica si ya existe antes de crear
       if (!db.objectStoreNames.contains("library")) {
         db.createObjectStore("library", { keyPath: "_id" });
       }
+
       if (!db.objectStoreNames.contains("chapters")) {
-        db.createObjectStore("chapters", { keyPath: "chapterId", autoIncrement: true });
+        db.createObjectStore("chapters", { keyPath: "_id" });
       }
     };
+
 
     request.onsuccess = (event) => {
       resolve(event.target.result);
@@ -79,20 +80,25 @@ export async function getLibrary() {
 
 export const saveChapters = async (chapters) => {
   try {
-      const db = await initDB();
-      const tx = db.transaction("chapters", "readwrite");
-      const store = tx.objectStore("chapters");
+    const db = await initDB();
+    const tx = db.transaction("chapters", "readwrite");
+    const store = tx.objectStore("chapters");
 
-      for (const chapter of chapters) {
-          store.put(chapter);
+    for (const chapter of chapters) {
+      if (!chapter._id) {
+        console.error("🚨 Capítulo sin _id:", chapter);
+        continue;
       }
+      await store.put(chapter);
+    }
 
-      await tx.complete;
-      console.log("✅ Capítulos guardados en IndexedDB");
+    await tx.done;
+    console.log("✅ Capítulos guardados en IndexedDB");
   } catch (error) {
-      console.error("❌ Error guardando capítulos en IndexedDB:", error);
+    console.error("❌ Error guardando capítulos en IndexedDB:", error);
   }
 };
+
 
 
 export async function getChapter(chapterId) {
