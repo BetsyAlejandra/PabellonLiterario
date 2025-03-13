@@ -4,42 +4,48 @@ const DB_NAME = 'pabellon-literario';
 const STORE_LIBRARY = 'library';
 const STORE_CHAPTERS = 'chapters';
 
-export async function initDB() {
-  try {
-    console.log("🔄 Iniciando IndexedDB...");
-    const db = await openDB(DB_NAME, 2, {
-      upgrade(db, oldVersion) {
-        console.log(`📦 DB upgrade de ${oldVersion} a 2`);
-
-        if (!db.objectStoreNames.contains(STORE_LIBRARY)) {
-          console.log("📚 Creando store 'library'");
-          db.createObjectStore(STORE_LIBRARY, { keyPath: '_id' });
-        } else {
-          console.log("✅ Store 'library' ya existe en IndexedDB.");
-        }
-
-        if (!db.objectStoreNames.contains(STORE_CHAPTERS)) {
-          console.log("📖 Creando store 'chapters'");
-          db.createObjectStore(STORE_CHAPTERS, { keyPath: 'chapterId' });
-        } else {
-          console.log("✅ Store 'chapters' ya existe en IndexedDB.");
-        }
-
-        console.log("📜 Stores en IndexedDB:", db.objectStoreNames);
-      },
-    });
-
-    console.log("✅ IndexedDB inicializado con éxito.");
-    return db;
-  } catch (error) {
-    console.error("❌ Error al inicializar IndexedDB:", error);
-  }
+async function deleteOldDB() {
+  await indexedDB.deleteDatabase(DB_NAME);
+  console.log("🗑️ Base de datos eliminada. Se creará una nueva.");
 }
+
+export const initDB = () => {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open("pabellon-literario", 2);
+
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+
+      // Verifica si ya existe antes de crear
+      if (!db.objectStoreNames.contains("library")) {
+        db.createObjectStore("library", { keyPath: "_id" });
+      }
+      if (!db.objectStoreNames.contains("chapters")) {
+        db.createObjectStore("chapters", { keyPath: "chapterId", autoIncrement: true });
+      }
+    };
+
+    request.onsuccess = (event) => {
+      resolve(event.target.result);
+    };
+
+    request.onerror = (event) => {
+      reject("Error al abrir IndexedDB:", event.target.error);
+    };
+  });
+};
+
+
 
 export async function saveLibrary(books) {
   const db = await initDB();
   if (!db) {
     console.error("❌ No se pudo inicializar IndexedDB.");
+    return;
+  }
+
+  if (!db.objectStoreNames.contains(STORE_LIBRARY)) {
+    console.error("🚨 Store 'library' no encontrada en IndexedDB.");
     return;
   }
 
@@ -53,7 +59,6 @@ export async function saveLibrary(books) {
   }
 
   await tx.done;
-  console.log("✅ Biblioteca guardada en IndexedDB.");
 }
 
 
@@ -72,15 +77,22 @@ export async function getLibrary() {
   return library;
 }
 
-export async function saveChapters(chapters) {
-  const db = await initDB();
-  const tx = db.transaction(STORE_CHAPTERS, 'readwrite');
-  const store = tx.objectStore(STORE_CHAPTERS);
-  for (const chapter of chapters) {
-    store.put(chapter);
+export const saveChapters = async (chapters) => {
+  try {
+      const db = await initDB();
+      const tx = db.transaction("chapters", "readwrite");
+      const store = tx.objectStore("chapters");
+
+      for (const chapter of chapters) {
+          store.put(chapter);
+      }
+
+      await tx.complete;
+      console.log("✅ Capítulos guardados en IndexedDB");
+  } catch (error) {
+      console.error("❌ Error guardando capítulos en IndexedDB:", error);
   }
-  await tx.done;
-}
+};
 
 
 export async function getChapter(chapterId) {

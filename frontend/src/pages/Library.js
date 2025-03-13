@@ -11,49 +11,32 @@ const Library = () => {
     useEffect(() => {
         const fetchLibrary = async () => {
             try {
-                await initDB();
+                const db = await initDB();
+                console.log("📚 Base de datos inicializada:", db);
                 const offlineLibrary = await getLibrary();
-                console.log("📚 Datos en IndexedDB:", offlineLibrary);
 
                 if (offlineLibrary.length > 0) {
-                    console.log("📚 Cargando biblioteca desde IndexedDB.");
                     setLibrary(offlineLibrary);
                 } else {
-                    console.log("🌐 Descargando biblioteca desde API...");
                     const res = await axios.get('/api/users/library', { withCredentials: true });
+                    if (res.data && res.data.length > 0) {
+                        setLibrary(res.data);
+                        await saveLibrary(res.data);
+                        console.log("✅ Biblioteca guardada en IndexedDB:", await getLibrary());
 
-                    console.log("🔍 Respuesta API:", res.data);
-
-                    if (!res.data || res.data.length === 0) {
-                        console.warn("⚠️ La API no devolvió datos.");
-                        return;
-                    }
-
-                    const novels = res.data;
-                    setLibrary(novels);
-                    await saveLibrary(novels);
-                    console.log("✅ Biblioteca guardada en IndexedDB:", await getLibrary());
-
-                    for (const novel of novels) {
-                        await fetchAndSaveChapters(novel._id);
+                        for (const novel of res.data) {
+                            await fetchAndSaveChapters(novel._id);
+                        }
                     }
                 }
             } catch (error) {
                 console.error("⚠️ Error al obtener la biblioteca:", error);
-
-                // Si estamos offline, intenta cargar desde IndexedDB
-                const offlineLibrary = await getLibrary();
-                if (offlineLibrary.length > 0) {
-                    console.log("📚 Cargando biblioteca offline desde IndexedDB:", offlineLibrary);
-                    setLibrary(offlineLibrary);
-                } else {
-                    console.warn("⚠️ No hay datos en IndexedDB, mostrando mensaje.");
-                }
             }
-
         };
+
         fetchLibrary();
     }, []);
+
 
     const fetchAndSaveChapters = async (novelId) => {
         try {
