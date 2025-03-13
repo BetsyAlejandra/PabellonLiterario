@@ -10,16 +10,23 @@ export async function initDB() {
     const db = await openDB(DB_NAME, 2, {
       upgrade(db, oldVersion) {
         console.log(`📦 DB upgrade de ${oldVersion} a 2`);
+
         if (!db.objectStoreNames.contains(STORE_LIBRARY)) {
           console.log("📚 Creando store 'library'");
           db.createObjectStore(STORE_LIBRARY, { keyPath: '_id' });
+        } else {
+          console.log("✅ El store 'library' ya existe.");
         }
+
         if (!db.objectStoreNames.contains(STORE_CHAPTERS)) {
           console.log("📖 Creando store 'chapters'");
           db.createObjectStore(STORE_CHAPTERS, { keyPath: 'chapterId' });
+        } else {
+          console.log("✅ El store 'chapters' ya existe.");
         }
       },
     });
+
     console.log("✅ IndexedDB inicializado con éxito.");
     return db;
   } catch (error) {
@@ -40,7 +47,7 @@ export async function saveLibrary(books) {
   console.log("💾 Guardando en IndexedDB:", books);
 
   for (const book of books) {
-    await store.put(book); 
+    await store.put(book);
   }
 
   await tx.done;
@@ -58,7 +65,7 @@ export async function getLibrary() {
   const tx = db.transaction(STORE_LIBRARY, 'readonly');
   const store = tx.objectStore(STORE_LIBRARY);
   const library = await store.getAll();
-  
+
   console.log("📂 Recuperando biblioteca de IndexedDB:", library);
   return library;
 }

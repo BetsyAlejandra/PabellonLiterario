@@ -18,14 +18,13 @@
   </div>
 
   <script>
-    // Intenta cargar la biblioteca desde IndexedDB
     async function loadLibrary() {
       if (!('indexedDB' in window)) {
         document.getElementById('library-list').innerHTML = "<p>Tu navegador no soporta almacenamiento offline.</p>";
         return;
       }
 
-      const dbRequest = indexedDB.open("PabellonLiterarioDB", 1);
+      const dbRequest = indexedDB.open("pabellon-literario", 2);
       dbRequest.onsuccess = (event) => {
         const db = event.target.result;
         const tx = db.transaction("library", "readonly");
