@@ -21,16 +21,25 @@ export async function saveLibrary(books) {
   const db = await initDB();
   const tx = db.transaction(STORE_LIBRARY, 'readwrite');
   const store = tx.objectStore(STORE_LIBRARY);
+  
+  console.log("💾 Guardando en IndexedDB:", books);
+
   for (const book of books) {
     store.put(book);
   }
   await tx.done;
 }
 
+
 export async function getLibrary() {
   const db = await initDB();
-  return db.getAll(STORE_LIBRARY);
+  const library = await db.getAll(STORE_LIBRARY);
+  
+  console.log("📂 Recuperando biblioteca de IndexedDB:", library);
+  
+  return library;
 }
+
 
 
 export async function saveChapters(chapters) {

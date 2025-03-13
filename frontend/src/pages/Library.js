@@ -11,27 +11,37 @@ const Library = () => {
         const fetchLibrary = async () => {
             try {
                 const offlineLibrary = await getLibrary();
+                console.log("📚 Datos en IndexedDB:", offlineLibrary);
+        
                 if (offlineLibrary.length > 0) {
                     console.log("📚 Cargando biblioteca desde IndexedDB.");
                     setLibrary(offlineLibrary);
                 } else {
                     console.log("🌐 Descargando biblioteca desde API...");
                     const res = await axios.get('/api/users/library', { withCredentials: true });
+        
+                    console.log("🔍 Respuesta API:", res.data);
+        
+                    if (!res.data || res.data.length === 0) {
+                        console.warn("⚠️ La API no devolvió datos.");
+                        return;
+                    }
+        
                     const novels = res.data;
                     setLibrary(novels);
                     await saveLibrary(novels);
-
+        
                     for (const novel of novels) {
                         await fetchAndSaveChapters(novel._id);
                     }
                 }
             } catch (error) {
-                console.warn('⚠️ No hay conexión. Mostrando datos offline.');
+                console.error("⚠️ Error al obtener la biblioteca:", error);
                 const offlineLibrary = await getLibrary();
+                console.log("📚 Cargando biblioteca desde IndexedDB en modo offline:", offlineLibrary);
                 setLibrary(offlineLibrary);
             }
         };
-
         fetchLibrary();
     }, []);
 
