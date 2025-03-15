@@ -232,7 +232,7 @@ router.post('/api/novels/:id/reviews/:reviewId/reply', isAuthenticated, async (r
 });
 
 // Ruta para actualizar una novela
-router.put('/update/:id', upload, handleMulterError, async (req, res) => {
+router.put('/update/:id', upload.single('coverImage'), handleMulterError, async (req, res) => {
   try {
     const { id } = req.params;
     // Obtener campos del body
