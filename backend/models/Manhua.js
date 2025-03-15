@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const ManhuaSchema = new mongoose.Schema({
     title: { type: String, required: true },
