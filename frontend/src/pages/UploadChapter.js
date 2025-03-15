@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Container, Form, Button, Image, Alert } from "react-bootstrap";
 import "../styles/UploadChapter.css";
 
+const ADMIN_ID = "674ceb9febf82a8ddeecbbea";
 
 const UploadChapter = () => {
-  const { id } = useParams(); // ID del manhua
+  const { id } = useParams();
   const navigate = useNavigate();
-
   const [number, setNumber] = useState("");
   const [title, setTitle] = useState("");
   const [images, setImages] = useState([]);
@@ -16,26 +16,23 @@ const UploadChapter = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Manejar selección de imágenes
+  const userId = localStorage.getItem("userId");
+
+  useEffect(() => {
+    if (userId !== ADMIN_ID) {
+      alert("No tienes permisos para acceder a esta página.");
+      navigate("/");
+      return;
+    }
+  }, [navigate, userId]);
+
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     setImages([...images, ...files]);
-
-    // Crear vistas previas
     const previews = files.map((file) => URL.createObjectURL(file));
     setPreviewImages([...previewImages, ...previews]);
   };
 
-  // Eliminar una imagen de la vista previa
-  const removeImage = (index) => {
-    const newImages = images.filter((_, i) => i !== index);
-    const newPreviews = previewImages.filter((_, i) => i !== index);
-
-    setImages(newImages);
-    setPreviewImages(newPreviews);
-  };
-
-  // Enviar datos al backend
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -57,7 +54,7 @@ const UploadChapter = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      navigate(`/manhua/${id}`); // Volver a los detalles del manhua
+      navigate(`/manhua/${id}`);
     } catch (error) {
       console.error("Error al subir el capítulo:", error);
       setError("Hubo un problema al subir el capítulo.");
@@ -73,7 +70,6 @@ const UploadChapter = () => {
       {error && <Alert variant="danger">{error}</Alert>}
 
       <Form className="upload-form" onSubmit={handleSubmit}>
-        {/* Número del capítulo */}
         <Form.Group className="mb-3">
           <Form.Label>Número de capítulo</Form.Label>
           <Form.Control
@@ -85,7 +81,6 @@ const UploadChapter = () => {
           />
         </Form.Group>
 
-        {/* Título del capítulo (opcional) */}
         <Form.Group className="mb-3">
           <Form.Label>Título del capítulo</Form.Label>
           <Form.Control
@@ -96,36 +91,25 @@ const UploadChapter = () => {
           />
         </Form.Group>
 
-        {/* Subir imágenes */}
         <Form.Group className="mb-3">
           <Form.Label>Imágenes del capítulo</Form.Label>
-          <Form.Control
-            type="file"
-            multiple
-            accept=".jpg,.png,.webp"
-            onChange={handleImageChange}
-            required
-          />
+          <Form.Control type="file" multiple accept=".jpg,.png,.webp" onChange={handleImageChange} required />
         </Form.Group>
 
-        {/* Vista previa de imágenes */}
         <div className="upload-preview">
           {previewImages.map((src, index) => (
             <div key={index} className="position-relative">
-              <Image src={src} className="preview-img img-thumbnail" />
-              <button className="remove-img-btn" onClick={() => removeImage(index)}>×</button>
+              <img src={src} alt={`preview-${index}`} className="preview-img" />
+              <button className="remove-img-btn" onClick={() => setPreviewImages(previewImages.filter((_, i) => i !== index))}>×</button>
             </div>
           ))}
         </div>
 
-        {/* Botones */}
         <div className="upload-buttons mt-3">
           <Button className="upload-btn" type="submit" disabled={loading}>
             {loading ? "Subiendo..." : "Subir Capítulo"}
           </Button>
-          <Button className="cancel-btn" onClick={() => navigate(`/manhua/${id}`)}>
-            Cancelar
-          </Button>
+          <Button className="cancel-btn" onClick={() => navigate(`/manhua/${id}`)}>Cancelar</Button>
         </div>
       </Form>
     </Container>

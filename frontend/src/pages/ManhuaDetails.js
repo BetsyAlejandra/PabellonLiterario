@@ -58,7 +58,8 @@ const ManhuaDetails = () => {
         <Col md={8} className="manhua-text">
           <h2>{manhua.title}</h2>
           <p><strong>📖 Géneros:</strong> {manhua.genres?.join(", ") || "Desconocido"}</p>
-          <p><strong>👥 Demografía:</strong> {manhua.demography || "Desconocido"}</p>
+          <p><strong>👥 Demografía:</strong> {manhua.demographic || "Desconocido"}</p>
+          <p><strong>📌 Estado:</strong> {manhua.status || "Desconocido"}</p>
           <p className="manhua-description">{manhua.description}</p>
         </Col>
       </Row>
