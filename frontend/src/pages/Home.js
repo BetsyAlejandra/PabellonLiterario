@@ -49,11 +49,9 @@ const Home = () => {
         const novelsData = await novelsRes.json();
         const latestChaptersData = await latestChaptersRes.json();
 
-        console.log("Latest chapters data:", latestChaptersData);
-
         setNovels(Array.isArray(novelsData.novels) ? novelsData.novels : []);
         const chapters = Array.isArray(latestChaptersData.latestGroupedChapters) ? latestChaptersData.latestGroupedChapters : [];
-        console.log("Latest chapters data array:", chapters);
+
         setLatestChapters(chapters);
       } catch (error) {
         console.error(error);
@@ -70,7 +68,6 @@ const Home = () => {
 
   const [latestChapters, setLatestChapters] = useState(() => []);
   const novelsMemo = novels;
-  console.log('novelsMemo:', novelsMemo);
 
   const settings = {
     dots: false,
@@ -186,44 +183,48 @@ const Home = () => {
         ) : (
           <Row className="g-3 justify-content-center">
             {latestChapters.map((entry, index) => {
-              return entry.chapters.map((chapter, chapterIndex) => {
-                const datePublished = new Date(chapter.publishedAt);
-                const formattedDate = datePublished instanceof Date && !isNaN(datePublished)
-                  ? datePublished.toLocaleDateString('es-ES', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })
-                  : 'Fecha no disponible';
+              // Obtener el rango de capítulos
+              const chapterNumbers = entry.chapters.map(chap => chap.chapterNumber);
+              const firstChapter = Math.min(...chapterNumbers);
+              const lastChapter = Math.max(...chapterNumbers);
 
-                return (
-                  <Col key={`${index}-${chapterIndex}`} md={6} lg={4} className="d-flex">
-                    <Card className="chapter-card flex-fill shadow-sm">
-                      <div className="card-body">
-                        <h5 className="card-title d-flex align-items-center">
-                          <BookOpen size={20} className="me-2" />
-                          {entry.novelTitle} {/* Muestra el título de la novela */}
-                        </h5>
-                        <p className="card-text date d-flex align-items-center">
-                          <Calendar size={18} className="me-2" />
-                          {formattedDate} {/* Muestra la fecha formateada */}
-                        </p>
-                        <p className="card-text">
-                          {chapter.title} {/* Muestra el título del capítulo */}
-                        </p>
-                        <Link to={`/story-detail/${entry.novelId}`} className="btn btn-primary">
-                          Leer novela <ArrowRight />
-                        </Link>
-                      </div>
-                    </Card>
-                  </Col>
-                );
-              });
+              const datePublished = new Date(entry.publishedAt);
+              const formattedDate = datePublished instanceof Date && !isNaN(datePublished)
+                ? datePublished.toLocaleDateString('es-ES', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })
+                : 'Fecha no disponible';
+
+              return (
+                <Col key={index} md={6} lg={4} className="d-flex">
+                  <Card className="chapter-card flex-fill shadow-sm">
+                    <div className="card-body">
+                      <h5 className="card-title d-flex align-items-center">
+                        <BookOpen size={20} className="me-2" />
+                        {entry.novelTitle} {/* Título de la novela */}
+                      </h5>
+                      <p className="card-text date d-flex align-items-center">
+                        <Calendar size={18} className="me-2" />
+                        {formattedDate} {/* Fecha de publicación */}
+                      </p>
+                      <p className="card-text">
+                        Actualización de capítulos: {firstChapter} - {lastChapter} {/* Rango de capítulos */}
+                      </p>
+                      <Link to={`/story-detail/${entry.novelId}`} className="btn btn-primary">
+                        Leer novela <ArrowRight />
+                      </Link>
+                    </div>
+                  </Card>
+                </Col>
+              );
             })}
           </Row>
         )}
       </Container>
+
 
       {/* Últimas Traducciones */}
       <section className="latest-translations py-5 bg-dark">
