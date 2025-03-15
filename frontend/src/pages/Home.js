@@ -43,11 +43,15 @@ const Home = () => {
           fetch('/api/novels/latest-chapters')
         ]);
 
+        console.log('Novels response:', novelsRes);
+        console.log('Latest chapters response:', latestChaptersRes);
+
         if (!novelsRes.ok || !latestChaptersRes.ok) throw new Error("Error al cargar datos");
 
         const novelsData = await novelsRes.json();
         const latestChaptersData = await latestChaptersRes.json();
-        console.log(latestChaptersData);
+        console.log('Novels data:', novelsData);
+        console.log('Latest chapters data:', latestChaptersData);
 
         setNovels(novelsData);
         setLatestChapters(Array.isArray(latestChaptersData) ? latestChaptersData : []);
