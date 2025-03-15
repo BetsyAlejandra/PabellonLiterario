@@ -193,6 +193,37 @@ const getRecentManhuas = async (req, res) => {
   }
 };
 
+const getPopularManhuas = async (req, res) => {
+  try {
+    const manhuas = await Manhua.find().sort({ chapters: -1 }).limit(10);
+    res.status(200).json(manhuas);
+  } catch (error) {
+    res.status(500).json({ message: "Error al obtener los manhuas populares", error });
+  }
+};
+
+const updateChapter = async (req, res) => {
+  try {
+    const { manhuaId, chapterNumber } = req.params;
+    const { title } = req.body;
+    const images = req.files ? req.files.map(file => `/uploads/${file.filename}`) : null;
+
+    const manhua = await Manhua.findById(manhuaId);
+    if (!manhua) return res.status(404).json({ message: "Manhua no encontrado" });
+
+    const chapterIndex = manhua.chapters.findIndex(chap => chap.number == chapterNumber);
+    if (chapterIndex === -1) return res.status(404).json({ message: "Capítulo no encontrado" });
+
+    if (title) manhua.chapters[chapterIndex].title = title;
+    if (images) manhua.chapters[chapterIndex].images = images;
+
+    await manhua.save();
+    res.status(200).json({ message: "Capítulo actualizado con éxito", manhua });
+  } catch (error) {
+    res.status(500).json({ message: "Error al actualizar el capítulo", error });
+  }
+};
+
 // Exportar controladores
 module.exports = {
   createManhua,
@@ -205,5 +236,7 @@ module.exports = {
   getAllManhuas,
   updateManhuaStatus,
   searchManhuas,
-  getRecentManhuas
+  getRecentManhuas,
+  getPopularManhuas,
+  updateChapter
 };
