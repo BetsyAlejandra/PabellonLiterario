@@ -17,8 +17,8 @@ const ManhuaList = () => {
     const fetchManhuas = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/manhuas?page=${page}&query=${query}`);
-        
+        const response = await axios.get(`/api/manhuas?page=${page}`);
+
         setManhuas(response.data.manhuas);
         setTotalPages(response.data.totalPages);
       } catch (error) {
@@ -29,7 +29,7 @@ const ManhuaList = () => {
     };
 
     fetchManhuas();
-  }, [query, page]);
+  }, [page]);
 
   return (
     <Container className="manhua-container">

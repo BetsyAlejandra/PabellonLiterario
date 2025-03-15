@@ -137,22 +137,29 @@ const getChapter = async (req, res) => {
   }
 };
 
-// Listar todos los Manhuas con paginación opcional
+
 const getAllManhuas = async (req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const totalManhuas = await Manhua.countDocuments();
+    const totalPages = Math.ceil(totalManhuas / limit);
     const manhuas = await Manhua.find()
-      .limit(limit * 1)
+      .limit(limit)
       .skip((page - 1) * limit)
       .exec();
 
-    res.status(200).json(manhuas);
+    res.status(200).json({
+      manhuas,
+      totalPages,
+      currentPage: page,
+    });
   } catch (error) {
     res.status(500).json({ message: "Error al obtener los manhuas", error });
   }
 };
 
-// Actualizar el estado del Manhua
 const updateManhuaStatus = async (req, res) => {
   try {
     const { manhuaId } = req.params;
