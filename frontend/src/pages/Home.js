@@ -186,37 +186,40 @@ const Home = () => {
         ) : (
           <Row className="g-3 justify-content-center">
             {latestChapters.map((entry, index) => {
-              const chapterTitle = entry.title || 'Título no disponible';  // Asegúrate de que la propiedad "title" se extraiga correctamente
-              const startChapter = entry.startChapter || 0; // Aseguramos que haya un valor por defecto
-              const endChapter = entry.endChapter || startChapter; // Si no hay endChapter, usamos startChapter
-              const chapterRange = startChapter === endChapter
-                ? `Capítulo ${startChapter + 1}`
-                : `Capítulos ${startChapter + 1} a ${endChapter + 1}`;
+              return entry.chapters.map((chapter, chapterIndex) => {
+                const datePublished = new Date(chapter.publishedAt);
+                const formattedDate = datePublished instanceof Date && !isNaN(datePublished)
+                  ? datePublished.toLocaleDateString('es-ES', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })
+                  : 'Fecha no disponible';
 
-              const datePublished = new Date(entry.publishedAt);
-              const formattedDate = datePublished instanceof Date && !isNaN(datePublished)
-                ? datePublished.toLocaleDateString('es-ES', {
-                  weekday: 'long',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })
-                : 'Fecha no disponible'; // Si la fecha no es válida, mostrar un mensaje alternativo
-              return (
-                <Col key={index} md={6} lg={4} className="d-flex">
-                  <Card className="chapter-card flex-fill shadow-sm">
-                    <div className="card-body">
-                      <h5 className="card-title d-flex align-items-center">
-                        <BookOpen size={20} />
-                        <span className="ms-2">{chapterTitle}</span> {/* Asegúrate de que se muestra el título */}
-                      </h5>
-                      <p className="card-text">{chapterRange}</p>
-                      <p className="card-text">{formattedDate}</p>
-                      <Button as={Link} to={`/chapter-detail/${entry._id}`} variant="link">Ver capítulo</Button>
-                    </div>
-                  </Card>
-                </Col>
-              );
+                return (
+                  <Col key={`${index}-${chapterIndex}`} md={6} lg={4} className="d-flex">
+                    <Card className="chapter-card flex-fill shadow-sm">
+                      <div className="card-body">
+                        <h5 className="card-title d-flex align-items-center">
+                          <BookOpen size={20} className="me-2" />
+                          {entry.novelTitle} {/* Muestra el título de la novela */}
+                        </h5>
+                        <p className="card-text date d-flex align-items-center">
+                          <Calendar size={18} className="me-2" />
+                          {formattedDate} {/* Muestra la fecha formateada */}
+                        </p>
+                        <p className="card-text">
+                          {chapter.title} {/* Muestra el título del capítulo */}
+                        </p>
+                        <Link to={`/story-detail/${entry.novelId}`} className="btn btn-primary">
+                          Leer novela <ArrowRight />
+                        </Link>
+                      </div>
+                    </Card>
+                  </Col>
+                );
+              });
             })}
           </Row>
         )}
