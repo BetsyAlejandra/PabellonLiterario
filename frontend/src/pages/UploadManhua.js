@@ -31,7 +31,7 @@ const UploadManhua = () => {
     formData.append("title", manhuaData.title);
     formData.append("description", manhuaData.description);
     formData.append("genre", manhuaData.genre);
-    if (manhuaData.cover) formData.append("cover", manhuaData.cover);
+    if (manhuaData.cover) formData.append("coverImage", manhuaData.cover);
 
     try {
       const response = await axios.post("/api/manhuas", formData, {
