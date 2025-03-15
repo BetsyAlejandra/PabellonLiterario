@@ -19,4 +19,4 @@ const ManhuaSchema = new mongoose.Schema({
     ],
 }, { timestamps: true });
 
-export default mongoose.model("Manhua", ManhuaSchema);
+module.exports = mongoose.model('Manhua', ManhuaSchema);
