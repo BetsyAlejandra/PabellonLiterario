@@ -204,8 +204,8 @@ const Home = () => {
 
               return (
                 <Col key={index} md={6} lg={4} className="d-flex">
-                  <Card className="chapter-card flex-fill shadow-sm" style={{ backgroundColor: '#E6D6C3', borderRadius: '12px' }}>
-                    <div className="card-body" style={{ padding: '1.2rem', color: '#D6B4A1' }}>
+                  <Card className="chapter-card flex-fill shadow-sm" style={{ backgroundColor: '#D7B6A3', borderRadius: '12px' }}>
+                    <div className="card-body" style={{ padding: '1.2rem', color: '#F0E1D6' }}>
                       <h5 className="card-title d-flex align-items-center" style={{ color: '#D7E2E9' }}>
                         <BookOpen size={20} className="me-2" />
                         {entry.novelTitle} {/* Título de la novela */}
@@ -230,6 +230,7 @@ const Home = () => {
           </Row>
         )}
       </Container>
+
 
 
 
