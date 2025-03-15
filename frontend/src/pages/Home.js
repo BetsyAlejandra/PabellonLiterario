@@ -185,35 +185,45 @@ const Home = () => {
           <p className="text-center">No hay actualizaciones recientes.</p>
         ) : (
           <Row className="g-3 justify-content-center">
-            {latestChapters.length === 0 ? (
-              <p className="text-center">No hay actualizaciones recientes.</p>
-            ) : (
-              <Row className="g-3 justify-content-center">
-                {latestChapters.map((entry, index) => (
-                  <Col key={index} md={6} lg={4} className="d-flex">
-                    <Card className="chapter-card flex-fill shadow-sm">
-                      <div className="card-body">
-                        <h5 className="card-title d-flex align-items-center">
-                          <BookOpen size={20} className="me-2" />
-                          {entry.novelTitle}
-                        </h5>
-                        <p className="card-text date d-flex align-items-center">
-                          <Calendar size={18} className="me-2" />
-                          {entry.date}
-                        </p>
-                        <p className="card-text chapter-range d-flex align-items-center">
-                          <BookOpen size={18} className="me-2" />
-                          {entry.chapterRange}
-                        </p>
-                        <Link to={`/story-detail/${entry.novelId}`} className="btn btn-read d-flex align-items-center">
-                          Leer novela <ArrowRight size={18} className="ms-2" />
-                        </Link>
-                      </div>
-                    </Card>
-                  </Col>
-                ))}
-              </Row>
-            )}
+            {latestChapters.map((entry, index) => {
+              // Determina el rango de capítulos
+              const chapterRange =
+                entry.startChapter === entry.endChapter
+                  ? `Capítulo ${entry.startChapter + 1}`
+                  : `Capítulos ${entry.startChapter + 1} a ${entry.endChapter + 1}`;
+
+              // Formato de la fecha
+              const datePublished = new Date(entry.publishedAt);
+              const formattedDate = datePublished.toLocaleDateString('es-ES', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              });
+
+              return (
+                <Col key={index} md={6} lg={4} className="d-flex">
+                  <Card className="chapter-card flex-fill shadow-sm">
+                    <div className="card-body">
+                      <h5 className="card-title d-flex align-items-center">
+                        <BookOpen size={20} className="me-2" />
+                        {entry.novelTitle}
+                      </h5>
+                      <p className="card-text date d-flex align-items-center">
+                        <Calendar size={18} className="me-2" />
+                        {formattedDate}
+                      </p>
+                      <p className="card-text">
+                        {chapterRange}
+                      </p>
+                      <Link to={`/story-detail/${entry.novelId}`} className="btn btn-primary">
+                        Leer novela <ArrowRight />
+                      </Link>
+                    </div>
+                  </Card>
+                </Col>
+              );
+            })}
           </Row>
         )}
       </Container>

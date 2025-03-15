@@ -441,6 +441,12 @@ const verifyPassword = async (req, res) => {
   }
 };
 
+const isSameDay = (date1, date2) => {
+  return date1.getDate() === date2.getDate() && 
+         date1.getMonth() === date2.getMonth() && 
+         date1.getFullYear() === date2.getFullYear();
+};
+
 const getLatestChapters = async (req, res) => {
   try {
     const novels = await Novel.find({}, 'title chapters').lean();
@@ -459,31 +465,35 @@ const getLatestChapters = async (req, res) => {
     // Ordenar por fecha de publicación
     allChapters.sort((a, b) => b.publishedAt - a.publishedAt);
 
-    // Agrupar capítulos consecutivos por novela
+    // Agrupar capítulos por novela y día
     const groupedChapters = {};
-    
+
     allChapters.forEach(chap => {
       const key = chap.novelId;
       if (!groupedChapters[key]) {
-        groupedChapters[key] = {
+        groupedChapters[key] = [];
+      }
+
+      // Verificar si el capítulo pertenece al mismo día que el anterior
+      const lastChapter = groupedChapters[key].length > 0 ? groupedChapters[key][groupedChapters[key].length - 1] : null;
+
+      if (lastChapter && isSameDay(lastChapter.publishedAt, chap.publishedAt)) {
+        // Si es el mismo día, agregar el capítulo a ese grupo
+        groupedChapters[key][groupedChapters[key].length - 1].chapters.push(chap);
+      } else {
+        // Si no es el mismo día, crear un nuevo grupo
+        groupedChapters[key].push({
           novelId: chap.novelId,
           novelTitle: chap.novelTitle,
-          startChapter: chap.chapterNumber,
-          endChapter: chap.chapterNumber,
           publishedAt: chap.publishedAt,
-          chapterCount: 1
-        };
-      } else {
-        // Si el capítulo es consecutivo, agruparlo
-        if (groupedChapters[key].startChapter - 1 === chap.chapterNumber) {
-          groupedChapters[key].startChapter = chap.chapterNumber;
-          groupedChapters[key].chapterCount++;
-        }
+          chapters: [chap], // Nuevo grupo para este día
+        });
       }
     });
 
-    // Convertir objeto en array y ordenarlo por fecha
+    // Convertir objeto en array y ordenarlo por fecha de publicación
     const latestGroupedChapters = Object.values(groupedChapters)
+      .flatMap(group => group)
       .sort((a, b) => b.publishedAt - a.publishedAt)
       .slice(0, 12); // Limitar a los últimos 12 grupos
 
