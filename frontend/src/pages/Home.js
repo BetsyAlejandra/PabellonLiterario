@@ -17,15 +17,8 @@ const Home = () => {
   useEffect(() => {
     const fetchNovels = async () => {
       try {
-        const res = await fetch('/api/novels/latest') .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error('Error:', error));
+        const res = await fetch('/api/novels/latest');
         if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
-
-        const contentType = res.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-          throw new Error("Respuesta no es JSON");
-        }
 
         const data = await res.json();
         if (!Array.isArray(data)) throw new Error("Datos inválidos");
@@ -40,33 +33,44 @@ const Home = () => {
     };
 
     fetchNovels();
+  }, []);
 
-    setTimeout(async () => {
+  useEffect(() => {
+    const fetchData = async () => {
       try {
         const [novelsRes, latestChaptersRes] = await Promise.all([
           fetch('/api/novels?page=1&limit=8'),
           fetch('/api/novels/latest-chapters')
         ]);
 
-        setNovels(await novelsRes.json());
-        setLatestChapters(await latestChaptersRes.json());
+        if (!novelsRes.ok || !latestChaptersRes.ok) throw new Error("Error al cargar datos");
+
+        const novelsData = await novelsRes.json();
+        const latestChaptersData = await latestChaptersRes.json();
+
+        setNovels(novelsData);
+        setLatestChapters(latestChaptersData);
       } catch (error) {
         console.error(error);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
-    }, 1000);
+    };
+
+    setTimeout(fetchData, 1000);
   }, []);
 
 
+
   const [latestChapters, setLatestChapters] = useState(() => []);
-  const novelsMemo = useMemo(() => novels, [novels]);
+  const novelsMemo = useMemo(() => (novels.length > 0 ? novels : []), [novels]);
 
   const settings = {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: Math.min(novelsMemo.length, 8),
+    slidesToShow: novelsMemo.length > 0 ? Math.min(novelsMemo.length, 8) : 1,
     slidesToScroll: 1,
     lazyLoad: "progressive",
     responsive: [
@@ -75,6 +79,7 @@ const Home = () => {
       { breakpoint: 576, settings: { slidesToShow: 1 } }
     ],
   };
+
 
   return (
     <div className="home-page">
