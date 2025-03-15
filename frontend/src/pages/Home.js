@@ -169,7 +169,7 @@ const Home = () => {
 
 
       <Container className="mt-4">
-        <h2 className="text-center mb-4">Últimas Actualizaciones</h2>
+        <h2 className="text-center mb-4" style={{ color: '#F1E4D1' }}>Últimas Actualizaciones</h2>
 
         {loading ? (
           <div className="text-center">
@@ -204,22 +204,22 @@ const Home = () => {
 
               return (
                 <Col key={index} md={6} lg={4} className="d-flex">
-                  <Card className="chapter-card flex-fill shadow-sm">
-                    <div className="card-body">
-                      <h5 className="card-title d-flex align-items-center">
+                  <Card className="chapter-card flex-fill shadow-sm" style={{ backgroundColor: '#E6D6C3', borderRadius: '12px' }}>
+                    <div className="card-body" style={{ padding: '1.2rem', color: '#D6B4A1' }}>
+                      <h5 className="card-title d-flex align-items-center" style={{ color: '#D7E2E9' }}>
                         <BookOpen size={20} className="me-2" />
                         {entry.novelTitle} {/* Título de la novela */}
                       </h5>
-                      <p className="card-text date d-flex align-items-center">
+                      <p className="card-text date d-flex align-items-center" style={{ color: '#C9D6D5', fontSize: '0.9rem' }}>
                         <Calendar size={18} className="me-2" />
                         {formattedDate} {/* Fecha de publicación */}
                       </p>
-                      <p className="card-text">
+                      <p className="card-text" style={{ color: '#F0E1D6' }}>
                         {firstChapter === lastChapter
                           ? `Capítulo actualizado: ${firstChapterTitle || 'No disponible'}`
-                          : `Actualización de capítulos: ${firstChapter} - ${lastChapter}`}
+                          : `Actualización de capítulos: ${firstChapterTitle || 'No disponible'} - ${lastChapterTitle || 'No disponible'}`}
                       </p>
-                      <Link to={`/story-detail/${entry.novelId}`} className="btn btn-primary">
+                      <Link to={`/story-detail/${entry.novelId}`} className="btn btn-primary" style={{ backgroundColor: '#F7E1D7', color: '#D6B4A1', borderRadius: '25px', padding: '0.8rem 1.5rem' }}>
                         Leer novela <ArrowRight />
                       </Link>
                     </div>
@@ -230,6 +230,7 @@ const Home = () => {
           </Row>
         )}
       </Container>
+
 
 
 

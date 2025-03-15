@@ -206,82 +206,6 @@ body {
   object-fit: cover; /* Mantiene la proporción sin deformar */
 }
 
-
-.chapter-card {
-  background-color: #E6D6C3;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.chapter-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* Estilo para el cuerpo de la tarjeta */
-.card-body {
-  padding: 1.2rem;
-  color: #D6B4A1;
-}
-
-/* Estilo para los títulos dentro de la tarjeta */
-.card-title {
-  font-size: 1.2rem;
-  color: #D7E2E9;
-  font-weight: bold;
-}
-
-/* Estilo para el texto de la fecha */
-.card-text.date {
-  font-size: 0.9rem;
-  color: #C9D6D5;
-  margin-top: 0.5rem;
-}
-
-/* Estilo para los detalles de capítulos */
-.card-text {
-  font-size: 1rem;
-  color: #F0E1D6;
-  margin-bottom: 0.8rem;
-}
-
-/* Estilo para el botón */
-.btn-primary {
-  background-color: #F7E1D7;
-  color: #D6B4A1;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 25px;
-  transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-  background-color: #C9D6D5;
-  color: #F1E4D1;
-}
-
-/* Spinner */
-.spinner-border {
-  color: #D7E2E9;
-}
-
-/* Ajustes para pantallas pequeñas */
-@media (max-width: 768px) {
-  .chapter-card {
-    margin-bottom: 1.2rem;
-  }
-
-  .card-title {
-    font-size: 1rem;
-  }
-
-  .card-text {
-    font-size: 0.9rem;
-  }
-}
-
 /* Contenedor principal */
 .ranking-container {
   text-align: center;
@@ -386,3 +310,5 @@ body {
   border-radius: 8px;
   padding: 8px;
 }
+
+
