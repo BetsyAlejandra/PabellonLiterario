@@ -18,12 +18,22 @@ const Home = () => {
     const fetchNovels = async () => {
       try {
         const res = await fetch('/api/novels/latest');
-        if (!res.ok) throw new Error('Error al obtener novelas');
+        if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
+    
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Respuesta no es JSON");
+        }
+    
         setLatestNovels(await res.json());
       } catch (error) {
         console.error(error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
+    
 
     fetchNovels();
 
