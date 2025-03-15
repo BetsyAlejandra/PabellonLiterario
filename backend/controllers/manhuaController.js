@@ -3,35 +3,37 @@ const { upload } = require("../middlewares/upload.js");
 const fs = require("fs");
 const path = require("path");
 
-// Subir un nuevo Manhua
 const createManhua = async (req, res) => {
   try {
-
-    console.log("Datos recibidos en el body:", req.body);
-    console.log("Archivo recibido:", req.file);
-
     const { title, alternativeTitle, description, genres, status, demographic } = req.body;
+
+    let genreArray;
+    try {
+      genreArray = JSON.parse(genres);
+    } catch (error) {
+      genreArray = genres.split(",").map((g) => g.trim());
+    }
+
     const coverImage = req.file ? `/uploads/${req.file.filename}` : null;
 
     const newManhua = new Manhua({
       title,
-      alternativeTitle,
+      alternativeTitle: alternativeTitle || "",
       description,
       coverImage,
-      genres: genres.split(","),
-      status,
-      demographic,
-      chapters: []
+      genres: genreArray,
+      status: status || "En emisión",
+      demographic: demographic || "Desconocido",
+      chapters: [],
     });
 
-    console.log("Guardando en la BD...");
     await newManhua.save();
-    console.log("Guardado con éxito.");
-    res.status(201).json({ message: "Manhua creado con éxito", manhua: newManhua });
+    res.status(201).json({ success: true, message: "Manhua creado con éxito", manhua: newManhua });
   } catch (error) {
-    res.status(500).json({ message: "Error al crear el manhua", error });
+    res.status(500).json({ success: false, message: "Error al crear el manhua", error });
   }
 };
+
 
 // Agregar un capítulo a un Manhua existente
 const addChapter = async (req, res) => {

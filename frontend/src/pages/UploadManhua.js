@@ -7,8 +7,11 @@ const UploadManhua = () => {
   const navigate = useNavigate();
   const [manhuaData, setManhuaData] = useState({
     title: "",
+    alternativeTitle: "",
     description: "",
     genre: "",
+    status: "En emisión", // Valor por defecto
+    demographic: "Danmei", // Valor por defecto
     cover: null,
   });
 
@@ -26,18 +29,29 @@ const UploadManhua = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!manhuaData.title.trim() || !manhuaData.description.trim() || !manhuaData.genre.trim() || !manhuaData.cover) {
+      alert("Todos los campos son obligatorios.");
+      return;
+    }
+
     const formData = new FormData();
-    
     formData.append("title", manhuaData.title);
+    formData.append("alternativeTitle", manhuaData.alternativeTitle);
     formData.append("description", manhuaData.description);
-    formData.append("genre", manhuaData.genre);
+    formData.append("status", manhuaData.status);
+    formData.append("demographic", manhuaData.demographic);
+
+    const genresArray = manhuaData.genre.split(",").map((g) => g.trim());
+    formData.append("genres", JSON.stringify(genresArray));
+
     if (manhuaData.cover) formData.append("coverImage", manhuaData.cover);
-  
+
     try {
       const response = await axios.post("/api/manhuas", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-  
+
       if (response.data.success) {
         alert("¡Manhua subido con éxito!");
         navigate("/manhuas");
@@ -46,14 +60,13 @@ const UploadManhua = () => {
       alert("Error al subir el manhua.");
       console.error("Error en el frontend:", error);
     }
-  };  
+  };
 
   return (
     <div className="upload-container">
       <h2 className="upload-title">Subir Nuevo Manhua</h2>
       <form onSubmit={handleSubmit} className="upload-form">
-        
-        {/* Título */}
+
         <div className="mb-3">
           <label className="form-label">Título del Manhua</label>
           <input
@@ -66,7 +79,17 @@ const UploadManhua = () => {
           />
         </div>
 
-        {/* Descripción */}
+        <div className="mb-3">
+          <label className="form-label">Título Alternativo</label>
+          <input
+            type="text"
+            name="alternativeTitle"
+            className="form-control"
+            value={manhuaData.alternativeTitle}
+            onChange={handleChange}
+          />
+        </div>
+
         <div className="mb-3">
           <label className="form-label">Descripción</label>
           <textarea
@@ -78,20 +101,40 @@ const UploadManhua = () => {
           ></textarea>
         </div>
 
-        {/* Género */}
         <div className="mb-3">
-          <label className="form-label">Género</label>
+          <label className="form-label">Géneros (separados por comas)</label>
           <input
             type="text"
             name="genre"
             className="form-control"
             value={manhuaData.genre}
             onChange={handleChange}
+            placeholder="Ej: Fantasía, Aventura, Acción"
             required
           />
         </div>
 
-        {/* Portada */}
+        <div className="mb-3">
+          <label className="form-label">Estado</label>
+          <select name="status" className="form-control" value={manhuaData.status} onChange={handleChange} required>
+            <option value="En emisión">En emisión</option>
+            <option value="Finalizado">Finalizado</option>
+            <option value="Cancelado">Cancelado</option>
+            <option value="Pausado">Pausado</option>
+          </select>
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Demografía</label>
+          <select name="demographic" className="form-control" value={manhuaData.demographic} onChange={handleChange} required>
+            <option value="Shounen">Shounen</option>
+            <option value="Shoujo">Shoujo</option>
+            <option value="Seinen">Seinen</option>
+            <option value="Josei">Josei</option>
+            <option value="Danmei">Danmei</option>
+          </select>
+        </div>
+
         <div className="mb-3">
           <label className="form-label">Portada</label>
           <input
@@ -108,7 +151,6 @@ const UploadManhua = () => {
           )}
         </div>
 
-        {/* Botón de enviar */}
         <button type="submit" className="upload-button">
           Subir Manhua
         </button>
