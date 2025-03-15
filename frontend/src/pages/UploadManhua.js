@@ -32,21 +32,21 @@ const UploadManhua = () => {
     formData.append("description", manhuaData.description);
     formData.append("genre", manhuaData.genre);
     if (manhuaData.cover) formData.append("coverImage", manhuaData.cover);
-
+  
     try {
       const response = await axios.post("/api/manhuas", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
+  
       if (response.data.success) {
         alert("¡Manhua subido con éxito!");
         navigate("/manhuas");
       }
     } catch (error) {
       alert("Error al subir el manhua.");
-      console.error(error);
+      console.error("Error en el frontend:", error);
     }
-  };
+  };  
 
   return (
     <div className="upload-container">
