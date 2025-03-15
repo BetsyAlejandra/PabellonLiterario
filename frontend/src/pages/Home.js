@@ -47,9 +47,10 @@ const Home = () => {
 
         const novelsData = await novelsRes.json();
         const latestChaptersData = await latestChaptersRes.json();
+        console.log(latestChaptersData);
 
         setNovels(novelsData);
-        setLatestChapters(latestChaptersData);
+        setLatestChapters(Array.isArray(latestChaptersData) ? latestChaptersData : []);
       } catch (error) {
         console.error(error);
         setError(error.message);
@@ -175,7 +176,7 @@ const Home = () => {
           <p className="text-center">No hay actualizaciones recientes.</p>
         ) : (
           <Row className="g-3 justify-content-center">
-            {latestChapters.map((entry, index) => (
+            {Array.isArray(latestChapters) && latestChapters.map((entry, index) => (
               <Col key={index} md={6} lg={4} className="d-flex">
                 <Card className="chapter-card flex-fill shadow-sm">
                   <div className="card-body">
