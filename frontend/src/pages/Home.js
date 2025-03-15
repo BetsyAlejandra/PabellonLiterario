@@ -169,7 +169,7 @@ const Home = () => {
 
 
       <Container className="mt-4">
-        <h2 className="text-center mb-4 dark">Últimas Actualizaciones</h2>
+        <h2 className="text-center mb-4">Últimas Actualizaciones</h2>
 
         {loading ? (
           <div className="text-center">
@@ -215,13 +215,9 @@ const Home = () => {
                         {formattedDate} {/* Fecha de publicación */}
                       </p>
                       <p className="card-text">
-                        Actualización de capítulos: {firstChapter} - {lastChapter} {/* Rango de capítulos */}
-                      </p>
-                      <p className="card-text">
-                        <strong>Primer capítulo:</strong> {firstChapterTitle || 'No disponible'}
-                      </p>
-                      <p className="card-text">
-                        <strong>Último capítulo:</strong> {lastChapterTitle || 'No disponible'}
+                        {firstChapter === lastChapter
+                          ? `Capítulo actualizado: ${firstChapterTitle || 'No disponible'}`
+                          : `Actualización de capítulos: ${firstChapter} - ${lastChapter}`}
                       </p>
                       <Link to={`/story-detail/${entry.novelId}`} className="btn btn-primary">
                         Leer novela <ArrowRight />
@@ -234,6 +230,7 @@ const Home = () => {
           </Row>
         )}
       </Container>
+
 
 
       {/* Últimas Traducciones */}
