@@ -102,8 +102,8 @@ const Home = () => {
           {loading ? (
             <Row>
               {[...Array(8)].map((_, index) => (
-                <Col key={index} md={3}>
-                  <div className="skeleton-card"></div> {/* Estilo CSS para simular carga */}
+                <Col key={index} md={3} sm={6} xs={12} className="mb-3">
+                  <div className="skeleton-card"></div>
                 </Col>
               ))}
             </Row>
@@ -111,13 +111,15 @@ const Home = () => {
             novelsMemo.length > 0 ? (
               <Slider {...settings}>
                 {novelsMemo.map(novel => (
-                  <Card key={novel._id} className="gallery-card">
-                    <Card.Img variant="top" src={novel.coverImage} alt={novel.title} />
-                    <Card.Body>
-                      <Card.Title>{novel.title}</Card.Title>
-                      <Button as={Link} to={`/story-detail/${novel._id}`}>Ver más</Button>
-                    </Card.Body>
-                  </Card>
+                  <div key={novel._id} className="gallery-card-wrapper">
+                    <Card className="gallery-card">
+                      <Card.Img variant="top" src={novel.coverImage} alt={novel.title} />
+                      <Card.Body>
+                        <Card.Title className="title">{novel.title}</Card.Title>
+                        <Button as={Link} to={`/story-detail/${novel._id}`} className="btn-view-more">Ver más</Button>
+                      </Card.Body>
+                    </Card>
+                  </div>
                 ))}
               </Slider>
             ) : (
@@ -126,6 +128,7 @@ const Home = () => {
           )}
         </Container>
       </section>
+
 
       <div class="ranking-container">
         <h2 class="ranking-title">🌟 Reconocimiento a Nuestro Equipo 🌟</h2>
@@ -204,22 +207,22 @@ const Home = () => {
 
               return (
                 <Col key={index} md={6} lg={4} className="d-flex">
-                  <Card className="chapter-card flex-fill shadow-sm" style={{ backgroundColor: '#D7B6A3', borderRadius: '12px' }}>
+                  <Card className="chapter-card flex-fill shadow-sm" style={{ backgroundColor: '#C9D6D5', borderRadius: '12px' }}>
                     <div className="card-body" style={{ padding: '1.2rem', color: '#F0E1D6' }}>
-                      <h5 className="card-title d-flex align-items-center" style={{ color: '#D7E2E9' }}>
+                      <h5 className="card-title d-flex align-items-center" style={{ color: '#5F7D8B' }}>
                         <BookOpen size={20} className="me-2" />
                         {entry.novelTitle} {/* Título de la novela */}
                       </h5>
-                      <p className="card-text date d-flex align-items-center" style={{ color: '#C9D6D5', fontSize: '0.9rem' }}>
+                      <p className="card-text date d-flex align-items-center" style={{ color: '#5A3D42', fontSize: '0.9rem' }}>
                         <Calendar size={18} className="me-2" />
                         {formattedDate} {/* Fecha de publicación */}
                       </p>
-                      <p className="card-text" style={{ color: '#F0E1D6' }}>
+                      <p className="card-text" style={{ color: '#8C6A4B' }}>
                         {firstChapter === lastChapter
                           ? `Capítulo actualizado: ${firstChapterTitle || 'No disponible'}`
                           : `Actualización de capítulos: ${firstChapterTitle || 'No disponible'} - ${lastChapterTitle || 'No disponible'}`}
                       </p>
-                      <Link to={`/story-detail/${entry.novelId}`} className="btn btn-primary" style={{ backgroundColor: '#F7E1D7', color: '#D6B4A1', borderRadius: '25px', padding: '0.8rem 1.5rem' }}>
+                      <Link to={`/story-detail/${entry.novelId}`} className="btn btn-primary" style={{ backgroundColor: '#C1D0B5', color: '#D6B4A1', borderRadius: '25px', padding: '0.8rem 1.5rem' }}>
                         Leer novela <ArrowRight />
                       </Link>
                     </div>
