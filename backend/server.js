@@ -7,6 +7,7 @@ const session = require('express-session');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const connectDB = require('./config/db');
+const compression = require('compression');
 const fs = require('fs');
 
 
@@ -15,6 +16,7 @@ const novelRoutes = require('./routes/novels');
 const userRoutes = require('./routes/users');
 const donationRoutes = require('./routes/donations');
 const audioDramaRoutes = require('./routes/audioDrama');
+const manhuaRoutes = require("./routes/manhua");
 const { sendUpdate } = require('./bot/bot')
 
 // Configuración de Rate Limiting
@@ -37,6 +39,7 @@ app.set('trust proxy', 1); // Si estás usando un solo proxy, como Nginx
 // Middleware de seguridad
 app.use(helmet());
 
+app.use(compression());
 
 // Configuración de CORS
 app.use(cors({
@@ -73,6 +76,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/novels', novelRoutes);
 app.use('/api/donations', donationRoutes);
 app.use('/api/audio-dramas', audioDramaRoutes);
+app.use("/api/manhuas", manhuaRoutes);
 
 // Servir en producción
 if (process.env.NODE_ENV === 'production') {
@@ -86,10 +90,17 @@ app.get('/api/status', (req, res) => {
   res.status(200).json({ message: 'Servidor funcionando correctamente' });
 });
 
+app.use((req, res, next) => {
+  res.status(404).json({ success: false, message: 'Ruta no encontrada' });
+});
+
 // Middleware para manejo de errores (debe estar después de las rutas)
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: 'Algo salió mal!' });
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || 'Ocurrió un error en el servidor',
+  });
 });
 
 // Iniciar servidor

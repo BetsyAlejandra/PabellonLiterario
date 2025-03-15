@@ -1,0 +1,83 @@
+.search-container {
+    background-color: rgba(255, 255, 255, 0.08);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-title {
+    color: #d4af37;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.search-form {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.search-input {
+    background-color: #222;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.search-btn {
+    background: linear-gradient(45deg, #d4af37, #b8860b);
+    border: none;
+    color: white;
+    font-weight: bold;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.search-btn:hover {
+    background: linear-gradient(45deg, #b8860b, #8b6508);
+}
+
+.manhua-card {
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+.manhua-card:hover {
+    transform: scale(1.05);
+}
+
+.manhua-img {
+    height: 250px;
+    object-fit: cover;
+    border-bottom: 2px solid #d4af37;
+}
+
+.manhua-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.manhua-genres {
+    color: #d4af37;
+    font-size: 0.9rem;
+}
+
+.manhua-btn {
+    display: block;
+    background: linear-gradient(45deg, #d4af37, #b8860b);
+    padding: 10px;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.manhua-btn:hover {
+    background: linear-gradient(45deg, #b8860b, #8b6508);
+}

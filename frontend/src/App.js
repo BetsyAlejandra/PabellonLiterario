@@ -16,6 +16,9 @@ import AvisoCookies from './Components/Cookies';
 import SobreNosotros from './Components/SobreNosotros';
 import DarkModeToggle from './Components/DarkModeToggle';
 import DonationPopup from './Components/DonationPopup';
+import ManhuaCard from './Components/ManhuaCard';
+import CustomPagination from './Components/Pagination';
+import SearchBar from './Components/SearchBar';
 
 //Contexto
 import { ReadChapterProvider } from './context/ReadChapterContext';
@@ -49,6 +52,16 @@ import AudioDramaDetails from './pages/AudioDramaDetails';
 import AudioDramaList from './pages/AudioDramaList';
 import SelectAudioDrama from './pages/SelectAudioDrama';
 import ChapterDetail from './pages/ChapterDetail';
+import ChapterDetails from './pages/ChapterDetails';
+import ChapterReader from './pages/ChapterReader';
+import DeleteChapter from './pages/DeleteChapter';
+import EditChapterM from './pages/EditChapterM';
+import ManhuaDetails from './pages/ManhuaDetails';
+import ManhuaList from './pages/ManhuaList';
+import PopularManhua from './pages/PopularManhuas';
+import RecentManhua from './pages/RecentManhuas';
+import UploadChapter from './pages/UploadChapter';
+import UploadManhua from './pages/UploadManhua';
 import Error404 from './pages/Error404';
 import Error500 from './pages/Error500';
 
@@ -103,6 +116,20 @@ function App() {
         <Route path="*" element={<Error404 />} />
 
         <Route path="/error500" element={<Error500 />} />
+
+        {/* Sección de Manhuas */}
+        <Route path="/manhuas" element={<ManhuaList />} />
+        <Route path="/manhuas/populares" element={<PopularManhua />} />
+        <Route path="/manhuas/recientes" element={<RecentManhua />} />
+        <Route path="/manhua/:id" element={<ManhuaDetails />} />
+        <Route path="/manhua/upload" element={<UploadManhua />} />
+
+        {/* Capítulos de Manhuas */}
+        <Route path="/manhua/:id/chapter/:chapterId" element={<ChapterDetails />} />
+        <Route path="/manhua/:id/chapter/:chapterId/read" element={<ChapterReader />} />
+        <Route path="/manhua/:id/upload-chapter" element={<UploadChapter />} />
+        <Route path="/manhua/:id/chapter/:chapterId/edit" element={<EditChapterM />} />
+        <Route path="/manhua/:id/chapter/:chapterId/delete" element={<DeleteChapter />} />
       </Routes>
       <DarkModeToggle />
       {!hideHeaderFooter && <FloatingButton />}

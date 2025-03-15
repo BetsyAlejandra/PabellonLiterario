@@ -136,6 +136,7 @@ const Header = () => {
             <Nav.Link as="div" className="custom-link" onClick={() => navigate("/")}>Home</Nav.Link>
             <Nav.Link as="div" className="custom-link" onClick={() => navigate("/Novelas")}>Novelas</Nav.Link>
             <Nav.Link as="div" className="custom-link" onClick={() => navigate("/audiodramas")}>Audio Dramas</Nav.Link>
+            <Nav.Link as="div" className="custom-link" onClick={() => navigate("/manhuas")}>Manhuas</Nav.Link>
             <NavDropdown title="Roles" id="roles-dropdown" className="custom-link">
               <NavDropdown.Item onClick={() => navigate("/traductores")}>Traductores</NavDropdown.Item>
               <NavDropdown.Item onClick={() => navigate("/editores")}>Editores</NavDropdown.Item>

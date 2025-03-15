@@ -1,0 +1,84 @@
+.upload-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .upload-title {
+    font-family: "Playfair Display", serif;
+    color: #e5c9a8; /* Dorado suave */
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .upload-form label {
+    color: #dac1a8;
+  }
+  
+  .upload-form input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #b8a28d;
+    color: white;
+  }
+  
+  .upload-form input::placeholder {
+    color: #b8a28d;
+  }
+  
+  .upload-preview {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .preview-img {
+    width: 120px;
+    height: auto;
+    border-radius: 5px;
+    margin: 5px;
+    position: relative;
+  }
+  
+  .remove-img-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .upload-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .upload-btn {
+    background-color: #87614f;
+    color: white;
+    transition: background 0.3s;
+  }
+  
+  .upload-btn:hover {
+    background-color: #6c4c3b;
+  }
+  
+  .cancel-btn {
+    background-color: #a18972;
+    color: white;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #8b6f58;
+  }
+  

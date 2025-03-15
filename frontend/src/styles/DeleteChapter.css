@@ -1,0 +1,38 @@
+.delete-container {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.text-danger {
+    color: #d9534f;
+}
+
+.text-muted {
+    color: #bbb;
+}
+
+.custom-btn-danger {
+    background-color: #d9534f;
+    border: none;
+    transition: 0.3s;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+.custom-btn-danger:hover {
+    background-color: #c9302c;
+}
+
+.custom-btn-secondary {
+    background-color: #444;
+    border: none;
+    transition: 0.3s;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+.custom-btn-secondary:hover {
+    background-color: #333;
+}

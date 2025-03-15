@@ -1,0 +1,24 @@
+.manhua-container {
+    padding: 20px;
+    background-color: #f8f3ff; /* Fondo pastel */
+    border-radius: 8px;
+  }
+  
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #5a3e85; /* Un tono lila elegante */
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+  }
+  
+  .spinner {
+    color: #7a52a1; /* Un color en armonía con la paleta */
+  }  

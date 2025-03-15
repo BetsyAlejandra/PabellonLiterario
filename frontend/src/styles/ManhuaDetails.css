@@ -1,0 +1,65 @@
+.manhua-details {
+    padding: 20px;
+    background-color: #f8f3ff;
+    /* Fondo pastel */
+    border-radius: 8px;
+}
+
+.back-button {
+    background-color: #7a52a1;
+    border: none;
+    padding: 8px 15px;
+    font-size: 1rem;
+    color: white;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.back-button:hover {
+    background-color: #5a3e85;
+}
+
+.manhua-info {
+    display: flex;
+    align-items: center;
+}
+
+.manhua-cover {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.manhua-text h2 {
+    font-family: 'Playfair Display', serif;
+    color: #5a3e85;
+}
+
+.manhua-text p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: #333;
+}
+
+.manhua-description {
+    font-style: italic;
+    color: #666;
+}
+
+.chapter-list {
+    margin-top: 15px;
+}
+
+.chapter-item {
+    font-family: 'Inter', sans-serif;
+    transition: 0.3s;
+}
+
+.chapter-item:hover {
+    background-color: #e4d3ff;
+    cursor: pointer;
+}
+
+.spinner {
+    color: #7a52a1;
+}

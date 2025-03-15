@@ -1,0 +1,23 @@
+.preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .preview-image {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+    border: 2px solid #87614f;
+  }
+  
+  .table-dark {
+    background: rgba(0, 0, 0, 0.9);
+  }
+  
+  h5 {
+    font-family: "Playfair Display", serif;
+    color: #e5c9a8;
+  }
+  

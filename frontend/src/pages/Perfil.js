@@ -201,6 +201,12 @@ const Perfil = () => {
             <button className="admin-panel-button" onClick={() => navigate('/audiodramacreacion')}>
               ⚜ Creación Audio Dramas ⚜
             </button>
+            <button className="admin-panel-button" onClick={() => navigate('/manhua/upload')}>
+              ⚜ Manhuas ⚜
+            </button>
+            <button className="admin-panel-button" onClick={() => navigate('/manhua/:id/upload-chapter')}>
+              ⚜ Actualización Manhuas ⚜
+            </button>
           </div>
           )}
 

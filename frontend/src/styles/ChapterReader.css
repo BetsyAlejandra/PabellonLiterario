@@ -1,0 +1,42 @@
+.chapter-container {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.chapter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffd700; /* Dorado */
+}
+
+.chapter-image {
+    max-width: 90%;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.back-button {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.back-button a {
+    background-color: #444;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.back-button a:hover {
+    background-color: #666;
+}

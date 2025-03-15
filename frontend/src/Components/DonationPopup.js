@@ -3,10 +3,10 @@ import { Modal, ProgressBar, Button } from "react-bootstrap";
 import "../styles/DonationPopup.css";
 
 const DonationPopup = () => {
-  const GOAL_AMOUNT = 100; // Meta de donaciones en USD
-  const CURRENT_AMOUNT = 40; // Modifica esto manualmente según avances en las donaciones
+  const GOAL_AMOUNT = 100;
+  const CURRENT_AMOUNT = 45;
   const STORAGE_KEY = "donation_popup_last_shown";
-  const HOURS_TO_WAIT = 24; // Tiempo de espera en horas antes de volver a mostrar
+  const HOURS_TO_WAIT = 24;
 
   const [show, setShow] = useState(false);
 

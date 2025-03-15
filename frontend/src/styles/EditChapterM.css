@@ -1,0 +1,45 @@
+.form-container {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ddd;
+    border-radius: 8px;
+}
+
+.custom-input:focus {
+    border-color: #c8a45d;
+    box-shadow: 0 0 5px #c8a45d;
+}
+
+.img-preview {
+    width: 120px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.custom-btn-primary {
+    background-color: #c8a45d;
+    border: none;
+    transition: 0.3s;
+}
+
+.custom-btn-primary:hover {
+    background-color: #b19050;
+}
+
+.custom-btn-secondary {
+    background-color: #444;
+    border: none;
+    transition: 0.3s;
+}
+
+.custom-btn-secondary:hover {
+    background-color: #333;
+}
