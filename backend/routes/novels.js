@@ -2,7 +2,7 @@ const express = require('express');
 const Novel = require('../models/Novel');
 const { createNovel, getNovels, getLatestNovels,
   getNovelById, addChapter, addReview, searchNovels,
-  getChapterById, deleteNovel, verifyPassword, deleteChapter } = require('../controllers/novelController');
+  getChapterById, deleteNovel, verifyPassword, deleteChapter, getLatestChapters } = require('../controllers/novelController');
 const { upload, handleMulterError } = require('../middlewares/upload');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
@@ -36,6 +36,8 @@ const getGenres = (req, res) => {
   ];
   res.status(200).json(genres);
 };
+
+router.get('/latest-chapters', getLatestChapters);
 
 router.get('/genres', getGenres); // Rutas específicas primero
 router.get('/search', searchNovels);

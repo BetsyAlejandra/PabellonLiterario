@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, Card } from 'react-bootstrap';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Container, Row, Col, Button, Card, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import '../styles/homeStyles.css';
 import "slick-carousel/slick/slick.css";
@@ -11,119 +11,50 @@ import headerImage from '../assets/Encabezado.png';
 const Home = () => {
   const [novels, setNovels] = useState([]);
   const [latestNovels, setLatestNovels] = useState([]);
-  const [latestChapters, setLatestChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchNovels = async () => {
       try {
-        const response = await fetch('/api/novels');
-        const contentType = response.headers.get('content-type');
-
-        if (!contentType || !contentType.includes('application/json')) {
-          throw new Error('Respuesta no es JSON');
-        }
-
-        const data = await response.json();
-
-        if (Array.isArray(data.novels)) {
-          setNovels(data.novels.slice(0, 20));
-        } else {
-          throw new Error('Respuesta inesperada: no es un arreglo');
-        }
-
-        setLoading(false);
+        const res = await fetch('/api/novels/latest');
+        if (!res.ok) throw new Error('Error al obtener novelas');
+        setLatestNovels(await res.json());
       } catch (error) {
-        console.error('Error en fetchNovels:', error.message);
-        setError(error.message);
-        setNovels([]);
-        setLoading(false);
-      }
-    };
-
-    const fetchLatestChapters = async () => {
-      try {
-        const response = await fetch('/api/novels');
-        const data = await response.json();
-
-        if (!data.novels) return;
-
-        let allChapters = data.novels.flatMap(novel =>
-          novel.chapters.map(chap => ({
-            ...chap,
-            novelTitle: novel.title,
-            novelId: novel._id,
-            date: new Date(chap.publishedAt).toISOString().split('T')[0],
-          }))
-        );
-
-        allChapters.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-        const latestChaptersMap = new Map();
-
-        allChapters.forEach(chapter => {
-          const key = `${chapter.novelTitle}-${chapter.date}`;
-          if (!latestChaptersMap.has(key)) {
-            latestChaptersMap.set(key, {
-              novelTitle: chapter.novelTitle,
-              novelId: chapter.novelId,
-              date: chapter.date,
-              chapters: [chapter.title],
-            });
-          } else {
-            latestChaptersMap.get(key).chapters.push(chapter.title);
-          }
-        });
-
-        const latestChapters = Array.from(latestChaptersMap.values())
-          .sort((a, b) => new Date(b.date) - new Date(a.date))
-          .slice(0, 12)
-          .map(entry => {
-            const { chapters } = entry;
-            const chapterRange = chapters.length > 1
-              ? `Capítulos: "${chapters[0]}" - "${chapters[chapters.length - 1]}"`
-              : `Capítulo: "${chapters[0]}"`;
-
-            return { ...entry, chapterRange };
-          });
-
-        setLatestChapters(latestChapters);
-
-      } catch (error) {
-        console.error('Error al obtener los últimos capítulos:', error);
-      }
-    };
-
-
-
-
-
-    const fetchLatestNovels = async () => {
-      try {
-        const response = await fetch('/api/novels/latest');
-        if (!response.ok) throw new Error('Error al obtener últimas novelas');
-        const data = await response.json();
-        setLatestNovels(data);
-      } catch (error) {
-        console.error('Error en fetchLatestNovels:', error.message);
-        setError(error.message);
-        setLatestNovels([]);
+        console.error(error);
       }
     };
 
     fetchNovels();
-    fetchLatestChapters();
-    fetchLatestNovels();
+
+    setTimeout(async () => {
+      try {
+        const [novelsRes, latestChaptersRes] = await Promise.all([
+          fetch('/api/novels?page=1&limit=8'),
+          fetch('/api/latest-chapters')
+        ]);
+
+        setNovels(await novelsRes.json());
+        setLatestChapters(await latestChaptersRes.json());
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }, 1000);
   }, []);
+
+
+  const [latestChapters, setLatestChapters] = useState(() => []);
+  const novelsMemo = useMemo(() => novels, [novels]);
 
   const settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: Math.min(novelsMemo.length, 8),
     slidesToScroll: 1,
-    lazyLoad: "ondemand",
+    lazyLoad: "progressive",
     responsive: [
       { breakpoint: 1024, settings: { slidesToShow: 3 } },
       { breakpoint: 768, settings: { slidesToShow: 2 } },
@@ -133,7 +64,7 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      {/* Encabezado */}
+      {/* Encabezado con precarga */}
       <header className="header-section" style={{ backgroundImage: `url(${headerImage})` }}>
         <Container className="text-center py-5">
           <h1>Pabellón Literario</h1>
@@ -142,19 +73,25 @@ const Home = () => {
         </Container>
       </header>
 
-      {/* Galería de Obras Traducidas */}
+      {/* Galería de Obras Traducidas con carga diferida */}
       <section className="translated-works-gallery py-5">
         <Container>
           <h2 className="text-center mb-4">Galería de Obras Traducidas</h2>
-          {loading ? <p className="text-center">Cargando...</p> : (
-            <Slider {...settings} className="carousel-slider">
-              {novels.map(novel => (
-                <Card key={novel._id} className="gallery-card mx-2">
-                  <div className="thumbnail-container">
-                    <Card.Img variant="top" src={novel.coverImage} alt={novel.title} loading="lazy" className="thumbnail-image" />
-                  </div>
-                  <Card.Body className="text-center">
-                    <Card.Title>{novel.title.length > 30 ? `${novel.title.slice(0, 30)}...` : novel.title}</Card.Title>
+          {loading ? (
+            <Row>
+              {[...Array(8)].map((_, index) => (
+                <Col key={index} md={3}>
+                  <div className="skeleton-card"></div> {/* Estilo CSS para simular carga */}
+                </Col>
+              ))}
+            </Row>
+          ) : (
+            <Slider {...settings}>
+              {novelsMemo.map(novel => (
+                <Card key={novel._id} className="gallery-card">
+                  <Card.Img variant="top" src={novel.coverImage} alt={novel.title} />
+                  <Card.Body>
+                    <Card.Title>{novel.title}</Card.Title>
                     <Button as={Link} to={`/story-detail/${novel._id}`}>Ver más</Button>
                   </Card.Body>
                 </Card>
@@ -205,34 +142,46 @@ const Home = () => {
 
 
 
-      <div className="container mt-4">
-        <div className="row g-3 justify-content-center">
-          <h2 className="text-center mb-4">Últimas Actualizaciones</h2>
-          {latestChapters.map((entry, index) => (
-            <div key={index} className="col-md-6 col-lg-4 d-flex">
-              <div className="card chapter-card flex-fill shadow-sm">
-                <div className="card-body">
-                  <h5 className="card-title">
-                    <BookOpen size={20} className="me-2" /> {entry.novelTitle}
-                  </h5>
-                  <p className="card-text date">
-                    <Calendar size={18} className="me-2" /> {entry.date}
-                  </p>
-                  <p className="card-text chapter-range">
-                    <BookOpen size={18} className="me-2" /> {entry.chapterRange}
-                  </p>
-                  <a href={`/story-detail/${entry.novelId}`} className="btn btn-read d-flex align-items-center">
-                    Leer novela <ArrowRight size={18} className="ms-2" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <Container className="mt-4">
+        <h2 className="text-center mb-4">Últimas Actualizaciones</h2>
 
-
-
+        {loading ? (
+          <div className="text-center">
+            <Spinner animation="border" role="status" />
+            <p>Cargando capítulos...</p>
+          </div>
+        ) : error ? (
+          <p className="text-center text-danger">{error}</p>
+        ) : latestChapters.length === 0 ? (
+          <p className="text-center">No hay actualizaciones recientes.</p>
+        ) : (
+          <Row className="g-3 justify-content-center">
+            {latestChapters.map((entry, index) => (
+              <Col key={index} md={6} lg={4} className="d-flex">
+                <Card className="chapter-card flex-fill shadow-sm">
+                  <div className="card-body">
+                    <h5 className="card-title d-flex align-items-center">
+                      <BookOpen size={20} className="me-2" />
+                      {entry.novelTitle}
+                    </h5>
+                    <p className="card-text date d-flex align-items-center">
+                      <Calendar size={18} className="me-2" />
+                      {entry.date}
+                    </p>
+                    <p className="card-text chapter-range d-flex align-items-center">
+                      <BookOpen size={18} className="me-2" />
+                      {entry.chapterRange}
+                    </p>
+                    <Link to={`/story-detail/${entry.novelId}`} className="btn btn-read d-flex align-items-center">
+                      Leer novela <ArrowRight size={18} className="ms-2" />
+                    </Link>
+                  </div>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        )}
+      </Container>
 
       {/* Últimas Traducciones */}
       <section className="latest-translations py-5 bg-dark">
@@ -254,6 +203,7 @@ const Home = () => {
           </Row>
         </Container>
       </section>
+
 
       {/* Soporte y Reclutamiento */}
       <section className="support-and-apply py-5">

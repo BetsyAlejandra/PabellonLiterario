@@ -441,10 +441,61 @@ const verifyPassword = async (req, res) => {
   }
 };
 
+const getLatestChapters = async (req, res) => {
+  try {
+    const novels = await Novel.find({}, 'title chapters').lean();
 
+    let allChapters = novels.flatMap(novel => 
+      novel.chapters.map(chap => ({
+        _id: chap._id,
+        title: chap.title,
+        novelTitle: novel.title,
+        novelId: novel._id,
+        publishedAt: new Date(chap.publishedAt),
+        chapterNumber: parseInt(chap.title.match(/\d+/)?.[0]) || 0, // Extrae número de capítulo
+      }))
+    );
+
+    // Ordenar por fecha de publicación
+    allChapters.sort((a, b) => b.publishedAt - a.publishedAt);
+
+    // Agrupar capítulos consecutivos por novela
+    const groupedChapters = {};
+    
+    allChapters.forEach(chap => {
+      const key = chap.novelId;
+      if (!groupedChapters[key]) {
+        groupedChapters[key] = {
+          novelId: chap.novelId,
+          novelTitle: chap.novelTitle,
+          startChapter: chap.chapterNumber,
+          endChapter: chap.chapterNumber,
+          publishedAt: chap.publishedAt,
+          chapterCount: 1
+        };
+      } else {
+        // Si el capítulo es consecutivo, agruparlo
+        if (groupedChapters[key].startChapter - 1 === chap.chapterNumber) {
+          groupedChapters[key].startChapter = chap.chapterNumber;
+          groupedChapters[key].chapterCount++;
+        }
+      }
+    });
+
+    // Convertir objeto en array y ordenarlo por fecha
+    const latestGroupedChapters = Object.values(groupedChapters)
+      .sort((a, b) => b.publishedAt - a.publishedAt)
+      .slice(0, 12); // Limitar a los últimos 12 grupos
+
+    res.json({ latestGroupedChapters });
+  } catch (error) {
+    console.error('Error al obtener capítulos agrupados:', error);
+    res.status(500).json({ message: 'Error en el servidor' });
+  }
+};
 
 module.exports = {
   createNovel, getNovels, getLatestNovels,
   getNovelById, addChapter, addReview, searchNovels, getChapterById,
-  deleteNovel, verifyPassword, deleteChapter
+  deleteNovel, verifyPassword, deleteChapter, getLatestChapters
 };

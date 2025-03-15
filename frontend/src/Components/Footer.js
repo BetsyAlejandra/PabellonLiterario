@@ -1,62 +1,37 @@
-// src/components/Footer.jsx
-import React, { useState } from 'react';
-import { Container, Row, Col, Modal, Button, Form } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import '../styles/components.css';
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import "../styles/components.css";
 
 const Footer = () => {
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState({
-    preguntas: false,
-    unete: false,
-    contactanos: false,
-    politica: false,
-    terminos: false,
-  });
-
-  const handleModal = (type, state) => {
-    setShowModal((prev) => ({ ...prev, [type]: state }));
-  };
+  const links = [
+    { path: "/preguntas", label: "Preguntas" },
+    { path: "/unete", label: "Únete a nosotros" },
+    { path: "/contactanos", label: "Contáctanos" },
+    { path: "/politica", label: "Política de Privacidad" },
+    { path: "/terminos", label: "Términos de Servicio" },
+    { path: "/disclaimer", label: "Disclaimer" },
+    { path: "/sobrenosotros", label: "Sobre Nosotros" },
+  ];
 
   return (
     <footer className="custom-footer">
       <Container>
         <Row className="text-center footer-links-row">
-          <Col>
-            <a className="footer-link" onClick={() => navigate('/preguntas')}>
-              Preguntas
-            </a>
-          </Col>
-          <Col>
-            <a className="footer-link" onClick={() => navigate('/unete')}>
-              Únete a nosotros
-            </a>
-          </Col>
-          <Col>
-            <a className="footer-link" onClick={() => navigate('/contactanos')}>
-              Contáctanos
-            </a>
-          </Col>
-          <Col>
-            <a className="footer-link" onClick={() => navigate('/politica')}>
-              Política de Privacidad
-            </a>
-          </Col>
-          <Col>
-            <a className="footer-link" onClick={() => navigate('/terminos')}>
-              Términos de Servicios
-            </a>
-          </Col>
-          <Col>
-            <a className="footer-link" onClick={() => navigate('/disclaimer')}>
-              Disclaimer
-            </a>
-          </Col>
-          <Col>
-            <a className="footer-link" onClick={() => navigate('/sobrenosotros')}>
-              Sobre Nosotros
-            </a>
-          </Col>
+          {links.map(({ path, label }) => (
+            <Col key={path}>
+              <span
+                className="footer-link"
+                role="link"
+                tabIndex="0"
+                onClick={() => navigate(path)}
+                onKeyDown={(e) => e.key === "Enter" && navigate(path)}
+              >
+                {label}
+              </span>
+            </Col>
+          ))}
         </Row>
       </Container>
     </footer>
