@@ -26,7 +26,7 @@ router.get("/:manhuaId", getManhuaDetails); // Obtener detalles de un Manhua
 
 // Capítulos
 router.post("/:manhuaId/chapters", upload.array("images", 30), addChapter);
-router.put("/:manhuaId/chapters/:chapterNumber", upload.array("images"), updateChapter); // Actualizar capítulo
+router.put("/:manhuaId/chapters/:chapterNumber", upload.array("images", 30), updateChapter); // Actualizar capítulo
 router.delete("/:manhuaId/chapters/:chapterNumber", deleteChapter); // Eliminar capítulo
 router.get("/:manhuaId/chapters/:chapterNumber", getChapter); // Obtener un capítulo específico
 
