@@ -204,7 +204,7 @@ const Perfil = () => {
             <button className="admin-panel-button" onClick={() => navigate('/manhua/upload')}>
               ⚜ Manhuas ⚜
             </button>
-            <button className="admin-panel-button" onClick={() => navigate('/manhua/:id/upload-chapter')}>
+            <button className="admin-panel-button" onClick={() => navigate('/select-manhua')}>
               ⚜ Actualización Manhuas ⚜
             </button>
           </div>

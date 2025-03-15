@@ -62,6 +62,7 @@ import PopularManhua from './pages/PopularManhuas';
 import RecentManhua from './pages/RecentManhuas';
 import UploadChapter from './pages/UploadChapter';
 import UploadManhua from './pages/UploadManhua';
+import SelectManhua from './pages/SelectManhua';
 import Error404 from './pages/Error404';
 import Error500 from './pages/Error500';
 
@@ -127,6 +128,7 @@ function App() {
         {/* Capítulos de Manhuas */}
         <Route path="/manhua/:id/chapter/:chapterId" element={<ChapterDetails />} />
         <Route path="/manhua/:id/chapter/:chapterId/read" element={<ChapterReader />} />
+        <Route path="/select-manhua" element={<SelectManhua />} />
         <Route path="/manhua/:id/upload-chapter" element={<UploadChapter />} />
         <Route path="/manhua/:id/chapter/:chapterId/edit" element={<EditChapterM />} />
         <Route path="/manhua/:id/chapter/:chapterId/delete" element={<DeleteChapter />} />

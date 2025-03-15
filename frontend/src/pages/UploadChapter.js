@@ -4,8 +4,6 @@ import axios from "axios";
 import { Container, Form, Button, Image, Alert } from "react-bootstrap";
 import "../styles/UploadChapter.css";
 
-const ADMIN_ID = "674ceb9febf82a8ddeecbbea";
-
 const UploadChapter = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -15,16 +13,6 @@ const UploadChapter = () => {
   const [previewImages, setPreviewImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const userId = localStorage.getItem("userId");
-
-  useEffect(() => {
-    if (userId !== ADMIN_ID) {
-      alert("No tienes permisos para acceder a esta página.");
-      navigate("/");
-      return;
-    }
-  }, [navigate, userId]);
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);

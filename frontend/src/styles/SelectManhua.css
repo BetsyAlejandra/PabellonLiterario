@@ -1,0 +1,76 @@
+.select-manhua-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.select-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Barra de búsqueda */
+.search-bar {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Grid de manhuas */
+.manhua-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+/* Tarjetas de manhuas */
+.manhua-card {
+    background: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.manhua-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.manhua-cover {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    border-bottom: 2px solid #ddd;
+}
+
+.manhua-info {
+    padding: 10px;
+    text-align: center;
+}
+
+.manhua-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #444;
+    margin: 5px 0;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+    .manhua-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .manhua-cover {
+        height: 200px;
+    }
+}
