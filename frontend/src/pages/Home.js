@@ -11,8 +11,17 @@ import headerImage from '../assets/Encabezado.png';
 const Home = () => {
   const [novels, setNovels] = useState([]);
   const [latestNovels, setLatestNovels] = useState([]);
+  const [latestChapters, setLatestChapters] = useState(() => []);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = headerImage;
+    document.head.appendChild(link);
+  }, []);
 
   useEffect(() => {
     const fetchNovels = async () => {
@@ -43,16 +52,13 @@ const Home = () => {
           fetch('/api/novels/latest-chapters')
         ]);
 
-
         if (!novelsRes.ok || !latestChaptersRes.ok) throw new Error("Error al cargar datos");
 
         const novelsData = await novelsRes.json();
         const latestChaptersData = await latestChaptersRes.json();
 
-        setNovels(Array.isArray(novelsData.novels) ? novelsData.novels : []);
-        const chapters = Array.isArray(latestChaptersData.latestGroupedChapters) ? latestChaptersData.latestGroupedChapters : [];
-
-        setLatestChapters(chapters);
+        setNovels(novelsData.novels || []);
+        setLatestChapters(latestChaptersData.latestGroupedChapters || []);
       } catch (error) {
         console.error(error);
         setError(error.message);
@@ -61,15 +67,13 @@ const Home = () => {
       }
     };
 
-    fetchData();
+    // Carga diferida para mejorar INP
+    requestIdleCallback(fetchData);
   }, []);
 
+  const novelsMemo = useMemo(() => novels, [novels]);
 
-
-  const [latestChapters, setLatestChapters] = useState(() => []);
-  const novelsMemo = novels;
-
-  const settings = {
+  const settings = useMemo(() => ({
     dots: false,
     infinite: false,
     speed: 500,
@@ -81,12 +85,11 @@ const Home = () => {
       { breakpoint: 768, settings: { slidesToShow: 2 } },
       { breakpoint: 576, settings: { slidesToShow: 1 } }
     ],
-  };
+  }), [novelsMemo.length]);
 
 
   return (
     <div className="home-page">
-      {/* Encabezado con precarga */}
       <header className="header-section" style={{ backgroundImage: `url(${headerImage})` }}>
         <Container className="text-center py-5">
           <h1>Pabellón Literario</h1>
@@ -95,7 +98,6 @@ const Home = () => {
         </Container>
       </header>
 
-      {/* Galería de Obras Traducidas con carga diferida */}
       <section className="translated-works-gallery py-5">
         <Container>
           <h2 className="text-center mb-4">Galería de Obras Traducidas</h2>
@@ -113,7 +115,15 @@ const Home = () => {
                 {novelsMemo.map(novel => (
                   <div key={novel._id} className="gallery-card-wrapper">
                     <Card className="gallery-card">
-                      <Card.Img variant="top" src={novel.coverImage} alt={novel.title} />
+                      <Card.Img
+                        variant="top"
+                        src={novel.coverImage}
+                        alt={novel.title}
+                        loading="lazy"
+                        width="200"
+                        height="300"
+                        style={{ objectFit: "cover" }}
+                      />
                       <Card.Body>
                         <Card.Title className="title">{novel.title}</Card.Title>
                         <Button as={Link} to={`/story-detail/${novel._id}`} className="btn-view-more">Ver más</Button>
@@ -169,8 +179,6 @@ const Home = () => {
         </div>
       </div>
 
-
-
       <Container className="mt-4">
         <h2 className="text-center mb-4" style={{ color: '#D6B4A1' }}>Últimas Actualizaciones</h2>
 
@@ -186,12 +194,10 @@ const Home = () => {
         ) : (
           <Row className="g-3 justify-content-center">
             {latestChapters.map((entry, index) => {
-              // Obtener el rango de capítulos
               const chapterNumbers = entry.chapters.map(chap => chap.chapterNumber);
               const firstChapter = Math.min(...chapterNumbers);
               const lastChapter = Math.max(...chapterNumbers);
 
-              // Obtener el título del primer y último capítulo
               const firstChapterTitle = entry.chapters.find(chap => chap.chapterNumber === firstChapter)?.title;
               const lastChapterTitle = entry.chapters.find(chap => chap.chapterNumber === lastChapter)?.title;
 
@@ -234,11 +240,6 @@ const Home = () => {
         )}
       </Container>
 
-
-
-
-
-      {/* Últimas Traducciones */}
       <section className="latest-translations py-5 bg-dark">
         <Container>
           <h2 className="text-center mb-4">Últimas Traducciones</h2>
@@ -259,8 +260,6 @@ const Home = () => {
         </Container>
       </section>
 
-
-      {/* Soporte y Reclutamiento */}
       <section className="support-and-apply py-5">
         <Container>
           <Row>
@@ -278,7 +277,6 @@ const Home = () => {
         </Container>
       </section>
 
-      {/* Historia y Logros */}
       <section className="history-and-achievements py-5 bg-dark">
         <Container>
           <h2 className="text-center mb-4">Historia y Logros</h2>

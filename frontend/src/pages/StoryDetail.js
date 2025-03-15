@@ -1,4 +1,3 @@
-// src/components/StoryDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -10,62 +9,43 @@ const StoryDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { markChapterAsRead, isChapterRead } = useReadChapter();
-
     const [story, setStory] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [saved, setSaved] = useState(false);
     const [review, setReview] = useState('');
-    const [showModal, setShowModal] = useState(false);
-    const [selectedReview, setSelectedReview] = useState(null); // Reseña seleccionada para responder
-    const [reply, setReply] = useState(''); // Respuesta a la reseña
-
-    // Modal para password si el idioma es Coreano
     const [showPasswordModal, setShowPasswordModal] = useState(false);
     const [enteredPassword, setEnteredPassword] = useState('');
     const [chapterToRead, setChapterToRead] = useState(null);
-    const [passwordError, setPasswordError] = useState(''); // Para mostrar errores de contraseña
+    const [passwordError, setPasswordError] = useState('');
     const [readChapters, setReadChapters] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
-    // Estado para manejar la autorización de capítulos
     const [authorizedChapters, setAuthorizedChapters] = useState({});
-
-    // Paginación
     const [currentPage, setCurrentPage] = useState(1);
-    const chaptersPerPage = 10; // Número de capítulos por página
-    const maxPaginationButtons = 5; // Número máximo de botones de paginación visibles
-
-    // Nuevos estados para advertencia +18
-    const [show18Warning, setShow18Warning] = useState(false); // Controla la visibilidad del modal de advertencia +18
-    const [chapterToAccess, setChapterToAccess] = useState(null); // Almacena el ID del capítulo que el usuario quiere acceder
+    const chaptersPerPage = 10;
+    const maxPaginationButtons = 5;
+    const [show18Warning, setShow18Warning] = useState(false);
+    const [chapterToAccess, setChapterToAccess] = useState(null);
 
     useEffect(() => {
         const fetchStory = async () => {
             try {
                 const res = await axios.get(`/api/novels/${id}`);
                 const storyData = res.data;
-
-                // Verificar si los colaboradores están correctamente poblados
                 if (!storyData.collaborators || !Array.isArray(storyData.collaborators)) {
                     throw new Error('Datos de colaboradores inválidos.');
                 }
-
-                // Identificar colaboradores con 'Usuario Desconocido'
                 const invalidCollaborators = storyData.collaborators.filter(col => !col.user || !col.user.username);
 
                 if (invalidCollaborators.length > 0) {
-                    // Obtener los IDs de los colaboradores inválidos
                     const invalidIds = invalidCollaborators.map(col => col._id);
 
-                    // Hacer solicitudes para obtener los datos de estos usuarios
                     const userPromises = invalidIds.map(id => axios.get(`/api/users/${id}`));
 
                     try {
                         const userResponses = await Promise.all(userPromises);
                         const usersData = userResponses.map(response => response.data);
 
-                        // Actualizar los colaboradores con los datos obtenidos
                         const updatedCollaborators = storyData.collaborators.map(col => {
                             if (!col.user || !col.user.username) {
                                 const fetchedUser = usersData.find(user => user.username === col.username);
@@ -82,7 +62,6 @@ const StoryDetail = () => {
                         setStory({ ...storyData, collaborators: updatedCollaborators });
                     } catch (err) {
                         console.error('Error al obtener datos de colaboradores inválidos:', err);
-                        // Opcional: manejar errores específicos
                     }
                 } else {
                     setStory(storyData);
@@ -153,21 +132,6 @@ const StoryDetail = () => {
         }
     };
 
-
-    const handleReplySubmit = async (e, reviewId) => {
-        e.preventDefault();
-        try {
-            await axios.post(`/api/novels/${id}/reviews/${reviewId}/reply`, {
-                text: reply,
-            }, { withCredentials: true });
-            alert('Respuesta enviada.');
-            setReply('');
-            setSelectedReview(null);
-        } catch (err) {
-            alert('Error al enviar la respuesta.');
-        }
-    };
-
     const handleReadChapter = (chapterId) => {
         markChapterAsRead(chapterId);
         if (story.classification === '+18') {
@@ -229,22 +193,18 @@ const StoryDetail = () => {
     if (error) return <p className="story-detail-error">{error}</p>;
     if (!story) return <p className="story-detail-error">Historia no encontrada.</p>;
 
-    // Calcular capítulos visibles para la página actual
     const indexOfLastChapter = currentPage * chaptersPerPage;
     const indexOfFirstChapter = indexOfLastChapter - chaptersPerPage;
     const currentChapters = story.chapters.slice(indexOfFirstChapter, indexOfLastChapter);
 
-    // Número total de páginas
     const totalPages = Math.ceil(story.chapters.length / chaptersPerPage);
 
-    // Crear botones de paginación limitados
     const getPaginationButtons = () => {
         const buttons = [];
         const half = Math.floor(maxPaginationButtons / 2);
         let startPage = Math.max(1, currentPage - half);
         let endPage = Math.min(totalPages, startPage + maxPaginationButtons - 1);
 
-        // Ajustar el startPage si estamos cerca del final
         if (endPage - startPage < maxPaginationButtons - 1) {
             startPage = Math.max(1, endPage - maxPaginationButtons + 1);
         }
@@ -269,21 +229,20 @@ const StoryDetail = () => {
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3101266953328074"
                     crossorigin="anonymous"></script>
             )}
-
-            {/* Fila para Portada y Tarjeta de Información */}
             <Row className="align-items-stretch">
-                {/* Columna Izquierda: Portada */}
                 <Col md={4} sm={12} className="mb-4">
                     <Card className="shadow-sm story-detail-card h-100">
                         <div className="story-detail-card-image-container">
                             <Card.Img
-                                variant="top"
-                                src={story.coverImage}
+                                loading="lazy" 
+                                decoding="async"
+                                src={story.coverImage.replace('.jpg', '.webp')}
                                 alt={`Portada de ${story.title}`}
-                                className="story-detail-card-image"
+                                width="300"
+                                height="400"
                             />
+
                         </div>
-                        {/* Nueva Sección Debajo de la Imagen */}
                         <Card.Body className="story-detail-card-body">
                             <Button
                                 className="btn btn-secondary mt-2 story-detail-read-btn"
@@ -298,7 +257,6 @@ const StoryDetail = () => {
                             >
                                 {saved ? "Eliminar de la Biblioteca" : "Guardar en la Biblioteca"}
                             </Button>
-                            {/* Mostrar autor (usuario encargado) */}
                             <div className="mt-3 story-detail-author">
                                 <strong>Usuario:</strong>{' '}
                                 <Button variant="link" onClick={() => navigate(`/profileperson/${story.author}`)} className="story-detail-author-link">
@@ -309,7 +267,6 @@ const StoryDetail = () => {
                     </Card>
                 </Col>
 
-                {/* Columna Derecha: Tarjeta de Información */}
                 <Col md={8} sm={12} className="mb-4">
                     <Card className="shadow-sm story-detail-main-card h-100">
                         <Card.Body>
@@ -334,11 +291,9 @@ const StoryDetail = () => {
                                 <strong>Etiquetas:</strong>{' '}
                                 {story.tags.length > 0 ? story.tags.join(', ') : 'Sin etiquetas'}
                             </div>
-                            {/* Agregar Número de Capítulos */}
                             <div className="story-detail-info">
                                 <strong>Número de capítulos:</strong> {story.chapters.length}
                             </div>
-                            {/* Mostrar rawOrigin */}
                             <div className="mt-3 story-detail-raw-origin">
                                 <strong>Novela Original:</strong>{' '}
                                 {story.rawOrigin && story.rawOrigin.length > 0 ? (
@@ -347,13 +302,11 @@ const StoryDetail = () => {
                                     </a>
                                 ) : 'No disponible'}
                             </div>
-
                             <div className="mt-3 story-detail-collaborators">
                                 <strong>Colaboradores:</strong>{' '}
                                 {story.collaborators.length > 0 ? (
                                     story.collaborators.map((col, index) => (
                                         <div key={index} className="collaborator d-flex align-items-center mb-2">
-                                            {/* Mostrar el nombre del colaborador como un enlace */}
                                             {col.username !== 'Usuario Desconocido' ? (
                                                 <button
                                                     onClick={() => navigate(`/profileperson/${col.username}`)}
@@ -370,8 +323,6 @@ const StoryDetail = () => {
                                     'No hay colaboradores'
                                 )}
                             </div>
-
-                            {/* Mostrar adaptaciones */}
                             <div className="mt-3 story-detail-adaptations">
                                 <strong>Adaptaciones:</strong>{' '}
                                 {story.adaptations && story.adaptations.length > 0 ? (
@@ -383,8 +334,6 @@ const StoryDetail = () => {
                                     ))
                                 ) : 'No hay adaptaciones'}
                             </div>
-
-                            {/* Mostrar sinopsis completa */}
                             <div className="mt-3 story-detail-description">
                                 <strong>Sinopsis:</strong>
                                 <p>{story.description}</p>
@@ -394,11 +343,9 @@ const StoryDetail = () => {
                 </Col>
             </Row>
 
-            {/* Lista de Capítulos */}
             <div className="mt-5">
                 <h4 className="story-detail-chapters-title">Capítulos</h4>
                 {story.chapters.length ? (
-                    // Mostrar capítulos paginados
                     <>
                         {currentChapters.map((chapter) => (
                             <Card key={chapter._id} className="shadow-sm mb-2 story-chapter-card">
@@ -419,7 +366,6 @@ const StoryDetail = () => {
                         ))}
 
 
-                        {/* Control de paginación */}
                         {totalPages > 1 && (
                             <Pagination className="pagination">
                                 <Pagination.First disabled={currentPage === 1} onClick={() => setCurrentPage(1)} />
@@ -435,7 +381,6 @@ const StoryDetail = () => {
                 )}
             </div>
 
-            {/* Sección de Comentarios */}
             <div className="mt-5">
                 <h4 className="story-detail-comments-title">Comentarios</h4>
                 <form onSubmit={handleReviewSubmit} className="mb-4 story-detail-review-form">
@@ -463,16 +408,6 @@ const StoryDetail = () => {
                                     <strong>{rev.user.username}</strong>
                                 </div>
                                 <p className="story-detail-review-comment">{rev.comment}</p>
-                                <Button variant="link" onClick={() => setSelectedReview(rev)} className="story-detail-reply-btn">
-                                    Responder
-                                </Button>
-                                {rev.replies?.map((reply, index) => (
-                                    <Card key={index} className="mt-2 story-detail-reply-card">
-                                        <Card.Body>
-                                            <p className="story-detail-reply-text">{reply.text}</p>
-                                        </Card.Body>
-                                    </Card>
-                                ))}
                             </Card.Body>
                         </Card>
                     ))
@@ -481,36 +416,6 @@ const StoryDetail = () => {
                 )}
             </div>
 
-            {/* Modal Responder Reseña */}
-            <Modal show={!!selectedReview} onHide={() => setSelectedReview(null)} centered className="story-detail-modal">
-                <Modal.Header closeButton>
-                    <Modal.Title>Responder a {selectedReview?.user.username}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <textarea
-                        className="form-control story-detail-reply-textarea"
-                        rows="3"
-                        value={reply}
-                        onChange={(e) => setReply(e.target.value)}
-                        placeholder="Escribe tu respuesta..."
-                    />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button
-                        variant="primary"
-                        onClick={(e) => handleReplySubmit(e, selectedReview?._id)}
-                        disabled={!reply.trim()}
-                        className="story-detail-reply-submit-btn"
-                    >
-                        Responder
-                    </Button>
-                    <Button variant="secondary" onClick={() => setSelectedReview(null)} className="story-detail-reply-cancel-btn">
-                        Cancelar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
-            {/* Modal Contraseña (si idioma es coreano) */}
             <Modal show={showPasswordModal} onHide={() => setShowPasswordModal(false)} centered className="story-detail-modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Esta novela está protegida por contraseña</Modal.Title>
@@ -543,7 +448,6 @@ const StoryDetail = () => {
                 </Modal.Footer>
             </Modal>
 
-            {/* Modal Advertencia +18 */}
             <Modal show={show18Warning} onHide={() => setShow18Warning(false)} centered className="story-detail-modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Advertencia de Contenido +18</Modal.Title>

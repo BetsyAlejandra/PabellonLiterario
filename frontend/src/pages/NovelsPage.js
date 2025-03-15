@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, Suspense, lazy } from 'react';
 import { Button, Pagination } from 'react-bootstrap';
 import { Link, useSearchParams } from 'react-router-dom';
 import '../styles/NovelsPage.css';
+
+// Lazy load de la imagen
+const LazyImage = lazy(() => import('../Components/LazyImage.js'));
 
 const NovelsPage = () => {
   const [novels, setNovels] = useState([]);
@@ -11,7 +14,7 @@ const NovelsPage = () => {
   const novelsPerPage = 8;
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialPage = parseInt(searchParams.get('page')) || 1; // Lee la página desde la URL
+  const initialPage = parseInt(searchParams.get('page')) || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
 
   useEffect(() => {
@@ -37,9 +40,12 @@ const NovelsPage = () => {
   }, [currentPage]);
 
   useEffect(() => {
-    setSearchParams({ page: currentPage }); // Actualiza la URL cada vez que cambia la página
+    setSearchParams({ page: currentPage });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentPage, setSearchParams]);
+
+  const memoizedNovels = useMemo(() => novels, [novels]);
+  const handlePageChange = useCallback((page) => setCurrentPage(page), []);
 
   if (loading) return <div className="novels-loading">Cargando novelas...</div>;
   if (error) return <div className="novels-error">{error}</div>;
@@ -48,13 +54,15 @@ const NovelsPage = () => {
     <div className="novels-container">
       <h2 className="novels-title">Todas las Novelas</h2>
       <div className="novels-grid">
-        {novels.map((novel) => (
+        {memoizedNovels.map((novel, index) => (
           <div className="novels-card" key={novel._id}>
-            <img
-              src={novel.coverImage}
-              className="novels-cover"
-              alt={`Portada de ${novel.title}`}
-            />
+            <Suspense fallback={<div className="novels-placeholder">Cargando imagen...</div>}>
+              <LazyImage
+                src={novel.coverImage}
+                alt={`Portada de ${novel.title}`}
+                priority={index === 0}
+              />
+            </Suspense>
             <div className="novels-card-body">
               <h5 className="novels-card-title">{novel.title}</h5>
               <p className="novels-card-text">
@@ -74,24 +82,19 @@ const NovelsPage = () => {
 
       {/* Paginación */}
       <Pagination className="novels-pagination">
-        <Pagination.Prev onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} />
+        <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
 
         {currentPage > 2 && (
           <>
-            <Pagination.Item onClick={() => setCurrentPage(1)}>1</Pagination.Item>
+            <Pagination.Item onClick={() => handlePageChange(1)}>1</Pagination.Item>
             {currentPage > 3 && <Pagination.Ellipsis />}
           </>
         )}
 
-        {[...Array(totalPages)]
-          .map((_, index) => index + 1)
+        {Array.from({ length: totalPages }, (_, index) => index + 1)
           .filter((page) => page >= currentPage - 1 && page <= currentPage + 1)
           .map((page) => (
-            <Pagination.Item
-              key={page}
-              active={page === currentPage}
-              onClick={() => setCurrentPage(page)}
-            >
+            <Pagination.Item key={page} active={page === currentPage} onClick={() => handlePageChange(page)}>
               {page}
             </Pagination.Item>
           ))}
@@ -99,11 +102,11 @@ const NovelsPage = () => {
         {currentPage < totalPages - 1 && (
           <>
             {currentPage < totalPages - 2 && <Pagination.Ellipsis />}
-            <Pagination.Item onClick={() => setCurrentPage(totalPages)}>{totalPages}</Pagination.Item>
+            <Pagination.Item onClick={() => handlePageChange(totalPages)}>{totalPages}</Pagination.Item>
           </>
         )}
 
-        <Pagination.Next onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages} />
+        <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
       </Pagination>
     </div>
   );
