@@ -19,13 +19,13 @@ const {
 const router = express.Router();
 
 // CRUD Manhua
-router.post("/", upload.single("coverImage"), createManhua); // Crear un nuevo Manhua
+router.post("/", upload.single("coverImage"), createManhua);
 router.put("/:manhuaId", upload.single("coverImage"), updateManhua); // Actualizar Manhua
 router.delete("/:manhuaId", deleteManhua); // Eliminar Manhua
 router.get("/:manhuaId", getManhuaDetails); // Obtener detalles de un Manhua
 
 // Capítulos
-router.post("/:manhuaId/chapters", upload.array("images"), addChapter); // Agregar capítulo
+router.post("/:manhuaId/chapters", upload.array("images", 30), addChapter);
 router.put("/:manhuaId/chapters/:chapterNumber", upload.array("images"), updateChapter); // Actualizar capítulo
 router.delete("/:manhuaId/chapters/:chapterNumber", deleteChapter); // Eliminar capítulo
 router.get("/:manhuaId/chapters/:chapterNumber", getChapter); // Obtener un capítulo específico

@@ -32,12 +32,6 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const upload = multer({
-  storage,
-  fileFilter,
-  limits: { fileSize: 1024 * 1024 * 20 },
-}).array("images", 30);
-
 // Middleware de manejo de errores para multer
 const handleMulterError = (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
@@ -49,4 +43,9 @@ const handleMulterError = (err, req, res, next) => {
   next();
 };
 
-module.exports = { upload, handleMulterError };
+module.exports.upload = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: 1024 * 1024 * 20 },
+});
+module.exports.handleMulterError = handleMulterError;
