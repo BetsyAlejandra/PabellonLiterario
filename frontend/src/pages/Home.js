@@ -17,7 +17,9 @@ const Home = () => {
   useEffect(() => {
     const fetchNovels = async () => {
       try {
-        const res = await fetch('/api/novels/latest');
+        const res = await fetch('/api/novels/latest') .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
         if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
 
         const contentType = res.headers.get("content-type");
@@ -43,7 +45,7 @@ const Home = () => {
       try {
         const [novelsRes, latestChaptersRes] = await Promise.all([
           fetch('/api/novels?page=1&limit=8'),
-          fetch('/api/latest-chapters')
+          fetch('/api/novels/latest-chapters')
         ]);
 
         setNovels(await novelsRes.json());
