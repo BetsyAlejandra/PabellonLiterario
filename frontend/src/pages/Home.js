@@ -172,7 +172,7 @@ const Home = () => {
 
 
       <Container className="mt-4">
-        <h2 className="text-center mb-4" style={{ color: '#F1E4D1' }}>Últimas Actualizaciones</h2>
+        <h2 className="text-center mb-4" style={{ color: '#D6B4A1' }}>Últimas Actualizaciones</h2>
 
         {loading ? (
           <div className="text-center">
@@ -207,22 +207,22 @@ const Home = () => {
 
               return (
                 <Col key={index} md={6} lg={4} className="d-flex">
-                  <Card className="chapter-card flex-fill shadow-sm" style={{ backgroundColor: '#C9D6D5', borderRadius: '12px' }}>
-                    <div className="card-body" style={{ padding: '1.2rem', color: '#F0E1D6' }}>
-                      <h5 className="card-title d-flex align-items-center" style={{ color: '#5F7D8B' }}>
+                  <Card className="chapter-card flex-fill shadow-sm" style={{ backgroundColor: '#D7E2E9', borderRadius: '12px' }}>
+                    <div className="card-body" style={{ padding: '1.2rem', color: '#5F7D8B' }}>
+                      <h5 className="card-title d-flex align-items-center" style={{ color: '#C2B4D6' }}>
                         <BookOpen size={20} className="me-2" />
                         {entry.novelTitle} {/* Título de la novela */}
                       </h5>
-                      <p className="card-text date d-flex align-items-center" style={{ color: '#5A3D42', fontSize: '0.9rem' }}>
+                      <p className="card-text date d-flex align-items-center" style={{ color: '#D1B6B1', fontSize: '0.9rem' }}>
                         <Calendar size={18} className="me-2" />
                         {formattedDate} {/* Fecha de publicación */}
                       </p>
-                      <p className="card-text" style={{ color: '#8C6A4B' }}>
+                      <p className="card-text" style={{ color: '#D1B6B1' }}>
                         {firstChapter === lastChapter
                           ? `Capítulo actualizado: ${firstChapterTitle || 'No disponible'}`
                           : `Actualización de capítulos: ${firstChapterTitle || 'No disponible'} - ${lastChapterTitle || 'No disponible'}`}
                       </p>
-                      <Link to={`/story-detail/${entry.novelId}`} className="btn btn-primary" style={{ backgroundColor: '#C1D0B5', color: '#D6B4A1', borderRadius: '25px', padding: '0.8rem 1.5rem' }}>
+                      <Link to={`/story-detail/${entry.novelId}`} className="btn btn-primary" style={{ backgroundColor: '#8C6A4B', color: '#D0C4B7', borderRadius: '25px', padding: '0.8rem 1.5rem' }}>
                         Leer novela <ArrowRight />
                       </Link>
                     </div>
