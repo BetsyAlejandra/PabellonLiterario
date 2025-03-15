@@ -53,7 +53,7 @@ const Home = () => {
         console.log('Novels data:', novelsData);
         console.log('Latest chapters data:', latestChaptersData);
 
-        setNovels(novelsData);
+        setNovels(Array.isArray(novelsData.novels) ? novelsData.novels : []);
         setLatestChapters(Array.isArray(latestChaptersData) ? latestChaptersData : []);
       } catch (error) {
         console.error(error);
@@ -63,13 +63,14 @@ const Home = () => {
       }
     };
 
-    setTimeout(fetchData, 1000);
+    fetchData();
   }, []);
 
 
 
   const [latestChapters, setLatestChapters] = useState(() => []);
-  const novelsMemo = useMemo(() => (novels.length > 0 ? novels : []), [novels]);
+  const novelsMemo = novels;
+  console.log('novelsMemo:', novelsMemo);
 
   const settings = {
     dots: false,
@@ -110,17 +111,21 @@ const Home = () => {
               ))}
             </Row>
           ) : (
-            <Slider {...settings}>
-              {novelsMemo.map(novel => (
-                <Card key={novel._id} className="gallery-card">
-                  <Card.Img variant="top" src={novel.coverImage} alt={novel.title} />
-                  <Card.Body>
-                    <Card.Title>{novel.title}</Card.Title>
-                    <Button as={Link} to={`/story-detail/${novel._id}`}>Ver más</Button>
-                  </Card.Body>
-                </Card>
-              ))}
-            </Slider>
+            novelsMemo.length > 0 ? (
+              <Slider {...settings}>
+                {novelsMemo.map(novel => (
+                  <Card key={novel._id} className="gallery-card">
+                    <Card.Img variant="top" src={novel.coverImage} alt={novel.title} />
+                    <Card.Body>
+                      <Card.Title>{novel.title}</Card.Title>
+                      <Button as={Link} to={`/story-detail/${novel._id}`}>Ver más</Button>
+                    </Card.Body>
+                  </Card>
+                ))}
+              </Slider>
+            ) : (
+              <p>No hay novelas disponibles.</p>
+            )
           )}
         </Container>
       </section>
