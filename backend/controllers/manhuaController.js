@@ -6,6 +6,10 @@ const path = require("path");
 // Subir un nuevo Manhua
 const createManhua = async (req, res) => {
   try {
+
+    console.log("Datos recibidos en el body:", req.body);
+    console.log("Archivo recibido:", req.file);
+
     const { title, alternativeTitle, description, genres, status, demographic } = req.body;
     const coverImage = req.file ? `/uploads/${req.file.filename}` : null;
 
@@ -20,7 +24,9 @@ const createManhua = async (req, res) => {
       chapters: []
     });
 
+    console.log("Guardando en la BD...");
     await newManhua.save();
+    console.log("Guardado con éxito.");
     res.status(201).json({ message: "Manhua creado con éxito", manhua: newManhua });
   } catch (error) {
     res.status(500).json({ message: "Error al crear el manhua", error });
