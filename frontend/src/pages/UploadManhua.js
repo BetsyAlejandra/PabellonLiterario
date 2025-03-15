@@ -34,7 +34,7 @@ const UploadManhua = () => {
     if (manhuaData.cover) formData.append("cover", manhuaData.cover);
 
     try {
-      const response = await axios.post("/api/manhuas/upload", formData, {
+      const response = await axios.post("/api/manhuas", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
