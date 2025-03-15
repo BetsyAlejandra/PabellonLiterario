@@ -209,15 +209,15 @@ const Home = () => {
                 <Col key={index} md={6} lg={4} className="d-flex">
                   <Card className="chapter-card flex-fill shadow-sm" style={{ backgroundColor: '#5F7D8B', borderRadius: '12px' }}>
                     <div className="card-body" style={{ padding: '1.2rem', color: '#5F7D8B' }}>
-                      <h5 className="card-title d-flex align-items-center" style={{ color: '#C2B4D6' }}>
+                      <h5 className="card-title d-flex align-items-center" style={{ color: '#2C3E50' }}>
                         <BookOpen size={20} className="me-2" />
                         {entry.novelTitle} {/* Título de la novela */}
                       </h5>
-                      <p className="card-text date d-flex align-items-center" style={{ color: '#D1B6B1', fontSize: '0.9rem' }}>
+                      <p className="card-text date d-flex align-items-center" style={{ color: '#A0B5B1', fontSize: '0.9rem' }}>
                         <Calendar size={18} className="me-2" />
                         {formattedDate} {/* Fecha de publicación */}
                       </p>
-                      <p className="card-text" style={{ color: '#D1B6B1' }}>
+                      <p className="card-text" style={{ color: '#8C6A4B' }}>
                         {firstChapter === lastChapter
                           ? `Capítulo actualizado: ${firstChapterTitle || 'No disponible'}`
                           : `Actualización de capítulos: ${firstChapterTitle || 'No disponible'} - ${lastChapterTitle || 'No disponible'}`}
