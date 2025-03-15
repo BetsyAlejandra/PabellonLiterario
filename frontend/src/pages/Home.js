@@ -169,7 +169,7 @@ const Home = () => {
 
 
       <Container className="mt-4">
-        <h2 className="text-center mb-4">Últimas Actualizaciones</h2>
+        <h2 className="text-center mb-4 dark">Últimas Actualizaciones</h2>
 
         {loading ? (
           <div className="text-center">
@@ -187,6 +187,10 @@ const Home = () => {
               const chapterNumbers = entry.chapters.map(chap => chap.chapterNumber);
               const firstChapter = Math.min(...chapterNumbers);
               const lastChapter = Math.max(...chapterNumbers);
+
+              // Obtener el título del primer y último capítulo
+              const firstChapterTitle = entry.chapters.find(chap => chap.chapterNumber === firstChapter)?.title;
+              const lastChapterTitle = entry.chapters.find(chap => chap.chapterNumber === lastChapter)?.title;
 
               const datePublished = new Date(entry.publishedAt);
               const formattedDate = datePublished instanceof Date && !isNaN(datePublished)
@@ -212,6 +216,12 @@ const Home = () => {
                       </p>
                       <p className="card-text">
                         Actualización de capítulos: {firstChapter} - {lastChapter} {/* Rango de capítulos */}
+                      </p>
+                      <p className="card-text">
+                        <strong>Primer capítulo:</strong> {firstChapterTitle || 'No disponible'}
+                      </p>
+                      <p className="card-text">
+                        <strong>Último capítulo:</strong> {lastChapterTitle || 'No disponible'}
                       </p>
                       <Link to={`/story-detail/${entry.novelId}`} className="btn btn-primary">
                         Leer novela <ArrowRight />
