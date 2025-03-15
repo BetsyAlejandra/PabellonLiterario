@@ -118,7 +118,7 @@ router.delete('/:id/unfollow', isAuthenticated, async (req, res) => {
 
 
 router.get('/', getNovels);
-router.post('/create', isAuthenticated, upload, handleMulterError, createNovel);
+router.post('/create', isAuthenticated, upload.single('coverImage'), handleMulterError, createNovel);
 
 router.get('/:storyId/chapters/:chapterId', getChapterById);
 router.put('/:storyId/chapters/:chapterId', async (req, res) => {
