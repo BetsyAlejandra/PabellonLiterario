@@ -1,13 +1,13 @@
-import Manhua from "../models/Manhua.js";
-import { upload } from "../middlewares/upload.js";
-import fs from "fs";
-import path from "path";
+const Manhua = require("../models/Manhua.js");
+const { upload } = require("../middlewares/upload.js");
+const fs = require("fs");
+const path = require("path");
 
 // Subir un nuevo Manhua
-export const createManhua = async (req, res) => {
+const createManhua = async (req, res) => {
   try {
     const { title, alternativeTitle, description, genres, status, demographic } = req.body;
-    const coverImage = req.file ? `/uploads/${req.file.filename}` : null; 
+    const coverImage = req.file ? `/uploads/${req.file.filename}` : null;
 
     const newManhua = new Manhua({
       title,
@@ -28,7 +28,7 @@ export const createManhua = async (req, res) => {
 };
 
 // Agregar un capítulo a un Manhua existente
-export const addChapter = async (req, res) => {
+const addChapter = async (req, res) => {
   try {
     const { manhuaId } = req.params;
     const { number, title } = req.body;
@@ -46,8 +46,8 @@ export const addChapter = async (req, res) => {
   }
 };
 
-//Actualizar la descripción o portada de un Manhua
-export const updateManhua = async (req, res) => {
+// Actualizar la descripción o portada de un Manhua
+const updateManhua = async (req, res) => {
   try {
     const { manhuaId } = req.params;
     const { description } = req.body;
@@ -67,8 +67,8 @@ export const updateManhua = async (req, res) => {
   }
 };
 
-//Eliminar un Manhua completo
-export const deleteManhua = async (req, res) => {
+// Eliminar un Manhua completo
+const deleteManhua = async (req, res) => {
   try {
     const { manhuaId } = req.params;
     const manhua = await Manhua.findByIdAndDelete(manhuaId);
@@ -81,8 +81,8 @@ export const deleteManhua = async (req, res) => {
   }
 };
 
-//Eliminar un capítulo específico
-export const deleteChapter = async (req, res) => {
+// Eliminar un capítulo específico
+const deleteChapter = async (req, res) => {
   try {
     const { manhuaId, chapterNumber } = req.params;
     const manhua = await Manhua.findById(manhuaId);
@@ -99,7 +99,7 @@ export const deleteChapter = async (req, res) => {
 };
 
 // Ver la ficha de un Manhua y sus capítulos
-export const getManhuaDetails = async (req, res) => {
+const getManhuaDetails = async (req, res) => {
   try {
     const { manhuaId } = req.params;
     const manhua = await Manhua.findById(manhuaId);
@@ -112,8 +112,8 @@ export const getManhuaDetails = async (req, res) => {
   }
 };
 
-//Leer un capítulo y obtener sus imágenes
-export const getChapter = async (req, res) => {
+// Leer un capítulo y obtener sus imágenes
+const getChapter = async (req, res) => {
   try {
     const { manhuaId, chapterNumber } = req.params;
     const manhua = await Manhua.findById(manhuaId);
@@ -130,7 +130,7 @@ export const getChapter = async (req, res) => {
 };
 
 // Listar todos los Manhuas con paginación opcional
-export const getAllManhuas = async (req, res) => {
+const getAllManhuas = async (req, res) => {
   try {
     const { page = 1, limit = 10 } = req.query;
     const manhuas = await Manhua.find()
@@ -144,87 +144,66 @@ export const getAllManhuas = async (req, res) => {
   }
 };
 
-//Actualizar el estado del Manhua
-export const updateManhuaStatus = async (req, res) => {
-    try {
-      const { manhuaId } = req.params;
-      const { status } = req.body;
-  
-      if (!["En emisión", "Finalizado", "Cancelado", "Pausado"].includes(status)) {
-        return res.status(400).json({ message: "Estado inválido" });
-      }
-  
-      const updatedManhua = await Manhua.findByIdAndUpdate(manhuaId, { status }, { new: true });
-  
-      if (!updatedManhua) return res.status(404).json({ message: "Manhua no encontrado" });
-  
-      res.status(200).json({ message: "Estado del Manhua actualizado con éxito", updatedManhua });
-    } catch (error) {
-      res.status(500).json({ message: "Error al actualizar el estado del manhua", error });
-    }
-  };  
+// Actualizar el estado del Manhua
+const updateManhuaStatus = async (req, res) => {
+  try {
+    const { manhuaId } = req.params;
+    const { status } = req.body;
 
-//Buscar manhuas por título, género o demografia
-export const searchManhuas = async (req, res) => {
-    try {
-      const { query } = req.query;
-      const manhuas = await Manhua.find({
-        $or: [
-          { title: { $regex: query, $options: "i" } },
-          { alternativeTitle: { $regex: query, $options: "i" } },
-          { genres: { $regex: query, $options: "i" } },
-          { demographic: { $regex: query, $options: "i" } }
-        ]
-      });
-  
-      res.status(200).json(manhuas);
-    } catch (error) {
-      res.status(500).json({ message: "Error en la búsqueda", error });
+    if (!["En emisión", "Finalizado", "Cancelado", "Pausado"].includes(status)) {
+      return res.status(400).json({ message: "Estado inválido" });
     }
-  };
 
-//Obtener manhuas por recientes
-export const getRecentManhuas = async (req, res) => {
-    try {
-      const manhuas = await Manhua.find().sort({ createdAt: -1 }).limit(10);
-      res.status(200).json(manhuas);
-    } catch (error) {
-      res.status(500).json({ message: "Error al obtener los manhuas recientes", error });
-    }
-  };
+    const updatedManhua = await Manhua.findByIdAndUpdate(manhuaId, { status }, { new: true });
 
-  
-//obtener manhuas populares
-export const getPopularManhuas = async (req, res) => {
-    try {
-      const manhuas = await Manhua.find().sort({ chapters: -1 }).limit(10);
-      res.status(200).json(manhuas);
-    } catch (error) {
-      res.status(500).json({ message: "Error al obtener los manhuas populares", error });
-    }
-  };
-  
+    if (!updatedManhua) return res.status(404).json({ message: "Manhua no encontrado" });
 
-//Corregir-actualizar un capítulo
-export const updateChapter = async (req, res) => {
-    try {
-      const { manhuaId, chapterNumber } = req.params;
-      const { title } = req.body;
-      const images = req.files ? req.files.map(file => `/uploads/${file.filename}`) : null;
-  
-      const manhua = await Manhua.findById(manhuaId);
-      if (!manhua) return res.status(404).json({ message: "Manhua no encontrado" });
-  
-      const chapterIndex = manhua.chapters.findIndex(chap => chap.number == chapterNumber);
-      if (chapterIndex === -1) return res.status(404).json({ message: "Capítulo no encontrado" });
-  
-      if (title) manhua.chapters[chapterIndex].title = title;
-      if (images) manhua.chapters[chapterIndex].images = images;
-  
-      await manhua.save();
-      res.status(200).json({ message: "Capítulo actualizado con éxito", manhua });
-    } catch (error) {
-      res.status(500).json({ message: "Error al actualizar el capítulo", error });
-    }
-  };
-  
+    res.status(200).json({ message: "Estado del Manhua actualizado con éxito", updatedManhua });
+  } catch (error) {
+    res.status(500).json({ message: "Error al actualizar el estado del manhua", error });
+  }
+};
+
+// Buscar manhuas por título, género o demografía
+const searchManhuas = async (req, res) => {
+  try {
+    const { query } = req.query;
+    const manhuas = await Manhua.find({
+      $or: [
+        { title: new RegExp(query, "i") },
+        { alternativeTitle: new RegExp(query, "i") },
+        { genres: new RegExp(query, "i") },
+        { demographic: new RegExp(query, "i") }
+      ]
+    });
+
+    res.status(200).json(manhuas);
+  } catch (error) {
+    res.status(500).json({ message: "Error en la búsqueda", error });
+  }
+};
+
+// Obtener manhuas recientes
+const getRecentManhuas = async (req, res) => {
+  try {
+    const manhuas = await Manhua.find().sort({ createdAt: -1 }).limit(10);
+    res.status(200).json(manhuas);
+  } catch (error) {
+    res.status(500).json({ message: "Error al obtener los manhuas recientes", error });
+  }
+};
+
+// Exportar controladores
+module.exports = {
+  createManhua,
+  addChapter,
+  updateManhua,
+  deleteManhua,
+  deleteChapter,
+  getManhuaDetails,
+  getChapter,
+  getAllManhuas,
+  updateManhuaStatus,
+  searchManhuas,
+  getRecentManhuas
+};

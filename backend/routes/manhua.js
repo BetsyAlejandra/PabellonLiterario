@@ -1,6 +1,6 @@
-import express from "express";
-import { upload } from "../middlewares/upload.js";
-import {
+const express = require("express");
+const { upload } = require("../middlewares/upload.js");
+const {
   createManhua,
   addChapter,
   updateManhua,
@@ -14,7 +14,7 @@ import {
   getRecentManhuas,
   getPopularManhuas,
   updateChapter
-} from "../controllers/manhuaController.js";
+} = require("../controllers/manhuaController.js");
 
 const router = express.Router();
 
@@ -39,4 +39,4 @@ router.get("/popular", getPopularManhuas); // Obtener Manhuas populares
 // Actualizar estado del Manhua
 router.patch("/:manhuaId/status", updateManhuaStatus);
 
-export default router;
+module.exports = router;
