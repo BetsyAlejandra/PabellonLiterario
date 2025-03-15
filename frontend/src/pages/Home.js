@@ -207,7 +207,7 @@ const Home = () => {
 
               return (
                 <Col key={index} md={6} lg={4} className="d-flex">
-                  <Card className="chapter-card flex-fill shadow-sm" style={{ backgroundColor: '#D7E2E9', borderRadius: '12px' }}>
+                  <Card className="chapter-card flex-fill shadow-sm" style={{ backgroundColor: '#5F7D8B', borderRadius: '12px' }}>
                     <div className="card-body" style={{ padding: '1.2rem', color: '#5F7D8B' }}>
                       <h5 className="card-title d-flex align-items-center" style={{ color: '#C2B4D6' }}>
                         <BookOpen size={20} className="me-2" />
