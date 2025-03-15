@@ -186,20 +186,21 @@ const Home = () => {
         ) : (
           <Row className="g-3 justify-content-center">
             {latestChapters.map((entry, index) => {
-              // Determina el rango de capítulos
-              const chapterRange =
-                entry.startChapter === entry.endChapter
-                  ? `Capítulo ${entry.startChapter + 1}`
-                  : `Capítulos ${entry.startChapter + 1} a ${entry.endChapter + 1}`;
+              const startChapter = entry.startChapter || 0; // Aseguramos que haya un valor por defecto
+              const endChapter = entry.endChapter || startChapter; // Si no hay endChapter, usamos startChapter
+              const chapterRange = startChapter === endChapter
+                ? `Capítulo ${startChapter + 1}`
+                : `Capítulos ${startChapter + 1} a ${endChapter + 1}`;
 
-              // Formato de la fecha
               const datePublished = new Date(entry.publishedAt);
-              const formattedDate = datePublished.toLocaleDateString('es-ES', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              });
+              const formattedDate = datePublished instanceof Date && !isNaN(datePublished)
+                ? datePublished.toLocaleDateString('es-ES', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })
+                : 'Fecha no disponible'; // Si la fecha no es válida, mostrar un mensaje alternativo
 
               return (
                 <Col key={index} md={6} lg={4} className="d-flex">
