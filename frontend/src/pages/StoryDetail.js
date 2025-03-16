@@ -239,7 +239,7 @@ const StoryDetail = () => {
                                 src={story.coverImage.replace('.jpg', '.webp')}
                                 alt={`Portada de ${story.title}`}
                                 width="300"
-                                height="400"
+                                height="550"
                             />
 
                         </div>
