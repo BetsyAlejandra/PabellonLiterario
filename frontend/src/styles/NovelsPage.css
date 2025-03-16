@@ -49,7 +49,7 @@
 /* Imagen de la Novela */
 .novels-cover {
   width: 100%;
-  height: 350px;
+  height: 500px;
   object-fit: cover;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;

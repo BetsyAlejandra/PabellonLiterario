@@ -7,7 +7,7 @@ const LazyImage = ({ src, alt, priority }) => {
       className="novels-cover"
       alt={alt}
       width="250"
-      height="350"
+      height="500"
       loading={priority ? 'eager' : 'lazy'}
       fetchPriority={priority ? 'high' : 'auto'}
     />

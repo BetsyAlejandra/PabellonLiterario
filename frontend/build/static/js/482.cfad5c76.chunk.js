@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkfrontend=self.webpackChunkfrontend||[]).push([[482],{4482:(e,t,r)=>{r.r(t),r.d(t,{default:()=>s});r(5043);var a=r(579);const s=e=>{let{src:t,alt:r,priority:s}=e;return(0,a.jsx)("img",{src:t,className:"novels-cover",alt:r,width:"250",height:"350",loading:s?"eager":"lazy",fetchPriority:s?"high":"auto"})}}}]);
-//# sourceMappingURL=482.cfad5c76.chunk.js.map
