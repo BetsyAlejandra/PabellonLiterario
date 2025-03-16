@@ -243,7 +243,7 @@ const ReadChapter = () => {
     };
 
     const renderPopover = (annotation) => {
-        console.log("Renderizando popover con anotación:", annotation);
+        console.log("Renderizando popover con anotación:", annotation); // 🛠️ VERIFICACIÓN
 
         return (
             <Popover id={`popover-${popoverIdRef.current++}`}>
@@ -254,26 +254,28 @@ const ReadChapter = () => {
     };
 
 
-
-
-
+    console.log("Contenido del capítulo:", chapter?.content);
 
     const sanitizeOptions = {
         ADD_ATTR: ['data-annotation', 'class', 'src', 'alt']
     };
 
     const sanitizedContent = chapter ? DOMPurify.sanitize(chapter.content, sanitizeOptions) : '';
+    console.log("Contenido después de sanitizar:", sanitizedContent);
+
 
     const options = {
         replace: ({ name, attribs, children }) => {
+            console.log("Ejecutando replace para:", name, attribs);
             if (!attribs) return;
 
             if (name === 'span' && attribs['data-annotation']) {
-                console.log("Anotación detectada:", attribs['data-annotation']); // 🛠️ VERIFICACIÓN
+                console.log("Anotación detectada:", attribs['data-annotation']);
 
                 const annotationText = attribs['data-annotation'];
 
                 return (
+                    
                     <OverlayTrigger
                         trigger="click"
                         placement="top"
