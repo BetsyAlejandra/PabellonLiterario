@@ -263,6 +263,7 @@
   border: 2px solid #5F7D8B;
   border-radius: 15px;
   display: block !important;
+  z-index: 9999;
 }
 
 ;
