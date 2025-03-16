@@ -215,12 +215,15 @@
   color: #707070;
   background-color: rgba(42, 42, 42, 0.4);
   border-radius: 5px;
-  position: relative;
-  display: inline;
-  padding: 2px 4px; 
+  display: inline-flex; 
+  align-items: center;
+  padding: 2px 4px;
   transition: color 0.3s ease, background-color 0.3s ease;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
+
 
 .annotation:hover {
   color: #2A2A2A;

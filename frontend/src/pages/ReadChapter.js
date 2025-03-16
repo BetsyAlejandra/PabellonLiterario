@@ -244,7 +244,7 @@ const ReadChapter = () => {
 
 
     const renderPopover = (annotation) => (
-        <Popover id={`popover-${popoverIdRef.current++}`} style={{ maxWidth: "300px" }}>
+        <Popover id={`popover-${popoverIdRef.current++}`} style={{ maxWidth: "320px" }}>
             <Popover.Header as="h3">Anotación</Popover.Header>
             <Popover.Body style={{
                 maxWidth: "300px",
@@ -259,11 +259,6 @@ const ReadChapter = () => {
             </Popover.Body>
         </Popover>
     );
-
-
-
-
-
 
     const sanitizeOptions = {
         ADD_ATTR: ['data-annotation', 'class', 'src', 'alt']
@@ -281,13 +276,10 @@ const ReadChapter = () => {
                         trigger="click"
                         placement="top"
                         overlay={renderPopover(annotationText)}
-                        container={chapterContainerRef.current}
                         rootClose
                         containerPadding={10}
                     >
-                        <span className="annotation"
-                            style={{ cursor: 'pointer', color: '#2A2A2A', }}
-                        >
+                        <span className="annotation">
                             {domToReact(children, options)}
                         </span>
                     </OverlayTrigger>
