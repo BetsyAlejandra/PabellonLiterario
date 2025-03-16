@@ -242,14 +242,17 @@ const ReadChapter = () => {
         localStorage.setItem('fontFamily', family);
     };
 
-
-    const renderPopover = (annotation) => (
-
-        <Popover id={`popover-${popoverIdRef.current++}`} >
-            <Popover.Header as="h3">Anotación</Popover.Header>
-            <Popover.Body>{annotation}</Popover.Body>
-        </Popover>
-    );
+    const renderPopover = (annotation) => {
+        console.log("Renderizando popover con anotación:", annotation);
+    
+        return (
+            <Popover id={`popover-${popoverIdRef.current++}`}>
+                <Popover.Header as="h3">Anotación</Popover.Header>
+                <Popover.Body>{annotation}</Popover.Body>
+            </Popover>
+        );
+    };
+    
 
 
 
@@ -272,6 +275,7 @@ const ReadChapter = () => {
                         placement="top"
                         overlay={renderPopover(annotationText)}
                         rootClose
+                        container={document.body} 
                     >
                          <span className="annotation" onClick={(e) => e.stopPropagation()}
                             style={{ cursor: 'pointer', color: '#2A2A2A', }}
