@@ -257,7 +257,7 @@ const ReadChapter = () => {
     console.log("Contenido del capítulo:", chapter?.content);
 
     const sanitizeOptions = {
-        ADD_ATTR: ['data-annotation', 'class', 'src', 'alt']
+        ALLOWED_ATTR: ['data-annotation', 'class', 'src', 'alt']
     };
 
     const sanitizedContent = chapter ? DOMPurify.sanitize(chapter.content, sanitizeOptions) : '';
@@ -266,25 +266,24 @@ const ReadChapter = () => {
 
     const options = {
         replace: ({ name, attribs, children }) => {
-            console.log("Ejecutando replace para:", name, attribs);
+            console.log("Elemento analizado:", name, attribs);
             if (!attribs) return;
 
             if (name === 'span' && attribs['data-annotation']) {
-                console.log("Anotación detectada:", attribs['data-annotation']);
+                console.log("✨ Se detectó anotación:", attribs['data-annotation']);
 
                 const annotationText = attribs['data-annotation'];
 
                 return (
-                    
                     <OverlayTrigger
                         trigger="click"
                         placement="top"
-                        overlay={renderPopover(annotationText)}
+                        overlay={renderPopover(attribs['data-annotation'])}
                         rootClose
                         container={document.body}
                     >
                         <span className="annotation" onClick={(e) => e.stopPropagation()}
-                            style={{ cursor: 'pointer', color: '#2A2A2A', }}
+                            style={{ cursor: 'pointer', color: '#2A2A2A' }}
                         >
                             {domToReact(children, options)}
                         </span>
@@ -308,6 +307,8 @@ const ReadChapter = () => {
         }
     };
 
+    const transformedContent = domToReact(parse(sanitizedContent), options);
+    console.log("Contenido transformado:", transformedContent);
 
     const navigateToNext = () => {
         if (chapter.next) {
