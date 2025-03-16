@@ -244,7 +244,7 @@ const ReadChapter = () => {
 
     const renderPopover = (annotation) => {
         console.log("Renderizando popover con anotación:", annotation);
-    
+
         return (
             <Popover id={`popover-${popoverIdRef.current++}`}>
                 <Popover.Header as="h3">Anotación</Popover.Header>
@@ -252,7 +252,7 @@ const ReadChapter = () => {
             </Popover>
         );
     };
-    
+
 
 
 
@@ -267,17 +267,21 @@ const ReadChapter = () => {
     const options = {
         replace: ({ name, attribs, children }) => {
             if (!attribs) return;
+
             if (name === 'span' && attribs['data-annotation']) {
+                console.log("Anotación detectada:", attribs['data-annotation']); // 🛠️ VERIFICACIÓN
+
                 const annotationText = attribs['data-annotation'];
+
                 return (
                     <OverlayTrigger
                         trigger="click"
                         placement="top"
                         overlay={renderPopover(annotationText)}
                         rootClose
-                        container={document.body} 
+                        container={document.body}
                     >
-                         <span className="annotation" onClick={(e) => e.stopPropagation()}
+                        <span className="annotation" onClick={(e) => e.stopPropagation()}
                             style={{ cursor: 'pointer', color: '#2A2A2A', }}
                         >
                             {domToReact(children, options)}
