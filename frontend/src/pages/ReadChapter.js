@@ -271,10 +271,9 @@ const ReadChapter = () => {
                         trigger="click"
                         placement="top"
                         overlay={renderPopover(annotationText)}
-                        container={chapterContainerRef.current}
                         rootClose
                     >
-                        <span className="annotation"
+                         <span className="annotation" onClick={(e) => e.stopPropagation()}
                             style={{ cursor: 'pointer', color: '#2A2A2A', }}
                         >
                             {domToReact(children, options)}
