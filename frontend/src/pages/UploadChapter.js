@@ -16,6 +16,15 @@ const UploadChapter = () => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
+    const maxSize = 200 * 1024 * 1024;
+
+    const validFiles = files.filter((file) => file.size <= maxSize);
+    const invalidFiles = files.filter((file) => file.size > maxSize);
+
+    if (invalidFiles.length > 0) {
+      setError(`Algunos archivos superan los 200MB y no serán subidos.`);
+    }
+
     setImages([...images, ...files]);
     const previews = files.map((file) => URL.createObjectURL(file));
     setPreviewImages([...previewImages, ...previews]);

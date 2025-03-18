@@ -46,6 +46,6 @@ const handleMulterError = (err, req, res, next) => {
 module.exports.upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 1024 * 1024 * 20 },
+  limits: { fileSize: 1024 * 1024 * 200 },
 });
 module.exports.handleMulterError = handleMulterError;
