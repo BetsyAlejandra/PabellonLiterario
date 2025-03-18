@@ -126,7 +126,7 @@ function App() {
         <Route path="/manhua/upload" element={<UploadManhua />} />
 
         {/* Capítulos de Manhuas */}
-        <Route path="/manhua/:id/chapter/:chapterId" element={<ChapterDetails />} />
+        <Route path="/manhua/:id/chapter/:chapterNumber" element={<ChapterDetails />} />
         <Route path="/manhua/:id/chapter/:chapterNumber/read" element={<ChapterReader />} />
         <Route path="/select-manhua" element={<SelectManhua />} />
         <Route path="/manhua/:id/upload-chapter" element={<UploadChapter />} />
