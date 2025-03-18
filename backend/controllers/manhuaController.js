@@ -120,7 +120,6 @@ const getManhuaDetails = async (req, res) => {
   }
 };
 
-// Leer un capítulo y obtener sus imágenes
 const getChapter = async (req, res) => {
   try {
     const { manhuaId, chapterNumber } = req.params;
@@ -128,10 +127,16 @@ const getChapter = async (req, res) => {
 
     if (!manhua) return res.status(404).json({ message: "Manhua no encontrado" });
 
-    const chapter = manhua.chapters.find(chap => chap.number == chapterNumber);
-    if (!chapter) return res.status(404).json({ message: "Capítulo no encontrado" });
+    const chapterIndex = manhua.chapters.findIndex(chap => chap.number == chapterNumber);
+    if (chapterIndex === -1) return res.status(404).json({ message: "Capítulo no encontrado" });
 
-    res.status(200).json(chapter);
+    const chapter = manhua.chapters[chapterIndex];
+
+    const previous = chapterIndex > 0 ? manhua.chapters[chapterIndex - 1].number : null;
+    const next = chapterIndex < manhua.chapters.length - 1 ? manhua.chapters[chapterIndex + 1].number : null;
+
+    res.status(200).json({ ...chapter.toObject(), previous, next });
+
   } catch (error) {
     res.status(500).json({ message: "Error al obtener el capítulo", error });
   }

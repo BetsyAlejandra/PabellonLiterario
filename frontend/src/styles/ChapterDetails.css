@@ -1,80 +1,142 @@
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  img {
+    visibility: hidden;
+  }
+}
+
 .chapter-container {
-    max-width: 900px;
-    margin: auto;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.1); /* Fondo con transparencia */
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    text-align: center;
-  }
-  
-  /* Título del capítulo */
-  .chapter-title {
-    font-family: "Playfair Display", serif;
-    color: #e5c9a8; /* Dorado suave */
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  /* Botón de volver */
-  .back-button {
-    background-color: #a18972; /* Marrón suave */
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    transition: background 0.3s;
-  }
-  
-  .back-button:hover {
-    background-color: #8b6f58; /* Tonalidad más oscura al pasar el mouse */
-  }
-  
-  /* Contenedor de imágenes */
-  .chapter-images {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    margin-top: 20px;
-  }
-  
-  .chapter-images img {
-    max-width: 100%;
-    border-radius: 8px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Navegación entre capítulos */
-  .chapter-nav {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .nav-button {
-    background-color: #87614f; /* Marrón oscuro */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background 0.3s;
-  }
-  
-  .nav-button:hover {
-    background-color: #6c4c3b;
-  }
-  
-  /* Para deshabilitar botones */
-  .nav-button:disabled {
-    background-color: #5c4434;
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-  
-  /* Spinner de carga */
-  .spinner-container {
-    text-align: center;
-    margin-top: 50px;
-  }
-  
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.reading-progress {
+  height: 10px;
+  margin-bottom: 15px;
+}
+
+.no-drag {
+  user-drag: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.chapter-title {
+  font-family: "Playfair Display", serif;
+  color: #e5c9a8;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Botón de volver */
+.back-button {
+  background-color: #a18972;
+  /* Marrón suave */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.back-button:hover {
+  background-color: #8b6f58;
+  /* Tonalidad más oscura al pasar el mouse */
+}
+
+/* Contenedor de imágenes */
+.chapter-images {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.chapter-images.horizontal {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.chapter-images img {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.img-fluid {
+  max-width: 100%;
+  user-select: none;
+}
+
+/* Navegación entre capítulos */
+.chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.nav-button {
+  background-color: #87614f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.nav-button:hover {
+  background-color: #6c4c3b;
+}
+
+
+.nav-button:disabled {
+  background-color: #5c4434;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.spinner-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+html {
+  -webkit-user-select: none; /* Bloquea la selección de texto */
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.chapter-images {
+  position: relative;
+}
+
+.chapter-images::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: transparent;
+  pointer-events: auto;
+}
