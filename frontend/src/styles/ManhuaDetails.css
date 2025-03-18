@@ -1,17 +1,21 @@
+/* Estilos generales */
 .manhua-details {
-    padding: 20px;
-    background-color: #f8f3ff;
-    /* Fondo pastel */
-    border-radius: 8px;
+    padding: 25px;
+    background-color: #fdf8ff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Botón de regreso */
 .back-button {
     background-color: #7a52a1;
     border: none;
-    padding: 8px 15px;
+    padding: 10px 20px;
     font-size: 1rem;
     color: white;
-    border-radius: 5px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
     transition: 0.3s;
 }
 
@@ -19,20 +23,31 @@
     background-color: #5a3e85;
 }
 
-.manhua-info {
-    display: flex;
-    align-items: center;
+/* Tarjeta de información del manhua */
+.manhua-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }
 
+.manhua-card:hover {
+    transform: translateY(-3px);
+}
+
+/* Imagen de portada */
 .manhua-cover {
     width: 100%;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
 }
 
+/* Texto del manhua */
 .manhua-text h2 {
     font-family: 'Playfair Display', serif;
     color: #5a3e85;
+    font-size: 1.8rem;
 }
 
 .manhua-text p {
@@ -46,20 +61,39 @@
     color: #666;
 }
 
+/* Sección de capítulos */
+.section-title {
+    font-family: 'Playfair Display', serif;
+    color: #5a3e85;
+    margin-bottom: 10px;
+}
+
+/* Lista de capítulos */
 .chapter-list {
     margin-top: 15px;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .chapter-item {
     font-family: 'Inter', sans-serif;
-    transition: 0.3s;
+    transition: background 0.3s, transform 0.2s;
+    padding: 12px;
+    color: #333;
+    background-color: #e4d3ff;
+    font-size: 1rem;
 }
 
 .chapter-item:hover {
-    background-color: #e4d3ff;
+    background-color: #7a52a1;
+    color: black;
+    transform: translateX(5px);
     cursor: pointer;
 }
 
+
 .spinner {
     color: #7a52a1;
+    width: 3rem;
+    height: 3rem;
 }
