@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Container, Button, Spinner, Image, ProgressBar } from "react-bootstrap";
+import { PhotoProvider, PhotoView } from "react-photo-view";
+import "react-photo-view/dist/react-photo-view.css";
 import "../styles/ChapterDetails.css";
 
 const ChapterDetails = () => {
@@ -12,6 +14,8 @@ const ChapterDetails = () => {
   const [zoom, setZoom] = useState(1);
   const [isHorizontal, setIsHorizontal] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isPinned, setIsPinned] = useState(false);
 
   useEffect(() => {
     const fetchChapter = async () => {
@@ -130,22 +134,25 @@ const ChapterDetails = () => {
         alert("Capturas de pantalla deshabilitadas.");
       }
     };
-  
+
     document.addEventListener("keydown", blockPrintScreen);
     return () => {
       document.removeEventListener("keydown", blockPrintScreen);
     };
   }, []);
 
-  
+
 
   const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-    } else {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.error("Error al entrar en pantalla completa:", err);
+      });
+    } else if (document.exitFullscreen) {
       document.exitFullscreen();
     }
   };
+
 
   const adjustZoom = (factor) => {
     setZoom((prevZoom) => Math.max(0.5, Math.min(prevZoom + factor, 2)));
@@ -161,6 +168,17 @@ const ChapterDetails = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [chapter, navigate]);
 
+  useEffect(() => {
+    if (!isPinned) {
+      const timeout = setTimeout(() => setIsVisible(false), 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [isVisible, isPinned]);
+
+  const showUI = () => {
+    setIsVisible(true);
+  };
+
 
   if (loading) {
     return (
@@ -175,44 +193,57 @@ const ChapterDetails = () => {
   }
 
   return (
-    <Container className="chapter-container">
-      <Button className="back-button" onClick={() => navigate(`/manhua/${id}`)}>
-        ← Volver a detalles
-      </Button>
+    <Container
+      className="chapter-container"
+      onMouseMove={showUI}
+      onTouchStart={showUI}
+    >
+      {/* Barra de progreso arriba para mejor UX */}
+      <ProgressBar
+        now={progress}
+        label={`${Math.round(progress)}%`}
+        className="reading-progress fixed-progress"
+      />
 
-      <h2 className="chapter-title">{chapter.title || `Capítulo ${chapter.number}`}</h2>
+      {/* Encabezado con botón de regreso y título alineados */}
+      <div className="chapter-header">
+        <Button className="back-button" onClick={() => navigate(`/manhua/${id}`)}>
+          ← Volver a detalles
+        </Button>
+        <h2 className="chapter-title">
+          {chapter.title || `Capítulo ${chapter.number}`}
+        </h2>
+      </div>
 
-      <ProgressBar now={progress} label={`${Math.round(progress)}%`} className="reading-progress" />
-
+      {/* Barra de herramientas con opción de vista */}
       <div className="toolbar">
-        <Button onClick={toggleFullScreen}>🔳 Pantalla Completa</Button>
-        <Button onClick={() => adjustZoom(0.1)}>➕ Zoom</Button>
-        <Button onClick={() => adjustZoom(-0.1)}>➖ Zoom</Button>
         <Button onClick={() => setIsHorizontal(!isHorizontal)}>
           {isHorizontal ? "📜 Vista Vertical" : "📏 Vista Horizontal"}
         </Button>
       </div>
 
-      {/* Imágenes con lazy loading y bloqueo de descarga */}
-      <div className={`chapter-images ${isHorizontal ? "horizontal" : "vertical"}`} style={{ transform: `scale(${zoom})` }}>
-        {chapter.images && chapter.images.length > 0 ? (
-          <div className="chapter-images">
-            {chapter.images.map((image, index) => (
-              <Image
-                key={index}
-                src={image}
-                loading="lazy"
-                className="img-fluid no-drag"
-                onContextMenu={(e) => e.preventDefault()}
-                draggable={false}
-              />
-            ))}
-          </div>
-        ) : (
-          <p>No hay imágenes disponibles para este capítulo.</p>
-        )}
-      </div>
+      {/* Contenedor de imágenes */}
+      <PhotoProvider>
+        <div className={`chapter-images ${isHorizontal ? "horizontal" : "vertical"}`}>
+          {chapter.images && chapter.images.length > 0 ? (
+            chapter.images.map((image, index) => (
+              <PhotoView key={index} src={image}>
+                <Image
+                  src={image}
+                  loading="lazy"
+                  className="img-fluid no-drag"
+                  onContextMenu={(e) => e.preventDefault()}
+                  draggable={false}
+                />
+              </PhotoView>
+            ))
+          ) : (
+            <p>No hay imágenes disponibles para este capítulo.</p>
+          )}
+        </div>
+      </PhotoProvider>
 
+      {/* Navegación entre capítulos */}
       <div className="chapter-navigation">
         <Button
           variant="link"
@@ -247,9 +278,9 @@ const ChapterDetails = () => {
           Siguiente →
         </Button>
       </div>
-
     </Container>
   );
+
 };
 
 export default ChapterDetails;
