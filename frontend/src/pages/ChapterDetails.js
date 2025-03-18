@@ -136,16 +136,6 @@ const ChapterDetails = () => {
     };
   }, []);
   
-  useEffect(() => {
-    const checkDevTools = setInterval(() => {
-      if (window.outerWidth - window.innerWidth > 100 || window.outerHeight - window.innerHeight > 100) {
-        document.body.innerHTML = "";
-      }
-    }, 1000);
-  
-    return () => clearInterval(checkDevTools);
-  }, []);
-  
 
   const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
