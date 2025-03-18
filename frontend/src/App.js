@@ -127,7 +127,7 @@ function App() {
 
         {/* Capítulos de Manhuas */}
         <Route path="/manhua/:id/chapter/:chapterId" element={<ChapterDetails />} />
-        <Route path="/manhua/:id/chapter/:chapterId/read" element={<ChapterReader />} />
+        <Route path="/manhua/:id/chapter/:chapterNumber/read" element={<ChapterReader />} />
         <Route path="/select-manhua" element={<SelectManhua />} />
         <Route path="/manhua/:id/upload-chapter" element={<UploadChapter />} />
         <Route path="/manhua/:id/chapter/:chapterId/edit" element={<EditChapterM />} />

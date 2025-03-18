@@ -5,7 +5,7 @@ import { Container, Spinner, Alert, Button } from "react-bootstrap";
 import '../styles/ChapterReader.css'
 
 const ChapterReader = () => {
-    const { manhuaId, chapterId } = useParams();
+    const { manhuaId, chapterNumber } = useParams();
     const [chapter, setChapter] = useState(null);
     const [chapterImages, setChapterImages] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -14,7 +14,7 @@ const ChapterReader = () => {
     useEffect(() => {
         const fetchChapter = async () => {
             try {
-                const { data } = await axios.get(`/api/manhuas/${manhuaId}/chapters/${chapterId}`);
+                const { data } = await axios.get(`/api/manhuas/${manhuaId}/chapters/${chapterNumber}`);
                 setChapter(data);
             } catch (err) {
                 console.error("Error al cargar el capítulo:", err);
@@ -25,7 +25,7 @@ const ChapterReader = () => {
         };
 
         fetchChapter();
-    }, [manhuaId, chapterId]);
+    }, [manhuaId, chapterNumber]);
 
     // Bloquear F12, Ctrl+Shift+I, Ctrl+U
     useEffect(() => {
