@@ -18,6 +18,10 @@ const ChapterDetails = () => {
       try {
         const response = await axios.get(`/api/manhuas/${id}/chapters/${chapterNumber}`);
         setChapter(response.data);
+
+        if (response.data.next) {
+          axios.get(`/api/manhuas/${id}/chapters/${response.data.next}`);
+        }
       } catch (error) {
         console.error("Error al obtener el capítulo", error);
       } finally {
@@ -39,14 +43,12 @@ const ChapterDetails = () => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progressPercentage = (scrollTop / scrollHeight) * 100;
-      setProgress(progressPercentage);
+      setProgress((scrollTop / scrollHeight) * 100);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
 
   // Bloquear atajos de teclado para evitar inspección
   useEffect(() => {
@@ -74,18 +76,17 @@ const ChapterDetails = () => {
   // Navegación con teclado (← y → para cambiar de capítulo)
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === "ArrowLeft" && chapter.number > 1) {
-        navigate(`/manhua/${id}/chapter/${parseInt(chapterNumber) - 1}`);
-      } else if (event.key === "ArrowRight") {
-        navigate(`/manhua/${id}/chapter/${parseInt(chapterNumber) + 1}`);
+      if (event.key === "ArrowLeft" && chapter?.previous) {
+        navigate(`/manhua/${id}/chapter/${chapter.previous}`);
+      } else if (event.key === "ArrowRight" && chapter?.next) {
+        navigate(`/manhua/${id}/chapter/${chapter.next}`);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [id, chapterNumber, chapter, navigate]);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [id, chapter, navigate]);
+
 
   useEffect(() => {
     const disableRightClick = (event) => event.preventDefault();
@@ -135,6 +136,7 @@ const ChapterDetails = () => {
       document.removeEventListener("keydown", blockPrintScreen);
     };
   }, []);
+
   
 
   const toggleFullScreen = () => {
