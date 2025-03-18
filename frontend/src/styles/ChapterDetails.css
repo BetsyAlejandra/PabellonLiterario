@@ -120,12 +120,6 @@ html {
   user-select: none;
 }
 
-img {
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
 .chapter-images {
   position: relative;
 }
