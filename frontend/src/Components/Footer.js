@@ -2,9 +2,12 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../styles/components.css";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 const Footer = () => {
   const navigate = useNavigate();
+  const { darkMode } = useContext(ThemeContext);
   const links = [
     { path: "/preguntas", label: "Preguntas" },
     { path: "/unete", label: "Únete a nosotros" },

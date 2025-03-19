@@ -2,12 +2,14 @@ import React, { useState, useEffect, useMemo, useContext } from "react";
 import { Navbar, Nav, Container, Form, FormControl, Button, Spinner, NavDropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { ThemeContext } from "../context/ThemeContext";
 import axios from "axios";
 import "../styles/components.css";
 import logo from "../assets/logon.png";
 
 const Header = () => {
   const { user, setUser } = useContext(UserContext);
+  const { darkMode } = useContext(ThemeContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
   const [isNavbarMounted, setIsNavbarMounted] = useState(false);

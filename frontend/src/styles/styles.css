@@ -1,7 +1,10 @@
-.dark-mode {
+.dark-mode, 
+.dark-mode body, 
+.dark-mode html {
     background-color: #2A2A2A !important;
     color: #F1E4D1 !important;
 }
+
 
 .dark-mode p,
 .dark-mode span,

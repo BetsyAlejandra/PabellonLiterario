@@ -13,6 +13,29 @@ import { DiscussionEmbed, CommentCount } from 'disqus-react';
 import { useLocation } from "react-router-dom";
 import { ThemeContext } from '../context/ThemeContext';
 
+
+const fontOptions = [
+    { label: "Serif", value: "Serif" },
+    { label: "Georgia", value: "Georgia" },
+    { label: "Times New Roman", value: "Times New Roman" },
+    { label: "Arial", value: "Arial" },
+    { label: "Helvetica", value: "Helvetica" },
+    { label: "Verdana", value: "Verdana" },
+    { label: "Courier New", value: "Courier New" },
+    { label: "Lucida Console", value: "Lucida Console" }
+];
+
+const colorOptions = [
+    { label: "Negro", value: "#000000" },
+    { label: "Lavanda Claro", value: "#D3D0E1" },
+    { label: "Verde Pastel Suave", value: "#C9D6D5" },
+    { label: "Crema Suave", value: "#E6D6C3" },
+    { label: "Rosa Claro", value: "#F0E1D6" },
+    { label: "Marrón Arena", value: "#D6B4A1" },
+    { label: "Azul Pastel Pálido", value: "#D7E2E9" }
+];
+
+
 const ReadChapter = () => {
     const { storyId, chapterId } = useParams();
     const { darkMode } = useContext(ThemeContext);
@@ -41,34 +64,17 @@ const ReadChapter = () => {
 
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
+    const [fontSize, setFontSize] = useState(() => Number(localStorage.getItem("fontSize")) || 16);
+    const [fontColor, setFontColor] = useState(() => localStorage.getItem("fontColor") || "#000000");
+    const [fontFamily, setFontFamily] = useState(() => localStorage.getItem("fontFamily") || "Serif");
+    const [brightness, setBrightness] = useState(() => Number(localStorage.getItem("brightness")) || 100);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     const chapterContainerRef = useRef(null);
     const popoverIdRef = useRef(0);
 
     const location = useLocation();
 
-    // Inicialización de estados desde localStorage
-    const [fontSize, setFontSize] = useState(() => {
-        const storedFontSize = localStorage.getItem('fontSize');
-        return storedFontSize ? Number(storedFontSize) : 16;
-    });
-
-
-    const [brightness, setBrightness] = useState(() => {
-        const storedBrightness = localStorage.getItem('brightness');
-        return storedBrightness ? Number(storedBrightness) : 100;
-    });
-
-    const [fontColor, setFontColor] = useState(() => {
-        const storedFontColor = localStorage.getItem('fontColor');
-        return storedFontColor || "#000";
-    });
-
-    // Estado para la fuente
-    const [fontFamily, setFontFamily] = useState(() => {
-        const storedFontFamily = localStorage.getItem('fontFamily');
-        return storedFontFamily || 'Serif';
-    });
 
     useEffect(() => {
         const fetchChapterAndStory = async () => {
@@ -189,12 +195,6 @@ const ReadChapter = () => {
         setProgress(scrolled);
     };
 
-    const handleFontSizeChange = (size) => {
-        const newSize = Number(size);
-        setFontSize(newSize);
-        localStorage.setItem('fontSize', newSize);
-    };
-
     const handleTextSelection = (e, index) => {
         const selection = window.getSelection();
         const selectedText = selection.toString();
@@ -219,22 +219,37 @@ const ReadChapter = () => {
         }
     };
 
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
-    const handleBrightnessChange = (value) => {
-        const newBrightness = Number(value);
-        setBrightness(newBrightness);
-        localStorage.setItem('brightness', newBrightness);
+    const handleFontSizeChange = (size) => {
+        setFontSize(Number(size));
+        localStorage.setItem("fontSize", size);
     };
 
     const handleFontColorChange = (color) => {
         setFontColor(color);
-        localStorage.setItem('fontColor', color);
+        localStorage.setItem("fontColor", color);
     };
 
     const handleFontFamilyChange = (family) => {
         setFontFamily(family);
-        localStorage.setItem('fontFamily', family);
+        localStorage.setItem("fontFamily", family);
     };
+
+    const handleBrightnessChange = (value) => {
+        setBrightness(Number(value));
+        localStorage.setItem("brightness", value);
+    };
+
+    const filteredFonts = isMobile
+        ? fontOptions.filter((font) =>
+            ["Serif", "Sans-serif", "Monospace"].some((type) => font.label.includes(type))
+        )
+        : fontOptions;
 
 
     const renderPopover = (annotation) => (
@@ -615,58 +630,37 @@ const ReadChapter = () => {
                         <div className="settings-panel">
                             <Form.Group className="mb-3">
                                 <Form.Label className="fixed-label">Tamaño de Letra</Form.Label>
-                                <Form.Range
-                                    min="12"
-                                    max="32"
-                                    value={fontSize}
-                                    onChange={(e) => handleFontSizeChange(e.target.value)}
-                                />
+                                <Form.Range min="12" max="32" value={fontSize} onChange={(e) => handleFontSizeChange(e.target.value)} />
                                 <div className="text-end">{fontSize}px</div>
                             </Form.Group>
 
                             <Form.Group className="mb-3">
                                 <Form.Label className="fixed-label">Color de Fuente</Form.Label>
-                                <Form.Select
-                                    value={fontColor}
-                                    onChange={(e) => handleFontColorChange(e.target.value)}
-                                >
-                                    <option value="#000">Negro (#000)</option>
-                                    <option value="#2C3E50 ">Azul Oscuro (#2C3E50)</option>
-                                    <option value="#FFD700">Dorado (#FFD700)</option>
-                                    <option value="#A9DFBF">Verde Claro (#A9DFBF)</option>
-                                    <option value="#FF5733">Naranja (#FF5733)</option>
-                                    <option value="#C70039">Rojo (#C70039)</option>
+                                <Form.Select value={fontColor} onChange={(e) => handleFontColorChange(e.target.value)}>
+                                    {colorOptions.map((color) => (
+                                        <option key={color.value} value={color.value}>
+                                            {color.label}
+                                        </option>
+                                    ))}
                                 </Form.Select>
                             </Form.Group>
 
                             <Form.Group className="mb-3">
                                 <Form.Label className="fixed-label">Fuente</Form.Label>
-                                <Form.Select
-                                    value={fontFamily}
-                                    onChange={(e) => handleFontFamilyChange(e.target.value)}
-                                >
-                                    <option value="Serif">Serif</option>
-                                    <option value="Georgia">Georgia</option>
-                                    <option value="Times New Roman">Times New Roman</option>
-                                    <option value="Arial">Arial</option>
-                                    <option value="Helvetica">Helvetica</option>
-                                    <option value="Verdana">Verdana</option>
-                                    <option value="Courier New">Courier New</option>
-                                    <option value="Lucida Console">Lucida Console</option>
+                                <Form.Select value={fontFamily} onChange={(e) => handleFontFamilyChange(e.target.value)}>
+                                    {filteredFonts.map((font) => (
+                                        <option key={font.value} value={font.value}>
+                                            {font.label}
+                                        </option>
+                                    ))}
                                 </Form.Select>
                             </Form.Group>
 
                             <Form.Group className="mb-3">
                                 <Form.Label className="fixed-label">Brillo</Form.Label>
-                                <Form.Range
-                                    min="50"
-                                    max="150"
-                                    value={brightness}
-                                    onChange={(e) => handleBrightnessChange(e.target.value)}
-                                />
+                                <Form.Range min="50" max="150" value={brightness} onChange={(e) => handleBrightnessChange(e.target.value)} />
                                 <div className="text-end">{brightness}%</div>
                             </Form.Group>
-
                         </div>
                     )}
                 </div>
