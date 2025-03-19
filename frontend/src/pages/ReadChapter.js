@@ -499,20 +499,11 @@ const ReadChapter = () => {
     if (error) return <p className="read-chapter-error">{error}</p>;
 
     return (
-        <div
-            className={`read-chapter-wrapper ${darkMode ? 'dark-mode' : ''}`}
-            style={{
-                backgroundColor: darkMode ? '#2A2A2A' : '#fff',
-                color: darkMode ? '#F1E4D1' : '#000',
-            }}
-        >
+        <div className={`read-chapter-wrapper ${darkMode ? 'dark-mode' : ''}`}>
             <div className="progress-bar-container">
                 <div className="progress-bar" style={{ width: `${progress}%` }}></div>
             </div>
-            <div
-                className="read-chapter"
-                ref={chapterContainerRef}
-                onScroll={handleScroll}
+            <div className="read-chapter" ref={chapterContainerRef} onScroll={handleScroll}
                 style={{
                     '--brightness': `${brightness}%`,
                     '--font-size': `${fontSize}px`,

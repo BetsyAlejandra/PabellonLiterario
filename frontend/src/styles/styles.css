@@ -1,5 +1,23 @@
-.dark-mode, 
-.dark-mode body, 
+:root {
+    --navbar-light1: #D3D0E1;
+    --navbar-light2: #D7E2E9;
+    --navbar-light3: #C1D0B5;
+    --navbar-border: #D6B4A1;
+
+    --navbar-dark1: #2A2A2A;
+    --navbar-dark2: #3A3A3A;
+    --navbar-dark3: #4A4A4A;
+    --navbar-border-dark: #5A3D42;
+
+    --footer-light: #D7E2E9;
+    --footer-border: #5A3D42;
+
+    --footer-dark: #2A2A2A;
+    --footer-border-dark: #5A3D42;
+}
+
+.dark-mode,
+.dark-mode body,
 .dark-mode html {
     background-color: #2A2A2A !important;
     color: #F1E4D1 !important;
@@ -10,6 +28,11 @@
 .dark-mode span,
 .dark-mode div {
     color: #F1E4D1 !important;
+}
+
+.dark-mode .read-chapter {
+    background: linear-gradient(135deg, #2A2A2A, #3A3A3A);
+    filter: brightness(var(--brightness, 100%));
 }
 
 
@@ -68,6 +91,17 @@
 .dark-mode .card,
 .dark-mode .section {
     background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.dark-mode .custom-navbar {
+    background: linear-gradient(90deg, var(--navbar-dark1, #2A2A2A), var(--navbar-dark2, #3A3A3A), var(--navbar-dark3, #4A4A4A));
+    border-bottom: 2px solid var(--navbar-border-dark, #5A3D42);
+}
+
+
+.dark-mode .custom-footer {
+    background-color: var(--footer-dark, #2A2A2A);
+    border-top: 2px solid var(--footer-border-dark, #5A3D42);
 }
 
 .dark-mode .card,
