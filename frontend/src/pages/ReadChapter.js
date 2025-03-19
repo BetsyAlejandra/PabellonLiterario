@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import axios from "axios";
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Container, Form, OverlayTrigger, Popover, Toast, ToastContainer, Modal } from 'react-bootstrap';
@@ -11,9 +11,11 @@ import html2canvas from 'html2canvas';
 import backgroundImage from '../assets/background.png';
 import { DiscussionEmbed, CommentCount } from 'disqus-react';
 import { useLocation } from "react-router-dom";
+import { ThemeContext } from '../context/ThemeContext';
 
 const ReadChapter = () => {
     const { storyId, chapterId } = useParams();
+    const { darkMode } = useContext(ThemeContext);
     const navigate = useNavigate();
     const { markChapterAsRead, isChapterRead } = useReadChapter();
 
@@ -45,25 +47,11 @@ const ReadChapter = () => {
 
     const location = useLocation();
 
-    const [darkMode, setDarkMode] = useState(() => {
-        const storedMode = localStorage.getItem('darkMode');
-        return storedMode === 'true';
-    });
-
-
     // Inicialización de estados desde localStorage
     const [fontSize, setFontSize] = useState(() => {
         const storedFontSize = localStorage.getItem('fontSize');
         return storedFontSize ? Number(storedFontSize) : 16;
     });
-
-    const handleDarkModeToggle = () => {
-        setDarkMode((prev) => {
-            const newMode = !prev;
-            localStorage.setItem('darkMode', newMode);
-            return newMode;
-        });
-    };
 
 
     const [brightness, setBrightness] = useState(() => {
@@ -491,20 +479,18 @@ const ReadChapter = () => {
         }
     };
 
-    useEffect(() => {
-        if (darkMode) {
-            document.body.classList.add('dark-mode');
-        } else {
-            document.body.classList.remove('dark-mode');
-        }
-    }, [darkMode]);
-
 
     if (loading) return <p className="read-chapter-loading">Cargando...</p>;
     if (error) return <p className="read-chapter-error">{error}</p>;
 
     return (
-        <div className={`read-chapter-wrapper ${darkMode ? 'dark-mode' : ''}`}>
+        <div
+            className={`read-chapter-wrapper ${darkMode ? 'dark-mode' : ''}`}
+            style={{
+                backgroundColor: darkMode ? '#2A2A2A' : '#fff',
+                color: darkMode ? '#F1E4D1' : '#000',
+            }}
+        >
             <div className="progress-bar-container">
                 <div className="progress-bar" style={{ width: `${progress}%` }}></div>
             </div>
@@ -679,16 +665,6 @@ const ReadChapter = () => {
                                     onChange={(e) => handleBrightnessChange(e.target.value)}
                                 />
                                 <div className="text-end">{brightness}%</div>
-                            </Form.Group>
-
-                            <Form.Group className="mb-3">
-                                <Form.Check
-                                    type="switch"
-                                    id="dark-mode-toggle"
-                                    label="Modo Oscuro"
-                                    checked={darkMode}
-                                    onChange={handleDarkModeToggle}
-                                />
                             </Form.Group>
 
                         </div>
