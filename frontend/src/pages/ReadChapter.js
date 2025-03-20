@@ -496,12 +496,31 @@ const ReadChapter = () => {
 
 
     useEffect(() => {
-        try {
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
-        } catch (e) {
-            console.error("Error al cargar el anuncio:", e);
+        if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
+          try {
+            window.adsbygoogle.push({});
+          } catch (e) {
+            console.error("Error al cargar AdSense:", e);
+          }
         }
-    }, []);
+      }, []);
+
+      useEffect(() => {
+        const reloadAds = () => {
+          const ads = document.querySelectorAll(".adsbygoogle");
+          ads.forEach((ad) => {
+            ad.innerHTML = "";
+          });
+      
+          if (window.adsbygoogle) {
+            window.adsbygoogle = window.adsbygoogle || [];
+            window.adsbygoogle.push({});
+          }
+        };
+      
+        reloadAds();
+      }, [chapterId]);
+      
 
 
 
