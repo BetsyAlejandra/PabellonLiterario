@@ -495,41 +495,6 @@ const ReadChapter = () => {
     };
 
 
-    useEffect(() => {
-        if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
-          try {
-            const ads = document.querySelectorAll(".adsbygoogle");
-            ads.forEach((ad) => {
-              if (!ad.getAttribute("data-ad-status")) {
-                window.adsbygoogle.push({});
-              }
-            });
-          } catch (e) {
-            console.error("Error al cargar AdSense:", e);
-          }
-        }
-      }, []);
-      
-
-      useEffect(() => {
-        const reloadAds = () => {
-          const ads = document.querySelectorAll(".adsbygoogle");
-          ads.forEach((ad) => {
-            ad.innerHTML = "";
-          });
-      
-          if (window.adsbygoogle) {
-            window.adsbygoogle = window.adsbygoogle || [];
-            window.adsbygoogle.push({});
-          }
-        };
-      
-        reloadAds();
-      }, [chapterId]);
-      
-
-
-
     if (loading) return <p className="read-chapter-loading">Cargando...</p>;
     if (error) return <p className="read-chapter-error">{error}</p>;
 
@@ -564,35 +529,12 @@ const ReadChapter = () => {
 
 
                 <Container>
-
-
-                    <div className="ad-container" style={{ maxWidth: '100%', textAlign: 'center', margin: '20px auto' }}>
-                        <ins className="adsbygoogle"
-                            style={{ display: 'block' }}
-                            data-ad-client="ca-pub-3101266953328074"
-                            data-ad-slot="7783260865"
-                            data-ad-format="auto"
-                            data-full-width-responsive="true">
-                        </ins>
-                    </div>
-
                     {/* Título de la Novela */}
                     <h1 className="story-title">{novelName}</h1>
 
                     {/* Título del Capítulo */}
                     <h2 className="chapter-title">{chapter.title}</h2>
                     <p className="chapter-date">{new Date(chapter.publishedAt).toLocaleDateString()}</p>
-
-                    <div className="ad-container" style={{ maxWidth: '100%', textAlign: 'center', margin: '20px auto' }}>
-                        <ins className="adsbygoogle"
-                            style={{ display: 'block' }}
-                            data-ad-client="ca-pub-3101266953328074"
-                            data-ad-slot="7783260865"
-                            data-ad-format="auto"
-                            data-full-width-responsive="true">
-                        </ins>
-                    </div>
-
 
                     <div className="chapter-content">
                         {paragraphs.map((para, index) => (
@@ -605,16 +547,6 @@ const ReadChapter = () => {
                                         {parse(DOMPurify.sanitize(para, sanitizeOptions), options)}
                                     </p>
 
-                                    {index % 6 === 0 && index !== 0 && (
-                                        <div className="ad-container" style={{ maxWidth: '100%', textAlign: 'center', margin: '20px auto' }}>
-                                            <ins class="adsbygoogle"
-                                                style="display:block"
-                                                data-ad-format="fluid"
-                                                data-ad-layout-key="-gw-3+1f-3d+2z"
-                                                data-ad-client="ca-pub-3101266953328074"
-                                                data-ad-slot="4926029200"></ins>
-                                        </div>
-                                    )}
 
                                     {showCommentBox === index && (
                                         <div
@@ -671,15 +603,6 @@ const ReadChapter = () => {
                                 </div>
                             </div>
                         ))}
-                    </div>
-                    <div className="ad-container" style={{ maxWidth: '100%', textAlign: 'center', margin: '20px auto' }}>
-                        <ins class="adsbygoogle"
-                            style="display:block"
-                            data-ad-format="autorelaxed"
-                            data-ad-client="ca-pub-3101266953328074"
-                            data-ad-slot="1572311396">
-
-                        </ins>
                     </div>
 
                 </Container>
@@ -781,20 +704,18 @@ const ReadChapter = () => {
                 </Container>
 
 
-                {
-                    chapter.annotations && chapter.annotations.length > 0 && (
-                        <Container className="annotations-list mt-4">
-                            <h3>Anotaciones</h3>
-                            <ul>
-                                {chapter.annotations.map((ann, idx) => (
-                                    <li key={idx}>
-                                        <strong>{ann.text}:</strong> {ann.meaning}
-                                    </li>
-                                ))}
-                            </ul>
-                        </Container>
-                    )
-                }
+                {chapter.annotations && chapter.annotations.length > 0 && (
+                    <Container className="annotations-list mt-4">
+                        <h3>Anotaciones</h3>
+                        <ul>
+                            {chapter.annotations.map((ann, idx) => (
+                                <li key={idx}>
+                                    <strong>{ann.text}:</strong> {ann.meaning}
+                                </li>
+                            ))}
+                        </ul>
+                    </Container>
+                )}
 
                 {/* Contenedor de Toasts */}
                 <ToastContainer position="bottom-end" className="p-3">
@@ -805,24 +726,22 @@ const ReadChapter = () => {
                         <Toast.Body>{toastMessage}</Toast.Body>
                     </Toast>
                 </ToastContainer>
-            </div >
+            </div>
 
             {/* Botón Flotante de Descarga */}
-            {
-                showDownloadButton && (
-                    <div className="floating-download-button">
-                        <Button
-                            variant="success"
-                            onClick={handleDownload}
-                            title="Descargar frase"
-                            aria-label="Descargar frase seleccionada"
-                        >
-                            <FaQuoteRight /> Descargar
-                        </Button>
-                    </div>
-                )
-            }
-        </div >
+            {showDownloadButton && (
+                <div className="floating-download-button">
+                    <Button
+                        variant="success"
+                        onClick={handleDownload}
+                        title="Descargar frase"
+                        aria-label="Descargar frase seleccionada"
+                    >
+                        <FaQuoteRight /> Descargar
+                    </Button>
+                </div>
+            )}
+        </div>
     );
 
 };
