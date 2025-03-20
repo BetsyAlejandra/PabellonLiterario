@@ -16,6 +16,14 @@
     --footer-border-dark: #5A3D42;
 }
 
+.dark-mode {
+    --color-bg: #2B2B2B;
+    --color-card: #3A3A3A;
+    --color-text: #E6E6E6;
+    --color-title: #D3D0E1;
+    --color-border: #5A5A5A;
+}
+
 .dark-mode,
 .dark-mode body,
 .dark-mode html {

@@ -244,27 +244,13 @@ body {
   /* Mantiene la proporción sin deformar */
 }
 
-/* Contenedor principal */
 .ranking-container {
   text-align: center;
   padding: 30px;
-  background: #F7E1D7;
+  background: var(--color-bg);
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   animation: fadeIn 1s ease-in-out;
-}
-
-/* Animación de entrada */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* Título principal */
@@ -272,7 +258,7 @@ body {
   font-size: 26px;
   font-weight: bold;
   margin-bottom: 25px;
-  color: #6D5B4F;
+  color: var(--color-title);
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -286,7 +272,7 @@ body {
 
 /* Categorías */
 .ranking-category {
-  background: #E8E2D6;
+  background: var(--color-card);
   padding: 20px;
   border-radius: 12px;
   width: 320px;
@@ -301,9 +287,9 @@ body {
 
 .category-title {
   font-size: 20px;
-  color: #5A4E45;
+  color: var(--color-title);
   margin-bottom: 12px;
-  border-bottom: 3px solid #C9D6D5;
+  border-bottom: 3px solid var(--color-border);
   padding-bottom: 6px;
 }
 
@@ -329,13 +315,13 @@ body {
 /* Enlaces */
 .ranking-list a {
   text-decoration: none;
-  color: #6D5B4F;
+  color: var(--color-text);
   font-weight: bold;
   transition: color 0.3s ease-in-out;
 }
 
 .ranking-list a:hover {
-  color: #D3D0E1;
+  color: var(--color-title);
   text-decoration: underline;
 }
 
@@ -363,7 +349,7 @@ body {
   border-radius: 50%;
 }
 
-
+/* Patrocinadores */
 .sponsor {
   background: rgba(255, 215, 0, 0.15);
   border-radius: 8px;
