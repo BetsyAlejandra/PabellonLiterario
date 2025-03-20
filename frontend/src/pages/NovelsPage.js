@@ -17,11 +17,10 @@ const NovelsPage = () => {
   const initialPage = parseInt(searchParams.get('page')) || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
 
-  // Función para actualizar el número de novelas por página según el tamaño de la pantalla
   const updateNovelsPerPage = useCallback(() => {
     const width = window.innerWidth;
     if (width >= 1600) {
-      setNovelsPerPage(12); // Más novelas en pantallas grandes
+      setNovelsPerPage(12); 
     } else if (width >= 1200) {
       setNovelsPerPage(10);
     } else if (width >= 992) {
@@ -29,7 +28,7 @@ const NovelsPage = () => {
     } else if (width >= 768) {
       setNovelsPerPage(6);
     } else {
-      setNovelsPerPage(4); // Menos novelas en móviles
+      setNovelsPerPage(4);
     }
   }, []);
 
