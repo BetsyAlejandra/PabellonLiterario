@@ -11,11 +11,33 @@ const NovelsPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const novelsPerPage = 8;
+  const [novelsPerPage, setNovelsPerPage] = useState(8); // Valor por defecto
 
   const [searchParams, setSearchParams] = useSearchParams();
   const initialPage = parseInt(searchParams.get('page')) || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
+
+  // Función para actualizar el número de novelas por página según el tamaño de la pantalla
+  const updateNovelsPerPage = useCallback(() => {
+    const width = window.innerWidth;
+    if (width >= 1600) {
+      setNovelsPerPage(12); // Más novelas en pantallas grandes
+    } else if (width >= 1200) {
+      setNovelsPerPage(10);
+    } else if (width >= 992) {
+      setNovelsPerPage(8);
+    } else if (width >= 768) {
+      setNovelsPerPage(6);
+    } else {
+      setNovelsPerPage(4); // Menos novelas en móviles
+    }
+  }, []);
+
+  useEffect(() => {
+    updateNovelsPerPage(); // Se ejecuta al montar el componente
+    window.addEventListener('resize', updateNovelsPerPage);
+    return () => window.removeEventListener('resize', updateNovelsPerPage);
+  }, [updateNovelsPerPage]);
 
   useEffect(() => {
     const fetchNovels = async () => {
@@ -37,7 +59,7 @@ const NovelsPage = () => {
     };
 
     fetchNovels();
-  }, [currentPage]);
+  }, [currentPage, novelsPerPage]);
 
   useEffect(() => {
     setSearchParams({ page: currentPage });
