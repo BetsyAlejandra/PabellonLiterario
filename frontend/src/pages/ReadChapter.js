@@ -498,12 +498,18 @@ const ReadChapter = () => {
     useEffect(() => {
         if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
           try {
-            window.adsbygoogle.push({});
+            const ads = document.querySelectorAll(".adsbygoogle");
+            ads.forEach((ad) => {
+              if (!ad.getAttribute("data-ad-status")) {
+                window.adsbygoogle.push({});
+              }
+            });
           } catch (e) {
             console.error("Error al cargar AdSense:", e);
           }
         }
       }, []);
+      
 
       useEffect(() => {
         const reloadAds = () => {
