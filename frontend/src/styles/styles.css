@@ -94,7 +94,7 @@
 }
 
 .dark-mode .custom-navbar {
-    background: linear-gradient(90deg, var(--navbar-dark1, #2A2A2A), var(--navbar-dark2, #3A3A3A), var(--navbar-dark3, #4A4A4A));
+    background: linear-gradient(90deg, var(--navbar-dark1, #2A2A2A), var(--navbar-dark2, #3A3A3A), var(--navbar-dark3, #4A4A4A)) !important;
     border-bottom: 2px solid var(--navbar-border-dark, #5A3D42);
 }
 

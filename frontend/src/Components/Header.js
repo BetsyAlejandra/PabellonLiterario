@@ -76,7 +76,7 @@ const Header = () => {
   if (!isNavbarMounted) return null;
 
   return (
-    <Navbar expand="lg" className="custom-navbar">
+    <Navbar expand="lg" className={`custom-navbar ${darkMode ? "dark-mode" : ""}`}>
       <Container className="d-flex justify-content-between align-items-center">
         {/* Logo */}
         <Navbar.Brand onClick={() => navigate("/")} className="logo" style={{ cursor: "pointer" }}>
