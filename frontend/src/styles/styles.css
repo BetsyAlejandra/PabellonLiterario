@@ -230,3 +230,150 @@ body.dark-mode .form-select {
     background-color: #1E1E1E !important;
     /* Fondo oscuro */
 }
+
+.dark-mode .audio-drama-details {
+    background-color: #1c1c1c;  /* Fondo oscuro */
+    color: #ddd;  /* Texto claro */
+    box-shadow: none;
+  }
+  
+  .dark-mode .audio-drama-details .title {
+    color: #d6b4a1; /* Marrón arena */
+  }
+  
+  .dark-mode .audio-drama-details .description {
+    color: #ccc; /* Gris claro */
+  }
+  
+  .dark-mode .audio-drama-details .genres,
+  .dark-mode .audio-drama-details .progress {
+    color: #bbb;
+  }
+  
+  .dark-mode .audio-drama-details .season {
+    background-color: #262626; /* Fondo más oscuro */
+    border: 1px solid #444;
+  }
+  
+  .dark-mode .audio-drama-details .season-title {
+    color: #d6b4a1;
+  }
+  
+  .dark-mode .audio-drama-details li {
+    color: #bbb;
+  }
+  
+  .dark-mode .audio-drama-details .video-link {
+    background-color: #d6b4a1;
+    color: #1c1c1c;
+  }
+  
+  .dark-mode .audio-drama-details .video-link:hover {
+    background-color: #e6d6c3; /* Crema suave */
+    transform: scale(1.1);
+  }
+  
+  .dark-mode .audio-drama-details .progress-bar-container {
+    background-color: #333;
+  }
+  
+  .dark-mode .audio-drama-details .progress-fill {
+    background-color: #5a4033; /* Marrón más oscuro */
+  }
+  
+  .dark-mode .audio-drama-details .progress-percentage {
+    color: #fff;
+  }
+  
+  /* Ajustes para dispositivos móviles */
+  @media (max-width: 768px) {
+    .dark-mode .audio-drama-details {
+      padding: 2rem 1.5rem;
+    }
+  
+    .dark-mode .audio-drama-details .title {
+      font-size: 2.5rem;
+    }
+  
+    .dark-mode .audio-drama-details .description {
+      font-size: 1.1rem;
+    }
+  
+    .dark-mode .audio-drama-details .season-title {
+      font-size: 1.8rem;
+    }
+  
+    .dark-mode .audio-drama-details li {
+      font-size: 1.1rem;
+    }
+  }
+
+  
+  /* Modo oscuro */
+.audio-drama-list {
+    background-color: #1E1E1E; /* Fondo oscuro */
+    color: #EAEAEA;
+  }
+  
+  .audio-drama-list .title {
+    color: #D6B4A1;
+  }
+  
+  .audio-drama-list .card {
+    background-color: #292929;
+    border: 1px solid #3A3A3A;
+  }
+  
+  .audio-drama-list .card-title {
+    color: #D6B4A1;
+  }
+  
+  .audio-drama-list .card-text {
+    color: #BFBFBF;
+  }
+  
+  .audio-drama-list .btn {
+    background-color: #D6B4A1;
+    color: #1E1E1E;
+  }
+  
+  .audio-drama-list .btn:hover {
+    background-color: #B79B8F;
+  }
+  
+  .audio-drama-list .info-box {
+    background-color: #292929;
+    border: 1px solid #3A3A3A;
+  }
+  
+  .audio-drama-list .info-title {
+    color: #D6B4A1;
+  }
+  
+  .audio-drama-list .info-text {
+    color: #BFBFBF;
+  }
+  
+  .audio-drama-list .info-box .btn-info {
+    background-color: #D6B4A1;
+    color: #1E1E1E;
+  }
+  
+  .audio-drama-list .info-box .btn-info:hover {
+    background-color: #B79B8F;
+  }
+  
+  @media (max-width: 768px) {
+    .audio-drama-list .title {
+      font-size: 2rem;
+    }
+  
+    .audio-drama-list .card-title {
+      font-size: 1.25rem;
+    }
+  
+    .audio-drama-list .card-text {
+      font-size: 1rem;
+    }
+  }
+  

@@ -140,3 +140,80 @@
     font-size: 1.1rem;
   }
 }
+
+.dark-mode .audio-drama-details {
+  background-color: #1c1c1c;  /* Fondo oscuro */
+  color: #ddd;  /* Texto claro */
+  box-shadow: none;
+}
+
+.dark-mode .audio-drama-details .title {
+  color: #d6b4a1; /* Marrón arena */
+}
+
+.dark-mode .audio-drama-details .description {
+  color: #ccc; /* Gris claro */
+}
+
+.dark-mode .audio-drama-details .genres,
+.dark-mode .audio-drama-details .progress {
+  color: #bbb;
+}
+
+.dark-mode .audio-drama-details .season {
+  background-color: #262626; /* Fondo más oscuro */
+  border: 1px solid #444;
+}
+
+.dark-mode .audio-drama-details .season-title {
+  color: #d6b4a1;
+}
+
+.dark-mode .audio-drama-details li {
+  color: #bbb;
+}
+
+.dark-mode .audio-drama-details .video-link {
+  background-color: #d6b4a1;
+  color: #1c1c1c;
+}
+
+.dark-mode .audio-drama-details .video-link:hover {
+  background-color: #e6d6c3; /* Crema suave */
+  transform: scale(1.1);
+}
+
+.dark-mode .audio-drama-details .progress-bar-container {
+  background-color: #333;
+}
+
+.dark-mode .audio-drama-details .progress-fill {
+  background-color: #5a4033; /* Marrón más oscuro */
+}
+
+.dark-mode .audio-drama-details .progress-percentage {
+  color: #fff;
+}
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+  .dark-mode .audio-drama-details {
+    padding: 2rem 1.5rem;
+  }
+
+  .dark-mode .audio-drama-details .title {
+    font-size: 2.5rem;
+  }
+
+  .dark-mode .audio-drama-details .description {
+    font-size: 1.1rem;
+  }
+
+  .dark-mode .audio-drama-details .season-title {
+    font-size: 1.8rem;
+  }
+
+  .dark-mode .audio-drama-details li {
+    font-size: 1.1rem;
+  }
+}

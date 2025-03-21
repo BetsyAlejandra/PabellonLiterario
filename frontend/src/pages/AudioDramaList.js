@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/AudioDramaList.css';
+import { ThemeContext } from '../context/ThemeContext';
 
 const AudioDramaList = () => {
   const [audioDramas, setAudioDramas] = useState([]);
+  const { darkMode } = useContext(ThemeContext);
 
   useEffect(() => {
     const fetchAudioDramas = async () => {
@@ -28,7 +30,7 @@ const AudioDramaList = () => {
   };
 
   return (
-    <div className="audio-drama-list container py-5">
+    <div className={`audio-drama-list container py-5 ${darkMode ? 'dark-mode' : ''}`}>
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3101266953328074"
         crossorigin="anonymous"></script>
       <h1 className="title text-center mb-4">Audiodramas Disponibles</h1>

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import '../styles/AudioDramaDetails.css';
+import { ThemeContext } from '../context/ThemeContext';
 
 const AudioDramaDetails = () => {
   const { id } = useParams();
+  const { darkMode } = useContext(ThemeContext);
   const [audioDrama, setAudioDrama] = useState(null);
   const [error, setError] = useState(null);
 
@@ -34,7 +36,8 @@ const AudioDramaDetails = () => {
   }
 
   return (
-    <div className="audio-drama-details container mt-5">
+    <div className={`audio-drama-details container mt-5 ${darkMode ? 'dark-mode' : ''}`}>
+
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3101266953328074"
         crossorigin="anonymous"></script>
       <h1 className="title text-center">{audioDrama.title}</h1>

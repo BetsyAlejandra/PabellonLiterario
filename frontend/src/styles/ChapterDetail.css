@@ -83,3 +83,72 @@ iframe {
 .btn-primary:hover {
   background-color: #B79B8F;
 }
+
+/* 🌙 Modo Oscuro */
+.dark-mode .chapter-detail {
+  background-color: #1E1E1E;
+  color: #EAEAEA;
+}
+
+.dark-mode .chapter-title {
+  color: #D6B4A1;
+}
+
+.dark-mode iframe {
+  background-color: #292929;
+  border: 1px solid #3A3A3A;
+}
+
+.dark-mode .patreon-info {
+  background-color: #292929;
+  border: 1px solid #3A3A3A;
+}
+
+.dark-mode .patreon-info a {
+  color: #D6B4A1;
+}
+
+.dark-mode .patreon-info a:hover {
+  color: #B79B8F;
+}
+
+.dark-mode .btn {
+  background-color: #D6B4A1;
+  color: #1E1E1E;
+}
+
+.dark-mode .btn:hover {
+  background-color: #B79B8F;
+}
+
+.dark-mode .btn-outline-dark {
+  border-color: #D6B4A1;
+  color: #D6B4A1;
+}
+
+.dark-mode .btn-outline-dark:hover {
+  background-color: #D6B4A1;
+  color: #1E1E1E;
+}
+
+.dark-mode .btn-primary {
+  background-color: #D6B4A1;
+  color: white;
+}
+
+.dark-mode .btn-primary:hover {
+  background-color: #B79B8F;
+}
+
+.dark-mode .back-button {
+  background-color: transparent;
+}
+
+.dark-mode .back-button .btn {
+  background-color: #D6B4A1;
+  color: white;
+}
+
+.dark-mode .back-button .btn:hover {
+  background-color: #B79B8F;
+}

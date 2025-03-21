@@ -541,8 +541,10 @@ const ReadChapter = () => {
                             <div key={index} className="paragraph">
                                 <div className="paragraph-container">
                                     <p
+                                        draggable='false'
                                         onMouseUp={(e) => handleTextSelection(e, index)}
                                         onTouchEnd={(e) => handleTextSelection(e, index)}
+                                        onDragStart={(e) => e.preventDefault}
                                     >
                                         {parse(DOMPurify.sanitize(para, sanitizeOptions), options)}
                                     </p>

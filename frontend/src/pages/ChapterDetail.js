@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { DiscussionEmbed } from 'disqus-react';
 import DailymotionPlayer from '../Components/DailymotionPlayer';
+import { ThemeContext } from '../context/ThemeContext';
 import '../styles/ChapterDetail.css';
 
 const ChapterDetail = () => {
   const { id, seasonNumber, episode } = useParams();
+  const { darkMode } = useContext(ThemeContext);
   const [chapter, setChapter] = useState(null);
   const [audioDrama, setAudioDrama] = useState(null);
 
@@ -68,7 +70,7 @@ const ChapterDetail = () => {
   const videoId = getDailymotionVideoId(chapter.videoLinks[0].url);
 
   return (
-    <div className="chapter-detail container py-5">
+    <div className={`chapter-detail container py-5 ${darkMode ? 'dark-mode' : ''}`}>
       <h1 className="chapter-title text-center mb-4">{chapter.title}</h1>
 
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3101266953328074"
