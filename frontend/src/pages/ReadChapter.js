@@ -12,6 +12,7 @@ import backgroundImage from '../assets/background.png';
 import { DiscussionEmbed, CommentCount } from 'disqus-react';
 import { useLocation } from "react-router-dom";
 import { ThemeContext } from '../context/ThemeContext';
+import AdSense from '../Components/AdSense';
 
 
 const fontOptions = [
@@ -536,6 +537,8 @@ const ReadChapter = () => {
                     <h2 className="chapter-title">{chapter.title}</h2>
                     <p className="chapter-date">{new Date(chapter.publishedAt).toLocaleDateString()}</p>
 
+                    <AdSense adSlot="7783260865" adFormat="fluid" adLayout="in-article" />
+
                     <div className="chapter-content">
                         {paragraphs.map((para, index) => (
                             <div key={index} className="paragraph">
@@ -548,6 +551,11 @@ const ReadChapter = () => {
                                     >
                                         {parse(DOMPurify.sanitize(para, sanitizeOptions), options)}
                                     </p>
+
+                                    {/* Anuncio cada 5 párrafos */}
+                                    {index > 0 && index % 5 === 0 && (
+                                        <AdSense adSlot="8465022802" adFormat="auto" />
+                                    )}
 
 
                                     {showCommentBox === index && (
@@ -690,6 +698,9 @@ const ReadChapter = () => {
                     >
                         Siguiente <FaArrowRight />
                     </Button>
+
+                    <AdSense adSlot="4926029200" adFormat="fluid" adLayoutKey="-gw-3+1f-3d+2z" />
+
                 </div>
 
                 <Container className="general-comments">
@@ -705,19 +716,27 @@ const ReadChapter = () => {
                     />
                 </Container>
 
+                <AdSense adSlot="9466758061" adFormat="autorelaxed" />
+
+
 
                 {chapter.annotations && chapter.annotations.length > 0 && (
-                    <Container className="annotations-list mt-4">
-                        <h3>Anotaciones</h3>
-                        <ul>
-                            {chapter.annotations.map((ann, idx) => (
-                                <li key={idx}>
-                                    <strong>{ann.text}:</strong> {ann.meaning}
-                                </li>
-                            ))}
-                        </ul>
-                    </Container>
+                    <>
+                        <AdSense adSlot="1572311396" adFormat="autorelaxed" />
+                        <Container className="annotations-list mt-4">
+                            <h3>Anotaciones</h3>
+                            <ul>
+                                {chapter.annotations.map((ann, idx) => (
+                                    <li key={idx}>
+                                        <strong>{ann.text}:</strong> {ann.meaning}
+                                    </li>
+                                ))}
+                            </ul>
+                        </Container>
+                    </>
                 )}
+
+                <AdSense adSlot="9466758061" adFormat="autorelaxed" />
 
                 {/* Contenedor de Toasts */}
                 <ToastContainer position="bottom-end" className="p-3">

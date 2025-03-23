@@ -6,7 +6,7 @@
   position: relative;
   overflow-y: auto;
   font-family: var(--font-family, Serif);
-  color: var(--font-color, #000);
+  color: var(--font-color, #000) !important;
   font-size: var(--font-size, 16px);
   filter: brightness(var(--brightness, 100%));
   transition: all 0.3s ease;
@@ -16,12 +16,18 @@
   line-height: 1.8;
   word-wrap: break-word;
   font-family: inherit;
-  /* Heredar fuente del contenedor */
   font-size: inherit;
-  /* Heredar tamaño de fuente del contenedor */
   color: inherit;
-  /* Heredar color del contenedor */
 }
+
+.paragraph-container {
+  width: 100%;
+  max-width: 100%;
+  display: block;
+  padding: 0.5rem 0;
+  box-sizing: border-box;
+}
+
 
 /* Barra de Progreso */
 .progress-bar-container {
