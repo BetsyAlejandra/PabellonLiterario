@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 const AdSense = ({ adClient, adSlot, style = {}, format = 'auto', responsive = 'true' }) => {
     const adRef = useRef(null);
+    const hasLoaded = useRef(false); // Para evitar múltiples cargas
 
     useEffect(() => {
         if (!window.adsbygoogle) {
@@ -10,35 +11,24 @@ const AdSense = ({ adClient, adSlot, style = {}, format = 'auto', responsive = '
             script.async = true;
             document.body.appendChild(script);
             script.onload = () => {
-                if (window.adsbygoogle) {
+                if (window.adsbygoogle && adRef.current) {
                     try {
                         window.adsbygoogle.push({});
+                        hasLoaded.current = true; // Marcar como cargado
                     } catch (e) {
                         console.error('Error al inicializar AdSense:', e);
                     }
                 }
             };
-        } else {
+        } else if (adRef.current && !hasLoaded.current) {
             try {
                 window.adsbygoogle.push({});
+                hasLoaded.current = true; // Marcar como cargado
             } catch (e) {
                 console.error('Error al inicializar AdSense:', e);
             }
         }
     }, []);
-    
-    useEffect(() => {
-        setTimeout(() => {
-            if (window.adsbygoogle && adRef.current && adRef.current.offsetWidth > 0) {
-                try {
-                    window.adsbygoogle.push({});
-                } catch (e) {
-                    console.error('Error al inicializar AdSense:', e);
-                }
-            }
-        }, 1000); // Esperar 1 segundo antes de cargar el anuncio
-    }, []);
-    
 
     return (
         <ins
@@ -50,7 +40,7 @@ const AdSense = ({ adClient, adSlot, style = {}, format = 'auto', responsive = '
             data-full-width-responsive={responsive}
             ref={adRef}
         ></ins>
-    );    
+    );
 };
 
 export default AdSense;
