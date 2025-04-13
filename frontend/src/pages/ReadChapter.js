@@ -272,8 +272,6 @@ const ReadChapter = () => {
     };
 
     const sanitizedContent = chapter ? DOMPurify.sanitize(chapter.content, sanitizeOptions) : '';
-    console.log(sanitizeOptions)
-
     const options = {
         replace: ({ name, attribs, children }) => {
             if (!attribs) return;
@@ -550,7 +548,11 @@ const ReadChapter = () => {
                                         onTouchEnd={(e) => handleTextSelection(e, index)}
                                         onDragStart={(e) => e.preventDefault}
                                     >
-                                        {parse(DOMPurify.sanitize(para, sanitizeOptions), options)}
+                                        {console.log("Anotación:", para)}
+                                        {console.log("Contenido para renderizar:", para)}
+                                        {parse(DOMPurify.sanitize(para, sanitizeOptions), options)
+                                        
+                                        }
                                     </p>
 
 
