@@ -29,6 +29,8 @@ object-assign
   PERFORMANCE OF THIS SOFTWARE.
   ***************************************************************************** */
 
+/*! https://mths.be/he v1.2.0 by @mathias | MIT license */
+
 /**
  * @license React
  * react-dom.production.min.js

@@ -12,6 +12,7 @@ import backgroundImage from '../assets/background.png';
 import { DiscussionEmbed, CommentCount } from 'disqus-react';
 import { useLocation } from "react-router-dom";
 import { ThemeContext } from '../context/ThemeContext';
+import he from 'he';
 
 
 const fontOptions = [
@@ -252,16 +253,19 @@ const ReadChapter = () => {
         : fontOptions;
 
 
-    const renderPopover = (annotation) => (
+    const renderPopover = (annotation) => {
+        const decodedAnnotation = he.decode(annotation);
 
-        <Popover id={`popover-${popoverIdRef.current++}`} >
-            <Popover.Header as="h3">Anotación</Popover.Header>
-            <Popover.Body>
-                <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(annotation) }} />
-            </Popover.Body>
+        return (
+            <Popover id={`popover-${popoverIdRef.current++}`} >
+                <Popover.Header as="h3">Anotación</Popover.Header>
+                <Popover.Body>
+                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(decodedAnnotation) }} />
+                </Popover.Body>
 
-        </Popover>
-    );
+            </Popover>
+        )
+    };
 
 
 
@@ -549,9 +553,8 @@ const ReadChapter = () => {
                                         onDragStart={(e) => e.preventDefault}
                                     >
                                         {console.log("Anotación:", para)}
-                                        {console.log("Contenido para renderizar:", para)}
                                         {parse(DOMPurify.sanitize(para, sanitizeOptions), options)
-                                        
+
                                         }
                                     </p>
 
