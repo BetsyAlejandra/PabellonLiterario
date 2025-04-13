@@ -552,7 +552,6 @@ const ReadChapter = () => {
                                         onTouchEnd={(e) => handleTextSelection(e, index)}
                                         onDragStart={(e) => e.preventDefault}
                                     >
-                                        {console.log("Anotación:", para)}
                                         {parse(DOMPurify.sanitize(para, sanitizeOptions), options)
 
                                         }
