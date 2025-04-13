@@ -4,7 +4,7 @@ import "../styles/DonationPopup.css";
 
 const DonationPopup = () => {
   const GOAL_AMOUNT = 100;
-  const CURRENT_AMOUNT = 45;
+  const CURRENT_AMOUNT = 10;
   const STORAGE_KEY = "donation_popup_last_shown";
   const HOURS_TO_WAIT = 24;
 

@@ -23,7 +23,7 @@ const Contactanos = () => {
                             Correo electrónico: <a href="mailto:pabellonliterario196@gmail.com?subject=Consulta%20sobre%20Pabellón%20Literario" style={{ textDecoration: 'underline' }}>contacto@pabellonliterario.com</a>
                         </p>
                         <p className="text-center" style={{ color: '#5A4A42' }}>
-                            Servidor de Discord: <a href="https://discord.gg/Np8prZDgwX" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>Únete aquí</a>
+                            Servidor de Discord: <a href="https://discord.gg/hV2APBNYYS" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>Únete aquí</a>
                         </p>
                         <Form
                             onSubmit={(e) => {

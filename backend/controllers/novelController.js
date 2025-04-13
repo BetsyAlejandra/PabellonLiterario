@@ -80,7 +80,7 @@ const createNovel = async (req, res) => {
     });
 
     const discordMessage = {
-      "content": "<@&1310810841414762516>",
+      "content": "<@&1360705692154990763>",
       embeds: [
         {
           title: `📖 Nueva novela publicada: **${title}**`,
@@ -201,7 +201,7 @@ const addChapter = async (req, res) => {
     const newChapterSaved = savedNovel.chapters[savedNovel.chapters.length - 1];
 
     const discordMessage = {
-      "content": "<@&1310810841414762516>",
+      "content": "<@&1360705692154990763>",
       embeds: [
         {
           title: `📖 **Nuevo capítulo en ${novel.title}**`,

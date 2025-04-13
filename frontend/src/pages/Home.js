@@ -94,7 +94,7 @@ const Home = () => {
         <Container className="text-center py-5">
           <h1>Pabellón Literario</h1>
           <p>Únete a nuestra comunidad para más sorpresas</p>
-          <Button href="https://discord.gg/Np8prZDgwX" variant="light">¡ÚNETE!</Button>
+          <Button href="https://discord.gg/hV2APBNYYS" variant="light">¡ÚNETE!</Button>
         </Container>
       </header>
 
