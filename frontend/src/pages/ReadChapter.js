@@ -256,7 +256,10 @@ const ReadChapter = () => {
 
         <Popover id={`popover-${popoverIdRef.current++}`} >
             <Popover.Header as="h3">Anotación</Popover.Header>
-            <Popover.Body>{annotation}</Popover.Body>
+            <Popover.Body>
+                <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(annotation) }} />
+            </Popover.Body>
+
         </Popover>
     );
 
@@ -712,7 +715,8 @@ const ReadChapter = () => {
                         <ul>
                             {chapter.annotations.map((ann, idx) => (
                                 <li key={idx}>
-                                    <strong>{ann.text}:</strong> {ann.meaning}
+                                    <strong>{ann.text}:</strong>
+                                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(ann.meaning) }} />
                                 </li>
                             ))}
                         </ul>
