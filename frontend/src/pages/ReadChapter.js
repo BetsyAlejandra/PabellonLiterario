@@ -272,6 +272,7 @@ const ReadChapter = () => {
     };
 
     const sanitizedContent = chapter ? DOMPurify.sanitize(chapter.content, sanitizeOptions) : '';
+    console.log(sanitizeOptions)
 
     const options = {
         replace: ({ name, attribs, children }) => {
