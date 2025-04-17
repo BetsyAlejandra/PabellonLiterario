@@ -729,7 +729,7 @@ const ReadChapter = () => {
                 )}
             </div>
 
-            {/* Contenedor de Toasts */}
+            {/* Contenedor de Toasts 
             <ToastContainer position="bottom-end" className="p-3">
                     <Toast onClose={() => setShowToast(false)} show={showToast} delay={3000} autohide bg="warning">
                         <Toast.Header>
@@ -737,7 +737,7 @@ const ReadChapter = () => {
                         </Toast.Header>
                         <Toast.Body>{toastMessage}</Toast.Body>
                     </Toast>
-                </ToastContainer>
+                </ToastContainer>*/}
 
             {/* Botón Flotante de Descarga */}
             {showDownloadButton && (

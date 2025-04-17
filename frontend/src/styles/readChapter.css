@@ -19,14 +19,13 @@
   font-size: inherit;
   color: inherit;
   width: 100%;
-  box-sizing: border-box;
 }
 
 .paragraph-container {
   width: 100%;
   max-width: 100%;
   display: block;
-  padding: 0.5rem 0;
+  padding: 0.2rem 0;
   box-sizing: border-box;
   -webkit-user-drag: none; /* Para Safari y Chrome */
   user-drag: none;
@@ -227,7 +226,6 @@
   border-radius: 3px;
   display: inline; 
   padding: 0 2px;
-  transition: color 0.3s ease, background-color 0.3s ease;
   white-space: normal;
   word-break: break-word;
   overflow-wrap: break-word;
@@ -545,17 +543,19 @@ body.dark-mode .read-chapter {
 
 body.dark-mode .annotation {
   cursor: pointer;
-  color: #1e1e1e;
-  background-color: #e0e0e0;
-  border-radius: 5px;
-  position: relative;
-  display: inline-block;
-  transition: color 0.3s ease, background-color 0.3s ease;
+  color: #d4d4d4;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.4);
+  border-radius: 3px;
+  display: inline; 
+  padding: 0 2px;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 body.dark-mode .annotation:hover {
-  color: #2A2A2A;
-  background-color: rgba(255, 234, 222, 0.118);
+  color: #dfdfdf;
+  border-bottom: 1px dashed rgba(235, 235, 235, 0.4);
   border-radius: 5px;
 }
 
