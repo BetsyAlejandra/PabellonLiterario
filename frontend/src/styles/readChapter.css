@@ -26,6 +26,8 @@
   display: block;
   padding: 0.5rem 0;
   box-sizing: border-box;
+  -webkit-user-drag: none; /* Para Safari y Chrome */
+  user-drag: none;
 }
 
 
@@ -219,11 +221,10 @@
 .annotation {
   cursor: pointer;
   color: #707070;
-  background-color: rgba(42, 42, 42, 0.4);
-  border-radius: 5px;
-  display: inline-flex; 
-  align-items: center;
-  padding: 2px 4px;
+  background-color: rgba(42, 42, 42, 0.2);
+  border-radius: 3px;
+  display: inline; 
+  padding: 0 2px;
   transition: color 0.3s ease, background-color 0.3s ease;
   white-space: normal;
   word-break: break-word;

@@ -550,7 +550,7 @@ const ReadChapter = () => {
                                         draggable='false'
                                         onMouseUp={(e) => handleTextSelection(e, index)}
                                         onTouchEnd={(e) => handleTextSelection(e, index)}
-                                        onDragStart={(e) => e.preventDefault}
+                                        onDragStart={(e) => e.preventDefault()}
                                     >
                                         {parse(DOMPurify.sanitize(para, sanitizeOptions), options)
 
@@ -727,9 +727,10 @@ const ReadChapter = () => {
                         </ul>
                     </Container>
                 )}
+            </div>
 
-                {/* Contenedor de Toasts */}
-                <ToastContainer position="bottom-end" className="p-3">
+            {/* Contenedor de Toasts */}
+            <ToastContainer position="bottom-end" className="p-3">
                     <Toast onClose={() => setShowToast(false)} show={showToast} delay={3000} autohide bg="warning">
                         <Toast.Header>
                             <strong className="me-auto">Aviso</strong>
@@ -737,7 +738,6 @@ const ReadChapter = () => {
                         <Toast.Body>{toastMessage}</Toast.Body>
                     </Toast>
                 </ToastContainer>
-            </div>
 
             {/* Botón Flotante de Descarga */}
             {showDownloadButton && (
