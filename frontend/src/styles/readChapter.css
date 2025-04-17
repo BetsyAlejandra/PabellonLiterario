@@ -524,6 +524,17 @@
   color: #ddd;
 }
 
+.dark-mode .paragraph-container {
+  width: 100%;
+  max-width: 100%;
+  display: block;
+  padding: 0.2rem 0;
+  background-color: transparent !important;
+  box-sizing: border-box;
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
 .dark-mode .settings-panel {
   background-color: #333;
   color: #ddd;
