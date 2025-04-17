@@ -317,7 +317,7 @@ const ReadChapter = () => {
 
     const navigateToNext = () => {
         if (chapter.next) {
-            navigate(`/read-chapter/${storyId}/${chapter.next}`);
+            window.location.href = `/read-chapter/${storyId}/${chapter.next}`;
         }
     };
 
@@ -673,7 +673,7 @@ const ReadChapter = () => {
                         aria-label="Capítulo anterior"
                         onClick={() => {
                             if (chapter.previous) {
-                                navigate(`/read-chapter/${storyId}/${chapter.previous}`);
+                                window.location.href = `/read-chapter/${storyId}/${chapter.previous}`;
                             }
                         }}
                         disabled={!chapter.previous}
