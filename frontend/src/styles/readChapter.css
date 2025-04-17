@@ -1,5 +1,6 @@
 .read-chapter {
   background: linear-gradient(135deg, #D3D0E1, #D7E2E9);
+  padding: 25px;
   border-radius: 20px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.7);
   position: relative;
@@ -17,6 +18,8 @@
   font-family: inherit;
   font-size: inherit;
   color: inherit;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .paragraph-container {
@@ -220,7 +223,7 @@
 .annotation {
   cursor: pointer;
   color: #707070;
-  background-color: rgba(42, 42, 42, 0.2);
+  border-bottom: 1px dashed rgba(42, 42, 42, 0.4);
   border-radius: 3px;
   display: inline; 
   padding: 0 2px;
@@ -233,7 +236,7 @@
 
 .annotation:hover {
   color: #2A2A2A;
-  background-color: rgba(253, 188, 151, 0.118);
+  border-bottom-color: rgba(253, 188, 151, 0.6);
   border-radius: 5px;
 }
 
@@ -315,10 +318,6 @@
 
   .progress-bar-container {
     height: 3px;
-  }
-
-  .chapter-content {
-    padding: 10px;
   }
 }
 
@@ -569,11 +568,6 @@ body.dark-mode .annotation:active {
 
 body.dark-mode .progress-bar {
   background-color: #ffd700;
-}
-
-body.dark-mode .toast-container {
-  background-color: #252525;
-  color: #e0e0e0;
 }
 
 body.dark-mode .form-select {
