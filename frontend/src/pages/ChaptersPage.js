@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Card, ListGroup, Modal } from 'react-bootstrap';
+import { Button, Card, ListGroup, Modal, Spinner, Pagination } from 'react-bootstrap';
 import '../styles/ChaptersPage.css';
 
 const ChaptersPage = () => {
@@ -12,6 +12,8 @@ const ChaptersPage = () => {
     const [error, setError] = useState(null);
     const [confirmDeleteChapterModalShow, setConfirmDeleteChapterModalShow] = useState(false);
     const [chapterToDelete, setChapterToDelete] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [chaptersPerPage] = useState(10);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -75,7 +77,21 @@ const ChaptersPage = () => {
         navigate(`/add-chapter/${storyId}`);
     };
 
-    if (loading) return <p>Cargando capítulos...</p>;
+    // Paginación de capítulos
+    const indexOfLastChapter = currentPage * chaptersPerPage;
+    const indexOfFirstChapter = indexOfLastChapter - chaptersPerPage;
+    const currentChapters = story ? story.chapters.slice(indexOfFirstChapter, indexOfLastChapter) : [];
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    if (loading) return (
+        <div className="loading-spinner">
+            <Spinner animation="border" variant="primary" />
+        </div>
+    );
+
     if (error) return <p>{error}</p>;
 
     return (
@@ -86,30 +102,45 @@ const ChaptersPage = () => {
                     Agregar Capítulo
                 </Button>
                 {story.chapters && story.chapters.length > 0 ? (
-                    <ListGroup>
-                        {story.chapters.map((chapter) => (
-                            <ListGroup.Item key={chapter._id} className="d-flex justify-content-between align-items-center">
-                                <span>{chapter.title}</span>
-                                <div>
-                                    <Button
-                                        variant="outline-primary"
-                                        size="sm"
-                                        className="me-2"
-                                        onClick={() => navigate(`/edit-chapter/${storyId}/${chapter._id}`)}
+                    <>
+                        <ListGroup>
+                            {currentChapters.map((chapter) => (
+                                <ListGroup.Item key={chapter._id} className="d-flex justify-content-between align-items-center">
+                                    <span>{chapter.title}</span>
+                                    <div>
+                                        <Button
+                                            variant="outline-primary"
+                                            size="sm"
+                                            className="me-2"
+                                            onClick={() => navigate(`/edit-chapter/${storyId}/${chapter._id}`)}
+                                        >
+                                            Editar
+                                        </Button>
+                                        <Button
+                                            variant="outline-danger"
+                                            size="sm"
+                                            onClick={() => handleDeleteChapter(chapter._id, chapter.title)}
+                                        >
+                                            Eliminar
+                                        </Button>
+                                    </div>
+                                </ListGroup.Item>
+                            ))}
+                        </ListGroup>
+                        <div className="pagination-container">
+                            <Pagination>
+                                {[...Array(Math.ceil(story.chapters.length / chaptersPerPage))].map((_, index) => (
+                                    <Pagination.Item
+                                        key={index + 1}
+                                        active={index + 1 === currentPage}
+                                        onClick={() => handlePageChange(index + 1)}
                                     >
-                                        Editar
-                                    </Button>
-                                    <Button
-                                        variant="outline-danger"
-                                        size="sm"
-                                        onClick={() => handleDeleteChapter(chapter._id, chapter.title)}
-                                    >
-                                        Eliminar
-                                    </Button>
-                                </div>
-                            </ListGroup.Item>
-                        ))}
-                    </ListGroup>
+                                        {index + 1}
+                                    </Pagination.Item>
+                                ))}
+                            </Pagination>
+                        </div>
+                    </>
                 ) : (
                     <p>No hay capítulos disponibles para esta historia.</p>
                 )}
