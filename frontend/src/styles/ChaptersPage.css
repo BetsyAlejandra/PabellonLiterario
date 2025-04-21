@@ -1,0 +1,21 @@
+.chapters-page-container {
+    margin: 20px;
+}
+
+.chapters-page-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.chapters-list-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+button {
+    margin-left: 10px;
+}
+
+.modal-body {
+    font-size: 16px;
+}

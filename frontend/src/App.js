@@ -63,6 +63,7 @@ import RecentManhua from './pages/RecentManhuas';
 import UploadChapter from './pages/UploadChapter';
 import UploadManhua from './pages/UploadManhua';
 import SelectManhua from './pages/SelectManhua';
+import ChaptersPage from './pages/ChaptersPage';
 import Error404 from './pages/Error404';
 import Error500 from './pages/Error500';
 
@@ -113,6 +114,7 @@ function App() {
         <Route path="/gestionaudiodrama" element={<SelectAudioDrama />} />
         <Route path="/audiodrama/:id" element={<AudioDramaDetails />} />
         <Route path="/manage-chapters/:id" element={<ManageChapters />} />
+        <Route path="/chapters/:storyId" element={<ChaptersPage />} />
         <Route path="/audio-dramas/:id/seasons/:seasonNumber/episodes/:episode" element={<ChapterDetail />} />
         <Route path="*" element={<Error404 />} />
 

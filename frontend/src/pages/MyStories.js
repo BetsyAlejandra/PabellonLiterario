@@ -95,9 +95,8 @@ const MyStories = () => {
     };
 
     const handleViewChapters = (story) => {
-        setSelectedStory(story);
-        setModalShow(true);
-    };
+        navigate(`/chapters/${story._id}`);
+    };    
 
     const handleEditChapter = (storyId, chapterId) => {
         navigate(`/edit-chapter/${storyId}/${chapterId}`);
@@ -223,15 +222,7 @@ const MyStories = () => {
                                         onClick={() => handleViewChapters(story)}
                                         className="my-stories-action-button"
                                     >
-                                        Ver Capítulos
-                                    </Button>
-                                    {/* Nuevo botón para agregar capítulo directamente desde la tarjeta */}
-                                    <Button
-                                        variant="success"
-                                        onClick={() => handleAddChapter(story._id)}
-                                        className="my-stories-action-button"
-                                    >
-                                        Agregar Capítulo
+                                        Capítulos
                                     </Button>
                                 </div>
                             </Card.Body>
@@ -239,68 +230,6 @@ const MyStories = () => {
                     </div>
                 ))}
             </div>
-
-            {/* Modal para mostrar capítulos */}
-            {selectedStory && (
-                <Modal show={modalShow} onHide={() => setModalShow(false)} centered size="lg" className="my-stories-modal">
-                    <Modal.Header closeButton>
-                        <Modal.Title className="my-stories-modal-title">
-                            Capítulos de {selectedStory.title}
-                        </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="my-stories-modal-body">
-                        <div className="d-flex justify-content-between align-items-center mb-3">
-                            <h5>Lista de Capítulos</h5>
-                            <Button variant="success" onClick={() => handleAddChapter(selectedStory._id)}>
-                                Agregar Capítulo
-                            </Button>
-                        </div>
-                        {selectedStory.chapters && selectedStory.chapters.length > 0 ? (
-                            <div className="chapters-list" style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                                <ul className="list-group">
-                                    {selectedStory.chapters.map((chapter) => (
-                                        <li
-                                            key={chapter._id}
-                                            className="list-group-item my-stories-chapter-item d-flex justify-content-between align-items-center"
-                                        >
-                                            <span className="my-stories-chapter-title">{chapter.title}</span>
-                                            <div>
-                                                <Button
-                                                    variant="outline-primary"
-                                                    size="sm"
-                                                    className="me-2 my-stories-chapter-button"
-                                                    onClick={() =>
-                                                        handleEditChapter(selectedStory._id, chapter._id)
-                                                    }
-                                                >
-                                                    Editar
-                                                </Button>
-                                                <Button
-                                                    variant="outline-danger"
-                                                    size="sm"
-                                                    className="my-stories-chapter-button"
-                                                    onClick={() =>
-                                                        handleDeleteChapter(selectedStory._id, chapter._id, chapter.title)
-                                                    }
-                                                >
-                                                    Eliminar
-                                                </Button>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ) : (
-                            <p>No hay capítulos disponibles.</p>
-                        )}
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => setModalShow(false)}>
-                            Cerrar
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-            )}
 
             <Pagination>
                 <Pagination.Prev
