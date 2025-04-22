@@ -1,15 +1,15 @@
 .my-stories-container {
-    background-color: #C9D6D5; /* Verde pastel suave */
+    background-color: #C9D6D5;
     min-height: 100vh;
     padding: 50px 20px;
-    color: #1a1a1a; /* Texto oscuro para contraste */
-    font-family: 'Garamond', serif; /* Fuente con estilo clásico */
-    transition: background-color 0.3s ease, color 0.3s ease;
+    color: #1a1a1a;
+    font-family: 'Garamond', serif;
 }
 
 /* Títulos */
 .my-stories-title {
-    color: #E8E2D6; /* Amarillo pálido cálido */
+    color: #E8E2D6;
+    /* Amarillo pálido cálido */
     text-align: center;
     margin-bottom: 40px;
     font-size: 2.5rem;
@@ -18,7 +18,8 @@
 
 /* Botón Agregar Nueva Novela */
 .my-stories-add-button {
-    background-color: #C1D0B5; /* Verde menta muy suave */
+    background-color: #C1D0B5;
+    /* Verde menta muy suave */
     border: none;
     color: #1a1a1a;
     padding: 10px 20px;
@@ -28,21 +29,27 @@
 }
 
 .my-stories-add-button:hover {
-    background-color: #A0B49D; /* Verde menta más oscuro */
+    background-color: #A0B49D;
+    /* Verde menta más oscuro */
     transform: scale(1.05);
     color: #1a1a1a;
 }
 
-/* Listado de Historias */
 .my-stories-list {
     margin-top: 20px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .my-stories-item {
-    background-color: #F0E1D6; /* Rosa claro con matiz durazno */
+    background-color: #F0E1D6;
     border-radius: 15px;
     padding: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -59,18 +66,17 @@
 }
 
 .my-stories-item-image {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 160px;
     object-fit: cover;
     border-radius: 10px;
-    margin-right: 15px;
+    flex-shrink: 0;
 }
 
 .my-stories-item-title {
-    color: #E8E2D6; /* Amarillo pálido cálido */
+    color: #E8E2D6;
     font-size: 1.7rem;
     margin-bottom: 10px;
-    text-align: left;
 }
 
 .my-stories-item-description {
@@ -81,7 +87,8 @@
 }
 
 .my-stories-read-more-button {
-    color: #C1D0B5; /* Verde menta muy suave */
+    color: #C1D0B5;
+    /* Verde menta muy suave */
     background: none;
     border: none;
     cursor: pointer;
@@ -90,7 +97,8 @@
 }
 
 .my-stories-read-more-button:hover {
-    color: #E8E2D6; /* Amarillo pálido cálido */
+    color: #E8E2D6;
+    /* Amarillo pálido cálido */
 }
 
 .my-stories-item-details {
@@ -101,9 +109,11 @@
 
 .my-stories-item-actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
-    justify-content: space-between;
+    margin-top: 10px;
 }
+
 
 .my-stories-action-button {
     transition: background-color 0.3s ease, transform 0.2s ease;
@@ -113,35 +123,41 @@
 
 /* Estilos de Botones en Acción */
 .my-stories-action-button.btn-primary {
-    background-color: #C1D0B5; /* Verde menta muy suave */
+    background-color: #C1D0B5;
+    /* Verde menta muy suave */
     border: none;
     color: #1a1a1a;
 }
 
 .my-stories-action-button.btn-primary:hover {
-    background-color: #A0B49D; /* Verde menta más oscuro */
+    background-color: #A0B49D;
+    /* Verde menta más oscuro */
     color: #1a1a1a;
 }
 
 .my-stories-action-button.btn-danger {
-    background-color: #F7E1D7; /* Rosa pálido con toques de coral */
+    background-color: #F7E1D7;
+    /* Rosa pálido con toques de coral */
     border: none;
     color: #1a1a1a;
 }
 
 .my-stories-action-button.btn-danger:hover {
-    background-color: #F0D1B1; /* Rosa coral más suave */
+    background-color: #F0D1B1;
+    /* Rosa coral más suave */
     color: #1a1a1a;
 }
 
 .my-stories-action-button.btn-info {
-    background-color: #E6D6C3; /* Crema suave */
+    background-color: #E6D6C3;
+    /* Crema suave */
     border: none;
     color: #1a1a1a;
 }
 
 .my-stories-action-button.btn-info:hover {
-    background-color: #D6C2A6; /* Crema más oscuro */
+    background-color: #D6C2A6;
+    /* Crema más oscuro */
     color: #1a1a1a;
 }
 
@@ -153,4 +169,21 @@
 
 .pagination .page-item {
     margin: 0 5px;
+}
+
+@media (max-width: 768px) {
+    .my-stories-item {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .my-stories-item-image {
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+    }
+
+    .my-stories-item-title {
+        text-align: center;
+    }
 }

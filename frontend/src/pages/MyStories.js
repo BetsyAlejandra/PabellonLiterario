@@ -152,7 +152,7 @@ const MyStories = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [currentPage]);
-    
+
 
 
     if (loading) {
@@ -169,56 +169,57 @@ const MyStories = () => {
         <div className="my-stories-container">
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h2 className="my-stories-title">Mis Historias</h2>
-                {userRoles.includes('Traductor') || userRoles.includes('Escritor') ? (
+                {(userRoles.includes('Traductor') || userRoles.includes('Escritor')) && (
                     <Button className="my-stories-add-button" onClick={handleAddNovel}>
                         Agregar Nueva Novela
                     </Button>
-                ) : null}
+                )}
             </div>
-    
-            <div className="my-stories-list">
-                {stories.length === 0 && (
+
+            <div className="my-stories-list container">
+                {stories.length === 0 ? (
                     <div className="text-center text-muted mt-5">
                         <p>No has subido ninguna historia aún.</p>
                     </div>
-                )}
-    
-                {stories.map((story) => (
-                    <div key={story._id} className="my-stories-item">
-                        <div className="my-stories-item-header">
-                            <h5 className="my-stories-item-title">{story.title}</h5>
-                        </div>
-                        <div className="my-stories-item-content">
-                            <p className="my-stories-item-description">
-                                {story.description.substring(0, 150)}...
-                                <button
-                                    className="my-stories-read-more-button"
-                                    onClick={() => handleViewDescription(story.description)}
-                                >
-                                    Leer más
-                                </button>
-                            </p>
-                            <div className="my-stories-item-meta">
-                                <span><strong>Géneros:</strong> {story.genres.join(', ')}</span>
-                                <span><strong>Clasificación:</strong> {story.classification}</span>
-                                <span><strong>Etiquetas:</strong> {story.tags.length > 0 ? story.tags.join(', ') : 'Sin etiquetas'}</span>
+                ) : (
+                    <div className="row justify-content-center">
+                        {stories.map((story) => (
+                            <div key={story._id} className="col-md-10">
+                                <div className="my-stories-item d-flex flex-column flex-md-row align-items-start">
+                                    <img
+                                        src={story.coverUrl || '/default-cover.jpg'}
+                                        alt={story.title}
+                                        className="my-stories-item-image"
+                                    />
+                                    <div className="flex-grow-1 ms-md-3 mt-3 mt-md-0">
+                                        <h5 className="my-stories-item-title">{story.title}</h5>
+                                        <p className="my-stories-item-description">
+                                            {story.description.substring(0, 150)}...
+                                            <button
+                                                className="my-stories-read-more-button"
+                                                onClick={() => handleViewDescription(story.description)}
+                                            >
+                                                Leer más
+                                            </button>
+                                        </p>
+                                        <div className="my-stories-item-meta mb-2">
+                                            <span><strong>Géneros:</strong> {story.genres.join(', ')}</span><br />
+                                            <span><strong>Clasificación:</strong> {story.classification}</span><br />
+                                            <span><strong>Etiquetas:</strong> {story.tags.length > 0 ? story.tags.join(', ') : 'Sin etiquetas'}</span>
+                                        </div>
+                                        <div className="my-stories-item-actions d-flex flex-wrap gap-2 mt-2">
+                                            <Button variant="primary" className="my-stories-action-button" onClick={() => handleEditClick(story._id)}>Editar</Button>
+                                            <Button variant="danger" className="my-stories-action-button" onClick={() => handleDeleteClick(story._id)}>Eliminar</Button>
+                                            <Button variant="info" className="my-stories-action-button" onClick={() => handleViewChapters(story)}>Capítulos</Button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className="my-stories-item-actions">
-                            <Button variant="primary" onClick={() => handleEditClick(story._id)}>
-                                Editar
-                            </Button>
-                            <Button variant="danger" onClick={() => handleDeleteClick(story._id)}>
-                                Eliminar
-                            </Button>
-                            <Button variant="info" onClick={() => handleViewChapters(story)}>
-                                Capítulos
-                            </Button>
-                        </div>
+                        ))}
                     </div>
-                ))}
+                )}
             </div>
-    
+
             <Pagination>
                 <Pagination.Prev onClick={() => handlePageChange(Math.max(currentPage - 1, 1))} disabled={currentPage === 1} />
                 {[...Array(Math.max(totalPages, 1))].map((_, index) => {
@@ -231,7 +232,7 @@ const MyStories = () => {
                 })}
                 <Pagination.Next onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))} disabled={totalPages === 0 || currentPage === totalPages} />
             </Pagination>
-    
+
             {/* Modales de Descripción y Confirmación */}
             <Modal show={descriptionModalShow} onHide={() => setDescriptionModalShow(false)} centered>
                 <Modal.Header closeButton>
@@ -244,7 +245,7 @@ const MyStories = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-    
+
             {/* Modal de Confirmación de Eliminación */}
             <Modal show={confirmModalShow} onHide={() => setConfirmModalShow(false)} centered>
                 <Modal.Header closeButton>
@@ -262,8 +263,8 @@ const MyStories = () => {
             </Modal>
         </div>
     );
-    
-    
+
+
 
 };
 
