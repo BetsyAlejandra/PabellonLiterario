@@ -187,7 +187,7 @@ const MyStories = () => {
                             <div key={story._id} className="col-md-10">
                                 <div className="my-stories-item d-flex flex-column flex-md-row align-items-start">
                                     <img
-                                        src={story.coverUrl || '/default-cover.jpg'}
+                                        src={story.coverImage || '/default-cover.jpg'}
                                         alt={story.title}
                                         className="my-stories-item-image"
                                     />
