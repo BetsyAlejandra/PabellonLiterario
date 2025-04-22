@@ -127,6 +127,101 @@
     color: white;
 }
 
+.dark-mode .chapters-page-container {
+    background-color: #2a2a2a;
+    color: #f1f1f1;
+    box-shadow: 0 8px 20px rgba(255,255,255,0.05);
+}
+
+.dark-mode .chapters-page-title {
+    color: #F7E1D7;
+}
+
+.dark-mode .chapters-list-container {
+    background-color: #1e1e1e;
+    box-shadow: inset 0 0 5px rgba(255,255,255,0.03);
+}
+
+.dark-mode .chapter-list .chapter-item,
+.dark-mode .list-group-item {
+    background-color: #3a3a3a;
+    border-left: 6px solid #C1D0B5;
+    color: #f5f5f5;
+}
+
+.dark-mode .chapter-list .chapter-item:hover,
+.dark-mode .list-group-item:hover {
+    background-color: #444;
+    transform: scale(1.01);
+}
+
+.dark-mode .chapter-title {
+    color: #e0e0e0;
+}
+
+.dark-mode .btn-outline-primary {
+    border-color: #D3D0E1;
+    color: #D3D0E1;
+}
+
+.dark-mode .btn-outline-primary:hover {
+    background-color: #D3D0E1;
+    color: #1c1c1c;
+}
+
+.dark-mode .btn-outline-danger {
+    border-color: #D6B4A1;
+    color: #D6B4A1;
+}
+
+.dark-mode .btn-outline-danger:hover {
+    background-color: #D6B4A1;
+    color: #1c1c1c;
+}
+
+.dark-mode .btn-success {
+    background-color: #A5BBB9;
+    border-color: #A5BBB9;
+    color: #1c1c1c;
+}
+
+.dark-mode .btn-success:hover {
+    background-color: #8EA9A8;
+    border-color: #8EA9A8;
+}
+
+.dark-mode .pagination-container {
+    color: #e0e0e0;
+}
+
+.dark-mode .pagination .page-item .page-link {
+    background-color: #2d2d2d;
+    color: #D3D0E1;
+    border: 1px solid #555;
+}
+
+.dark-mode .pagination .page-item.active .page-link {
+    background-color: #A0B49D;
+    color: #1c1c1c;
+    border-color: #A0B49D;
+}
+
+.dark-mode .pagination .page-item .page-link:hover {
+    background-color: #3c3c3c;
+    color: #fff;
+}
+
+.dark-mode .back-to-mystories-btn {
+    background-color: #A0B49D;
+    color: #1c1c1c;
+}
+
+.dark-mode .back-to-mystories-btn:hover {
+    background-color: #8B9E86;
+    color: #fff;
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .chapters-page-title {
