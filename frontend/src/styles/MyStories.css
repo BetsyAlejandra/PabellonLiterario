@@ -12,7 +12,6 @@
     color: #E8E2D6; /* Amarillo pálido cálido */
     text-align: center;
     margin-bottom: 40px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     font-size: 2.5rem;
     font-weight: bold;
 }
@@ -34,19 +33,16 @@
     color: #1a1a1a;
 }
 
-/* Contenedor de Historias */
-.my-stories-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+/* Listado de Historias */
+.my-stories-list {
     margin-top: 20px;
 }
 
-/* Estilo de cada Historia */
 .my-stories-item {
     background-color: #F0E1D6; /* Rosa claro con matiz durazno */
     border-radius: 15px;
     padding: 20px;
+    margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -56,38 +52,34 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-/* Imagen de la Historia */
+.my-stories-item-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
 .my-stories-item-image {
-    width: 100%;
-    height: 180px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     border-radius: 10px;
-    margin-bottom: 15px;
-    transition: transform 0.3s ease;
+    margin-right: 15px;
 }
 
-.my-stories-item-image:hover {
-    transform: scale(1.05);
-}
-
-/* Título de la Historia */
 .my-stories-item-title {
     color: #E8E2D6; /* Amarillo pálido cálido */
     font-size: 1.7rem;
-    margin-bottom: 15px;
-    text-align: center;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    margin-bottom: 10px;
+    text-align: left;
 }
 
-/* Descripción */
 .my-stories-item-description {
     font-size: 1rem;
     color: #1a1a1a;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     line-height: 1.5;
 }
 
-/* Botón de Leer Más */
 .my-stories-read-more-button {
     color: #C1D0B5; /* Verde menta muy suave */
     background: none;
@@ -101,15 +93,22 @@
     color: #E8E2D6; /* Amarillo pálido cálido */
 }
 
-/* Botones de Acción */
+.my-stories-item-details {
+    font-size: 0.9rem;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+}
+
+.my-stories-item-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
 .my-stories-action-button {
     transition: background-color 0.3s ease, transform 0.2s ease;
     font-weight: bold;
     min-width: 100px;
-}
-
-.my-stories-action-button:hover {
-    transform: scale(1.05);
 }
 
 /* Estilos de Botones en Acción */
@@ -146,121 +145,12 @@
     color: #1a1a1a;
 }
 
-/* Modales */
-.my-stories-modal .modal-content {
-    background-color: #F0E1D6; /* Rosa claro con matiz durazno */
-    color: #1a1a1a;
-    border: 2px solid #E8E2D6; /* Amarillo pálido cálido */
-    border-radius: 15px;
+/* Pagination */
+.pagination {
+    justify-content: center;
+    margin-top: 30px;
 }
 
-.my-stories-modal .modal-header {
-    background-color: #B1B1B1; /* Gris suave */
-    border-bottom: 1px solid #E8E2D6;
-}
-
-.my-stories-modal .modal-title {
-    color: #E8E2D6;
-    font-weight: bold;
-}
-
-.my-stories-modal .modal-body {
-    background-color: #D3D0E1; /* Lavanda claro */
-}
-
-.my-stories-modal .my-stories-modal-title {
-    color: #4caf50; /* Verde para títulos de modales de capítulos */
-}
-
-.my-stories-modal-body {
-    color: #1a1a1a;
-}
-
-.my-stories-modal .btn-success {
-    background-color: #C1D0B5; /* Verde menta muy suave */
-    border: none;
-    color: #1a1a1a;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.my-stories-modal .btn-success:hover {
-    background-color: #A0B49D;
-    transform: scale(1.05);
-}
-
-.my-stories-modal .btn-secondary {
-    background-color: #F7E1D7; /* Rosa pálido con toques de coral */
-    border: none;
-    color: #1a1a1a;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.my-stories-modal .btn-secondary:hover {
-    background-color: #F0D1B1;
-    transform: scale(1.05);
-}
-
-/* Modo Oscuro */
-@media (prefers-color-scheme: dark) {
-    .my-stories-container {
-        background-color: #2C2C2C; /* Fondo oscuro */
-        color: #E6E6E6; /* Texto claro */
-    }
-
-    .my-stories-title {
-        color: #F1E4D1; /* Beige suave */
-    }
-
-    .my-stories-item {
-        background-color: #3A3A3A; /* Fondo oscuro para las historias */
-        box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
-    }
-
-    .my-stories-item-title {
-        color: #F1E4D1; /* Beige suave */
-    }
-
-    .my-stories-item-description {
-        color: #E6E6E6; /* Texto claro */
-    }
-
-    .my-stories-read-more-button {
-        color: #F1E4D1; /* Beige suave */
-    }
-
-    .my-stories-action-button {
-        color: #1a1a1a;
-        border-color: #F1E4D1; /* Beige suave */
-    }
-
-    .my-stories-action-button:hover {
-        background-color: #F1E4D1; /* Beige suave */
-        color: #2C2C2C;
-    }
-
-    .my-stories-modal .modal-content {
-        background-color: #3A3A3A; /* Fondo oscuro en los modales */
-        color: #E6E6E6;
-        border: 2px solid #F1E4D1;
-    }
-
-    .my-stories-modal .modal-header {
-        background-color: #2C2C2C;
-        border-bottom: 1px solid #F1E4D1;
-    }
-
-    .my-stories-modal .btn-success {
-        background-color: #F1E4D1; /* Beige suave */
-        color: #2C2C2C;
-    }
-
-    .my-stories-modal .btn-secondary {
-        background-color: #F0D1B1; /* Rosa coral más suave */
-        color: #2C2C2C;
-    }
-
-    .my-stories-modal .btn-secondary:hover {
-        background-color: #F1E4D1; /* Beige suave */
-        transform: scale(1.05);
-    }
+.pagination .page-item {
+    margin: 0 5px;
 }

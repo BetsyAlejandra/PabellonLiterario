@@ -169,14 +169,14 @@ const MyStories = () => {
         <div className="my-stories-container">
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h2 className="my-stories-title">Mis Historias</h2>
-                {/* Renderizar el botón solo si tiene el rol adecuado */}
                 {userRoles.includes('Traductor') || userRoles.includes('Escritor') ? (
                     <Button className="my-stories-add-button" onClick={handleAddNovel}>
                         Agregar Nueva Novela
                     </Button>
                 ) : null}
             </div>
-            <div className="row">
+    
+            <div className="my-stories-list">
                 {stories.length === 0 && (
                     <div className="text-center text-muted mt-5">
                         <p>No has subido ninguna historia aún.</p>
@@ -184,104 +184,60 @@ const MyStories = () => {
                 )}
     
                 {stories.map((story) => (
-                    <div key={story._id} className="col-md-6 col-lg-4 mb-4">
-                        <Card className="my-stories-card shadow-lg h-100">
-                            <div className="my-stories-card-image-container">
-                                <Card.Img
-                                    src={story.coverImage}
-                                    alt={`Portada de ${story.title}`}
-                                    className="my-stories-card-image"
-                                />
+                    <div key={story._id} className="my-stories-item">
+                        <div className="my-stories-item-header">
+                            <h5 className="my-stories-item-title">{story.title}</h5>
+                        </div>
+                        <div className="my-stories-item-content">
+                            <p className="my-stories-item-description">
+                                {story.description.substring(0, 150)}...
+                                <button
+                                    className="my-stories-read-more-button"
+                                    onClick={() => handleViewDescription(story.description)}
+                                >
+                                    Leer más
+                                </button>
+                            </p>
+                            <div className="my-stories-item-meta">
+                                <span><strong>Géneros:</strong> {story.genres.join(', ')}</span>
+                                <span><strong>Clasificación:</strong> {story.classification}</span>
+                                <span><strong>Etiquetas:</strong> {story.tags.length > 0 ? story.tags.join(', ') : 'Sin etiquetas'}</span>
                             </div>
-                            <Card.Body className="d-flex flex-column">
-                                <h5 className="my-stories-card-title">{story.title}</h5>
-                                <p className="my-stories-card-text">
-                                    {story.description.substring(0, 100)}...
-                                    <button
-                                        className="my-stories-read-more-button btn btn-link p-0"
-                                        onClick={() => handleViewDescription(story.description)}
-                                    >
-                                        Leer más
-                                    </button>
-                                </p>
-                                <div className="mb-2">
-                                    <strong>Géneros:</strong>{' '}
-                                    <span className="text-primary">{story.genres.join(', ')}</span>
-                                </div>
-                                <div className="mb-2">
-                                    <strong>Clasificación:</strong>{' '}
-                                    <span className="badge bg-secondary">{story.classification}</span>
-                                </div>
-                                <div className="mb-3">
-                                    <strong>Etiquetas:</strong>{' '}
-                                    <span className="text-info">
-                                        {story.tags.length > 0 ? story.tags.join(', ') : 'Sin etiquetas'}
-                                    </span>
-                                </div>
-                                {/* Botones de Acción */}
-                                <div className="mt-auto d-flex justify-content-center gap-3">
-                                    <Button
-                                        variant="primary"
-                                        onClick={() => handleEditClick(story._id)}
-                                        className="my-stories-action-button"
-                                    >
-                                        Editar
-                                    </Button>
-                                    <Button
-                                        variant="danger"
-                                        onClick={() => handleDeleteClick(story._id)}
-                                        className="my-stories-action-button"
-                                    >
-                                        Eliminar
-                                    </Button>
-                                    <Button
-                                        variant="info"
-                                        onClick={() => handleViewChapters(story)}
-                                        className="my-stories-action-button"
-                                    >
-                                        Capítulos
-                                    </Button>
-                                </div>
-                            </Card.Body>
-                        </Card>
+                        </div>
+                        <div className="my-stories-item-actions">
+                            <Button variant="primary" onClick={() => handleEditClick(story._id)}>
+                                Editar
+                            </Button>
+                            <Button variant="danger" onClick={() => handleDeleteClick(story._id)}>
+                                Eliminar
+                            </Button>
+                            <Button variant="info" onClick={() => handleViewChapters(story)}>
+                                Capítulos
+                            </Button>
+                        </div>
                     </div>
                 ))}
             </div>
     
             <Pagination>
-                <Pagination.Prev
-                    onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-                    disabled={currentPage === 1}
-                />
+                <Pagination.Prev onClick={() => handlePageChange(Math.max(currentPage - 1, 1))} disabled={currentPage === 1} />
                 {[...Array(Math.max(totalPages, 1))].map((_, index) => {
                     const page = index + 1;
                     return (
-                        <Pagination.Item
-                            key={page}
-                            active={page === currentPage}
-                            onClick={() => handlePageChange(page)}
-                        >
+                        <Pagination.Item key={page} active={page === currentPage} onClick={() => handlePageChange(page)}>
                             {page}
                         </Pagination.Item>
                     );
                 })}
-                <Pagination.Next
-                    onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
-                    disabled={totalPages === 0 || currentPage === totalPages}
-                />
+                <Pagination.Next onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))} disabled={totalPages === 0 || currentPage === totalPages} />
             </Pagination>
     
-            {/* Modal para mostrar descripción completa */}
-            <Modal
-                show={descriptionModalShow}
-                onHide={() => setDescriptionModalShow(false)}
-                centered
-                className="my-stories-modal"
-            >
+            {/* Modales de Descripción y Confirmación */}
+            <Modal show={descriptionModalShow} onHide={() => setDescriptionModalShow(false)} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title className="my-stories-modal-title">Descripción</Modal.Title>
+                    <Modal.Title>Descripción</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="my-stories-modal-body">{selectedDescription}</Modal.Body>
+                <Modal.Body>{selectedDescription}</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setDescriptionModalShow(false)}>
                         Cerrar
@@ -289,19 +245,12 @@ const MyStories = () => {
                 </Modal.Footer>
             </Modal>
     
-            {/* Modal de confirmación para eliminar historia */}
-            <Modal
-                show={confirmModalShow}
-                onHide={() => setConfirmModalShow(false)}
-                centered
-                className="my-stories-modal"
-            >
+            {/* Modal de Confirmación de Eliminación */}
+            <Modal show={confirmModalShow} onHide={() => setConfirmModalShow(false)} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title className="my-stories-modal-title">Confirmar Eliminación</Modal.Title>
+                    <Modal.Title>Confirmar Eliminación</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="my-stories-modal-body">
-                    ¿Estás seguro de que deseas eliminar esta historia? Esta acción no se puede deshacer.
-                </Modal.Body>
+                <Modal.Body>¿Estás seguro de que deseas eliminar esta historia? Esta acción no se puede deshacer.</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setConfirmModalShow(false)}>
                         Cancelar
@@ -311,37 +260,9 @@ const MyStories = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-    
-            {/* Modal de confirmación para eliminar capítulo */}
-            <Modal
-                show={confirmDeleteChapterModalShow}
-                onHide={() => setConfirmDeleteChapterModalShow(false)}
-                centered
-                className="my-stories-modal"
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title className="my-stories-modal-title">Confirmar Eliminación</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="my-stories-modal-body">
-                    {chapterToDelete ? (
-                        <p>
-                            ¿Estás seguro de que deseas eliminar el capítulo <strong>{chapterToDelete.title}</strong>? Esta acción no se puede deshacer.
-                        </p>
-                    ) : (
-                        <p>¿Estás seguro de que deseas eliminar este capítulo?</p>
-                    )}
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setConfirmDeleteChapterModalShow(false)}>
-                        Cancelar
-                    </Button>
-                    <Button variant="danger" onClick={confirmDeleteChapter}>
-                        Eliminar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
         </div>
     );
+    
     
 
 };
