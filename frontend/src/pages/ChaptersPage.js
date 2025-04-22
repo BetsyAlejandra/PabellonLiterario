@@ -17,7 +17,6 @@ const ChaptersPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Obtener roles de usuario
         const fetchUserRoles = async () => {
             try {
                 const res = await axios.get('/api/users/profile', { withCredentials: true });
@@ -27,7 +26,6 @@ const ChaptersPage = () => {
             }
         };
 
-        // Obtener la historia y los capítulos
         const fetchStory = async () => {
             try {
                 const res = await axios.get(`/api/novels/${storyId}`, { withCredentials: true });
@@ -44,12 +42,10 @@ const ChaptersPage = () => {
         fetchStory();
     }, [storyId]);
 
-    // Verificar si el usuario tiene el rol adecuado
     if (!userRoles.includes('Traductor') && !userRoles.includes('Escritor')) {
         return <p>No tienes permisos para ver esta página.</p>;
     }
 
-    // Confirmación para eliminar capítulo
     const handleDeleteChapter = (chapterId, chapterTitle) => {
         setChapterToDelete({ id: chapterId, title: chapterTitle });
         setConfirmDeleteChapterModalShow(true);
@@ -57,7 +53,6 @@ const ChaptersPage = () => {
 
     const confirmDeleteChapter = async () => {
         if (!chapterToDelete) return;
-
         try {
             await axios.delete(`/api/novels/${storyId}/chapters/${chapterToDelete.id}`, { withCredentials: true });
             setStory(prevStory => ({
@@ -77,76 +72,109 @@ const ChaptersPage = () => {
         navigate(`/add-chapter/${storyId}`);
     };
 
-    // Paginación de capítulos
+    const handleBackToMyStories = () => {
+        navigate('/my-stories');
+    };
+
+    // Paginación lógica
     const indexOfLastChapter = currentPage * chaptersPerPage;
     const indexOfFirstChapter = indexOfLastChapter - chaptersPerPage;
     const currentChapters = story ? story.chapters.slice(indexOfFirstChapter, indexOfLastChapter) : [];
+    const totalPages = story ? Math.ceil(story.chapters.length / chaptersPerPage) : 1;
 
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
+    const getPaginationItems = () => {
+        const items = [];
+
+        if (currentPage > 1) {
+            items.push(
+                <Pagination.First key="first" onClick={() => setCurrentPage(1)} />,
+                <Pagination.Prev key="prev" onClick={() => setCurrentPage(currentPage - 1)} />
+            );
+        }
+
+        const startPage = Math.max(1, currentPage - 1);
+        const endPage = Math.min(totalPages, currentPage + 1);
+
+        for (let i = startPage; i <= endPage; i++) {
+            items.push(
+                <Pagination.Item key={i} active={i === currentPage} onClick={() => setCurrentPage(i)}>
+                    {i}
+                </Pagination.Item>
+            );
+        }
+
+        if (currentPage < totalPages) {
+            items.push(
+                <Pagination.Next key="next" onClick={() => setCurrentPage(currentPage + 1)} />,
+                <Pagination.Last key="last" onClick={() => setCurrentPage(totalPages)} />
+            );
+        }
+
+        return items;
     };
 
-    if (loading) return (
-        <div className="loading-spinner">
-            <Spinner animation="border" variant="primary" />
-        </div>
-    );
+    if (loading) {
+        return (
+            <div className="loading-spinner">
+                <Spinner animation="border" variant="primary" />
+            </div>
+        );
+    }
 
     if (error) return <p>{error}</p>;
 
     return (
         <div className="chapters-page-container">
-            <h2 className="chapters-page-title">{story.title} - Capítulos</h2>
-            <div className="chapters-list-container">
-                <Button variant="success" className="mb-4" onClick={handleAddChapter}>
-                    Agregar Capítulo
+            <div className="d-flex justify-content-between align-items-center mb-4">
+                <h2 className="chapters-page-title">{story.title} - Capítulos</h2>
+                <Button variant="outline-secondary" onClick={handleBackToMyStories}>
+                    ⬅ Volver a Mis Historias
                 </Button>
-                {story.chapters && story.chapters.length > 0 ? (
-                    <>
-                        <ListGroup>
-                            {currentChapters.map((chapter) => (
-                                <ListGroup.Item key={chapter._id} className="d-flex justify-content-between align-items-center">
-                                    <span>{chapter.title}</span>
-                                    <div>
-                                        <Button
-                                            variant="outline-primary"
-                                            size="sm"
-                                            className="me-2"
-                                            onClick={() => navigate(`/edit-chapter/${storyId}/${chapter._id}`)}
-                                        >
-                                            Editar
-                                        </Button>
-                                        <Button
-                                            variant="outline-danger"
-                                            size="sm"
-                                            onClick={() => handleDeleteChapter(chapter._id, chapter.title)}
-                                        >
-                                            Eliminar
-                                        </Button>
-                                    </div>
-                                </ListGroup.Item>
-                            ))}
-                        </ListGroup>
-                        <div className="pagination-container">
-                            <Pagination>
-                                {[...Array(Math.ceil(story.chapters.length / chaptersPerPage))].map((_, index) => (
-                                    <Pagination.Item
-                                        key={index + 1}
-                                        active={index + 1 === currentPage}
-                                        onClick={() => handlePageChange(index + 1)}
-                                    >
-                                        {index + 1}
-                                    </Pagination.Item>
-                                ))}
-                            </Pagination>
-                        </div>
-                    </>
-                ) : (
-                    <p>No hay capítulos disponibles para esta historia.</p>
-                )}
             </div>
 
-            {/* Modal de confirmación para eliminar capítulo */}
+            <div className="text-end mb-3">
+                <Button variant="success" onClick={handleAddChapter}>
+                    + Agregar Capítulo
+                </Button>
+            </div>
+
+            {story.chapters && story.chapters.length > 0 ? (
+                <>
+                    <ListGroup className="chapter-list">
+                        {currentChapters.map((chapter) => (
+                            <ListGroup.Item key={chapter._id} className="d-flex justify-content-between align-items-center chapter-item">
+                                <span className="chapter-title">{chapter.title}</span>
+                                <div>
+                                    <Button
+                                        variant="outline-primary"
+                                        size="sm"
+                                        className="me-2"
+                                        onClick={() => navigate(`/edit-chapter/${storyId}/${chapter._id}`)}
+                                    >
+                                        Editar
+                                    </Button>
+                                    <Button
+                                        variant="outline-danger"
+                                        size="sm"
+                                        onClick={() => handleDeleteChapter(chapter._id, chapter.title)}
+                                    >
+                                        Eliminar
+                                    </Button>
+                                </div>
+                            </ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                    <div className="pagination-container mt-3">
+                        <Pagination className="justify-content-center">
+                            {getPaginationItems()}
+                        </Pagination>
+                    </div>
+                </>
+            ) : (
+                <p>No hay capítulos disponibles para esta historia.</p>
+            )}
+
+            {/* Modal de confirmación */}
             <Modal show={confirmDeleteChapterModalShow} onHide={() => setConfirmDeleteChapterModalShow(false)} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Confirmar Eliminación</Modal.Title>
