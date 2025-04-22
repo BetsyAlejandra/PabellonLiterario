@@ -25,18 +25,15 @@ const MyStories = () => {
     const storiesPerPage = 6;
     const [searchParams, setSearchParams] = useSearchParams();
 
-    useEffect(() => {
-        const page = parseInt(searchParams.get('page')) || 1;
-        setCurrentPage(page);
-    }, [searchParams]);
-
     const handlePageChange = (page) => {
         setCurrentPage(page);
         setSearchParams({ page });
     };
 
     useEffect(() => {
-        const fetchUserStories = async (page) => {
+        const page = parseInt(searchParams.get('page')) || 1;
+
+        const fetchUserStories = async () => {
             try {
                 setLoading(true);
                 const res = await axios.get(`/api/novels/my-stories?page=${page}&limit=${storiesPerPage}`, {
@@ -45,6 +42,7 @@ const MyStories = () => {
 
                 setStories(res.data.stories);
                 setTotalPages(res.data.totalPages);
+                setCurrentPage(page); // Asegura sincronía
             } catch (err) {
                 setError(err.response?.data?.message || 'Error al cargar las historias.');
             } finally {
@@ -61,9 +59,9 @@ const MyStories = () => {
             }
         };
 
-        fetchUserStories(currentPage);
+        fetchUserStories();
         fetchUserRoles();
-    }, [currentPage]);
+    }, [searchParams]);
 
     const handleEditClick = (id) => {
         navigate(`/update/${id}`);
@@ -96,7 +94,7 @@ const MyStories = () => {
 
     const handleViewChapters = (story) => {
         navigate(`/chapters/${story._id}`);
-    };    
+    };
 
     const handleEditChapter = (storyId, chapterId) => {
         navigate(`/edit-chapter/${storyId}/${chapterId}`);
@@ -151,7 +149,20 @@ const MyStories = () => {
         }
     };
 
-    if (loading) return <p className="my-stories-loading">Cargando historias...</p>;
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [currentPage]);
+    
+
+
+    if (loading) {
+        return (
+            <div className="text-center my-5">
+                <div className="spinner-border text-primary" role="status" />
+                <p className="mt-2">Cargando historias...</p>
+            </div>
+        );
+    }
     if (error) return <p className="my-stories-error">{error}</p>;
 
     return (
@@ -166,9 +177,15 @@ const MyStories = () => {
                 ) : null}
             </div>
             <div className="row">
+                {stories.length === 0 && (
+                    <div className="text-center text-muted mt-5">
+                        <p>No has subido ninguna historia aún.</p>
+                    </div>
+                )}
+    
                 {stories.map((story) => (
                     <div key={story._id} className="col-md-6 col-lg-4 mb-4">
-                        <Card className="my-stories-card shadow-sm h-100">
+                        <Card className="my-stories-card shadow-lg h-100">
                             <div className="my-stories-card-image-container">
                                 <Card.Img
                                     src={story.coverImage}
@@ -230,7 +247,7 @@ const MyStories = () => {
                     </div>
                 ))}
             </div>
-
+    
             <Pagination>
                 <Pagination.Prev
                     onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
@@ -253,8 +270,7 @@ const MyStories = () => {
                     disabled={totalPages === 0 || currentPage === totalPages}
                 />
             </Pagination>
-
-
+    
             {/* Modal para mostrar descripción completa */}
             <Modal
                 show={descriptionModalShow}
@@ -272,7 +288,7 @@ const MyStories = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
+    
             {/* Modal de confirmación para eliminar historia */}
             <Modal
                 show={confirmModalShow}
@@ -295,7 +311,7 @@ const MyStories = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
+    
             {/* Modal de confirmación para eliminar capítulo */}
             <Modal
                 show={confirmDeleteChapterModalShow}
@@ -326,6 +342,7 @@ const MyStories = () => {
             </Modal>
         </div>
     );
+    
 
 };
 

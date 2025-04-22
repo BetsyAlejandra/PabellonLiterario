@@ -131,7 +131,7 @@ const AddChapter = () => {
         try {
             await axios.post(`/api/novels/add-chapter/${id}`, newChapter);
             setLoading(false);
-            navigate(`/my-stories`);
+            navigate(`/chapters/${id}`);
         } catch (err) {
             setError('Error al guardar el capítulo.');
             setLoading(false);
@@ -327,7 +327,7 @@ const AddChapter = () => {
                         </button>
                         <button
                             className="btn btn-secondary add-chapter-cancel-btn"
-                            onClick={() => navigate(`/my-stories`)}
+                            onClick={() => navigate(`/chapters/${id}`)}
                         >
                             Cancelar
                         </button>
