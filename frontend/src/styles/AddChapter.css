@@ -1,27 +1,41 @@
-/* src/styles/AddChapter.css */
+:root {
+    --beige-soft: #F1E4D1;
+    --lavender-light: #D3D0E1;
+    --green-pastel: #C9D6D5;
+    --cream-soft: #E6D6C3;
+    --peach-light: #F0E1D6;
+    --brown-soft-sand: #D6B4A1;
+    --pale-blue: #D7E2E9;
+    --pale-yellow-warm: #E8E2D6;
+    --mint-soft: #C1D0B5;
+    --pale-rose-coral: #F7E1D7;
+
+    --text-dark: #1a1a1a;
+    --text-light: #f0f0f0;
+    --text-muted: #3f3f3f;
+}
 
 /* Contenedor Principal */
 .add-chapter-container {
-    background-color: #1a1a1a; /* Fondo oscuro */
+    background-color: var(--lavender-light); /* Fondo lavanda */
     min-height: 100vh;
     padding: 50px 0;
-    color: #f0f0f0; /* Texto claro para contraste */
+    color: var(--text-dark); /* Texto oscuro */
     font-family: 'Garamond', serif; /* Fuente con estilo clásico */
 }
 
 img {
     cursor: pointer;
     transition: box-shadow 0.3s ease-in-out;
-  }
-  
-  img:hover {
+}
+
+img:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  }
-  
+}
 
 /* Título del Capítulo */
 .add-chapter-title {
-    color: #ffd700; /* Dorado */
+    color: var(--peach-light); /* Rosa claro con matiz durazno */
     text-align: center;
     margin-bottom: 30px;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
@@ -31,8 +45,8 @@ img {
 
 /* Tarjeta de Agregar Capítulo */
 .add-chapter-card {
-    background-color: #2c2c2c; /* Gris oscuro */
-    border: 2px solid #ffd700; /* Borde dorado */
+    background-color: var(--cream-soft); /* Fondo crema */
+    border: 2px solid var(--peach-light); /* Borde rosado */
     border-radius: 15px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
     padding: 20px;
@@ -47,7 +61,7 @@ img {
 
 /* Etiquetas de Formularios */
 .add-chapter-label {
-    color: #ffd700; /* Dorado */
+    color: var(--peach-light); /* Rosa claro con matiz durazno */
     font-weight: bold;
     margin-bottom: 5px;
 }
@@ -55,10 +69,10 @@ img {
 /* Inputs y Textareas */
 .add-chapter-input,
 .add-chapter-textarea {
-    background-color: white; 
-    border: 1px solid #ffd700; /* Borde dorado */
+    background-color: white;
+    border: 1px solid var(--peach-light); /* Borde rosado */
     border-radius: 10px;
-    color: black !important; /* Texto claro */
+    color: var(--text-dark) !important; /* Texto oscuro */
     padding: 10px;
     font-size: 1rem;
     transition: border-color 0.3s ease, background-color 0.3s ease;
@@ -66,20 +80,20 @@ img {
 
 .add-chapter-input::placeholder,
 .add-chapter-textarea::placeholder {
-    color: #3f3f3f;
+    color: var(--text-muted);
 }
 
 .add-chapter-input:focus,
 .add-chapter-textarea:focus {
-    background-color: #2a2a2a;
-    color: white !important;
+    background-color: var(--green-pastel); /* Fondo verde pastel */
+    color: var(--text-light) !important;
     outline: none;
 }
 
 /* Barra de Herramientas */
 .add-chapter-toolbar {
-    background-color: #1c1c1c; /* Fondo oscuro */
-    border: 1px solid #ffd700; /* Borde dorado */
+    background-color: var(--pale-blue); /* Fondo azul pastel pálido */
+    border: 1px solid var(--peach-light); /* Borde rosado */
     border-radius: 10px;
     padding: 5px;
     display: flex;
@@ -87,9 +101,9 @@ img {
 }
 
 .add-chapter-btn {
-    background-color: #3a3a3a; /* Botones gris oscuro */
+    background-color: var(--mint-soft); /* Fondo verde menta suave */
     border: none;
-    color: #ffd700; /* Iconos dorados */
+    color: var(--text-dark); /* Texto oscuro */
     padding: 8px 12px;
     border-radius: 5px;
     cursor: pointer;
@@ -98,25 +112,25 @@ img {
 }
 
 .add-chapter-btn:hover {
-    background-color: #50c878; /* Fondo esmeralda al pasar el cursor */
-    color: #1a1a1a; /* Texto oscuro */
+    background-color: var(--pale-yellow-warm); /* Fondo amarillo cálido al pasar el cursor */
+    color: var(--text-dark); /* Texto oscuro */
     transform: scale(1.05);
 }
 
 .add-chapter-btn:disabled {
-    background-color: #555555; /* Botones deshabilitados */
-    color: #a9a9a9;
+    background-color: var(--brown-soft-sand); /* Fondo marrón suave arena */
+    color: var(--text-muted);
     cursor: not-allowed;
 }
 
 /* Contenedor del Editor */
 .add-chapter-editor {
-    background-color: #1c1c1c; /* Fondo oscuro */
-    border: 1px solid #ffd700; /* Borde dorado */
+    background-color: var(--pale-blue); /* Fondo azul pastel pálido */
+    border: 1px solid var(--peach-light); /* Borde rosado */
     border-radius: 10px;
     padding: 15px;
     min-height: 300px;
-    color: #f0f0f0; /* Texto claro */
+    color: var(--text-light); /* Texto claro */
     font-size: 1.1rem;
     overflow-y: auto;
 }
@@ -127,9 +141,9 @@ img {
 }
 
 .add-chapter-save-btn {
-    background-color: #50c878; /* Esmeralda */
+    background-color: var(--green-pastel); /* Verde pastel */
     border: none;
-    color: #1a1a1a; /* Texto oscuro */
+    color: var(--text-dark); /* Texto oscuro */
     padding: 10px 20px;
     border-radius: 10px;
     font-weight: bold;
@@ -137,14 +151,14 @@ img {
 }
 
 .add-chapter-save-btn:hover {
-    background-color: #3a9d63;
+    background-color: var(--mint-soft); /* Fondo verde menta */
     transform: scale(1.05);
 }
 
 .add-chapter-cancel-btn {
-    background-color: #ff6347; /* Tomate */
+    background-color: var(--pale-rose-coral); /* Rosa pálido con toques de coral */
     border: none;
-    color: #1a1a1a;
+    color: var(--text-dark); /* Texto oscuro */
     padding: 10px 20px;
     border-radius: 10px;
     font-weight: bold;
@@ -152,14 +166,14 @@ img {
 }
 
 .add-chapter-cancel-btn:hover {
-    background-color: #e5533d;
+    background-color: var(--peach-light); /* Fondo rosado al pasar el cursor */
     transform: scale(1.05);
 }
 
 .add-chapter-annotate-btn {
-    background-color: #ffd700; /* Dorado */
+    background-color: var(--peach-light); /* Rosa claro con matiz durazno */
     border: none;
-    color: #1a1a1a;
+    color: var(--text-dark); /* Texto oscuro */
     padding: 10px 15px;
     border-radius: 10px;
     font-weight: bold;
@@ -169,58 +183,58 @@ img {
 }
 
 .add-chapter-annotate-btn:hover {
-    background-color: #e6c200;
+    background-color: var(--lavender-light); /* Fondo lavanda al pasar el cursor */
     transform: scale(1.05);
 }
 
 /* Modal Personalizado */
 .add-chapter-modal .modal-content {
-    background-color: #2c2c2c;
-    color: #ffd700;
-    border: 2px solid #ffd700;
+    background-color: var(--green-pastel); /* Fondo verde pastel */
+    color: var(--text-dark);
+    border: 2px solid var(--peach-light); /* Borde rosado */
     border-radius: 15px;
 }
 
 .add-chapter-modal .modal-header {
-    background-color: #3a3a3a;
-    border-bottom: 1px solid #ffd700;
+    background-color: var(--mint-soft); /* Fondo menta */
+    border-bottom: 1px solid var(--peach-light); /* Borde rosado */
 }
 
 .add-chapter-modal .modal-title {
-    color: #ffd700;
+    color: var(--text-dark);
     font-weight: bold;
 }
 
 .add-chapter-modal .modal-body {
-    background-color: #2c2c2c;
+    background-color: var(--green-pastel); /* Fondo verde pastel */
 }
 
 .add-chapter-modal .modal-footer {
-    background-color: #3a3a3a;
-    border-top: 1px solid #ffd700;
+    background-color: var(--mint-soft); /* Fondo menta */
+    border-top: 1px solid var(--peach-light); /* Borde rosado */
 }
 
 .add-chapter-modal .btn-success {
-    background-color: #50c878;
+    background-color: var(--green-pastel); /* Verde pastel */
     border: none;
-    color: #1a1a1a;
+    color: var(--text-dark); /* Texto oscuro */
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add-chapter-modal .btn-success:hover {
-    background-color: #3a9d63;
+    background-color: var(--mint-soft); /* Verde menta */
     transform: scale(1.05);
 }
 
 .add-chapter-modal .btn-secondary {
-    background-color: #ff6347;
+    background-color: var(--pale-rose-coral); /* Rosa pálido */
     border: none;
-    color: #1a1a1a;
+    color: var(--text-dark); /* Texto oscuro */
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add-chapter-modal .btn-secondary:hover {
-    background-color: #e5533d;
+    background-color: var(--peach-light); /* Fondo rosado */
     transform: scale(1.05);
 }
 
@@ -245,10 +259,10 @@ img {
 .sticky-toolbar {
     position: sticky;
     top: 0;
-    background-color: #1c1c1c; /* Fondo similar al editor */
+    background-color: var(--pale-blue); /* Fondo azul pastel pálido */
     z-index: 1000; /* Asegura que esté sobre otros elementos */
     padding: 10px;
-    border-bottom: 1px solid #ffd700; /* Línea dorada */
+    border-bottom: 1px solid var(--peach-light); /* Línea rosada */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -258,9 +272,9 @@ img {
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #1c1c1c; /* Fondo oscuro */
+    background-color: var(--pale-blue); /* Fondo azul pastel pálido */
     padding: 15px 0;
-    border-top: 1px solid #ffd700; /* Borde dorado */
+    border-top: 1px solid var(--peach-light); /* Borde rosado */
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.3);
     z-index: 1000;
 }
@@ -275,4 +289,57 @@ hr {
     border: none;
     height: 2px;
     background: linear-gradient(to right, #ccc, #333, #ccc);
+}
+
+/* Modo oscuro con la clase .dark-mode */
+.dark-mode .add-chapter-container {
+    background-color: var(--text-dark); /* Fondo oscuro */
+}
+
+.dark-mode .add-chapter-card {
+    background-color: var(--text-dark); /* Fondo oscuro */
+    border: 2px solid var(--peach-light); /* Borde rosado */
+}
+
+.dark-mode .add-chapter-label {
+    color: var(--peach-light); /* Rosa claro con matiz durazno */
+}
+
+.dark-mode .add-chapter-input,
+.dark-mode .add-chapter-textarea {
+    background-color: var(--text-dark); /* Fondo oscuro */
+    color: var(--text-light); /* Texto claro */
+    border: 1px solid var(--peach-light); /* Borde rosado */
+}
+
+.dark-mode .add-chapter-btn {
+    background-color: var(--mint-soft); /* Fondo menta */
+    color: var(--text-dark); /* Texto oscuro */
+}
+
+.dark-mode .add-chapter-toolbar {
+    background-color: var(--green-pastel); /* Fondo verde pastel */
+}
+
+.dark-mode .add-chapter-editor {
+    background-color: var(--text-dark); /* Fondo oscuro */
+    border: 1px solid var(--peach-light); /* Borde rosado */
+    color: var(--text-light); /* Texto claro */
+}
+
+.dark-mode .fixed-bottom-buttons {
+    background-color: var(--text-dark); /* Fondo oscuro */
+}
+
+.dark-mode .add-chapter-save-btn,
+.dark-mode .add-chapter-cancel-btn,
+.dark-mode .add-chapter-annotate-btn {
+    background-color: var(--mint-soft); /* Fondo menta */
+    color: var(--text-dark); /* Texto oscuro */
+}
+
+.dark-mode .add-chapter-annotate-btn:hover,
+.dark-mode .add-chapter-cancel-btn:hover,
+.dark-mode .add-chapter-save-btn:hover {
+    background-color: var(--lavender-light); /* Fondo lavanda */
 }

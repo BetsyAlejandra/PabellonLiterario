@@ -73,20 +73,6 @@ const Home = () => {
 
   const novelsMemo = useMemo(() => novels, [novels]);
 
-  const settings = useMemo(() => ({
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: novelsMemo.length > 0 ? Math.min(novelsMemo.length, 8) : 1,
-    slidesToScroll: 1,
-    lazyLoad: "progressive",
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 3 } },
-      { breakpoint: 768, settings: { slidesToShow: 2 } },
-      { breakpoint: 576, settings: { slidesToShow: 1 } }
-    ],
-  }), [novelsMemo.length]);
-
 
   return (
     <div className="home-page">
@@ -133,6 +119,52 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      <section className="translated-works-gallery py-5">
+        <Container>
+          <h2 className="text-center mb-4">🪶 últimas Novelas Agregadas</h2>
+          <Row>
+            <Col md={6}>
+              {novelsMemo.slice(0, 7).map((novel, index) => (
+                <Card key={novel._id} className="stacked-novel-card mb-4 position-relative">
+                  {index < 3 && <div className="badge-new">✨ Nuevo</div>}
+
+                  <Row className="g-0 align-items-center">
+                    <Col xs={4}>
+                      <Card.Img
+                        src={novel.coverImage}
+                        alt={novel.title}
+                        className="img-fluid rounded-start"
+                      />
+                    </Col>
+                    <Col xs={8}>
+                      <Card.Body>
+                        <Card.Title className="title-trim">{novel.title}</Card.Title>
+
+                        {/* Etiqueta de género */}
+                        {novel.genres && (
+                          <div className="genre-tag">
+                            {novel.genres}
+                          </div>
+                        )}
+
+                        <Button
+                          as={Link}
+                          to={`/story-detail/${novel._id}`}
+                          className="btn-view-more mt-3"
+                        >
+                          Ver más
+                        </Button>
+                      </Card.Body>
+                    </Col>
+                  </Row>
+                </Card>
+              ))}
+
+            </Col>
+          </Row>
+        </Container>
+      </section>
 
       <Container className="mt-4">
         <h2 className="text-center mb-4" style={{ color: '#D6B4A1' }}>Últimas Actualizaciones</h2>
@@ -195,25 +227,6 @@ const Home = () => {
         )}
       </Container>
 
-      <section className="latest-translations py-5 bg-dark">
-        <Container>
-          <h2 className="text-center mb-4">Últimas Traducciones</h2>
-          <Row>
-            {latestNovels.map(novel => (
-              <Col key={novel._id} md={4} className="mb-4">
-                <Card>
-                  <Card.Img variant="top" src={novel.coverImage} alt={novel.title} loading="lazy" />
-                  <Card.Body className="text-center">
-                    <Card.Title>{novel.title}</Card.Title>
-                    <Card.Text>{novel.genre}</Card.Text>
-                    <Button as={Link} to={`/story-detail/${novel._id}`}>Leer más</Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      </section>
       <section className="support-and-apply py-5" style={{ backgroundColor: "#F1E4D1" }}>
         <Container>
           <h2 className="text-center mb-5" style={{ color: "#A67C52" }}>¡Forma parte del Pabellón!</h2>
@@ -260,7 +273,7 @@ const Home = () => {
       </section>
 
 
-      <section className="history-and-achievements py-5 bg-dark">
+      <section className="history-and-achievements py-5 bg-dark text-light">
         <Container>
           <h2 className="text-center mb-4">Historia y Logros</h2>
           <Row>
@@ -273,9 +286,11 @@ const Home = () => {
                 { date: "7 Dic 2024", text: "Primera Funa de Pabellón." },
                 { date: "28 Feb 2025", text: "Lanzamiento de la segunda versión" }]
                   .map((event, index) => (
-                    <div key={index} className="timeline-item d-flex align-items-center mb-3">
-                      <div className="timeline-icon mr-3">📅</div>
-                      <div>
+                    <div key={index} className="timeline-item d-flex align-items-center mb-4">
+                      <div className="timeline-icon">
+                        <span className="icon-text">{index + 1}</span>
+                      </div>
+                      <div className="timeline-content">
                         <h5>{event.date}</h5>
                         <p>{event.text}</p>
                       </div>
@@ -286,6 +301,7 @@ const Home = () => {
           </Row>
         </Container>
       </section>
+
     </div>
   );
 };

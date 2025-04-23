@@ -1,16 +1,18 @@
 import React from 'react';
 import { Button, Container, Row, Col, Card } from 'react-bootstrap';
-import { FaMagic, FaFeatherAlt, FaEdit, FaDiscord } from 'react-icons/fa'; // Importar íconos de react-icons
-import '../styles/Postulacion.css'; // Archivo CSS para los estilos
+import { FaMagic, FaFeatherAlt, FaEdit, FaDiscord, FaHeadphones } from 'react-icons/fa';
+import '../styles/Postulacion.css';
 
 const Postulacion = () => {
   return (
     <div className="postulacion-page">
       {/* Encabezado con diseño llamativo */}
-      <div className="postulacion-header text-center text-white">
-        <h1 className="postulacion-title"><FaMagic className="icon-title" /> Únete a Nuestro Equipo <FaMagic className="icon-title" /></h1>
+      <div className="postulacion-header text-center text-light py-5">
+        <h1 className="postulacion-title">
+          <FaMagic className="icon-title" /> Únete a Nuestro Equipo <FaMagic className="icon-title" />
+        </h1>
         <p className="postulacion-subtitle">
-          ¿Quieres ser parte de nuestro mágico Pabellón Literario? Postúlate como Traductor, Escritor o Editor y comparte tu talento con el mundo. 🎉
+          ¿Quieres ser parte de nuestro mágico Pabellón Literario? Postúlate como Traductor, Escritor, Editor o Transcriptor y comparte tu talento con el mundo. 🎉
         </p>
       </div>
 
@@ -68,6 +70,27 @@ const Postulacion = () => {
                   className="postulacion-btn"
                 >
                   Postularme
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+
+          {/* Opción para Transcriptor/Timmer de Audiodramas */}
+          <Col md={4} sm={6} className="text-center mb-4">
+            <Card className="postulacion-card shadow-lg">
+              <Card.Body>
+                <FaHeadphones className="postulacion-icon" />
+                <h3>Transcriptor/Timmer de Audiodramas</h3>
+                <p>
+                  ¿Te apasiona transcribir y crear subtítulos para los audiolibros o dramas? Únete a nosotros para transcribir nuestras historias y mejorar la experiencia auditiva.
+                </p>
+                <Button
+                  href="https://discord.gg/hV2APBNYYS"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="postulacion-btn"
+                >
+                  Postularme Discord
                 </Button>
               </Card.Body>
             </Card>

@@ -1,232 +1,159 @@
-/* Postulacion.css */
-
-/* Importar fuente personalizada */
-@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
-
-/* Contenedor Principal */
+/* Estilo general */
 .postulacion-page {
-  background: linear-gradient(135deg, #D3D0E1, #16213e);
-  min-height: 100vh;
-  padding-top: 50px;
-  padding-bottom: 50px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #121212;
+  color: #fff;
+  font-family: 'Arial', sans-serif;
 }
 
-/* Encabezado */
 .postulacion-header {
-  background: #d7e2e942 ;
-  padding: 40px 20px;
-  border-radius: 15px;
-  margin-bottom: 40px;
-  position: relative;
-  overflow: hidden;
+  background: linear-gradient(45deg, #D6B4A1, #F1E4D1);
+  padding: 50px 0;
 }
 
 .postulacion-title {
-  font-family: 'MedievalSharp', cursive;
-  font-size: 3rem;
-  color: #2C3E50; /* Dorado */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-  margin-bottom: 20px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  animation: shimmer 3s infinite;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #fff;
 }
 
 .icon-title {
-  margin: 0 10px;
-  color: #F0E1D6;
-  animation: float 2s infinite alternate;
-}
-
-/* Animaciones */
-@keyframes shimmer {
-  0% {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6),
-                 0 0 10px rgba(138, 138, 138, 0.8);
-  }
-  50% {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6),
-                 0 0 20px rgb(206, 206, 206);
-  }
-  100% {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6),
-                 0 0 10px rgba(212, 212, 212, 0.8);
-  }
-}
-
-@keyframes float {
-  from {
-    transform: translateY(0px);
-  }
-  to {
-    transform: translateY(-10px);
-  }
+  color: #6c757d;
 }
 
 .postulacion-subtitle {
   font-size: 1.2rem;
-  color: #2C3E50;
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+  color: #fff;
 }
 
-/* Contenido Principal */
-.postulacion-content {
-  background: #d7e2e942 ;
+.postulacion-info {
+  background-color: #2c2c2c;
   padding: 30px;
-  border-radius: 15px;
+  border-radius: 10px;
 }
 
-/* Título de Información */
 .info-title {
-  font-family: 'MedievalSharp', cursive;
-  font-size: 2rem;
-  color: #2C3E50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #F1E4D1;
 }
 
-.info-title svg {
-  margin-right: 10px;
-  color: #2C3E50;
-  animation: float 3s infinite alternate;
-}
-
-/* Lista de Pasos */
 .postulacion-steps {
-  list-style: none;
-  padding: 0;
-  font-size: 1.1rem;
-  color: #000;
-  text-align: left;
+  list-style-type: none;
+  padding-left: 0;
 }
 
 .postulacion-steps li {
-  margin-bottom: 10px;
-  padding-left: 20px;
-  position: relative;
+  font-size: 1.1rem;
+  color: #B5C9C9;
 }
 
-.postulacion-steps li::before {
-  content: '✔️';
-  position: absolute;
-  left: 0;
-  color: #2C3E50;
-}
-
-/* Tarjetas de Roles */
-.postulacion-card {
-  background: hsla(25, 46%, 89%, 0.176);
-  border: 2px solid #D6B4A1 ; 
-  border-radius: 15px;
-  padding: 20px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%;
+.postulacion-roles {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
+}
+
+.postulacion-card {
+  background-color: #3B3B3B;
+  border-radius: 10px;
+  padding: 20px;
+  color: #fff;
+  transition: transform 0.3s ease-in-out;
 }
 
 .postulacion-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 8px 16px rgba(155, 155, 155, 0.432);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .postulacion-icon {
   font-size: 3rem;
-  color: #E6D6C3;
+  color: #F1E4D1;
   margin-bottom: 15px;
-  animation: float 2s infinite alternate;
-}
-
-.postulacion-card h3 {
-  font-family: 'MedievalSharp', cursive;
-  font-size: 1.8rem;
-  color: #2C3E50;
-  margin-bottom: 15px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.postulacion-card p {
-  color: #000;
-  margin-bottom: 20px;
 }
 
 .postulacion-btn {
-  background-color: #C9D6D5;
-  color: #2c3e50;
+  background-color: #F1E4D1;
+  color: #121212;
   border: none;
   padding: 10px 20px;
-  border-radius: 10px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
 .postulacion-btn:hover {
-  background-color: #D7E2E9;
-  transform: scale(1.05);
-  box-shadow: 0 0 10px #ffd700;
+  background-color: #D6B4A1;
 }
 
-/* Sección Final */
 .postulacion-final {
-  background: rgba(255, 215, 0, 0.05);
-  padding: 20px;
-  border-radius: 15px;
-  color: #2c3e50;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  background-color: #2c2c2c;
+  padding: 30px;
+  border-radius: 10px;
 }
 
 .postulacion-discord {
-  margin-top: 10px;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 1.2rem;
 }
 
 .discord-icon {
+  font-size: 1.6rem;
   margin-left: 10px;
-  color: #7289da; /* Color oficial de Discord */
-  animation: float 2s infinite alternate;
+  color: #7289da;
 }
 
-/* Responsividad */
-@media (max-width: 768px) {
-  .postulacion-header {
-    padding: 30px 10px;
-  }
-
-  .postulacion-title {
-    font-size: 2.5rem;
-  }
-
-  .postulacion-subtitle {
-    font-size: 1rem;
-  }
-
-  .info-title {
-    font-size: 1.5rem;
-  }
-
-  .postulacion-card h3 {
-    font-size: 1.5rem;
-  }
+.dark-mode .postulacion-header {
+  background: linear-gradient(45deg, #2C2C2C, #3B3B3B); /* Cambio de color en modo oscuro */
 }
 
-@media (max-width: 576px) {
-  .postulacion-title {
-    font-size: 2rem;
-  }
+.dark-mode .postulacion-title,
+.dark-mode .postulacion-subtitle {
+  color: #fff;
+}
 
-  .info-title {
-    font-size: 1.3rem;
-  }
+.dark-mode .postulacion-info {
+  background-color: #2c2c2c; /* Cambio a color más oscuro */
+  border-radius: 10px;
+}
 
-  .postulacion-card h3 {
-    font-size: 1.3rem;
-  }
+.dark-mode .postulacion-btn {
+  background-color: #3B3B3B;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.dark-mode .postulacion-btn:hover {
+  background-color: #F1E4D1; /* Color más claro en hover */
+  color: #121212;
+}
+
+.dark-mode .postulacion-card {
+  background-color: #3B3B3B;
+  border-radius: 10px;
+  padding: 20px;
+  color: #fff;
+  transition: transform 0.3s ease-in-out;
+}
+
+.dark-mode .postulacion-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .postulacion-icon {
+  font-size: 3rem;
+  color: #F1E4D1;
+  margin-bottom: 15px;
+}
+
+.dark-mode .postulacion-discord {
+  font-size: 1.2rem;
+  color: #fff; /* Texto en blanco en modo oscuro */
+}
+
+.dark-mode .discord-icon {
+  font-size: 1.6rem;
+  margin-left: 10px;
+  color: #7289da;
 }
