@@ -90,13 +90,15 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      <header className="header-section" style={{ backgroundImage: `url(${headerImage})` }}>
-        <Container className="text-center py-5">
-          <h1>Pabellón Literario</h1>
-          <p>Únete a nuestra comunidad para más sorpresas</p>
-          <Button href="https://discord.gg/hV2APBNYYS" variant="light">¡ÚNETE!</Button>
+      <header className="hero-section" style={{ background: "linear-gradient(45deg, #F1E4D1, #D3D0E1)" }}>
+        <Container className="text-center text-light">
+          <h1 className="hero-title display-3">Pabellón Literario</h1>
+          <p className="hero-subtitle lead">Donde la literatura cobra vida</p>
+          <Button href="https://discord.gg/hV2APBNYYS" variant="light" className="join-btn rounded-pill shadow-lg">¡ÚNETE!</Button>
         </Container>
       </header>
+
+
 
       <section className="translated-works-gallery py-5">
         <Container>
@@ -105,7 +107,7 @@ const Home = () => {
             <Row>
               {[...Array(8)].map((_, index) => (
                 <Col key={index} md={3} sm={6} xs={12} className="mb-3">
-                  <div className="skeleton-card"></div>
+                  <div className="skeleton-card rounded shadow-lg"></div>
                 </Col>
               ))}
             </Row>
@@ -114,7 +116,7 @@ const Home = () => {
               <Slider {...settings}>
                 {novelsMemo.map(novel => (
                   <div key={novel._id} className="gallery-card-wrapper">
-                    <Card className="gallery-card">
+                    <Card className="gallery-card shadow-lg rounded">
                       <Card.Img
                         variant="top"
                         src={novel.coverImage}
@@ -126,7 +128,7 @@ const Home = () => {
                       />
                       <Card.Body>
                         <Card.Title className="title">{novel.title}</Card.Title>
-                        <Button as={Link} to={`/story-detail/${novel._id}`} className="btn-view-more">Ver más</Button>
+                        <Button as={Link} to={`/story-detail/${novel._id}`} className="btn-view-more rounded-pill">Ver más</Button>
                       </Card.Body>
                     </Card>
                   </div>
@@ -139,45 +141,35 @@ const Home = () => {
         </Container>
       </section>
 
-
-      <div class="ranking-container">
-        <h2 class="ranking-title">🌟 Reconocimiento a Nuestro Equipo 🌟</h2>
-
-        <div class="ranking-sections">
-          <div class="ranking-category">
-            <h3 class="category-title">📖 Traductores</h3>
-            <ul class="ranking-list">
-              <li><span class="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Ji%20Shenn" target="_blank">Ji Shenn</a></li>
-              <li><span class="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/Bezy" target="_blank">Bezy</a></li>
-              <li><span class="medal bronze">🥉</span> <a href="https://pabellonliterario.com/profileperson/Rajesh%20Rouv" target="_blank">Rajesh Rouv</a></li>
-              <li><a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
-              <li><a href="https://pabellonliterario.com/profileperson/Yrehil" target="_blank">Yrehil</a></li>
-            </ul>
+      <div className="ranking-container py-5">
+        <Container>
+          <h2 className="ranking-title text-center">🌟 Reconocimiento a Nuestro Equipo 🌟</h2>
+          <div className="row">
+            <div className="col-lg-4">
+              <h3 className="category-title">📖 Traductores</h3>
+              <ul className="ranking-list">
+                <li><span className="medal gold">🥇</span> <a href="#">Ji Shenn</a></li>
+                <li><span className="medal silver">🥈</span> <a href="#">Bezy</a></li>
+                <li><span className="medal bronze">🥉</span> <a href="#">Rajesh Rouv</a></li>
+              </ul>
+            </div>
+            <div className="col-lg-4">
+              <h3 className="category-title">✍️ Editores</h3>
+              <ul className="ranking-list">
+                <li><span className="medal gold">🥇</span> <a href="#">Japonnesa</a></li>
+                <li><span className="medal silver">🥈</span> <a href="#">Hikari</a></li>
+              </ul>
+            </div>
+            <div className="col-lg-4">
+              <h3 className="category-title">💖 Patrocinadores</h3>
+              <ul className="ranking-list">
+                <li className="sponsor"><span className="medal gold">🥇</span> <a href="#">Japonnesa</a></li>
+              </ul>
+            </div>
           </div>
-
-          <div class="ranking-category">
-            <h3 class="category-title">✍️ Editores</h3>
-            <ul class="ranking-list">
-              <li><span class="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Japonnesa" target="_blank">Japonnesa</a></li>
-              <li><span class="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/Hikari" target="_blank">Hikari</a></li>
-              <li><span class="medal bronze">🥉</span> <a href="https://pabellonliterario.com/profileperson/Hualianxo" target="_blank">Hualianxo</a></li>
-              <li><a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
-              <li><a href="https://pabellonliterario.com/profileperson/Luo_Wild" target="_blank">Luo_Wild</a></li>
-            </ul>
-          </div>
-
-          <div class="ranking-category">
-            <h3 class="category-title">💖 Patrocinadores</h3>
-            <ul class="ranking-list">
-              <li class="sponsor"><span class="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Japonnesa" target="_blank">Japonnesa</a></li>
-              <li class="sponsor"><span class="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/ShiniGreis" target="_blank">Shini Grace</a></li>
-              <li class="sponsor"><span class="medal bronze">🥉</span> <a>Whitney</a></li>
-              <li class="sponsor"><a href="https://pabellonliterario.com/profileperson/Casandra%20de%20Troya" target="_blank">Casandra De Troya</a></li>
-              <li class="sponsor"><a href="https://pabellonliterario.com/profileperson/Flansas" target="_blank">Flansas</a></li>
-            </ul>
-          </div>
-        </div>
+        </Container>
       </div>
+
 
       <Container className="mt-4">
         <h2 className="text-center mb-4" style={{ color: '#D6B4A1' }}>Últimas Actualizaciones</h2>
@@ -240,18 +232,18 @@ const Home = () => {
         )}
       </Container>
 
-      <section className="latest-translations py-5 bg-dark">
+      <section className="latest-translations py-5">
         <Container>
-          <h2 className="text-center mb-4">Últimas Traducciones</h2>
+          <h2 className="text-center mb-4" style={{ color: '#D6B4A1' }}>Últimas Traducciones</h2>
           <Row>
             {latestNovels.map(novel => (
               <Col key={novel._id} md={4} className="mb-4">
-                <Card>
-                  <Card.Img variant="top" src={novel.coverImage} alt={novel.title} loading="lazy" />
+                <Card className="rounded shadow-sm">
+                  <Card.Img variant="top" src={novel.coverImage} alt={novel.title} />
                   <Card.Body className="text-center">
                     <Card.Title>{novel.title}</Card.Title>
                     <Card.Text>{novel.genre}</Card.Text>
-                    <Button as={Link} to={`/story-detail/${novel._id}`}>Leer más</Button>
+                    <Button as={Link} to={`/story-detail/${novel._id}`} className="btn-outline-dark">Leer más</Button>
                   </Card.Body>
                 </Card>
               </Col>
@@ -259,6 +251,7 @@ const Home = () => {
           </Row>
         </Container>
       </section>
+
 
       <section className="support-and-apply py-5">
         <Container>
