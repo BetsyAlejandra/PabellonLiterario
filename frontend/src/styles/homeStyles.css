@@ -509,71 +509,101 @@ body,
   }
 }
 
+/* === Tarjeta apilada estilo galería === */
 .stacked-novel-card {
-  background-color: #f7e1d7;
-  border: none;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e0ddd8;
   border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease-in-out;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .stacked-novel-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.stacked-novel-card .card-title {
+/* === Badge "Nuevo" === */
+.badge-new {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #eec643;
+  color: #000;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-bottom-right-radius: 12px;
+  z-index: 1;
+  font-size: 0.8rem;
+}
+
+/* === Título recortado si es muy largo === */
+.title-trim {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #3b3b3b;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
+/* === Tag de género === */
+.genre-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: #444;
+  background-color: #f0e1d6;
+  padding: 4px 8px;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+/* === Botón === */
 .btn-view-more {
   background-color: #d6b4a1;
-  color: #fff;
+  color: white;
   border: none;
-  font-weight: 500;
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 6px;
 }
 
 .btn-view-more:hover {
-  background-color: #c1d0b5;
-  color: #3b3b3b;
+  background-color: #c1a28f;
 }
 
-.title-trim {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
+/* === Modo oscuro === */
+.dark-mode .stacked-novel-card {
+  background-color: #1f1f1f;
+  border-color: #333;
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
 }
 
-.badge-new {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  background: linear-gradient(135deg, #ffd700, #f7e1d7);
-  color: #3b3b3b;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 4px 8px;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+.dark-mode .title-trim,
+.dark-mode .genre-tag {
+  color: #eee;
 }
 
-.genre-tag {
-  display: inline-block;
-  background-color: #d7e2e9;
-  color: #3b3b3b;
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 3px 8px;
-  border-radius: 20px;
-  margin-top: 0.5rem;
-  max-width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.dark-mode .genre-tag {
+  background-color: #3a3a3a;
 }
+
+.dark-mode .btn-view-more {
+  background-color: #a17968;
+}
+
+.dark-mode .btn-view-more:hover {
+  background-color: #8a6354;
+}
+
+.dark-mode .badge-new {
+  background-color: #f5d94c;
+  color: #000;
+}
+
 
 .dark-mode .ranking-container {
   background-color: #2C2C2C; /* Fondo oscuro */
@@ -660,72 +690,6 @@ body,
 
 .dark-mode .bronze {
   color: #CD7F32;
-}
-
-.dark-mode .stacked-novel-card {
-  background-color: #3B3B3B; /* Fondo oscuro para las tarjetas */
-  border: none;
-  border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
-}
-
-.dark-mode .stacked-novel-card:hover {
-  transform: translateY(-5px);
-}
-
-.dark-mode .stacked-novel-card .card-title {
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #F1E4D1; /* Color claro para el texto en modo oscuro */
-}
-
-.dark-mode .btn-view-more {
-  background-color: #5F7D8B; /* Botón con un color más oscuro */
-  color: #fff;
-  border: none;
-  font-weight: 500;
-}
-
-.dark-mode .btn-view-more:hover {
-  background-color: #A67C52; /* Color más dorado al pasar el mouse */
-  color: #121212;
-}
-
-.dark-mode .title-trim {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
-.dark-mode .badge-new {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  background: linear-gradient(135deg, #FFD700, #F7E1D7); /* Fondo dorado suave */
-  color: #3B3B3B;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 4px 8px;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-}
-
-.dark-mode .genre-tag {
-  display: inline-block;
-  background-color: #5F7D8B; /* Fondo gris azulado oscuro */
-  color: #F1E4D1; /* Texto claro */
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 3px 8px;
-  border-radius: 20px;
-  margin-top: 0.5rem;
-  max-width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 @media (max-width: 768px) {

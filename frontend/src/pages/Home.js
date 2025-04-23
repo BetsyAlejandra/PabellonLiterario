@@ -122,12 +122,12 @@ const Home = () => {
 
       <section className="translated-works-gallery py-5">
         <Container>
-          <h2 className="text-center mb-4">🪶 últimas Novelas Agregadas</h2>
+          <h2 className="text-center mb-4">🪶 Últimas Novelas Agregadas</h2>
           <Row>
-            <Col md={6}>
-              {novelsMemo.slice(0, 7).map((novel, index) => (
-                <Card key={novel._id} className="stacked-novel-card mb-4 position-relative">
-                  {index < 3 && <div className="badge-new">✨ Nuevo</div>}
+            {novelsMemo.slice(0, 14).map((novel, index) => (
+              <Col xs={12} md={6} key={novel._id}>
+                <Card className="stacked-novel-card mb-4 position-relative">
+                  {index < 5 && <div className="badge-new">✨ Nuevo</div>}
 
                   <Row className="g-0 align-items-center">
                     <Col xs={4}>
@@ -141,7 +141,6 @@ const Home = () => {
                       <Card.Body>
                         <Card.Title className="title-trim">{novel.title}</Card.Title>
 
-                        {/* Etiqueta de género */}
                         {novel.genres && (
                           <div className="genre-tag">
                             {novel.genres}
@@ -159,12 +158,12 @@ const Home = () => {
                     </Col>
                   </Row>
                 </Card>
-              ))}
-
-            </Col>
+              </Col>
+            ))}
           </Row>
         </Container>
       </section>
+
 
       <Container className="mt-4">
         <h2 className="text-center mb-4" style={{ color: '#D6B4A1' }}>Últimas Actualizaciones</h2>
