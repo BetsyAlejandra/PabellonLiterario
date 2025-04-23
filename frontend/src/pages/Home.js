@@ -124,10 +124,10 @@ const Home = () => {
         <Container>
           <h2 className="text-center mb-4">🪶 Últimas Novelas Agregadas</h2>
           <Row>
-            {novelsMemo.slice(0, 14).map((novel, index) => (
+            {novelsMemo.slice(0, 6).map((novel, index) => (
               <Col xs={12} md={6} key={novel._id}>
                 <Card className="stacked-novel-card mb-4 position-relative">
-                  {index < 5 && <div className="badge-new">✨ Nuevo</div>}
+                  {index < 3 && <div className="badge-new">✨ Nuevo</div>}
 
                   <Row className="g-0 align-items-center">
                     <Col xs={4}>
