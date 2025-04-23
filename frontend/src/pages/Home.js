@@ -99,48 +99,6 @@ const Home = () => {
       </header>
 
 
-      <section className="translated-works-gallery py-5">
-        <Container>
-          <h2 className="text-center mb-4">Galería de Obras Traducidas</h2>
-          {loading ? (
-            <Row>
-              {[...Array(8)].map((_, index) => (
-                <Col key={index} md={3} sm={6} xs={12} className="mb-3">
-                  <div className="skeleton-card"></div>
-                </Col>
-              ))}
-            </Row>
-          ) : (
-            novelsMemo.length > 0 ? (
-              <Slider {...settings}>
-                {novelsMemo.map(novel => (
-                  <div key={novel._id} className="gallery-card-wrapper">
-                    <Card className="gallery-card">
-                      <Card.Img
-                        variant="top"
-                        src={novel.coverImage}
-                        alt={novel.title}
-                        loading="lazy"
-                        width="200"
-                        height="300"
-                        style={{ objectFit: "cover" }}
-                      />
-                      <Card.Body>
-                        <Card.Title className="title">{novel.title}</Card.Title>
-                        <Button as={Link} to={`/story-detail/${novel._id}`} className="btn-view-more">Ver más</Button>
-                      </Card.Body>
-                    </Card>
-                  </div>
-                ))}
-              </Slider>
-            ) : (
-              <p>No hay novelas disponibles.</p>
-            )
-          )}
-        </Container>
-      </section>
-
-
       <div class="ranking-container">
         <h2 class="ranking-title">🌟 Reconocimiento a Nuestro Equipo 🌟</h2>
 
@@ -148,11 +106,9 @@ const Home = () => {
           <div class="ranking-category">
             <h3 class="category-title">📖 Traductores</h3>
             <ul class="ranking-list">
-              <li><span class="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Ji%20Shenn" target="_blank">Ji Shenn</a></li>
-              <li><span class="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/Bezy" target="_blank">Bezy</a></li>
-              <li><span class="medal bronze">🥉</span> <a href="https://pabellonliterario.com/profileperson/Rajesh%20Rouv" target="_blank">Rajesh Rouv</a></li>
-              <li><a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
-              <li><a href="https://pabellonliterario.com/profileperson/Yrehil" target="_blank">Yrehil</a></li>
+              <li><span class="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Bezy" target="_blank">Bezy</a></li>
+              <li><span class="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/Rajesh%20Rouv" target="_blank">Rajesh Rouv</a></li>
+              <li><span class="medal bronze">🥉</span> <a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
             </ul>
           </div>
 
@@ -160,21 +116,19 @@ const Home = () => {
             <h3 class="category-title">✍️ Editores</h3>
             <ul class="ranking-list">
               <li><span class="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Japonnesa" target="_blank">Japonnesa</a></li>
-              <li><span class="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/Hikari" target="_blank">Hikari</a></li>
-              <li><span class="medal bronze">🥉</span> <a href="https://pabellonliterario.com/profileperson/Hualianxo" target="_blank">Hualianxo</a></li>
-              <li><a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
-              <li><a href="https://pabellonliterario.com/profileperson/Luo_Wild" target="_blank">Luo_Wild</a></li>
+              <li><span class="medal silver">🥈</span><a href="https://pabellonliterario.com/profileperson/Hualianxo" target="_blank">Hualianxo</a></li>
+              <li><span class="medal bronze">🥉</span><a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
             </ul>
           </div>
 
           <div class="ranking-category">
             <h3 class="category-title">💖 Patrocinadores</h3>
             <ul class="ranking-list">
-              <li class="sponsor"><span class="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Japonnesa" target="_blank">Japonnesa</a></li>
-              <li class="sponsor"><span class="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/ShiniGreis" target="_blank">Shini Grace</a></li>
-              <li class="sponsor"><span class="medal bronze">🥉</span> <a>Whitney</a></li>
-              <li class="sponsor"><a href="https://pabellonliterario.com/profileperson/Casandra%20de%20Troya" target="_blank">Casandra De Troya</a></li>
-              <li class="sponsor"><a href="https://pabellonliterario.com/profileperson/Flansas" target="_blank">Flansas</a></li>
+              <li class="sponsor"><span class="medal gold">🥇</span> <a target="_blank">Japonnesa</a></li>
+              <li class="sponsor"><span class="medal silver">🥈</span> <a target="_blank">Meow</a></li>
+              <li class="sponsor"><span class="medal bronze">🥉</span> <a>21R_Bingqiu</a></li>
+              <li class="sponsor"><a target="_blank">kmiloca</a></li>
+              <li class="sponsor"><a target="_blank">Dulcesitoxx</a></li>
             </ul>
           </div>
         </div>
@@ -260,23 +214,51 @@ const Home = () => {
           </Row>
         </Container>
       </section>
-
-      <section className="support-and-apply py-5">
+      <section className="support-and-apply py-5" style={{ backgroundColor: "#F1E4D1" }}>
         <Container>
-          <Row>
-            <Col md={6} className="text-center mb-4">
-              <h2>¡Apóyanos!</h2>
-              <p>Ayúdanos con una donación en Ko-fi.</p>
-              <Button href="https://ko-fi.com/betsyalejandra" target="_blank" rel="noopener noreferrer">¡Apóyanos en Ko-fi!</Button>
+          <h2 className="text-center mb-5" style={{ color: "#A67C52" }}>¡Forma parte del Pabellón!</h2>
+          <Row className="g-4 justify-content-center">
+            <Col md={6}>
+              <Card className="h-100 text-center shadow rounded" style={{ backgroundColor: "#FFF8F2" }}>
+                <Card.Body>
+                  <div className="mb-3" style={{ fontSize: "2rem" }}>💖</div>
+                  <Card.Title className="mb-2">¡Apóyanos!</Card.Title>
+                  <Card.Text>Ayúdanos con una donación en Ko-fi para seguir compartiendo historias maravillosas.</Card.Text>
+                  <Button
+                    href="https://ko-fi.com/betsyalejandra"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="outline-danger"
+                    className="rounded-pill mt-3"
+                  >
+                    ¡Apóyanos en Ko-fi!
+                  </Button>
+                </Card.Body>
+              </Card>
             </Col>
-            <Col md={6} className="text-center">
-              <h2>¡Únete a Nuestro Equipo!</h2>
-              <p>Buscamos traductores y editores. Postúlate aquí.</p>
-              <Button as={Link} to="/postular">Postúlate</Button>
+            <Col md={6}>
+              <Card className="h-100 text-center shadow rounded" style={{ backgroundColor: "#EFEAF4" }}>
+                <Card.Body>
+                  <div className="mb-3" style={{ fontSize: "2rem" }}>🌟</div>
+                  <Card.Title className="mb-2">¡Únete a Nuestro Equipo!</Card.Title>
+                  <Card.Text>
+                    Buscamos <strong>traductores</strong>, <strong>editores</strong>, <strong>timmers</strong> y <strong>transcriptores</strong> para nuestros audiodramas y novelas. ¡Tu talento es bienvenido!
+                  </Card.Text>
+                  <Button
+                    as={Link}
+                    to="/postular"
+                    variant="outline-primary"
+                    className="rounded-pill mt-3"
+                  >
+                    Postúlate aquí
+                  </Button>
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
         </Container>
       </section>
+
 
       <section className="history-and-achievements py-5 bg-dark">
         <Container>

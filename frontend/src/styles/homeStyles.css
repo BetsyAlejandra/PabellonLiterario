@@ -16,7 +16,7 @@
 
 .hero {
   background: linear-gradient(to right, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
-              url('../assets/Encabezado.png') center/cover no-repeat;
+    url('../assets/Encabezado.png') center/cover no-repeat;
   color: white;
   padding: 80px 20px;
   text-align: center;
@@ -60,7 +60,7 @@
   border-radius: 8px;
   width: 280px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
 
@@ -104,7 +104,7 @@
   background-color: white;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   font-family: var(--secondary-font);
 }
 
@@ -124,8 +124,10 @@
   padding: 60px 20px;
   text-align: center;
 }
+
 /* General */
-body, .home-page {
+body,
+.home-page {
   background-color: #F7E1D7;
   color: #5F7D8B;
   font-family: 'Segoe UI', sans-serif;
@@ -178,7 +180,7 @@ body, .home-page {
 
 .gallery-card:hover {
   transform: scale(1.03);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .title {
@@ -244,7 +246,8 @@ body, .home-page {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
-.card-title, .card-text {
+.card-title,
+.card-text {
   color: #8C6A4B;
 }
 
@@ -328,6 +331,66 @@ body, .home-page {
   color: #333;
 }
 
+.support-and-apply {
+  background-color: #F1E4D1;
+  /* Beige suave */
+}
+
+.support-and-apply h2 {
+  color: #A67C52;
+  /* Marrón dorado para destacar */
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.support-and-apply .card {
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.support-and-apply .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.support-and-apply .card-title {
+  font-size: 1.5rem;
+  color: #3E3E3E;
+  font-weight: bold;
+}
+
+.support-and-apply .card-text {
+  font-size: 1rem;
+  color: #5F5F5F;
+}
+
+.support-and-apply .btn {
+  padding: 0.6rem 1.5rem;
+  font-weight: 500;
+  border-radius: 30px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.support-and-apply .btn-outline-danger {
+  border-color: #D6B4A1;
+  color: #D6B4A1;
+}
+
+.support-and-apply .btn-outline-danger:hover {
+  background-color: #D6B4A1;
+  color: #fff;
+}
+
+.support-and-apply .btn-outline-primary {
+  border-color: #C9D6D5;
+  color: #5F7D8B;
+}
+
+.support-and-apply .btn-outline-primary:hover {
+  background-color: #C9D6D5;
+  color: #fff;
+}
+
 .latest-updates {
   display: flex;
   flex-wrap: wrap;
@@ -345,3 +408,98 @@ body, .home-page {
   text-align: left;
 }
 
+.ranking-container {
+  background-color: #F7E1D7;
+  /* Rosa pálido con coral */
+  padding: 3rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.ranking-title {
+  font-size: 2.2rem;
+  color: #A67C52;
+  /* Marrón dorado suave */
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.ranking-sections {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.ranking-category {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ranking-category:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.category-title {
+  font-size: 1.5rem;
+  color: #5F5F5F;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.ranking-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.ranking-list li {
+  padding: 0.4rem 0;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ranking-list a {
+  color: #3E3E3E;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.ranking-list a:hover {
+  color: #A67C52;
+  text-decoration: underline;
+}
+
+.medal {
+  font-size: 1.2rem;
+}
+
+.gold {
+  color: #FFD700;
+}
+
+.silver {
+  color: #C0C0C0;
+}
+
+.bronze {
+  color: #CD7F32;
+}
+
+@media (max-width: 768px) {
+  .ranking-sections {
+    flex-direction: column;
+    align-items: center;
+  }
+}
