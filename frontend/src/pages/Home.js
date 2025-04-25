@@ -84,36 +84,36 @@ const Home = () => {
       </header>
 
 
-      <div class="ranking-container">
-        <h2 class="ranking-title">🌟 Reconocimiento a Nuestro Equipo 🌟</h2>
+      <div className="ranking-container">
+        <h2 className="ranking-title">🌟 Reconocimiento a Nuestro Equipo 🌟</h2>
 
-        <div class="ranking-sections">
-          <div class="ranking-category">
-            <h3 class="category-title">📖 Traductores</h3>
-            <ul class="ranking-list">
-              <li><span class="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Bezy" target="_blank">Bezy</a></li>
-              <li><span class="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/Rajesh%20Rouv" target="_blank">Rajesh Rouv</a></li>
-              <li><span class="medal bronze">🥉</span> <a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
+        <div className="ranking-sections">
+          <div className="ranking-category">
+            <h3 className="category-title">📖 Traductores</h3>
+            <ul className="ranking-list">
+              <li><span className="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Bezy" target="_blank">Bezy</a></li>
+              <li><span className="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/Rajesh%20Rouv" target="_blank">Rajesh Rouv</a></li>
+              <li><span className="medal bronze">🥉</span> <a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
             </ul>
           </div>
 
-          <div class="ranking-category">
-            <h3 class="category-title">✍️ Editores</h3>
-            <ul class="ranking-list">
-              <li><span class="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Japonnesa" target="_blank">Japonnesa</a></li>
-              <li><span class="medal silver">🥈</span><a href="https://pabellonliterario.com/profileperson/Hualianxo" target="_blank">Hualianxo</a></li>
-              <li><span class="medal bronze">🥉</span><a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
+          <div className="ranking-category">
+            <h3 className="category-title">✍️ Editores</h3>
+            <ul className="ranking-list">
+              <li><span className="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Japonnesa" target="_blank">Japonnesa</a></li>
+              <li><span className="medal silver">🥈</span><a href="https://pabellonliterario.com/profileperson/Hualianxo" target="_blank">Hualianxo</a></li>
+              <li><span className="medal bronze">🥉</span><a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
             </ul>
           </div>
 
-          <div class="ranking-category">
-            <h3 class="category-title">💖 Patrocinadores</h3>
-            <ul class="ranking-list">
-              <li class="sponsor"><span class="medal gold">🥇</span> <a target="_blank">Japonnesa</a></li>
-              <li class="sponsor"><span class="medal silver">🥈</span> <a target="_blank">Meow</a></li>
-              <li class="sponsor"><span class="medal bronze">🥉</span> <a>21R_Bingqiu</a></li>
-              <li class="sponsor"><a target="_blank">kmiloca</a></li>
-              <li class="sponsor"><a target="_blank">Dulcesitoxx</a></li>
+          <div className="ranking-category">
+            <h3 className="category-title">💖 Patrocinadores</h3>
+            <ul className="ranking-list">
+              <li className="sponsor"><span className="medal gold">🥇</span> <a target="_blank">Japonnesa</a></li>
+              <li className="sponsor"><span className="medal silver">🥈</span> <a target="_blank">Meow</a></li>
+              <li className="sponsor"><span className="medal bronze">🥉</span> <a>21R_Bingqiu</a></li>
+              <li className="sponsor"><a target="_blank">kmiloca</a></li>
+              <li className="sponsor"><a target="_blank">Dulcesitoxx</a></li>
             </ul>
           </div>
         </div>
