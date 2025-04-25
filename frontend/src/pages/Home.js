@@ -5,7 +5,6 @@ import '../styles/homeStyles.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Calendar, BookOpen, ArrowRight } from "lucide-react";
-import Slider from "react-slick";
 import headerImage from '../assets/Encabezado.png';
 
 const Home = () => {

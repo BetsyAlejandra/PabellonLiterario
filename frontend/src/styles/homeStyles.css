@@ -14,27 +14,6 @@
   --secondary-font: 'Open Sans', sans-serif;
 }
 
-.hero {
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
-    url('../assets/Encabezado.png') center/cover no-repeat;
-  color: white;
-  padding: 80px 20px;
-  text-align: center;
-  font-family: var(--primary-font);
-}
-
-.hero h1 {
-  font-size: 3em;
-  margin-bottom: 10px;
-}
-
-.hero p {
-  font-size: 1.2em;
-  max-width: 600px;
-  margin: 0 auto;
-  font-family: var(--secondary-font);
-}
-
 
 .exclusive-section {
   background-color: var(--menta);
