@@ -43,6 +43,10 @@ const Home = () => {
     fetchNovels();
   }, []);
 
+  const safeRequestIdleCallback = window.requestIdleCallback || function (cb) {
+    return setTimeout(() => cb(), 1);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -67,7 +71,7 @@ const Home = () => {
     };
 
     // Carga diferida para mejorar INP
-    requestIdleCallback(fetchData);
+    safeRequestIdleCallback(fetchData);
   }, []);
 
   const novelsMemo = useMemo(() => novels, [novels]);
