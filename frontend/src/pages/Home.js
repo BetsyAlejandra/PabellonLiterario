@@ -70,7 +70,6 @@ const Home = () => {
       }
     };
 
-    // Carga diferida para mejorar INP
     safeRequestIdleCallback(fetchData);
   }, []);
 
@@ -96,8 +95,8 @@ const Home = () => {
             <h3 className="category-title">📖 Traductores</h3>
             <ul className="ranking-list">
               <li><span className="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Bezy" target="_blank">Bezy</a></li>
-              <li><span className="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/Rajesh%20Rouv" target="_blank">Rajesh Rouv</a></li>
-              <li><span className="medal bronze">🥉</span> <a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
+              <li><span className="medal silver">🥈</span> <a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
+              <li><span className="medal bronze">🥉</span> <a href="https://pabellonliterario.com/profileperson/Rajesh%20Rouv" target="_blank">Rajesh Rouv</a></li>
             </ul>
           </div>
 
@@ -105,8 +104,8 @@ const Home = () => {
             <h3 className="category-title">✍️ Editores</h3>
             <ul className="ranking-list">
               <li><span className="medal gold">🥇</span> <a href="https://pabellonliterario.com/profileperson/Japonnesa" target="_blank">Japonnesa</a></li>
-              <li><span className="medal silver">🥈</span><a href="https://pabellonliterario.com/profileperson/Hualianxo" target="_blank">Hualianxo</a></li>
-              <li><span className="medal bronze">🥉</span><a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
+              <li><span className="medal silver">🥈</span><a href="https://pabellonliterario.com/profileperson/plutommo" target="_blank">Plutommo</a></li>
+              <li><span className="medal bronze">🥉</span><a href="https://pabellonliterario.com/profileperson/Ruru" target="_blank">Ruru</a></li>
             </ul>
           </div>
 
@@ -114,10 +113,10 @@ const Home = () => {
             <h3 className="category-title">💖 Patrocinadores</h3>
             <ul className="ranking-list">
               <li className="sponsor"><span className="medal gold">🥇</span> <a target="_blank">Japonnesa</a></li>
-              <li className="sponsor"><span className="medal silver">🥈</span> <a target="_blank">Meow</a></li>
-              <li className="sponsor"><span className="medal bronze">🥉</span> <a>21R_Bingqiu</a></li>
+              <li className="sponsor"><span className="medal silver">🥈</span> <a target="_blank">ShiniGrace</a></li>
+              <li className="sponsor"><span className="medal bronze">🥉</span> <a></a>Meow</li>
               <li className="sponsor"><a target="_blank">kmiloca</a></li>
-              <li className="sponsor"><a target="_blank">Dulcesitoxx</a></li>
+              <li className="sponsor"><a target="_blank">21R_Bingqiu</a></li>
             </ul>
           </div>
         </div>
